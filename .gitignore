@@ -1,0 +1,7 @@
+.cache/
+.vscode/
+obj/
+app
+compile_commands.json
+libft/build/libft.a
+Session.vim
