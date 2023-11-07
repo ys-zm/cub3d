@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/07 15:36:26 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/07 16:49:18 by yzaim            ###   ########.fr       */
+/*   Updated: 2023/11/07 17:08:10 by yzaim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 #include <stdio.h>
 #include <unistd.h>
 #include "MLX42/MLX42.h"
-#define WIDTH 256
-#define HEIGHT 256
 
 // Exit the program as failure.
 static void ft_error(void)
