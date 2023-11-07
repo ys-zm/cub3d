@@ -1,9 +1,7 @@
+.cache/
+.vscode/
 obj/
 app
-argv_test
 compile_commands.json
-.cache/
 libft/build/libft.a
-.vscode/
 Session.vim
-.ms_history
