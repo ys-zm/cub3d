@@ -6,13 +6,15 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/07 15:44:05 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/11/07 17:27:10 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef META_H
 #define META_H
 
+#include "MLX42/MLX42.h"
+#include <inttypes.h>
 #include <stdlib.h>
 
 #define UNUSED(x) (void)(x)
@@ -31,7 +33,13 @@
 
 
 
+typedef struct s_meta {
+	mlx_t *mlx;
+} t_meta;
+
 // cub3d.c
 int	cub3d(int argc, char *argv[]);
+
+void graphics_draw(void* param);
 
 #endif

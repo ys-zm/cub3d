@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/11/07 16:58:46 by jboeve        ########   odam.nl          #
+#    Updated: 2023/11/07 17:27:43 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,8 @@ LIBMLX		:=	MLX42/build/libmlx42.a
 IFLAGS		:= -Ilibft/include -Iinclude -IMLX42/include
 
 SRC_DIR		:=	src
-SRCS		:= 	cub3d.c
+SRCS		:= 	cub3d.c \
+				graphics.c
 
 HEADER_DIR	:=	include
 HEADERS 	:=	meta.h
