@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    Makefile                                          :+:    :+:              #
 #                                                     +:+ +:+         +:+      #
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/11/07 16:54:08 by yzaim            ###   ########.fr        #
+#    Updated: 2023/11/07 16:58:46 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,10 +70,8 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS)
 	@mkdir -p $(OBJ_DIRS)
 	$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 
-make_libs:
-	cmake MLX42 -B ./MLX42/build
-	cmake --build ./MLX42/build -j4
-	#$(MAKE) -C MLX42/build
+make_libs: $(LIBMLX)
+	$(MAKE) -C MLX42/build
 	$(MAKE) -C libft
 
 MLX42:
@@ -93,7 +91,6 @@ tclean:
 
 fclean: clean tclean
 	$(MAKE) -C MLX42/build clean
-	rm -rf MLX42/build
 	$(MAKE) -C libft fclean
 	rm -f $(NAME)
 
