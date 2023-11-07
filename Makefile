@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/11/07 15:46:00 by jboeve        ########   odam.nl          #
+#    Updated: 2023/11/07 16:58:46 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@
 ######################
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
-	MLX_CFLAGS = -lglfw -lm
+	MLX_CFLAGS = -ldl -lglfw -pthread -lm
 else ifeq ($(shell uname -m),arm64)
 	MLX_CFLAGS = -L/opt/homebrew/lib -lglfw -framework IOKit -framework Cocoa
 else ifeq ($(shell uname -m),x86_64)
@@ -64,13 +64,13 @@ all:
 	$(MAKE) $(NAME) -j4
 
 $(NAME): $(LIBFT) $(LIBMLX) $(OBJS) $(SRC_DIR)/main.c
-	$(CC) $(SRC_DIR)/main.c $(OBJS) $(LIBFT) $(LIBMLX) $(CFLAGS) $(IFLAGS) -o $(NAME)
+	$(CC) $(SRC_DIR)/main.c $(OBJS) $(LIBFT) $(LIBMLX) $(CFLAGS) $(IFLAGS) $(MLX_CFLAGS) -o $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS)
 	@mkdir -p $(OBJ_DIRS)
-	$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@ 
+	$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 
-make_libs:
+make_libs: $(LIBMLX)
 	$(MAKE) -C MLX42/build
 	$(MAKE) -C libft
 

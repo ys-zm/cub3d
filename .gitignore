@@ -5,3 +5,4 @@ app
 compile_commands.json
 libft/build/libft.a
 Session.vim
+MLX42/build
