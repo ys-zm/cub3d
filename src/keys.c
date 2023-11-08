@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   graphics.c                                        :+:    :+:             */
+/*   keys.c                                            :+:    :+:             */
 /*                                                    +:+                     */
-/*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
+/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
-/*   Created: 2023/11/07 17:15:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/07 17:28:16 by jboeve        ########   odam.nl         */
+/*   Created: 2023/11/08 23:03:00 by joppe         #+#    #+#                 */
+/*   Updated: 2023/11/08 23:05:50 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <meta.h>
-#include <stdint.h>
-#include <stdio.h>
-#include "MLX42/MLX42.h"
-#include "libft.h"
+#include "meta.h"
 
-
-
-void graphics_draw(void* param)
+void keyhook(mlx_key_data_t keydata, void* param)
 {
 	t_meta *meta = param;
+
+	if (keydata.key == MLX_KEY_ESCAPE)
+		mlx_close_window(meta->mlx);
 }

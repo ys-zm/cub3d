@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/11/07 17:27:43 by jboeve        ########   odam.nl          #
+#    Updated: 2023/11/08 23:07:58 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,10 +38,13 @@ IFLAGS		:= -Ilibft/include -Iinclude -IMLX42/include
 
 SRC_DIR		:=	src
 SRCS		:= 	cub3d.c \
-				graphics.c
+				game.c \
+				keys.c \
+				timer.c
 
 HEADER_DIR	:=	include
-HEADERS 	:=	meta.h
+HEADERS 	:=	meta.h \
+				timer.h
 
 OBJ_DIR		:=	obj
 

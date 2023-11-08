@@ -6,18 +6,16 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/07 15:36:26 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/07 17:27:26 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/11/08 23:07:04 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <meta.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include "meta.h"
 #include "MLX42/MLX42.h"
 
-#define WIDTH 256
-#define HEIGHT 256
 
 // Exit the program as failure.
 static void ft_error(void)
@@ -28,20 +26,29 @@ static void ft_error(void)
 
 int cub3d(int argc, char *argv[])
 {
-	t_meta meta;
-	(void)argc;
-	(void)argv;
+	t_meta	meta;
+	UNUSED(argc);
+	UNUSED(argv);
 
 	// MLX allows you to define its core behaviour before startup.
-	meta.mlx = mlx_init(WIDTH, HEIGHT, "window", true);
+	meta.mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE, true);
 	if (!meta.mlx)
+	{
 		ft_error();
+		return EXIT_FAILURE;
+	}
 
 	// Create and display the image.
-	mlx_image_t* img = mlx_new_image(meta.mlx, 256, 256);
+	mlx_image_t* img = mlx_new_image(meta.mlx, WINDOW_WIDTH, WINDOW_WIDTH);
 	if (!img || (mlx_image_to_window(meta.mlx, img, 0, 0) < 0))
+	{
 		ft_error();
-	mlx_loop_hook(meta.mlx, graphics_draw, &meta);
+		return EXIT_FAILURE;
+	}
+	game_init(&meta);
+	mlx_loop_hook(meta.mlx, game_loop, &meta);
+	mlx_key_hook(meta.mlx, keyhook, &meta);
+	mlx_loop(meta.mlx);
 	mlx_terminate(meta.mlx);
-	return 0;
+	return (EXIT_SUCCESS);
 }
