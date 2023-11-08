@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/08 23:07:35 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/08 23:54:38 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,27 @@
 #define TICK_RATE (1.0f / 20.0f)
 
 
+// Color stuff, just for testing tho.
+#define COLOR_BACKGROUND 0x111111FF
+
+typedef union s_rgba
+{
+	uint32_t	value;
+	struct
+	{
+		uint8_t	a;
+		uint8_t	b;
+		uint8_t	g;
+		uint8_t	r;
+	};
+}	t_rgba;
+
+typedef enum e_cell_type {
+    MAP_EMPTY,
+    MAP_WALL,
+    MAP_SPACE,
+}	t_cell_type;
+
 typedef struct s_meta {
 	mlx_t		*mlx;
 	mlx_image_t	*image;
@@ -53,5 +74,9 @@ void game_loop(void* param);
 
 // keys.c
 void keyhook(mlx_key_data_t keydata, void* param);
+
+// render.c
+void render_clear_bg(mlx_image_t *image);
+void render_map_grid(t_meta *meta);
 
 #endif

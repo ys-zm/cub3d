@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 22:35:05 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/08 22:59:35 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/08 23:53:50 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ void game_loop(void* param)
 	// game logic every 20hz
 	if (timer_delta(&meta->tick_timer) > TICK_RATE)
 	{
-		printf("tick\n");
 		timer_start(&meta->tick_timer);
 	}
-	printf("render\n");
+	render_clear_bg(meta->image);
+	render_map_grid(meta);
 	// draw graphics as fast as possible
 
 
