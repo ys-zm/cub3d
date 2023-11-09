@@ -35,8 +35,8 @@
 #define WINDOW_WIDTH 1024
 #define WINDOW_HEIGHT 720
 #define WINDOW_TITLE "Gammoe"
-// Tick rate for the game logic.
-#define TICK_RATE (1.0 / 20.0)
+
+#define TICK_RATE (1.0 / 60.0)
 
 // TODO Move all this stuff to some kind of game.h
 #define MAP_WIDTH 			8
@@ -80,15 +80,10 @@ typedef struct s_player {
 typedef struct s_meta {
 	mlx_t		*mlx;
 	mlx_image_t	*image;
-	t_timer 	tick_timer;
-	t_timer 	tps_timer;
+	t_timer 	update_timer;
 	t_timer 	fps_timer;
 	t_player 	player;
 	uint32_t 	fps;
-	uint32_t 	ticks;
-
-	uint32_t fps_count;
-	t_timer tmp;
 }	t_meta;
 
 // cub3d.c

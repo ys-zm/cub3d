@@ -23,11 +23,8 @@
 
 void game_init(t_meta *meta)
 {
-	timer_init(&meta->tick_timer, mlx_get_time);
-	timer_start(&meta->tick_timer);
-
-	timer_init(&meta->tps_timer, mlx_get_time);
-	timer_start(&meta->tps_timer);
+	timer_init(&meta->update_timer, mlx_get_time);
+	timer_start(&meta->update_timer);
 
 	// Setup player initial position, later this correspond with the PLAYER_START in the map.
 	meta->player.x = (uint32_t) (meta->image->width / 2) - ((float) PLAYER_WIDTH / 2);
@@ -36,7 +33,7 @@ void game_init(t_meta *meta)
 
 
 // This function handles all the "simulation" type stuff such as moving players opening doors, etc.
-void game_tick(t_meta *meta, double_t time_delta)
+void game_update(t_meta *meta, double_t time_delta)
 {
 	t_player *const p = &meta->player;
 	const float move = (PLAYER_WALK_SPEED * time_delta);
@@ -54,32 +51,21 @@ void game_tick(t_meta *meta, double_t time_delta)
 
 void game_loop(void* param)
 {
-	t_meta *meta = param;
-	double frame_time = timer_delta(&meta->tick_timer);
+	t_meta *const meta = param;
+	double	frame_time;
+	double	delta_time;
 
-	if (timer_delta(&meta->tps_timer) > 1.0)
+	frame_time = timer_delta(&meta->update_timer);
+
+	while (fabs(frame_time) >= 0.000005)
 	{
-		printf("TPS [%d]\n", meta->ticks);
-		meta->ticks = 0;
-		timer_start(&meta->tps_timer);
+		delta_time = fmin(frame_time, TICK_RATE);
+		game_update(meta, delta_time);
+		frame_time -= delta_time;
 	}
-
-
-	// while (frame_time > 0.0)
-	// This is slightly faster than calling it without the fabs
-	while (fabs(frame_time) >= 0.00005)
-	{
-		float deltaTime = fmin(frame_time, TICK_RATE);
-		// printf("deltaTime [%f]\n", deltaTime);
-		game_tick(meta, deltaTime);
-		frame_time -= deltaTime;
-		meta->ticks++;
-	}
-	timer_start(&meta->tick_timer);
+	timer_start(&meta->update_timer);
 
 	render_clear_bg(meta->image);
 	render_map_grid(meta);
 	render_player(meta);
 }
-
-
