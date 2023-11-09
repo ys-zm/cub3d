@@ -41,6 +41,7 @@ SRCS		:= 	cub3d.c \
 				game.c \
 				keys.c \
 				render.c \
+				draw.c \
 				timer.c
 
 HEADER_DIR	:=	include

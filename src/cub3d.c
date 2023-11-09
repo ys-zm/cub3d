@@ -39,7 +39,7 @@ int cub3d(int argc, char *argv[])
 	}
 
 	// Create and display the image.
-	meta.image = mlx_new_image(meta.mlx, WINDOW_WIDTH, WINDOW_WIDTH);
+	meta.image = mlx_new_image(meta.mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
 	if (!meta.image || (mlx_image_to_window(meta.mlx, meta.image, 0, 0) < 0))
 	{
 		ft_error();

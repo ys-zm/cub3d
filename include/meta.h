@@ -79,4 +79,7 @@ void keyhook(mlx_key_data_t keydata, void* param);
 void render_clear_bg(mlx_image_t *image);
 void render_map_grid(t_meta *meta);
 
+// draw.c
+void cube_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color);
+
 #endif

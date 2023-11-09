@@ -45,11 +45,14 @@ const t_cell_type MAP[] = {
 
 void draw_cell(t_meta *meta, t_cell_type cell, uint32_t cell_x, uint32_t cell_y)
 {
+	const size_t center_x = (meta->image->width / 2) - (CELL_WIDTH * (MAP_WIDTH / 2));
+	const size_t center_y = (meta->image->height / 2) - (CELL_HEIGHT * (MAP_HEIGHT / 2));
+	const size_t x_offset = (cell_x * CELL_WIDTH) + cell_x + center_x;
+	const size_t y_offset = (cell_y * CELL_HEIGHT) + cell_y + center_y;
+
 	size_t x;
 	size_t y;
 
-	const size_t x_offset = cell_x * CELL_WIDTH;
-	const size_t y_offset = cell_y * CELL_HEIGHT;
 
 	y = 0;
 	while (y < CELL_HEIGHT)
@@ -57,7 +60,7 @@ void draw_cell(t_meta *meta, t_cell_type cell, uint32_t cell_x, uint32_t cell_y)
 		x = 0;
 		while (x < CELL_WIDTH)
 		{
-			mlx_put_pixel(meta->image, x_offset + x + cell_x, y_offset + y + cell_y, CELL_COLORS[cell].value);
+			cube_put_pixel(meta->image, x + x_offset, y + y_offset, CELL_COLORS[cell].value);
 			x++;
 		}
 		y++;
