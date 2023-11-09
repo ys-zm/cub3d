@@ -14,6 +14,7 @@
 #define META_H
 
 #include <inttypes.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include "timer.h"
 #include "MLX42/MLX42.h"
@@ -47,7 +48,7 @@
 #define PLAYER_WIDTH		16
 #define PLAYER_HEIGHT		16
 
-#define PLAYER_WALK_SPEED	10
+#define PLAYER_WALK_SPEED	100
 
 #define COLOR_BACKGROUND	0x111111FF
 #define COLOR_PLAYER		0xBF00C9FF
@@ -72,8 +73,8 @@ typedef enum e_cell_type {
 }	t_cell_type;
 
 typedef struct s_player {
-	uint32_t	x;
-	uint32_t	y;
+	float	x;
+	float	y;
 } t_player;
 
 typedef struct s_meta {
@@ -83,6 +84,9 @@ typedef struct s_meta {
 	t_timer 	fps_timer;
 	t_player 	player;
 	uint32_t 	fps;
+
+	uint32_t fps_count;
+	t_timer tmp;
 }	t_meta;
 
 // cub3d.c

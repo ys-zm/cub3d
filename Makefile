@@ -87,7 +87,6 @@ $(LIBMLX): MLX42
 	mkdir -p MLX42/build
 	cmake MLX42 -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -B MLX42/build
 	make -C MLX42/build -j4
-	cp MLX42/build/compile_commands.json .
 
 clean:
 	rm -rf $(OBJ_DIR)
@@ -106,6 +105,7 @@ run: all
 	$(RUN_CMD)
 
 compile_commands: fclean
+	cp MLX42/build/compile_commands.json .
 	$(MAKE) | compiledb
 
 norm:
