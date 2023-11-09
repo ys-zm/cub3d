@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 22:35:05 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/09 03:25:48 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/09 03:31:20 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void game_tick(t_meta *meta)
 		p->x += move + 1;
 }
 
+// TODO Implement a better game loop that fixes our screentearing issue.
 void game_loop(void* param)
 {
 	t_meta *meta = param;

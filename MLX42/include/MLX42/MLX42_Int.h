@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   MLX42_Int.h                                        :+:    :+:            */
+/*   MLX42_Int.h                                       :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: W2Wizard <main@w2wizard.dev>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/12/27 23:55:34 by W2Wizard      #+#    #+#                 */
-/*   Updated: 2022/07/21 10:46:43 by sbos          ########   odam.nl         */
+/*   Updated: 2023/11/09 03:04:17 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # include <stdarg.h> /* va_arg, va_end, ... */
 # include <assert.h> /* assert, static_assert, ... */
 # ifndef MLX_SWAP_INTERVAL
-#  define MLX_SWAP_INTERVAL 1
+#  define MLX_SWAP_INTERVAL 0
 # endif
 # ifndef MLX_BATCH_SIZE
 #  define MLX_BATCH_SIZE 12000
