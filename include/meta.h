@@ -37,9 +37,21 @@
 // Tick rate for the game logic.
 #define TICK_RATE (1.0f / 20.0f)
 
+// TODO Move all this stuff to some kind of game.h
+#define MAP_WIDTH 			8
+#define MAP_HEIGHT			8
 
-// Color stuff, just for testing tho.
-#define COLOR_BACKGROUND 0x111111FF
+#define CELL_WIDTH			64
+#define CELL_HEIGHT			64
+
+#define PLAYER_WIDTH		16
+#define PLAYER_HEIGHT		16
+
+#define PLAYER_WALK_SPEED	10
+
+#define COLOR_BACKGROUND	0x111111FF
+#define COLOR_PLAYER		0xBF00C9FF
+
 
 typedef union s_rgba
 {
@@ -59,10 +71,18 @@ typedef enum e_cell_type {
     MAP_SPACE,
 }	t_cell_type;
 
+typedef struct s_player {
+	uint32_t	x;
+	uint32_t	y;
+} t_player;
+
 typedef struct s_meta {
 	mlx_t		*mlx;
 	mlx_image_t	*image;
 	t_timer 	tick_timer;
+	t_timer 	fps_timer;
+	t_player 	player;
+	uint32_t 	fps;
 }	t_meta;
 
 // cub3d.c
@@ -72,14 +92,19 @@ int	cub3d(int argc, char *argv[]);
 void game_init(t_meta *meta);
 void game_loop(void* param);
 
+// player.c
+void player_move(t_meta *meta);
+
 // keys.c
 void keyhook(mlx_key_data_t keydata, void* param);
 
 // render.c
+void render_player(t_meta *meta);
 void render_clear_bg(mlx_image_t *image);
 void render_map_grid(t_meta *meta);
 
 // draw.c
+void draw_square(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color);
 void cube_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color);
 
 #endif

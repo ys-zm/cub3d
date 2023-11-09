@@ -17,12 +17,6 @@
 #include <string.h>
 
 
-#define MAP_WIDTH 8
-#define MAP_HEIGHT 8
-
-#define CELL_WIDTH 64
-#define CELL_HEIGHT 64
-
 
 const t_rgba CELL_COLORS[] = {
 	[MAP_EMPTY]	= {0xff00aaff},
@@ -50,23 +44,13 @@ void draw_cell(t_meta *meta, t_cell_type cell, uint32_t cell_x, uint32_t cell_y)
 	const size_t x_offset = (cell_x * CELL_WIDTH) + cell_x + center_x;
 	const size_t y_offset = (cell_y * CELL_HEIGHT) + cell_y + center_y;
 
-	size_t x;
-	size_t y;
-
-
-	y = 0;
-	while (y < CELL_HEIGHT)
-	{
-		x = 0;
-		while (x < CELL_WIDTH)
-		{
-			cube_put_pixel(meta->image, x + x_offset, y + y_offset, CELL_COLORS[cell].value);
-			x++;
-		}
-		y++;
-	}
+	draw_square(meta->image, x_offset, y_offset, CELL_WIDTH, CELL_HEIGHT, CELL_COLORS[cell].value);
 }
 
+void render_player(t_meta *meta)
+{
+	draw_square(meta->image, meta->player.x, meta->player.y, PLAYER_WIDTH, PLAYER_HEIGHT, COLOR_PLAYER);
+}
 
 void render_map_grid(t_meta *meta)
 {
