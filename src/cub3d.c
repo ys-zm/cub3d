@@ -28,7 +28,7 @@ static void ft_error(void)
 
 static void	fps_hook(void *param)
 {
-	t_meta			*meta = param;
+	t_meta	*meta = param;
 
 	if (!(meta->fps_timer.time_func))
 		timer_init(&meta->fps_timer, mlx_get_time);
