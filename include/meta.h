@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/08 23:54:38 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/09 18:02:54 by yzaim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,13 @@
 
 #include <inttypes.h>
 #include <stdlib.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+
 #include "timer.h"
+#include "libft.h"
 #include "MLX42/MLX42.h"
 
 #define UNUSED(x) (void)(x)
