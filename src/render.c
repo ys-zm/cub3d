@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/08 23:53:10 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/09 01:13:25 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 
 const t_rgba CELL_COLORS[] = {
 	[MAP_EMPTY]	= {0xff00aaff},
-	[MAP_WALL]	= {0x00ffaaff},
-	[MAP_SPACE]	= {0x00aaffff},
+	[MAP_WALL]	= {0x004ebaff},
+	[MAP_SPACE]	= {0x696969ff},
 };
 
 
@@ -43,43 +43,43 @@ const t_cell_type MAP[] = {
 };
 
 
-void draw_cell(t_meta *meta, t_cell_type cell, uint32_t x, uint32_t y)
+void draw_cell(t_meta *meta, t_cell_type cell, uint32_t cell_x, uint32_t cell_y)
 {
-	size_t x_start;
-	size_t y_start;
+	size_t x;
+	size_t y;
 
-	const size_t x_offset = x * CELL_WIDTH;
-	const size_t y_offset = y * CELL_HEIGHT;
+	const size_t x_offset = cell_x * CELL_WIDTH;
+	const size_t y_offset = cell_y * CELL_HEIGHT;
 
-	y_start = 0;
-	while (y_start < CELL_HEIGHT)
+	y = 0;
+	while (y < CELL_HEIGHT)
 	{
-		x_start = 0;
-		while (x_start < CELL_WIDTH)
+		x = 0;
+		while (x < CELL_WIDTH)
 		{
-			mlx_put_pixel(meta->image, x_offset + x_start, y_offset + y_start, CELL_COLORS[cell].value);
-			x_start++;
+			mlx_put_pixel(meta->image, x_offset + x + cell_x, y_offset + y + cell_y, CELL_COLORS[cell].value);
+			x++;
 		}
-		y_start++;
+		y++;
 	}
 }
 
 
 void render_map_grid(t_meta *meta)
 {
-	size_t y;
-	size_t x;
+	size_t cell_y;
+	size_t cell_x;
 
-	y = 0;
-	while (y < MAP_HEIGHT)
+	cell_y = 0;
+	while (cell_y < MAP_HEIGHT)
 	{
-		x = 0;
-		while (x < MAP_WIDTH)
+		cell_x = 0;
+		while (cell_x < MAP_WIDTH)
 		{
-			draw_cell(meta, MAP[(y * MAP_WIDTH) + x], x, y);
-			x++;
+			draw_cell(meta, MAP[(cell_y * MAP_WIDTH) + cell_x], cell_x, cell_y);
+			cell_x++;
 		}
-		y++;
+		cell_y++;
 	}
 }
 
@@ -87,8 +87,6 @@ void render_clear_bg(mlx_image_t *image)
 {
 	const uint32_t	size = image->width * image->height;
 	size_t			i;
-
-	// memset(img->pixels, 255, sizeof(int32_t) * img->width * img->height);
 
 	i = 0;
 	while (i < size)
