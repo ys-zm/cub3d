@@ -6,7 +6,7 @@
 #    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/11/07 16:58:46 by jboeve        ########   odam.nl          #
+#    Updated: 2023/11/08 23:31:37 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ RUN_CMD		:= ./$(NAME)
 
 # CFLAGS		+= -Wall -Wextra -Werror
 CFLAGS		+= -Wall -Wextra
-# CFLAGS		+= -g -fsanitize=address
+CFLAGS		+= -g -fsanitize=address
 # CFLAGS		+= -Ofast -flto -march=native
 
 LIBFT		:=	libft/build/libft.a
@@ -37,10 +37,16 @@ LIBMLX		:=	MLX42/build/libmlx42.a
 IFLAGS		:= -Ilibft/include -Iinclude -IMLX42/include
 
 SRC_DIR		:=	src
-SRCS		:= 	cub3d.c
+SRCS		:= 	cub3d.c \
+				game.c \
+				keys.c \
+				render.c \
+				draw.c \
+				timer.c
 
 HEADER_DIR	:=	include
-HEADERS 	:=	meta.h
+HEADERS 	:=	meta.h \
+				timer.h
 
 OBJ_DIR		:=	obj
 
