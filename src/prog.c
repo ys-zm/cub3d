@@ -9,8 +9,8 @@ enemy_t *enemy_init(const char *name);
 void enemy_die(void *ptr);
 
 
-int main()
-{
-    enemy *e = enemy_init("sjon");
-    enemy_die(e);
-}
+//int main()
+//{
+//    enemy *e = enemy_init("sjon");
+//    enemy_die(e);
+//}

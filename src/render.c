@@ -1,22 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   render.c                                          :+:    :+:             */
+/*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+                     */
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/09 01:13:25 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/09 17:55:01 by yzaim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "MLX42/MLX42.h"
 #include "meta.h"
-#include <stdint.h>
-#include <stdio.h>
-#include <string.h>
-
-
 
 const t_rgba CELL_COLORS[] = {
 	[MAP_EMPTY]	= {0xff00aaff},

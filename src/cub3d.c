@@ -1,23 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   cub3d.c                                           :+:    :+:             */
+/*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+                     */
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/07 15:36:26 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/09 02:41:57 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/09 17:56:46 by yzaim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include "libft.h"
 #include "meta.h"
-#include "MLX42/MLX42.h"
-#include "timer.h"
-
 
 // Exit the program as failure.
 static void ft_error(void)

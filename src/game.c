@@ -1,19 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   game.c                                            :+:    :+:             */
+/*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+                     */
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 22:35:05 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/09 03:31:20 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/09 17:56:57 by yzaim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
-#include "timer.h"
-#include <stdint.h>
-#include <stdio.h>
 
 void game_init(t_meta *meta)
 {
