@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/07 15:36:26 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/07 17:08:10 by yzaim            ###   ########.fr       */
+/*   Updated: 2023/11/07 17:11:21 by yzaim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ int cub3d(int argc, char *argv[])
 	mlx_image_t* img = mlx_new_image(mlx, 256, 256);
 	if (!img || (mlx_image_to_window(mlx, img, 0, 0) < 0))
 		ft_error();
-	//while (1) {}
+
+	mlx_put_pixel(img, 0, 0, 0xFF0000FF);
+	mlx_loop(mlx);
 	mlx_terminate(mlx);
 	return 0;
 }
