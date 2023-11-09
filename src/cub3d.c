@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/07 15:36:26 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/09 17:56:46 by yzaim            ###   ########.fr       */
+/*   Updated: 2023/11/09 18:44:40 by yzaim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,13 @@ int cub3d(int argc, char *argv[])
 	UNUSED(argc);
 	UNUSED(argv);
 
+	if (argc != 2)
+		return (print_err("wrong numbers of arguments\n", 1));
 	// Zero our struct to prevent garbage data.
 	ft_bzero(&meta, sizeof(t_meta));
 
+	if (parser(&meta, argv[1]))
+		return(1);
 	// MLX allows you to define its core behaviour before startup.
 	meta.mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE, true);
 	if (!meta.mlx)

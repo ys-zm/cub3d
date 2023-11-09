@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/09 18:02:54 by yzaim            ###   ########.fr       */
+/*   Updated: 2023/11/09 18:54:26 by yzaim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <fcntl.h>
 
 #include "timer.h"
 #include "libft.h"
+#include "get_next_line.h"
 #include "MLX42/MLX42.h"
 
 #define UNUSED(x) (void)(x)
@@ -89,6 +91,7 @@ typedef struct s_meta {
 	t_timer 	fps_timer;
 	t_player 	player;
 	uint32_t 	fps;
+	uint32_t	map;
 }	t_meta;
 
 // cub3d.c
@@ -112,5 +115,9 @@ void render_map_grid(t_meta *meta);
 // draw.c
 void draw_square(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color);
 void cube_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color);
+
+// parser.c
+int print_err(char *err, int exit_code);
+int parser(t_meta *meta, char *map_file);
 
 #endif
