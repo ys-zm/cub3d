@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/07 15:36:26 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/09 02:41:57 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/10 03:11:19 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "meta.h"
 #include "MLX42/MLX42.h"
 #include "timer.h"
+
 
 
 // Exit the program as failure.

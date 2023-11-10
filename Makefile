@@ -1,14 +1,15 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         :::      ::::::::    #
+#                                                        ::::::::              #
 #    Makefile                                          :+:    :+:              #
-#                                                     +:+ +:+         +:+      #
-#    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/11/08 23:31:37 by joppe         ########   odam.nl          #
+#                                                     +:+                      #
+#    By: joppe <jboeve@student.codam.nl>             +#+                       #
+#                                                   +#+                        #
+#    Created: 2023/11/10 00:29:31 by joppe         #+#    #+#                  #
+#    Updated: 2023/11/10 02:30:59 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
+
 
 
 ######################
@@ -41,7 +42,10 @@ SRCS		:= 	cub3d.c \
 				game.c \
 				keys.c \
 				render.c \
+				raycast.c \
 				draw.c \
+				player.c \
+				vector.c \
 				timer.c
 
 HEADER_DIR	:=	include

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   meta.h                                             :+:      :+:    :+:   */
+/*   meta.h                                            :+:    :+:             */
 /*                                                    +:+                     */
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/08 23:54:38 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/10 03:23:48 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 		exit(1); \
 	} while (0)
 
+#define PI 3.14159
+
 // Window settings
 #define WINDOW_WIDTH 1024
 #define WINDOW_HEIGHT 720
@@ -48,10 +50,31 @@
 #define PLAYER_WIDTH		16
 #define PLAYER_HEIGHT		16
 
-#define PLAYER_WALK_SPEED	100
+#define PLAYER_WALK_SPEED	15
+#define PLAYER_ROTATE_SPEED	5
 
 #define COLOR_BACKGROUND	0x111111FF
 #define COLOR_PLAYER		0xBF00C9FF
+
+
+#define VEC_X 0
+#define VEC_Y 1
+
+
+typedef enum e_cell_type {
+    MAP_EMPTY,
+    MAP_WALL,
+    MAP_SPACE,
+}	t_cell_type;
+
+
+
+// Use the SIMD Vector instructions (very cool :D) 
+// https://gcc.gnu.org/onlinedocs/gcc-8.3.0/gcc/Vector-Extensions.html#Vector-Extensions
+typedef float		t_vec2f __attribute__ ((vector_size (sizeof(float) * 2)));
+typedef int32_t		t_vec2i __attribute__ ((vector_size (sizeof(int32_t) * 2)));
+typedef uint32_t	t_vec2u __attribute__ ((vector_size (sizeof(uint32_t) * 2)));
+
 
 
 typedef union s_rgba
@@ -66,15 +89,11 @@ typedef union s_rgba
 	};
 }	t_rgba;
 
-typedef enum e_cell_type {
-    MAP_EMPTY,
-    MAP_WALL,
-    MAP_SPACE,
-}	t_cell_type;
-
+// NOTE: Maybe switch to double instead of float?
 typedef struct s_player {
-	float	x;
-	float	y;
+	t_vec2f position;
+	t_vec2f direction;
+	float	angle;
 } t_player;
 
 typedef struct s_meta {
@@ -94,7 +113,7 @@ void game_init(t_meta *meta);
 void game_loop(void* param);
 
 // player.c
-void player_move(t_meta *meta);
+void player_rotate(t_player* const p, float angle);
 
 // keys.c
 void keyhook(mlx_key_data_t keydata, void* param);
@@ -104,8 +123,20 @@ void render_player(t_meta *meta);
 void render_clear_bg(mlx_image_t *image);
 void render_map_grid(t_meta *meta);
 
+// raycast.c
+void raycast_cast(t_meta *meta);
+
+// player.c
+void player_move(t_player *p, t_vec2f trans);
+void player_look(t_player *p, double angle);
+
+// vector.c
+t_vec2i	vec2f_to_vec2i(t_vec2f vec);
+t_vec2f mat_rot(t_vec2f vec, float angle);
+
 // draw.c
-void draw_square(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color);
-void cube_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color);
+void	draw_square(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color);
+void	draw_line(mlx_image_t *image, t_vec2i start, t_vec2i end, t_rgba c);
+void	draw_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color);
 
 #endif

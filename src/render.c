@@ -6,24 +6,16 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/10 00:08:16 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/10 02:54:21 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
 #include "meta.h"
+#include <math.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
-
-
-
-const t_rgba CELL_COLORS[] = {
-	[MAP_EMPTY]	= {0xff00aaff},
-	[MAP_WALL]	= {0x004ebaff},
-	[MAP_SPACE]	= {0x696969ff},
-};
-
 
 const t_cell_type MAP[] = {
 	MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL,
@@ -34,6 +26,14 @@ const t_cell_type MAP[] = {
 	MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_WALL,
 	MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_WALL,
 	MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL,
+};
+
+
+
+const t_rgba CELL_COLORS[] = {
+	[MAP_EMPTY]	= {0xff00aaff},
+	[MAP_WALL]	= {0x004ebaff},
+	[MAP_SPACE]	= {0x696969ff},
 };
 
 
@@ -49,7 +49,18 @@ void draw_cell(t_meta *meta, t_cell_type cell, uint32_t cell_x, uint32_t cell_y)
 
 void render_player(t_meta *meta)
 {
-	draw_square(meta->image, meta->player.x, meta->player.y, PLAYER_WIDTH, PLAYER_HEIGHT, COLOR_PLAYER);
+	draw_square(meta->image, meta->player.position[VEC_X] - ((float) PLAYER_WIDTH / 2), meta->player.position[VEC_Y] - ((float) PLAYER_HEIGHT / 2), PLAYER_WIDTH, PLAYER_HEIGHT, COLOR_PLAYER);
+
+
+	// Yikes but only tmp.
+	t_rgba c = {0xFFFFFFFF};
+	t_vec2i start = vec2f_to_vec2i(meta->player.position);
+	t_vec2i end = vec2f_to_vec2i(meta->player.direction);
+
+	// printf("start [%d][%d]\n", start[VEC_X], start[VEC_Y]);
+	// printf("end [%d][%d]\n", end[VEC_X], end[VEC_Y]);
+
+	draw_line(meta->image, start, end, c);
 }
 
 void render_map_grid(t_meta *meta)
