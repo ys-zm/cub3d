@@ -28,14 +28,14 @@ void player_move(t_player *p, t_vec2f transform)
 void player_look(t_player *p, double angle)
 {
 	uint32_t len = 50;
-	p->direction = p->position;
 	p->angle += angle;
 	if (p->angle > 2 * PI)
 		p->angle -= 2 * PI;
 	else if (p->angle < 0)
 		p->angle += 2 * PI;
 
-	p->direction[VEC_X] += cos(p->angle) * len;
-	p->direction[VEC_Y] += sin(p->angle) * len;
-	printf("angle [%f]\n", p->angle);
+
+	p->direction[VEC_X] = p->position[VEC_X] + cos(p->angle) * len;
+	p->direction[VEC_Y] = p->position[VEC_Y] + sin(p->angle) * len;
+	// printf("angle [%f]\n", p->angle);
 }

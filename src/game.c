@@ -40,9 +40,11 @@ void game_init(t_meta *meta)
 static void game_update(t_meta *meta, double time_delta)
 {
 	t_player *const p	= &meta->player;
-	const float move	= (PLAYER_WALK_SPEED * 10 * time_delta);
 	const float rotate	= (PLAYER_ROTATE_SPEED * time_delta);
+	float move = (PLAYER_WALK_SPEED * 10 * time_delta);
 
+	if (mlx_is_key_down(meta->mlx, MLX_KEY_LEFT_SHIFT))
+		move *= PLAYER_RUN_MODIFIER;
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_W))
 		player_move(p, (t_vec2f) {0.0f, -move});
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_A))
