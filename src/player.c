@@ -40,4 +40,24 @@ void player_look(t_player *p, double angle)
 	// print_vec2f("direction", p->direction);
 	// print_vec2f("beam", p->beam);
 	// print_vec2f("pos", p->position);
+	player_raycast(p, NULL);
+}
+
+t_vec2i	vec2i_rotate2d(float angle)
+{
+	return ((t_vec2i) {(cos(angle)) - (sin(angle)), (sin(angle)) + (cos(angle))});
+}
+
+// TODO Abstract out.
+// calculates the length of the p->beam.
+void player_raycast(t_player *p, t_cell_type *map)
+{
+	UNUSED(map);
+	const uint32_t len = 50;
+
+	t_ray *r = &p->ray;
+	r->start = vec2f_to_vec2i(p->position);
+
+	// Choppy bbby
+	r->end = r->start + vec2f_to_vec2i(vec2f_rotate2d(p->angle + 0.3f) * (t_vec2f) {50, 50});
 }

@@ -90,11 +90,17 @@ typedef union s_rgba
 	};
 }	t_rgba;
 
+typedef struct s_ray {
+	t_vec2i start;
+	t_vec2i end;
+} t_ray;
+
 // NOTE: Maybe switch to double instead of float?
 typedef struct s_player {
 	t_vec2f position;
 	t_vec2f direction;
 	t_vec2f beam;
+	t_ray 	ray;
 	float	angle;
 } t_player;
 
@@ -131,9 +137,11 @@ void raycast_cast(t_meta *meta);
 // player.c
 void player_move(t_player *p, t_vec2f trans);
 void player_look(t_player *p, double angle);
+void player_raycast(t_player *p, t_cell_type *map);
 
 // vector.c
 t_vec2i	vec2f_to_vec2i(t_vec2f vec);
+t_vec2i	vec2i_rotate2d(float angle);
 t_vec2f	vec2f_rotate2d(float angle);
 
 // draw.c

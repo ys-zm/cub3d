@@ -50,14 +50,10 @@ void draw_cell(t_meta *meta, t_cell_type cell, uint32_t cell_x, uint32_t cell_y)
 void render_player(t_meta *meta)
 {
 	draw_square(meta->image, meta->player.position[VEC_X] - ((float) PLAYER_WIDTH / 2), meta->player.position[VEC_Y] - ((float) PLAYER_HEIGHT / 2), PLAYER_WIDTH, PLAYER_HEIGHT, COLOR_PLAYER);
+	t_player *p = &meta->player;
 
-
-	// Yikes but only tmp.
-	t_rgba c = {0xFFFFFFFF};
-	t_vec2i start = vec2f_to_vec2i(meta->player.position);
-	t_vec2i end = vec2f_to_vec2i(meta->player.beam);
-
-	draw_line(meta->image, start, end, c);
+	draw_line(meta->image, vec2f_to_vec2i(p->position), vec2f_to_vec2i(p->beam), (t_rgba) {0xFFFFFFFF});
+	draw_line(meta->image, p->ray.start, p->ray.end, (t_rgba) {0xFFFFFFFF});
 }
 
 void render_map_grid(t_meta *meta)

@@ -25,4 +25,3 @@ t_vec2f	vec2f_rotate2d(float angle)
 {
 	return ((t_vec2f) {(cos(angle)) - (sin(angle)), (sin(angle)) + (cos(angle))});
 }
-
