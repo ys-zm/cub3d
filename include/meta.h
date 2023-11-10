@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/10 20:27:33 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/10 21:12:41 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,17 @@ typedef union s_rgba
 }	t_rgba;
 
 typedef struct s_ray {
-	t_vec2i start;
-	t_vec2i end;
+	t_vec2f start;
+	t_vec2f end;
 } t_ray;
+
+typedef struct s_meta t_meta;
 
 // NOTE: Maybe switch to double instead of float?
 typedef struct s_player {
+	t_meta *meta;
 	t_vec2f position;
+	t_vec2i map_position;
 	t_vec2f direction;
 	t_vec2f beam;
 	t_ray 	ray;
@@ -141,7 +145,7 @@ void player_raycast(t_player *p, t_cell_type *map);
 
 // vector.c
 t_vec2i	vec2f_to_vec2i(t_vec2f vec);
-t_vec2i	vec2i_rotate2d(float angle);
+t_vec2f	vec2i_to_vec2f(t_vec2i vec);
 t_vec2f	vec2f_rotate2d(float angle);
 t_vec2f	vec2f_normalize(t_vec2f vec);
 float	deg_to_rad(float deg);

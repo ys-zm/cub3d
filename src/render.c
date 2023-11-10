@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/10 20:23:45 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/10 20:41:32 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void render_player(t_meta *meta)
 	t_player *p = &meta->player;
 
 	draw_line(meta->image, vec2f_to_vec2i(p->position), vec2f_to_vec2i(p->beam), (t_rgba) {0xFFFFFFFF});
+	draw_line(meta->image, vec2f_to_vec2i(p->ray.start), vec2f_to_vec2i(p->ray.end), (t_rgba) {0xFFFFFFFF});
 }
 
 void render_map_grid(t_meta *meta)

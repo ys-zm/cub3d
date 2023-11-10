@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 22:35:05 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/10 20:29:18 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/10 21:13:08 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void game_init(t_meta *meta)
 	timer_start(&meta->update_timer);
 
 	t_player* const p = &meta->player;
+	// tmp
+	p->meta = meta;
 
 	// Setup player initial position, later this correspond with the PLAYER_START in the map.
 	p->position[VEC_X] = (uint32_t) (meta->image->width / 2) - ((float) PLAYER_WIDTH / 2);
