@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/10 02:25:34 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/10 17:28:21 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/10 20:25:31 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,10 @@
 
 void player_move(t_player *p, t_vec2f transform)
 {
-	p->position += transform;
+	p->position += p->direction * transform;
 	player_look(p, 0.0);
 }
 
-// TODO Just do a matrix mutliplication with a rotation matrix.
 void player_look(t_player *p, double angle)
 {
 	const uint32_t len = 50;
@@ -34,13 +33,14 @@ void player_look(t_player *p, double angle)
 	else if (p->angle < 0)
 		p->angle += 2 * PI;
 
-	p->direction = vec2f_rotate2d(p->angle);
+	p->direction = vec2f_normalize(vec2f_rotate2d(p->angle));
 	p->beam = p->position + p->direction * (t_vec2f) {len, len};
+
 
 	// print_vec2f("direction", p->direction);
 	// print_vec2f("beam", p->beam);
 	// print_vec2f("pos", p->position);
-	player_raycast(p, NULL);
+	// player_raycast(p, NULL);
 }
 
 t_vec2i	vec2i_rotate2d(float angle)
@@ -58,6 +58,5 @@ void player_raycast(t_player *p, t_cell_type *map)
 	t_ray *r = &p->ray;
 	r->start = vec2f_to_vec2i(p->position);
 
-	// Choppy bbby
-	r->end = r->start + vec2f_to_vec2i(vec2f_rotate2d(p->angle + 0.3f) * (t_vec2f) {50, 50});
+	r->end = r->start + vec2f_to_vec2i(vec2f_rotate2d(p->angle + 0.3f) * (t_vec2f) {len, len});
 }

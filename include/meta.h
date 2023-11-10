@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/10 17:27:36 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/10 20:27:33 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 		exit(1); \
 	} while (0)
 
-#define PI 3.14159
+#define PI 3.1415926535
 
 // Window settings
 #define WINDOW_WIDTH 1024
@@ -143,6 +143,8 @@ void player_raycast(t_player *p, t_cell_type *map);
 t_vec2i	vec2f_to_vec2i(t_vec2f vec);
 t_vec2i	vec2i_rotate2d(float angle);
 t_vec2f	vec2f_rotate2d(float angle);
+t_vec2f	vec2f_normalize(t_vec2f vec);
+float	deg_to_rad(float deg);
 
 // draw.c
 void	draw_square(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color);
