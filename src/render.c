@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/10 02:54:21 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/10 17:11:25 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,7 @@ void render_player(t_meta *meta)
 	// Yikes but only tmp.
 	t_rgba c = {0xFFFFFFFF};
 	t_vec2i start = vec2f_to_vec2i(meta->player.position);
-	t_vec2i end = vec2f_to_vec2i(meta->player.direction);
-
-	// printf("start [%d][%d]\n", start[VEC_X], start[VEC_Y]);
-	// printf("end [%d][%d]\n", end[VEC_X], end[VEC_Y]);
+	t_vec2i end = vec2f_to_vec2i(meta->player.beam);
 
 	draw_line(meta->image, start, end, c);
 }

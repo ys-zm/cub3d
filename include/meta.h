@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/10 03:23:48 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/10 17:27:36 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef union s_rgba
 typedef struct s_player {
 	t_vec2f position;
 	t_vec2f direction;
+	t_vec2f beam;
 	float	angle;
 } t_player;
 
@@ -133,11 +134,15 @@ void player_look(t_player *p, double angle);
 
 // vector.c
 t_vec2i	vec2f_to_vec2i(t_vec2f vec);
-t_vec2f mat_rot(t_vec2f vec, float angle);
+t_vec2f	vec2f_rotate2d(float angle);
 
 // draw.c
 void	draw_square(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color);
 void	draw_line(mlx_image_t *image, t_vec2i start, t_vec2i end, t_rgba c);
 void	draw_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color);
+
+// utils.c
+void print_vec2f(const char *s, t_vec2f vec);
+void print_vec2i(const char *s, t_vec2i vec);
 
 #endif
