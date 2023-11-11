@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/10 20:41:32 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/11 03:19:38 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void render_player(t_meta *meta)
 	draw_square(meta->image, meta->player.position[VEC_X] - ((float) PLAYER_WIDTH / 2), meta->player.position[VEC_Y] - ((float) PLAYER_HEIGHT / 2), PLAYER_WIDTH, PLAYER_HEIGHT, COLOR_PLAYER);
 	t_player *p = &meta->player;
 
-	draw_line(meta->image, vec2f_to_vec2i(p->position), vec2f_to_vec2i(p->beam), (t_rgba) {0xFFFFFFFF});
+	draw_line(meta->image, vec2f_to_vec2i(p->position), vec2f_to_vec2i(p->beam), (t_rgba) {0xFC0202FF});
 	draw_line(meta->image, vec2f_to_vec2i(p->ray.start), vec2f_to_vec2i(p->ray.end), (t_rgba) {0xFFFFFFFF});
 }
 

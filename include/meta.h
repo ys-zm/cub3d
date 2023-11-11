@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/10 21:12:41 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/11 04:06:36 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include "timer.h"
+#include "vector.h"
 #include "MLX42/MLX42.h"
 
 #define UNUSED(x) (void)(x)
@@ -62,19 +63,12 @@
 #define VEC_Y 1
 
 
+
 typedef enum e_cell_type {
     MAP_EMPTY,
     MAP_WALL,
     MAP_SPACE,
 }	t_cell_type;
-
-
-
-// Use the SIMD Vector instructions (very cool :D) 
-// https://gcc.gnu.org/onlinedocs/gcc-8.3.0/gcc/Vector-Extensions.html#Vector-Extensions
-typedef float		t_vec2f __attribute__ ((vector_size (sizeof(float) * 2)));
-typedef int32_t		t_vec2i __attribute__ ((vector_size (sizeof(int32_t) * 2)));
-typedef uint32_t	t_vec2u __attribute__ ((vector_size (sizeof(uint32_t) * 2)));
 
 
 
@@ -125,7 +119,9 @@ void game_init(t_meta *meta);
 void game_loop(void* param);
 
 // player.c
-void player_rotate(t_player* const p, float angle);
+void player_move(t_player *p, t_vec2f transform);
+void player_look(t_player *p, double angle);
+void player_raycast(t_player *p, t_cell_type *map);
 
 // keys.c
 void keyhook(mlx_key_data_t keydata, void* param);
@@ -134,21 +130,6 @@ void keyhook(mlx_key_data_t keydata, void* param);
 void render_player(t_meta *meta);
 void render_clear_bg(mlx_image_t *image);
 void render_map_grid(t_meta *meta);
-
-// raycast.c
-void raycast_cast(t_meta *meta);
-
-// player.c
-void player_move(t_player *p, t_vec2f trans);
-void player_look(t_player *p, double angle);
-void player_raycast(t_player *p, t_cell_type *map);
-
-// vector.c
-t_vec2i	vec2f_to_vec2i(t_vec2f vec);
-t_vec2f	vec2i_to_vec2f(t_vec2i vec);
-t_vec2f	vec2f_rotate2d(float angle);
-t_vec2f	vec2f_normalize(t_vec2f vec);
-float	deg_to_rad(float deg);
 
 // draw.c
 void	draw_square(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color);

@@ -6,13 +6,14 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 22:35:05 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/10 21:13:08 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/11 04:08:37 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
 #include "meta.h"
 #include "timer.h"
+#include "vector.h"
 #include <GLFW/glfw3.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -34,7 +35,8 @@ void game_init(t_meta *meta)
 	p->position[VEC_X] = (uint32_t) (meta->image->width / 2) - ((float) PLAYER_WIDTH / 2);
 	p->position[VEC_Y] = (uint32_t) (meta->image->height / 2) - ((float) PLAYER_HEIGHT / 2);
 
-	player_look(p, deg_to_rad(225.0f));
+	// player_look(p, deg_to_rad(225.0f));
+	player_look(p, deg_to_rad(180.0f));
 }
 
 
@@ -45,17 +47,17 @@ static void game_update(t_meta *meta, double time_delta)
 	const float rotate	= (PLAYER_ROTATE_SPEED * time_delta);
 	float move = (PLAYER_WALK_SPEED * 10 * time_delta);
 
-	// TODO Sideways movement doens't work yet.
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_LEFT_SHIFT))
 		move *= PLAYER_RUN_MODIFIER;
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_W))
-		player_move(p, (t_vec2f) {move, move});
-	if (mlx_is_key_down(meta->mlx, MLX_KEY_A))
-		player_move(p, (t_vec2f) {-move, 0.0f});
+		player_move(p, move * p->direction);
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_S))
-		player_move(p, (t_vec2f) {-move, -move});
+		player_move(p, -move * p->direction);
+
+	if (mlx_is_key_down(meta->mlx, MLX_KEY_A))
+		player_move(p, vec2f_normalize(vec2f_rotate2d(p->angle + (3 * PI / 2))) * move);
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_D))
-		player_move(p, (t_vec2f) {-1.0f, -1.0f});
+		player_move(p, vec2f_normalize(vec2f_rotate2d(p->angle + (PI / 2))) * move);
 
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_Q))
 		player_look(p, -rotate);
