@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/11 04:06:36 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/12 01:11:40 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,9 @@ typedef struct s_meta t_meta;
 // NOTE: Maybe switch to double instead of float?
 typedef struct s_player {
 	t_meta *meta;
-	t_vec2f position;
+	// TODO Have a map_position which will be the position relative to the leftmost square.
+	// 		Based on that position we can just `position / CELL_WIDTH` to find the cell position.
+	t_vec2f screen_position;
 	t_vec2i map_position;
 	t_vec2f direction;
 	t_vec2f beam;
