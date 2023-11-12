@@ -6,7 +6,7 @@
 #    By: joppe <jboeve@student.codam.nl>             +#+                       #
 #                                                   +#+                        #
 #    Created: 2023/11/10 00:29:31 by joppe         #+#    #+#                  #
-#    Updated: 2023/11/12 20:04:45 by joppe         ########   odam.nl          #
+#    Updated: 2023/11/12 20:23:08 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ IFLAGS		:= -Ilibft/include -Iinclude -IMLX42/include
 SRC_DIR		:=	src
 SRCS		:= 	cub3d.c \
 				game.c \
-				keys.c \
+				input.c \
 				render.c \
 				draw.c \
 				player.c \

@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/07 15:36:26 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/10 03:11:19 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/12 20:30:33 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,9 @@ int cub3d(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 	game_init(&meta);
+	mlx_cursor_hook(meta.mlx, cursor_hook, &meta);
+	mlx_key_hook(meta.mlx, key_hook, &meta);
 	mlx_loop_hook(meta.mlx, fps_hook, &meta);
-	mlx_key_hook(meta.mlx, keyhook, &meta);
 	mlx_loop_hook(meta.mlx, game_loop, &meta);
 	mlx_loop(meta.mlx);
 	mlx_terminate(meta.mlx);

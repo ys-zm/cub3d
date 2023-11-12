@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/12 19:52:23 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/12 20:32:30 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ const t_rgba CELL_COLORS[] = {
 	[MAP_SPACE]	= {0x696969ff},
 };
 
+
+t_vec2i render_get_draw_offset()
+{
+	return (DRAW_OFFSET);
+}
 
 
 void draw_cell(mlx_image_t *image, t_map *m, uint32_t cell_x, uint32_t cell_y)

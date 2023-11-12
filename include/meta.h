@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/12 20:04:32 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/12 20:32:23 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,13 +130,15 @@ void player_move(t_player *p, t_vec2f transform);
 void player_look(t_player *p, double angle);
 void player_raycast(t_player *p);
 
-// keys.c
-void keyhook(mlx_key_data_t keydata, void* param);
+// input.c
+void key_hook(mlx_key_data_t keydata, void* param);
+void cursor_hook(double xpos, double ypos, void* param);
 
 // render.c
-void render_player(mlx_image_t *image, t_player *p);
-void render_clear_bg(mlx_image_t *image);
-void render_map_grid(mlx_image_t *image, t_map *m);
+t_vec2i	render_get_draw_offset();
+void	render_player(mlx_image_t *image, t_player *p);
+void	render_clear_bg(mlx_image_t *image);
+void	render_map_grid(mlx_image_t *image, t_map *m);
 
 // map.c
 t_cell_type	map_get_cell_type(t_map *m, t_vec2f pos);

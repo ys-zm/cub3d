@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/10 02:25:34 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/12 20:00:01 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/12 20:39:11 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,10 @@
 #include <stdint.h>
 #include <stdio.h>
 
+
 void player_move(t_player *p, t_vec2f transform)
 {
 	p->position += transform;
-	t_cell_type cell = map_get_cell_type(&p->meta->map, p->position);
-
-	print_cell(cell);
 	player_look(p, 0.0);
 }
 
