@@ -6,27 +6,17 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/12 01:24:34 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/12 17:08:51 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
 #include "meta.h"
+#include "vector.h"
 #include <math.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
-
-const t_cell_type MAP[] = {
-	MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL,
-	MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_WALL, MAP_SPACE, MAP_WALL,
-	MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_WALL,
-	MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_WALL, MAP_WALL, MAP_WALL,
-	MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_WALL,
-	MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_WALL,
-	MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_WALL,
-	MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL,
-};
 
 
 
@@ -37,37 +27,38 @@ const t_rgba CELL_COLORS[] = {
 };
 
 
-void draw_cell(t_meta *meta, t_cell_type cell, uint32_t cell_x, uint32_t cell_y)
+void draw_cell(mlx_image_t *image, t_map *m, uint32_t cell_x, uint32_t cell_y)
 {
-	const size_t center_x = (meta->image->width / 2) - (CELL_WIDTH * (MAP_WIDTH / 2));
-	const size_t center_y = (meta->image->height / 2) - (CELL_HEIGHT * (MAP_HEIGHT / 2));
+	const size_t center_x = (image->width / 2) - (CELL_WIDTH * (m->width / 2));
+	const size_t center_y = (image->height / 2) - (CELL_HEIGHT * (m->height / 2));
 	const size_t x_offset = (cell_x * CELL_WIDTH) + cell_x + center_x;
 	const size_t y_offset = (cell_y * CELL_HEIGHT) + cell_y + center_y;
+	const t_cell_type cell = (m->level[(cell_y * m->width) + cell_x]);
 
-	draw_square(meta->image, x_offset, y_offset, CELL_WIDTH, CELL_HEIGHT, CELL_COLORS[cell].value);
+	draw_square(image, x_offset, y_offset, CELL_WIDTH, CELL_HEIGHT, CELL_COLORS[cell].value);
 }
 
-void render_player(t_meta *meta)
+void render_player(mlx_image_t *image, t_player *p)
 {
-	t_player * const p = &meta->player;
-	draw_square(meta->image, p->screen_position[VEC_X] - ((float) PLAYER_WIDTH / 2), p->screen_position[VEC_Y] - ((float) PLAYER_HEIGHT / 2), PLAYER_WIDTH, PLAYER_HEIGHT, COLOR_PLAYER);
+	draw_square(image, p->position[VEC_X] - ((float) PLAYER_WIDTH / 2), p->position[VEC_Y] - ((float) PLAYER_HEIGHT / 2), PLAYER_WIDTH, PLAYER_HEIGHT, COLOR_PLAYER);
+	draw_square(image, p->position[VEC_X] - ((float) PLAYER_WIDTH / 2), p->position[VEC_Y] - ((float) PLAYER_HEIGHT / 2), 1, 1, (t_rgba) {0xFF0000fF}.value);
 
-	draw_line(meta->image, vec2f_to_vec2i(p->screen_position), vec2f_to_vec2i(p->beam), (t_rgba) {0xFC0202FF});
-	draw_line(meta->image, vec2f_to_vec2i(p->ray.start), vec2f_to_vec2i(p->ray.end), (t_rgba) {0xFFFFFFFF});
+	draw_line(image, vec2f_to_vec2i(p->position),	vec2f_to_vec2i(p->beam), (t_rgba) {0x00FF00FF});
+	draw_line(image, vec2f_to_vec2i(p->ray.start), vec2f_to_vec2i(p->ray.end), (t_rgba) {0xDE00EAFF});
 }
 
-void render_map_grid(t_meta *meta)
+void render_map_grid(mlx_image_t *image, t_map *m)
 {
 	size_t cell_y;
 	size_t cell_x;
 
 	cell_y = 0;
-	while (cell_y < MAP_HEIGHT)
+	while (cell_y < m->height)
 	{
 		cell_x = 0;
-		while (cell_x < MAP_WIDTH)
+		while (cell_x < m->width)
 		{
-			draw_cell(meta, MAP[(cell_y * MAP_WIDTH) + cell_x], cell_x, cell_y);
+			draw_cell(image, m, cell_x, cell_y);
 			cell_x++;
 		}
 		cell_y++;

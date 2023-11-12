@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 22:35:05 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/12 01:30:24 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/12 17:08:38 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,49 @@
 #include <unistd.h>
 #include <float.h>
 
+// Temp
+#define MAP_WIDTH 			8
+#define MAP_HEIGHT			8
+
+t_cell_type MAP[] = {
+	MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL,
+	MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_WALL, MAP_SPACE, MAP_WALL,
+	MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_WALL,
+	MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_WALL, MAP_WALL, MAP_WALL,
+	MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_WALL,
+	MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_WALL,
+	MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_WALL,
+	MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL,
+};
+
+static void init_map(t_map *m)
+{
+	m->level = MAP;
+	m->width = MAP_WIDTH;
+	m->height = MAP_HEIGHT;
+}
+
+
+
 void game_init(t_meta *meta)
 {
+	t_player* const p = &meta->player;
+
 	timer_init(&meta->update_timer, mlx_get_time);
 	timer_start(&meta->update_timer);
 
-	t_player* const p = &meta->player;
-	// tmp
+	init_map(&meta->map);
+
+	// Give player a reference to meta struct.
 	p->meta = meta;
 
 	// Setup player initial position, later this correspond with the PLAYER_START in the map.
-	p->screen_position[VEC_X] = (uint32_t) (meta->image->width / 2) - ((float) PLAYER_WIDTH / 2);
-	p->screen_position[VEC_Y] = (uint32_t) (meta->image->height / 2) - ((float) PLAYER_HEIGHT / 2);
+	p->position[VEC_X] = (float) (MAP_WIDTH * CELL_WIDTH) / 2 + (float) (MAP_WIDTH * CELL_WIDTH) / 2;
+	p->position[VEC_Y] = (float) (MAP_HEIGHT * CELL_HEIGHT) / 2 + (float) (MAP_HEIGHT * CELL_HEIGHT) / 4;
 
 	// player_look(p, deg_to_rad(225.0f));
 	player_look(p, deg_to_rad(180.0f));
 }
-
 
 // This function handles all the "simulation" type stuff such as moving players opening doors, etc.
 static void game_update(t_meta *meta, double time_delta)
@@ -66,8 +92,6 @@ static void game_update(t_meta *meta, double time_delta)
 }
 
 
-t_vec2i map_get_cell(mlx_image_t *image, t_vec2i pos);
-
 void game_loop(void* param)
 {
 	t_meta *const meta = param;
@@ -90,6 +114,6 @@ void game_loop(void* param)
 	timer_start(&meta->update_timer);
 
 	render_clear_bg(meta->image);
-	render_map_grid(meta);
-	render_player(meta);
+	render_map_grid(meta->image, &meta->map);
+	render_player(meta->image, &meta->player);
 }
