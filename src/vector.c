@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/10 02:28:35 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/10 20:58:18 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/12 20:04:20 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,3 @@ t_vec2f	vec2f_normalize(t_vec2f vec)
 	return vec / m;
 }
 
-float deg_to_rad(float deg)
-{
-	return deg * (PI / 180);
-}

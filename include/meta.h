@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/12 18:58:37 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/12 20:04:32 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,7 @@ void render_clear_bg(mlx_image_t *image);
 void render_map_grid(mlx_image_t *image, t_map *m);
 
 // map.c
-t_vec2i	map_get_cell_location(t_map *m, t_vec2f pos);
-t_cell_type	map_get_cell_type(t_map *m, t_vec2i pos);
+t_cell_type	map_get_cell_type(t_map *m, t_vec2f pos);
 
 // draw.c
 void	draw_square(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color);
@@ -148,6 +147,9 @@ void	draw_line(mlx_image_t *image, t_vec2i start, t_vec2i end, t_rgba c);
 void	draw_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color);
 
 // utils.c
+float deg_to_rad(float deg);
+
+// test_utils.c
 void	print_vec2f(const char *s, t_vec2f vec);
 void	print_vec2i(const char *s, t_vec2i vec);
 void	print_cell(t_cell_type cell);

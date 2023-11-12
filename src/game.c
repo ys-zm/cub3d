@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 22:35:05 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/12 17:08:38 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/12 20:03:30 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,13 @@ void game_init(t_meta *meta)
 	p->meta = meta;
 
 	// Setup player initial position, later this correspond with the PLAYER_START in the map.
-	p->position[VEC_X] = (float) (MAP_WIDTH * CELL_WIDTH) / 2 + (float) (MAP_WIDTH * CELL_WIDTH) / 2;
-	p->position[VEC_Y] = (float) (MAP_HEIGHT * CELL_HEIGHT) / 2 + (float) (MAP_HEIGHT * CELL_HEIGHT) / 4;
+	p->position[VEC_X] = (float) meta->map.width * CELL_WIDTH / 2;
+	p->position[VEC_Y] = (float) meta->map.height * CELL_WIDTH/ 2;
 
-	// player_look(p, deg_to_rad(225.0f));
+	// p->position[VEC_X] = 0;
+	// p->position[VEC_Y] = 0;
+
+
 	player_look(p, deg_to_rad(180.0f));
 }
 

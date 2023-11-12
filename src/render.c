@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/12 17:08:51 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/12 19:52:23 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@
 #include <string.h>
 
 
+#define MAP_OFFSET_X 256
+#define MAP_OFFSET_Y 104
+
+const t_vec2i DRAW_OFFSET = {
+	MAP_OFFSET_X, MAP_OFFSET_Y
+};
 
 const t_rgba CELL_COLORS[] = {
 	[MAP_EMPTY]	= {0xff00aaff},
@@ -27,24 +33,33 @@ const t_rgba CELL_COLORS[] = {
 };
 
 
+
 void draw_cell(mlx_image_t *image, t_map *m, uint32_t cell_x, uint32_t cell_y)
 {
-	const size_t center_x = (image->width / 2) - (CELL_WIDTH * (m->width / 2));
-	const size_t center_y = (image->height / 2) - (CELL_HEIGHT * (m->height / 2));
-	const size_t x_offset = (cell_x * CELL_WIDTH) + cell_x + center_x;
-	const size_t y_offset = (cell_y * CELL_HEIGHT) + cell_y + center_y;
+	const size_t x_offset = (cell_x * CELL_WIDTH) + cell_x + DRAW_OFFSET[VEC_X];
+	const size_t y_offset = (cell_y * CELL_HEIGHT) + cell_y + DRAW_OFFSET[VEC_Y];
 	const t_cell_type cell = (m->level[(cell_y * m->width) + cell_x]);
 
 	draw_square(image, x_offset, y_offset, CELL_WIDTH, CELL_HEIGHT, CELL_COLORS[cell].value);
 }
 
+// The player is essentially just a single point/pixel, around which we draw a square with the "player point" in its center.
 void render_player(mlx_image_t *image, t_player *p)
 {
-	draw_square(image, p->position[VEC_X] - ((float) PLAYER_WIDTH / 2), p->position[VEC_Y] - ((float) PLAYER_HEIGHT / 2), PLAYER_WIDTH, PLAYER_HEIGHT, COLOR_PLAYER);
-	draw_square(image, p->position[VEC_X] - ((float) PLAYER_WIDTH / 2), p->position[VEC_Y] - ((float) PLAYER_HEIGHT / 2), 1, 1, (t_rgba) {0xFF0000fF}.value);
+	t_vec2i draw_pos = vec2f_to_vec2i(p->position) + DRAW_OFFSET;
+	draw_pos[VEC_X] -= ((float) PLAYER_WIDTH / 2);
+	draw_pos[VEC_Y] -= ((float) PLAYER_HEIGHT / 2);
 
-	draw_line(image, vec2f_to_vec2i(p->position),	vec2f_to_vec2i(p->beam), (t_rgba) {0x00FF00FF});
-	draw_line(image, vec2f_to_vec2i(p->ray.start), vec2f_to_vec2i(p->ray.end), (t_rgba) {0xDE00EAFF});
+	// Draw the player square.
+	draw_square(image,	draw_pos[VEC_X], draw_pos[VEC_Y],
+						PLAYER_WIDTH, PLAYER_HEIGHT, COLOR_PLAYER);
+
+	draw_line(image,	vec2f_to_vec2i(p->position) + DRAW_OFFSET,	
+						vec2f_to_vec2i(p->beam) + DRAW_OFFSET,
+						(t_rgba) {0x00FF00FF});
+	draw_line(image, 	vec2f_to_vec2i(p->ray.start) + DRAW_OFFSET,
+						vec2f_to_vec2i(p->ray.end) + DRAW_OFFSET,
+						(t_rgba) {0xDE00EAFF});
 }
 
 void render_map_grid(mlx_image_t *image, t_map *m)

@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/12 16:49:44 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/12 19:00:22 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/12 20:05:36 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,20 @@
 
 
 
-t_vec2i	map_get_cell_location(t_map *m, t_vec2f pos)
+static t_vec2i	map_pos_to_index(t_map *m, t_vec2f pos)
 {
-
+	const t_vec2i	player_pos = vec2f_to_vec2i(pos);
+	return ((t_vec2i){player_pos[VEC_X] / CELL_WIDTH, player_pos[VEC_Y] / CELL_HEIGHT});
 }
 
-t_cell_type	map_get_cell_type(t_map *m, t_vec2i pos)
+t_cell_type	map_get_cell_type(t_map *m, t_vec2f pos)
 {
-	size_t index = (pos[VEC_Y] / CELL_HEIGHT * m->width) + pos[VEC_X] /CELL_WIDTH;
-	if (index < 0 || index > m->width * m->height)
+	t_vec2i map_index = map_pos_to_index(m, pos);
+
+	print_vec2i("map_index", map_index);
+
+	size_t index = (map_index[VEC_Y] * m->width) + map_index[VEC_X];
+	if (index > m->width * m->height)
 	{
 		printf("index [%ld]\n", index);
 		UNIMPLEMENTED("Array out of bounds!");

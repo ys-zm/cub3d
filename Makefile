@@ -6,7 +6,7 @@
 #    By: joppe <jboeve@student.codam.nl>             +#+                       #
 #                                                   +#+                        #
 #    Created: 2023/11/10 00:29:31 by joppe         #+#    #+#                  #
-#    Updated: 2023/11/12 17:05:57 by joppe         ########   odam.nl          #
+#    Updated: 2023/11/12 20:04:45 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,7 @@ SRCS		:= 	cub3d.c \
 				draw.c \
 				player.c \
 				utils.c \
+				test_utils.c \
 				map.c \
 				vector.c \
 				timer.c
