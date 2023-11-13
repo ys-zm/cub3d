@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/12 20:32:30 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/13 21:24:56 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 #include <string.h>
 
 
-#define MAP_OFFSET_X 256
-#define MAP_OFFSET_Y 104
+#define MAP_OFFSET_X 0
+#define MAP_OFFSET_Y 0
 
 const t_vec2i DRAW_OFFSET = {
 	MAP_OFFSET_X, MAP_OFFSET_Y
@@ -43,6 +43,10 @@ void draw_cell(mlx_image_t *image, t_map *m, uint32_t cell_x, uint32_t cell_y)
 {
 	const size_t x_offset = (cell_x * CELL_WIDTH) + cell_x + DRAW_OFFSET[VEC_X];
 	const size_t y_offset = (cell_y * CELL_HEIGHT) + cell_y + DRAW_OFFSET[VEC_Y];
+
+	// const size_t x_offset = (cell_x * CELL_WIDTH) + DRAW_OFFSET[VEC_X];
+	// const size_t y_offset = (cell_y * CELL_HEIGHT) + DRAW_OFFSET[VEC_Y];
+
 	const t_cell_type cell = (m->level[(cell_y * m->width) + cell_x]);
 
 	draw_square(image, x_offset, y_offset, CELL_WIDTH, CELL_HEIGHT, CELL_COLORS[cell].value);
@@ -59,12 +63,19 @@ void render_player(mlx_image_t *image, t_player *p)
 	draw_square(image,	draw_pos[VEC_X], draw_pos[VEC_Y],
 						PLAYER_WIDTH, PLAYER_HEIGHT, COLOR_PLAYER);
 
+	// Draw the player look direction.
 	draw_line(image,	vec2f_to_vec2i(p->position) + DRAW_OFFSET,	
 						vec2f_to_vec2i(p->beam) + DRAW_OFFSET,
 						(t_rgba) {0x00FF00FF});
-	draw_line(image, 	vec2f_to_vec2i(p->ray.start) + DRAW_OFFSET,
-						vec2f_to_vec2i(p->ray.end) + DRAW_OFFSET,
-						(t_rgba) {0xDE00EAFF});
+
+	size_t i = 0;
+	while (i < PLAYER_RAY_COUNT)
+	{
+		draw_line(image,	vec2f_to_vec2i(p->rays[i].start)	+ DRAW_OFFSET,	
+							vec2f_to_vec2i(p->rays[i].end)		+ DRAW_OFFSET,
+							(t_rgba) {0xFF1500FF});
+		i++;
+	}
 }
 
 void render_map_grid(mlx_image_t *image, t_map *m)

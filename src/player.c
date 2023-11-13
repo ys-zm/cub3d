@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/10 02:25:34 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/12 20:39:11 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/13 21:31:05 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,31 +37,43 @@ void player_look(t_player *p, double angle)
 	p->direction = vec2f_normalize(vec2f_rotate2d(p->angle));
 	p->beam = p->position + p->direction * (t_vec2f) {len, len};
 
-	// player_raycast(p);
+	player_raycast(p);
+}
+
+
+static t_ray raycast(t_map *map, t_vec2f start, t_vec2f angle, size_t depth)
+{
+	t_cell_type	cell;
+	size_t		len;
+	t_ray		r;
+
+	r.start = start;
+	r.end = start;
+	len = 0;
+	while (len < depth)
+	{
+		cell = map_get_cell_type(map, r.end);
+		r.end = r.start + angle * (t_vec2f) {len, len};
+		if (cell == MAP_WALL)
+			break;
+		len++;
+	}
+	return r;
 }
 
 // TODO Abstract out.
 // Draws a line until we encounter a wall
 void player_raycast(t_player *p)
 {
-	const t_vec2f	ray_angle = vec2f_rotate2d(p->angle + deg_to_rad(25.0f));
-	t_ray* const 	r = &p->ray;
-	const size_t	depth = 400;
-	t_cell_type		cell;
-	size_t			len;
+	const size_t depth = 500;
+	t_vec2f	dir;
+	size_t	i;
 
-	r->start = p->position;
-	r->end = p->position;
-	len = 20;
-	while (len < depth)
+	i = 0;
+	while (i < PLAYER_RAY_COUNT)
 	{
-		cell = map_get_cell_type(&p->meta->map, r->end);
-		print_cell(cell);
-		r->end = r->start + ray_angle * (t_vec2f) {len, len};
-		if (cell == MAP_WALL)
-		{
-			break;
-		}
-		len++;
+		dir = vec2f_normalize(vec2f_rotate2d(p->angle + deg_to_rad(i)));
+		p->rays[i] = raycast(&p->meta->map, p->position, p->direction * dir, depth);
+		i++;	
 	}
 }
