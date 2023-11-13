@@ -84,6 +84,12 @@ typedef struct s_player {
 	uint32_t	y;
 } t_player;
 
+typedef struct s_map {
+	t_cell_type *arr;
+	uint32_t	width;
+	uint32_t	height;
+}	t_map;
+
 typedef struct s_meta {
 	mlx_t		*mlx;
 	mlx_image_t	*image;
@@ -91,7 +97,7 @@ typedef struct s_meta {
 	t_timer 	fps_timer;
 	t_player 	player;
 	uint32_t 	fps;
-	uint32_t	map;
+	t_map		map;
 }	t_meta;
 
 // cub3d.c
@@ -117,7 +123,9 @@ void draw_square(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t wi
 void cube_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color);
 
 // parser.c
-int print_err(char *err, int exit_code);
 int parser(t_meta *meta, char *map_file);
+
+// error.c
+int print_err(char *err, int exit_code);
 
 #endif

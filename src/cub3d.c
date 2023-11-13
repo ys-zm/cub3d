@@ -35,13 +35,17 @@ static void	fps_hook(void *param)
 		meta->fps++;
 }
 
+void leaks(void)
+{
+	system("leaks -q app");
+}
+
 int cub3d(int argc, char *argv[])
 {
 	t_meta	meta;
 
-	UNUSED(argc);
-	UNUSED(argv);
-
+	// UNUSED(argv);
+	// atexit(&leaks);
 	if (argc != 2)
 		return (print_err("wrong numbers of arguments\n", 1));
 	// Zero our struct to prevent garbage data.
@@ -65,6 +69,7 @@ int cub3d(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 	game_init(&meta);
+	exit(0);
 	mlx_loop_hook(meta.mlx, fps_hook, &meta);
 	mlx_key_hook(meta.mlx, keyhook, &meta);
 	mlx_loop_hook(meta.mlx, game_loop, &meta);

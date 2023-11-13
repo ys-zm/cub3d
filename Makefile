@@ -43,7 +43,8 @@ SRCS		:= 	cub3d.c \
 				render.c \
 				draw.c \
 				timer.c \
-				parser.c
+				parser.c \
+				error.c
 
 HEADER_DIR	:=	include
 HEADERS 	:=	meta.h \
