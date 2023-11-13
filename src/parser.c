@@ -72,15 +72,56 @@ uint32_t	find_height(char *map)
 	return (h);
 }
 
-// check valid map
-// if walls are enclosed: right after nl, right before and first char have to be nl
-// 
-int check_map(char *map)
+// not sure if this works
+//checking first char on each line is a wall (i.e. left side closed)
+int check_left(char *map)
 {
-	char *map;
-	
+	while (*map)
+	{
+		while (*map && *map == ' ' && *map != '\n')
+			map++;
+		if (*map != 1) // first char after spaces should be 1 = WALL
+			return (0);
+		if (*map == 1)
+			map++;
+		if (*map == ' ')
+			return (0);
+		while (*map && *map != '\n')
+			map++;
+		if (*map == '\n')
+			map++;
+	}
+	return (1);
 }
 
+// last char should be 1 (can be followed by spaces)
+int check_right(char *map)
+{
+	return (0);
+}
+
+//top should be closed off by walls
+int check_top(char *map)
+{
+	return (0);
+}
+
+// bottom should be closed off by walls
+int check_bottom(char *map)
+{
+	return (0);
+}
+
+// check valid map
+// if walls are enclosed: right after nl, right before and first char have to be nl
+int check_map(char *map)
+{
+	if (!check_left(map) || !check_right(map) || !check_top(map) || !check_bottom(map))
+		return (0);
+	return (1);
+}
+
+// not sure of a 1d array will work for misaligned maps
 int	parser(t_meta *meta, char *map_file)
 {
 	int fd;
