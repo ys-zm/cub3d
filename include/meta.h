@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/12 20:32:23 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/13 21:19:38 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,13 @@
 
 #define PLAYER_WIDTH		16
 #define PLAYER_HEIGHT		16
-
+#define PLAYER_RAY_COUNT	360
 #define PLAYER_WALK_SPEED	15
 #define PLAYER_ROTATE_SPEED	5
 #define PLAYER_RUN_MODIFIER 2.5
 
 #define COLOR_BACKGROUND	0x111111FF
 #define COLOR_PLAYER		0xFFFFFFFF
-
 
 #define VEC_X 0
 #define VEC_Y 1
@@ -97,7 +96,7 @@ typedef struct s_player {
 	t_vec2f position;
 	t_vec2f direction;
 	t_vec2f beam;
-	t_ray 	ray;
+	t_ray 	rays[PLAYER_RAY_COUNT];
 	float	angle;
 } t_player;
 

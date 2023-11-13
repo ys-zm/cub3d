@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:03:00 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/12 20:37:53 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/13 21:10:34 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void cursor_hook(double xpos, double ypos, void* param)
 	{
 		t_vec2f drag = (t_vec2f){ xpos, ypos} - vec2i_to_vec2f(render_get_draw_offset());
 		player_move(&meta->player, drag - meta->player.position);
-		printf("cursor [%f][%f]\n", xpos, ypos);
 	}
 }
 
