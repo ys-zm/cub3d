@@ -12,29 +12,52 @@
 
 #include "meta.h"
 
-char *read_file(int fd)
+char *check_line(char *l, int w)
+{
+	int len;
+	char *r;
+	int i;
+
+	i = 0;
+	len = ft_strlen(l);
+	if (len < w)
+	{
+		r = malloc(sizeof(char) * (w - len + 1));
+		while (len++ < w)
+			r[i++] = ' ';
+		r[i] = '\0';
+		r = ft_strjoin(l, r);
+		free(l);
+		return (r);
+	}
+	return (l);
+}
+
+//test this
+char *read_file(int fd, int w)
 {
 	char *line;
 	char *full_map;
 
 	line = get_next_line(fd);
+	line = check_line(get_next_line(fd), w);
 	full_map = NULL;
 	while (line)
 	{
 		full_map = ft_strjoin(full_map, line);
-		if (!full_map)
+		if (!full_map) // malloc check
 		{
 			free(line);
 			return (NULL);
 		}
 		free(line);
-		line = get_next_line(fd);
+		line = check_line(get_next_line(fd), w);
 	}
 	free(line);
 	return (full_map);
 }
 
-u_int32_t	find_width(char *map)
+uint32_t	find_width(char *map)
 {
 	int w;
 	int count;
@@ -56,7 +79,7 @@ u_int32_t	find_width(char *map)
 	return (w);
 }
 
-//TODO add a check for a trailing '\n' character
+//TODO add a check for a trailing '\n' character?
 uint32_t	find_height(char *map)
 {
 	uint32_t	h;
@@ -72,66 +95,27 @@ uint32_t	find_height(char *map)
 	return (h);
 }
 
-// not sure if this works
-//checking first char on each line is a wall (i.e. left side closed)
-int check_left(char *map)
-{
-	while (*map)
-	{
-		while (*map && *map == ' ')
-			map++;
-		if (*map != 1) // first char after spaces should be 1 = WALL
-			return (0);
-		if (*map == 1)
-			map++;
-		if (*map == ' ')
-			return (0);
-		while (*map && *map != '\n')
-			map++;
-		if (*map == '\n')
-			map++;
-	}
-	return (1);
-}
-
-// last char should be 1 (can be followed by spaces)
-int check_right(char *map)
-{
-	char c;
-
-	while (*map)
-	{
-		while (*map && map != '\n')
-		{
-			c = *map;
-			map++;
-		}
-		if (c != '1')
-			return (0);
-		if (*map == '\n')
-			map++;
-	}
-	return (1);
-}
-
-//top should be closed off by walls
-int check_top(char *map)
-{
-	return (0);
-}
-
-// bottom should be closed off by walls
-int check_bottom(char *map)
-{
-	return (0);
-}
-
 // check valid map
-// if walls are enclosed: right after nl, right before and first char have to be nl
 int check_map(char *map)
 {
-	if (!check_left(map) || !check_right(map) || !check_top(map) || !check_bottom(map))
-		return (0);
+	//flood_fill algorithm to check if walls are closed
+}
+
+int map_ext(char *file)
+{
+	char str[4] = {'.', 'c', 'u', 'b'};
+	int len;
+	int i;
+	int j;
+
+	len = ft_strlen(file);
+	i = len - 5;
+	j = 0;
+	while (i < len)
+	{
+		if (file[i++] != str[j++])
+			return (0);
+	}
 	return (1);
 }
 
@@ -141,17 +125,23 @@ int	parser(t_meta *meta, char *map_file)
 	int fd;
 	char *map;
 	
+	if (!map_ext(map_file))
+		return(print_err("map extension should be .cub\n", 1));
 	fd = open(map_file, O_RDONLY);
 	if (fd == -1)
 		return (print_err("map file failed to open\n", 1));
-	map = read_file(fd);
-	if (!map)
-		return(print_err("malloc error reading file\n", 1));
 
 	meta->map.width = find_width(map);
 	meta->map.height = find_height(map);
 	printf("width: %u\n", meta->map.width);
 	printf("height: %u\n", meta->map.height);
+
+	// width x height to make rectangle
+	map = read_file(fd);
+	if (!map)
+		return(print_err("malloc error reading file\n", 1));
+
+	// flood fill
 	(void)meta->map;
 	return (0);
 }
