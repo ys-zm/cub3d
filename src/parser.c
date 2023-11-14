@@ -78,7 +78,7 @@ int check_left(char *map)
 {
 	while (*map)
 	{
-		while (*map && *map == ' ' && *map != '\n')
+		while (*map && *map == ' ')
 			map++;
 		if (*map != 1) // first char after spaces should be 1 = WALL
 			return (0);
@@ -97,7 +97,21 @@ int check_left(char *map)
 // last char should be 1 (can be followed by spaces)
 int check_right(char *map)
 {
-	return (0);
+	char c;
+
+	while (*map)
+	{
+		while (*map && map != '\n')
+		{
+			c = *map;
+			map++;
+		}
+		if (c != '1')
+			return (0);
+		if (*map == '\n')
+			map++;
+	}
+	return (1);
 }
 
 //top should be closed off by walls
