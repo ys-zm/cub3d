@@ -34,13 +34,12 @@ char *check_line(char *l, int w)
 }
 
 //test this
-char *read_file(int fd, int w)
+char *read_file(int fd)
 {
 	char *line;
 	char *full_map;
 
 	line = get_next_line(fd);
-	line = check_line(get_next_line(fd), w);
 	full_map = NULL;
 	while (line)
 	{
@@ -51,7 +50,7 @@ char *read_file(int fd, int w)
 			return (NULL);
 		}
 		free(line);
-		line = check_line(get_next_line(fd), w);
+		line = get_next_line(fd);
 	}
 	free(line);
 	return (full_map);
@@ -76,6 +75,7 @@ uint32_t	find_width(char *map)
 		if (w < count)
 			w = count;
 	}
+	printf("w: %u\n", w);
 	return (w);
 }
 
@@ -92,14 +92,10 @@ uint32_t	find_height(char *map)
 		map++;
 	}
 	h += 1;
+	printf("h: %u\n", h);
 	return (h);
 }
 
-// check valid map
-int check_map(char *map)
-{
-	//flood_fill algorithm to check if walls are closed
-}
 
 int map_ext(char *file)
 {
@@ -109,38 +105,38 @@ int map_ext(char *file)
 	int j;
 
 	len = ft_strlen(file);
-	i = len - 5;
+	i = len - 4;
 	j = 0;
 	while (i < len)
 	{
 		if (file[i++] != str[j++])
 			return (0);
 	}
+	printf("map file is ok\n");
 	return (1);
 }
+
 
 // not sure of a 1d array will work for misaligned maps
 int	parser(t_meta *meta, char *map_file)
 {
 	int fd;
-	char *map;
+	char *map = NULL;
 	
-	if (!map_ext(map_file))
+	if (!map_ext(map_file)) // check map ext
 		return(print_err("map extension should be .cub\n", 1));
-	fd = open(map_file, O_RDONLY);
+	fd = open(map_file, O_RDONLY); // open file
 	if (fd == -1)
 		return (print_err("map file failed to open\n", 1));
 
-	meta->map.width = find_width(map);
-	meta->map.height = find_height(map);
-	printf("width: %u\n", meta->map.width);
-	printf("height: %u\n", meta->map.height);
-
-	// width x height to make rectangle
 	map = read_file(fd);
 	if (!map)
 		return(print_err("malloc error reading file\n", 1));
+	meta->map.width = find_width(map); // find largest width
+	meta->map.height = find_height(map); // find height of map
 
+	// width x height to make rectangle
+	printf("map: \n %s", map);
 	// flood fill
 	(void)meta->map;
 	return (0);
