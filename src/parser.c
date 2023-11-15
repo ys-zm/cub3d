@@ -128,21 +128,22 @@ int	parser(t_meta *meta, char *map_file)
 	char *rect = NULL;
 	
 	if (!map_ext(map_file)) // check map ext
-		return(print_err("map extension should be .cub\n", 1));
+		return(pr_err(INV_EXT));
 	fd = open(map_file, O_RDONLY); // open file
 	if (fd == -1)
-		return (print_err("map file failed to open\n", 1));
+		return (pr_err(INV_FILE));
 	map = read_file(fd);
 	if (!map)
-		return(print_err("malloc error reading file\n", 1));
+		return(pr_err(MALL_ERR));
 	meta->map.width = find_width(map); // find largest width
 	meta->map.height = find_height(map); // find height of map
 
 	// w * h sized rectangle
 	rect = make_rect(map, meta->map.width, meta->map.height);
 	if (!rect)
-		return(print_err("malloc error in parser\n", 1));
-
+		return(pr_err(MALL_ERR));
+	if (check_chars(rect))
+		return (1);
 	printf("%s\n", rect);
 	// flood fill
 	(void)meta->map;

@@ -23,6 +23,7 @@
 
 #include "timer.h"
 #include "libft.h"
+#include "parser.h"
 #include "get_next_line.h"
 #include "MLX42/MLX42.h"
 
@@ -126,6 +127,6 @@ void cube_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color);
 int parser(t_meta *meta, char *map_file);
 
 // error.c
-int print_err(char *err, int exit_code);
+int pr(char *err, int exit_code);
 
 #endif

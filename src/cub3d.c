@@ -47,7 +47,7 @@ int cub3d(int argc, char *argv[])
 	// UNUSED(argv);
 	// atexit(&leaks);
 	if (argc != 2)
-		return (print_err("wrong numbers of arguments\n", 1));
+		return (pr_err(ARG_ERR));
 	// Zero our struct to prevent garbage data.
 	ft_bzero(&meta, sizeof(t_meta));
 

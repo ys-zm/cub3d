@@ -14,9 +14,13 @@
 
 int valid_char(char c)
 {
-    if (c == '1' || c == '0')
-        return (1);
-    
+    return (c == '1' || c == '0' || c == 'N' || c == 'S' \
+    || c == 'E' || c == 'W' || c == ' ');
+}
+
+int check_pos(char c)
+{
+    return (c == 'N' || c == 'S' || c == 'E' || c == 'S');
 }
 
 // valid chars : 1, 0, N, S, E, W
@@ -28,8 +32,13 @@ int check_chars(char *map)
     while (*map)
     {
         if (!valid_char(*map))
-            return (1);
+            return (pr_err(INV_CHAR));
+        if (check_pos(*map))
+            player++;
+        if (player > 1)
+            return (pr_err(PLAY_ERR));
         map++;
     }
     return (0);
 }
+
