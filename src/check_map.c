@@ -27,7 +27,9 @@ int check_chars(char *map)
     player = 0;
     while (*map)
     {
-        if ()
+        if (!valid_char(*map))
+            return (1);
         map++;
     }
+    return (0);
 }
