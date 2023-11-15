@@ -12,29 +12,36 @@
 
 #include "meta.h"
 
-char *check_line(char *l, int w)
+char	*make_rect(char *map, uint32_t w, uint32_t h)
 {
-	int len;
-	char *r;
-	int i;
+	char		*r;
+	int			i;
+	uint32_t	lc;
 
+	lc = 0;
 	i = 0;
-	len = ft_strlen(l);
-	if (len < w)
+	r = malloc(sizeof(char) * (w * h) + h + 1);
+	if (!r)
+		return (NULL);
+	while (*map)
 	{
-		r = malloc(sizeof(char) * (w - len + 1));
-		while (len++ < w)
+		lc = 0;
+		while(*map && *map != '\n')
+		{
+			r[i++] = *map;
+			lc++;
+			map++;
+		}
+		while (lc++ < w)
 			r[i++] = ' ';
-		r[i] = '\0';
-		r = ft_strjoin(l, r);
-		free(l);
-		return (r);
+		if (*map == '\n')
+			map++;
 	}
-	return (l);
+	r[i] = 0;
+	return (r);
 }
 
-//test this
-char *read_file(int fd)
+char	*read_file(int fd)
 {
 	char *line;
 	char *full_map;
@@ -44,18 +51,14 @@ char *read_file(int fd)
 	while (line)
 	{
 		full_map = ft_strjoin(full_map, line);
-		if (!full_map) // malloc check
-		{
-			free(line);
+		if (!full_map)
 			return (NULL);
-		}
-		free(line);
 		line = get_next_line(fd);
 	}
-	free(line);
 	return (full_map);
 }
 
+// func to find longest width in map
 uint32_t	find_width(char *map)
 {
 	int w;
@@ -116,28 +119,34 @@ int map_ext(char *file)
 	return (1);
 }
 
-
-// not sure of a 1d array will work for misaligned maps
+// parse map into 1D array
+// index = (y * w) + x (input y and x coordinates to find index pos in array)
 int	parser(t_meta *meta, char *map_file)
 {
 	int fd;
 	char *map = NULL;
+	char *rect = NULL;
 	
 	if (!map_ext(map_file)) // check map ext
 		return(print_err("map extension should be .cub\n", 1));
 	fd = open(map_file, O_RDONLY); // open file
 	if (fd == -1)
 		return (print_err("map file failed to open\n", 1));
-
 	map = read_file(fd);
 	if (!map)
 		return(print_err("malloc error reading file\n", 1));
 	meta->map.width = find_width(map); // find largest width
 	meta->map.height = find_height(map); // find height of map
 
-	// width x height to make rectangle
-	printf("map: \n %s", map);
+	// w * h sized rectangle
+	rect = make_rect(map, meta->map.width, meta->map.height);
+	if (!rect)
+		return(print_err("malloc error in parser\n", 1));
+
+	printf("%s\n", rect);
 	// flood fill
 	(void)meta->map;
+	free(rect);
+	free(map);
 	return (0);
 }
