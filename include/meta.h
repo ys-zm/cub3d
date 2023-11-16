@@ -83,6 +83,8 @@ typedef enum e_cell_type {
 typedef struct s_player {
 	uint32_t	x;
 	uint32_t	y;
+	uint32_t	start_x;
+	uint32_t	start_y;
 } t_player;
 
 typedef struct s_map {
@@ -90,6 +92,15 @@ typedef struct s_map {
 	uint32_t	width;
 	uint32_t	height;
 }	t_map;
+
+typedef struct s_tex {
+	char 	*no;
+	char 	*so;
+	char 	*we;
+	char 	*ea;
+	t_rgba	floor_c;
+	t_rgba	ceiling_c;
+}	t_tex;
 
 typedef struct s_meta {
 	mlx_t		*mlx;
@@ -99,6 +110,7 @@ typedef struct s_meta {
 	t_player 	player;
 	uint32_t 	fps;
 	t_map		map;
+	t_tex		tex;
 }	t_meta;
 
 // cub3d.c
@@ -131,5 +143,7 @@ int pr(char *err, int exit_code);
 
 // check_map.c
 int check_map(t_meta *meta, char *rect);
+int find_index(t_meta *meta, uint32_t y, uint32_t x);
+
 
 #endif

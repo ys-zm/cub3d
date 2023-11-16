@@ -119,12 +119,45 @@ int map_ext(char *file)
 	return (1);
 }
 
+int north_tex(char *file)
+{
+	while (*file)
+	{
+		if (*file == 'N')
+		{
+			file++;
+			if (*file == 'O')
+				return (1);	
+		}
+	}
+	return (0);
+}
+
+int check_file_order(char *file)
+{
+	int n;
+	int	s;
+	int e;
+ 
+	while (*file)
+	{
+		while (*file && *file == ' ' && *file != '\n')
+			file++;
+		if (*file == '1' || *file == '0')
+			return (1);
+		if (*file = 'F' || *file == 'C' || *file == 'N' || )
+		file++;
+	}
+	return (0);
+}
+
+
 // parse map into 1D array
 // index = (y * w) + x (input y and x coordinates to find index pos in array)
 int	parser(t_meta *meta, char *map_file)
 {
 	int fd;
-	char *map = NULL;
+	char *file = NULL;
 	char *rect = NULL;
 	
 	if (!map_ext(map_file)) // check map ext
@@ -132,20 +165,21 @@ int	parser(t_meta *meta, char *map_file)
 	fd = open(map_file, O_RDONLY); // open file
 	if (fd == -1)
 		return (pr_err(INV_FILE));
-	map = read_file(fd);
-	if (!map)
+	file = read_file(fd);
+	if (!file)
 		return(pr_err(MALL_ERR));
-	meta->map.width = find_width(map); // find largest width
-	meta->map.height = find_height(map); // find height of map
+	
+	// need to separate file first
+	meta->map.width = find_width(file); // find largest width
+	meta->map.height = find_height(file); // find height of map
 
 	// w * h sized rectangle
-	rect = make_rect(map, meta->map.width, meta->map.height);
+	rect = make_rect(file, meta->map.width, meta->map.height);
 	if (!rect)
 		return(pr_err(MALL_ERR));
-	printf("%s\n", rect);
 	if (check_map(meta, rect))
 		return (1);
-	// flood fill
+	
 	(void)meta->map;
 	free(rect);
 	free(map);

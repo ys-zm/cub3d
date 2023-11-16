@@ -39,14 +39,12 @@ int	pr(char *err, int exit_code)
 
 int pr_err(t_err type)
 {
-	t_err	errs[7] = {INV_CHAR, INV_EXT, INV_WALLS, PLAY_ERR, INV_FILE, MALL_ERR, ARG_ERR};
-	char	*msg[7] = {INVALID_CHAR, INVALID_EXT, INVALID_WALLS, TOO_MANY_PLAYERS, INVALID_FILE, MALLOC_FAIL, WRO_ARGS};
+	t_err	errs[8] = {INV_CHAR, INV_EXT, INV_WALLS, PLAY_ERR, INV_FILE, MALL_ERR, ARG_ERR, OUT_OF_BOUNDS};
+	char	*msg[8] = {INVALID_CHAR, INVALID_EXT, INVALID_WALLS, TOO_MANY_PLAYERS, INVALID_FILE, MALLOC_FAIL, WRO_ARGS, OOB_FLOOR};
 	int		i;
 
 	i = 0;
-	while (errs[i] != type)
+	while (i < 8 && errs[i] != type)
 		i++;
-	if (i < 7)
-		return (write(2, msg[i], ft_strlen(msg[i])), 1);
-	return (0);
+	return (write(2, msg[i], ft_strlen(msg[i])), 1);
 }

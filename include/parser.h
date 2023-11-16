@@ -20,6 +20,7 @@
 # define INVALID_FILE "Map file failed to open\n"
 # define MALLOC_FAIL "Malloc error\n"
 # define WRO_ARGS "Wrong number of arguments\n"
+# define OOB_FLOOR "There are inaccessible floors in this map\n"
 
 #include "meta.h"
 
@@ -30,7 +31,8 @@ typedef enum e_err {
     PLAY_ERR,
     INV_FILE,
     MALL_ERR,
-    ARG_ERR
+    ARG_ERR,
+    OUT_OF_BOUNDS,
 }   t_err;
 
 // error.c
@@ -40,7 +42,7 @@ int pr_err(t_err type);
 int valid_char(char c);
 int check_pos(char c);
 int check_chars(char *map);
-int find_index(t_meta *meta, uint32_t y, uint32_t x);
+
 
 
 #endif

@@ -52,14 +52,15 @@ int find_index(t_meta *meta, uint32_t y, uint32_t x)
 int check_horiz_left(t_meta *meta, char *map)
 {
     int closed = 0;
-    uint32_t y = -1;
-    uint32_t x;
+    int x;
+    int y;
 
-    while (++y < meta->map.height)
+    y = -1;
+    while (++y < (int)meta->map.height)
     {
         closed = 0;
         x = -1;
-        while (++x < meta->map.width)
+        while (++x < (int)meta->map.width)
         {
             // printf("c: %c\n", map[find_index(meta, y, x)]);
             if (map[find_index(meta, y, x)] == '1')
@@ -71,18 +72,18 @@ int check_horiz_left(t_meta *meta, char *map)
     return (0);
 }
 
-// returns 1 if walls are not closed
 int check_vert_top(t_meta *meta, char *map)
 {
     int closed = 0;
-    uint32_t x = -1;
-    uint32_t y;
+    int x;
+    int y;
 
-    while (++x < meta->map.width)
+    x = -1;
+    while (++x < (int)meta->map.width)
     {
         closed = 0;
         y = -1;
-        while (++y < meta->map.height)
+        while (++y < (int)meta->map.height)
         {
             if (map[find_index(meta, y, x)] == '1')
                 closed = 1;
@@ -96,9 +97,10 @@ int check_vert_top(t_meta *meta, char *map)
 int check_horiz_right(t_meta *meta, char *map)
 {
     int closed = 0;
-    uint32_t y = meta->map.height;
     uint32_t x;
+    uint32_t y;
 
+    y = meta->map.height;
     while (--y > 0)
     {
         closed = 0;
@@ -117,9 +119,10 @@ int check_horiz_right(t_meta *meta, char *map)
 int check_vert_down(t_meta *meta, char *map)
 {
     int closed = 0;
-    uint32_t x = meta->map.width;
+    uint32_t x;
     uint32_t y;
 
+    x = meta->map.width;
     while (--x > 0)
     {
         closed = 0;
@@ -135,13 +138,78 @@ int check_vert_down(t_meta *meta, char *map)
     return (0);
 }
 
+// recursive flood-fill: checks UP/DOWN/LEFT/RIGHT to see moveable areas, to make sure player is bounded by walls
+int flood_fill(t_meta *meta, char *map, int x, int y)
+{
+    int ret;
+
+    ret = 0;
+    if (x < 0 || y < 0 || y >= (int)meta->map.height || x >= (int)meta->map.width)
+        return (1);
+    if (map[find_index(meta, y, x)] == '1' || map[find_index(meta, y, x)] == '2')
+        return (0);
+    if (map[find_index(meta, y, x)] == ' ')
+        return (1);
+    if (map[find_index(meta, y, x)] == '0')
+        map[find_index(meta, y, x)] = '2';
+    ret += flood_fill(meta, map, x + 1, y); // right
+    ret += flood_fill(meta, map, x - 1, y); // left
+    ret += flood_fill(meta, map, x, y + 1); // up
+    ret += flood_fill(meta, map, x, y - 1); // down
+    return (ret);
+}
+
+void save_start_pos(t_meta *meta, char *map)
+{
+	int x;
+	int y;
+    
+    y = -1;
+	while (++y < (int)meta->map.height)
+	{
+        x = -1;
+		while (++x < (int)meta->map.width)
+		{
+			if (check_pos(map[find_index(meta, y, x)]))
+            {
+                meta->player.start_x = x;
+                meta->player.start_y = y;
+            }
+		}
+	}
+}
+
+int check_other_rooms(t_meta *meta, char *map)
+{
+	int x;
+	int y;
+    
+    y = -1;
+	while (++y < (int)meta->map.height)
+	{
+        x = -1;
+		while (++x < (int)meta->map.width)
+		{
+            if (map[find_index(meta, y, x)] == '0')
+                return (1);
+		}
+	}
+    return (0);
+}
+
 int check_map(t_meta *meta, char *rect)
 {
     if (check_chars(rect))
 		return (1);
-    if (check_horiz_left(meta, rect) || check_horiz_right(meta, rect)) // check all directions
-        return (1);
-    if (check_vert_top(meta, rect) || check_vert_down(meta, rect))
-        return (1);
+    // if (check_horiz_left(meta, rect) || check_horiz_right(meta, rect)) // check all directions
+    //     return (1);
+    // if (check_vert_top(meta, rect) || check_vert_down(meta, rect))
+    //     return (1);
+    save_start_pos(meta, rect);
+    rect[find_index(meta, meta->player.start_y, meta->player.start_x)] = '0';
+    if (flood_fill(meta, rect, meta->player.start_x, meta->player.start_y))
+        return (pr_err(INV_WALLS));
+    if (check_other_rooms(meta, rect))
+        return (pr_err(OUT_OF_BOUNDS));
     return (0);
 }
