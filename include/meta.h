@@ -129,4 +129,7 @@ int parser(t_meta *meta, char *map_file);
 // error.c
 int pr(char *err, int exit_code);
 
+// check_map.c
+int check_map(t_meta *meta, char *rect);
+
 #endif

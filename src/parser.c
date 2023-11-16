@@ -142,9 +142,9 @@ int	parser(t_meta *meta, char *map_file)
 	rect = make_rect(map, meta->map.width, meta->map.height);
 	if (!rect)
 		return(pr_err(MALL_ERR));
-	if (check_chars(rect))
-		return (1);
 	printf("%s\n", rect);
+	if (check_map(meta, rect))
+		return (1);
 	// flood fill
 	(void)meta->map;
 	free(rect);
