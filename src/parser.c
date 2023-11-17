@@ -119,35 +119,114 @@ int map_ext(char *file)
 	return (1);
 }
 
-int north_tex(char *file)
+// returns 1 if texture matches and if able to save textuer
+int save_tex(char *file, char *cmp, char **tex)
 {
-	while (*file)
+	int i;
+	int j;
+
+	j = 0;
+	i = 0;
+	while (*file && cmp[i] && *file != '\n')
 	{
-		if (*file == 'N')
-		{
+		if (*file != cmp[i])
+			break;
+		i++;
+		file++;
+	}
+	if (i == 2)
+	{
+		while (*file && *file == ' ' && *file != '\n')
 			file++;
-			if (*file == 'O')
-				return (1);	
-		}
+		while (file[j] && file[j] != '\n')
+			j++;
+		*tex = ft_substr(file, 0, j);
+		printf("TEX: %s\n", *tex);
+		if (!tex)
+			return (0);
+		return (1);
+	}
+	else
+	{
+		*tex = ft_strdup(NULL);
 	}
 	return (0);
 }
 
-int check_file_order(char *file)
+int check_if_map_line(char *file)
 {
-	int n;
-	int	s;
-	int e;
- 
+	while (*file && *file != '\n')
+	{
+		if (*file != ' ')
+			break ;
+		file++;
+	}
+	if (*file == '\n')
+		return (0);
+	return (1);
+}
+
+int save_map(t_meta *meta, char *file)
+{
+	int	i;
+
+	while (*file)
+	{
+		if (check_if_map_line(file))
+			break ;
+		else
+		{
+			while (*file && *file != '\n')
+				file++;
+		}
+	}
+	printf("HI!\n");
+	if (*file)
+	{
+		i = ft_strlen(file);
+		meta->map_file = ft_substr(file, 0, i);
+		return (0);
+	}
+	else
+		return (0);
+}
+
+int check_file_order(t_meta *meta, char *file)
+{ 
 	while (*file)
 	{
 		while (*file && *file == ' ' && *file != '\n')
 			file++;
-		if (*file == '1' || *file == '0')
-			return (1);
-		if (*file = 'F' || *file == 'C' || *file == 'N' || )
+		if (*file == 'N' && save_tex(file, "NO", &(meta->tex->no)))
+		{
+			printf("NO: %s\n", meta->tex->no);
+			while (*file && *file != '\n')
+				file++;
+		}
+		else if (*file == 'S' && save_tex(file, "SO", &(meta->tex->so)))
+		{
+			printf("SO: %s\n", meta->tex->so);
+			while (*file && *file != '\n')
+				file++;
+		}
+		else if (*file == 'W' && save_tex(file, "WE", &(meta->tex->we)))
+		{
+			printf("WE: %s\n", meta->tex->we);
+			while (*file && *file != '\n')
+				file++;
+		}
+		else if (*file == 'E' && save_tex(file, "EA", &(meta->tex->ea)))
+		{
+			printf("EA: %s\n", meta->tex->ea);
+			while (*file && *file != '\n')
+				file++;
+		}
+		if (meta->tex->ea && meta->tex->we && meta->tex->no && meta->tex->so)
+			break;
 		file++;
 	}
+	save_map(meta, file);
+	printf("map: %s\n", meta->map_file);
 	return (0);
 }
 
@@ -169,6 +248,15 @@ int	parser(t_meta *meta, char *map_file)
 	if (!file)
 		return(pr_err(MALL_ERR));
 	
+	printf("file: %s\n", file);
+
+	if (check_file_order(meta, file))
+	{
+		free(file);
+		return (1);
+	}
+	free(file);
+	exit(0);
 	// need to separate file first
 	meta->map.width = find_width(file); // find largest width
 	meta->map.height = find_height(file); // find height of map
@@ -182,6 +270,5 @@ int	parser(t_meta *meta, char *map_file)
 	
 	(void)meta->map;
 	free(rect);
-	free(map);
 	return (0);
 }

@@ -110,7 +110,8 @@ typedef struct s_meta {
 	t_player 	player;
 	uint32_t 	fps;
 	t_map		map;
-	t_tex		tex;
+	t_tex		*tex;
+	char		*map_file;
 }	t_meta;
 
 // cub3d.c

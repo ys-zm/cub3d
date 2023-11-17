@@ -40,6 +40,15 @@ void leaks(void)
 	system("leaks -q app");
 }
 
+void init(t_meta *meta)
+{
+	meta->tex = malloc(sizeof(t_tex) * 1);
+	meta->tex->no = NULL;
+	meta->tex->so = NULL;
+	meta->tex->ea = NULL;
+	meta->tex->we = NULL;
+}
+
 int cub3d(int argc, char *argv[])
 {
 	t_meta	meta;
@@ -50,7 +59,7 @@ int cub3d(int argc, char *argv[])
 		return (pr_err(ARG_ERR));
 	// Zero our struct to prevent garbage data.
 	ft_bzero(&meta, sizeof(t_meta));
-
+	init(&meta);
 	if (parser(&meta, argv[1]))
 		return(1);
 	// MLX allows you to define its core behaviour before startup.
