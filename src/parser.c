@@ -187,7 +187,16 @@ int save_map(t_meta *meta, char *file)
 		return (1);
 }
 
-int check_file_order(t_meta *meta, char *file)
+int save_colour(char *file, char type, t_rgba colour)
+{
+	while (*file && *file == type && *file != '\n')
+		file++;
+	while (*file && *file != '\n' && *file == ' ')
+		file++;
+
+}
+
+int check_elements(t_meta *meta, char *file)
 { 
 	char *save;
 
@@ -216,6 +225,10 @@ int check_file_order(t_meta *meta, char *file)
 			while (*file && *file != '\n')
 				file++;
 		}
+		else if (*file == 'F' && save_colour(file, 'F', &(meta->tex->floor_c)))
+		{
+
+		}
 		if (meta->tex->ea && meta->tex->we && meta->tex->no && meta->tex->so)
 			break;
 		file++;
@@ -242,7 +255,7 @@ int	parser(t_meta *meta, char *map_file)
 	file = read_file(fd);
 	if (!file)
 		return(pr_err(MALL_ERR));
-	if (check_file_order(meta, file))
+	if (check_elements(meta, file))
 		return (1);
 	// need to separate file first
 	meta->map.width = find_width(meta->map_file); // find largest width
