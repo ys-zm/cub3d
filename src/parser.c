@@ -198,25 +198,21 @@ int check_file_order(t_meta *meta, char *file)
 			file++;
 		if (*file == 'N' && save_tex(file, "NO", &(meta->tex->no)))
 		{
-			printf("NO: %s\n", meta->tex->no);
 			while (*file && *file != '\n')
 				file++;
 		}
 		else if (*file == 'S' && save_tex(file, "SO", &(meta->tex->so)))
 		{
-			printf("SO: %s\n", meta->tex->so);
 			while (*file && *file != '\n')
 				file++;
 		}
 		else if (*file == 'W' && save_tex(file, "WE", &(meta->tex->we)))
 		{
-			printf("WE: %s\n", meta->tex->we);
 			while (*file && *file != '\n')
 				file++;
 		}
 		else if (*file == 'E' && save_tex(file, "EA", &(meta->tex->ea)))
 		{
-			printf("EA: %s\n", meta->tex->ea);
 			while (*file && *file != '\n')
 				file++;
 		}
