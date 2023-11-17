@@ -141,7 +141,6 @@ int save_tex(char *file, char *cmp, char **tex)
 		while (file[j] && file[j] != '\n')
 			j++;
 		*tex = ft_substr(file, 0, j);
-		printf("TEX: %s\n", *tex);
 		if (!tex)
 			return (0);
 		return (1);
@@ -174,13 +173,10 @@ int save_map(t_meta *meta, char *file)
 	{
 		if (check_if_map_line(file))
 			break ;
-		else
-		{
-			while (*file && *file != '\n')
+		while (*file && *file != '\n')
 				file++;
-		}
+		file++;
 	}
-	printf("HI!\n");
 	if (*file)
 	{
 		i = ft_strlen(file);
@@ -188,11 +184,14 @@ int save_map(t_meta *meta, char *file)
 		return (0);
 	}
 	else
-		return (0);
+		return (1);
 }
 
 int check_file_order(t_meta *meta, char *file)
 { 
+	char *save;
+
+	save = file;
 	while (*file)
 	{
 		while (*file && *file == ' ' && *file != '\n')
@@ -226,7 +225,7 @@ int check_file_order(t_meta *meta, char *file)
 		file++;
 	}
 	save_map(meta, file);
-	printf("map: %s\n", meta->map_file);
+	free(save);
 	return (0);
 }
 
@@ -247,28 +246,18 @@ int	parser(t_meta *meta, char *map_file)
 	file = read_file(fd);
 	if (!file)
 		return(pr_err(MALL_ERR));
-	
-	printf("file: %s\n", file);
-
 	if (check_file_order(meta, file))
-	{
-		free(file);
 		return (1);
-	}
-	free(file);
-	exit(0);
 	// need to separate file first
-	meta->map.width = find_width(file); // find largest width
-	meta->map.height = find_height(file); // find height of map
-
+	meta->map.width = find_width(meta->map_file); // find largest width
+	meta->map.height = find_height(meta->map_file); // find height of map
 	// w * h sized rectangle
-	rect = make_rect(file, meta->map.width, meta->map.height);
+	rect = make_rect(meta->map_file, meta->map.width, meta->map.height);
 	if (!rect)
-		return(pr_err(MALL_ERR));
+		return(free(meta->map_file), pr_err(MALL_ERR));
+	free(meta->map_file);
 	if (check_map(meta, rect))
-		return (1);
-	
-	(void)meta->map;
+		return (free(rect), 1);
 	free(rect);
 	return (0);
 }

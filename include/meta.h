@@ -146,5 +146,6 @@ int pr(char *err, int exit_code);
 int check_map(t_meta *meta, char *rect);
 int find_index(t_meta *meta, uint32_t y, uint32_t x);
 
-
+// free.c
+void meta_free(t_meta *meta);
 #endif

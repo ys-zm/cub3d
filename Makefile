@@ -45,7 +45,8 @@ SRCS		:= 	cub3d.c \
 				timer.c \
 				parser.c \
 				error.c \
-				check_map.c
+				check_map.c \
+				free.c
 
 HEADER_DIR	:=	include
 HEADERS 	:=	meta.h \
