@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/10 02:25:34 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/18 15:48:06 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/11/18 20:45:45 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void player_raycast(t_player *p)
 	i = 0;
 	while (i < PLAYER_RAY_COUNT)
 	{
-		dir = vec2f_normalize(vec2f_rotate2d(p->angle_rad + deg_to_rad(i) - (PLAYER_RAY_COUNT / 2)));
+		dir = vec2f_normalize(vec2f_rotate2d(p->angle_rad + deg_to_rad(i) - (deg_to_rad(PLAYER_RAY_COUNT) / 2)));
 		p->rays[i] = raycast(&p->meta->map, p->position, dir, depth);
 		i++;	
 	}

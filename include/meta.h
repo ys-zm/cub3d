@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/18 15:49:12 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/11/18 20:45:26 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,13 @@
 #define PI 3.1415926535
 
 // Window settings
-#define WINDOW_WIDTH 1280
-#define WINDOW_HEIGHT 720
+#define WINDOW_WIDTH 1920
+#define WINDOW_HEIGHT 1080
 #define WINDOW_TITLE "Gammoe"
+
+#define PLAYER_VIEWPORT_X 720
+#define PLAYER_VIEWPORT_Y 512
+#define PLAYER_VIEWPORT_WALL_WIDTH 8
 
 #define TICK_RATE (1.0 / 60.0)
 
@@ -135,6 +139,7 @@ void	cursor_hook(double xpos, double ypos, void* param);
 
 // render.c
 t_vec2i	render_get_draw_offset();
+void render_player_view(mlx_image_t *image, t_player *p);
 void	render_player(mlx_image_t *image, t_player *p);
 void	render_clear_bg(mlx_image_t *image);
 void	render_map_grid(mlx_image_t *image, t_map *m);
@@ -143,7 +148,7 @@ void	render_map_grid(mlx_image_t *image, t_map *m);
 t_cell_type	map_get_cell_type(t_map *m, t_vec2f pos);
 
 // draw.c
-void	draw_square(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color);
+void	draw_rect(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color);
 void	draw_line(mlx_image_t *image, t_vec2i start, t_vec2i end, t_rgba c);
 void	draw_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color);
 
