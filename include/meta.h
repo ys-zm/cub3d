@@ -110,7 +110,7 @@ typedef struct s_meta {
 	t_player 	player;
 	uint32_t 	fps;
 	t_map		map;
-	t_tex		*tex;
+	t_tex		tex;
 	char		*map_file;
 }	t_meta;
 
@@ -148,4 +148,7 @@ int find_index(t_meta *meta, uint32_t y, uint32_t x);
 
 // free.c
 void meta_free(t_meta *meta);
+
+// check_textures.c
+int parse_textures(t_meta *meta, char *file);
 #endif

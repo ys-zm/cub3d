@@ -1,29 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_strjoin.c                                       :+:    :+:            */
+/*   ft_atoi.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/10/12 19:59:09 by joppe         #+#    #+#                 */
-/*   Updated: 2022/11/03 15:36:43 by jboeve        ########   odam.nl         */
+/*   Created: 2022/10/12 09:41:09 by joppe         #+#    #+#                 */
+/*   Updated: 2022/11/01 17:56:01 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin_free(char *s1, char *s2)
+uint8_t	ft_atou_8(const char *s)
 {
-	char	*buf;
-	size_t	total_size;
+	int	i;
+	uint8_t	num;
+	int	sign;
 
-	total_size = ft_strlen(s1) + ft_strlen(s2) + 1;
-	buf = (char *) malloc(total_size);
-	if (!buf)
-		return (NULL);
-	ft_strlcpy(buf, s1, ft_strlen(s1) + 1);
-	ft_strlcat(buf, s2, total_size);
-	free(s1);
-	free(s2);
-	return (buf);
+	num = 0;
+	sign = 1;
+	i = 0;
+	while (s[i] == ' ' || (s[i] >= 9 && s[i] <= 13))
+		i++;
+	while ((s[i] == '-' || s[i] == '+'))
+	{
+		if (s[i] == '-')
+			sign = -1;
+		i++;
+	}
+	while (s[i] && ft_isdigit(s[i]))
+	{
+		num = num * 10 + s[i] - '0';
+		i++;
+	}
+	return (num * sign);
 }

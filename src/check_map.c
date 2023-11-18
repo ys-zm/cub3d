@@ -112,15 +112,11 @@ int check_map(t_meta *meta, char *rect)
 {
     if (check_chars(rect))
 		return (1);
-    // if (check_horiz_left(meta, rect) || check_horiz_right(meta, rect)) // check all directions
-    //     return (1);
-    // if (check_vert_top(meta, rect) || check_vert_down(meta, rect))
-    //     return (1);
     save_start_pos(meta, rect);
     rect[find_index(meta, meta->player.start_y, meta->player.start_x)] = '0';
     if (flood_fill(meta, rect, meta->player.start_x, meta->player.start_y))
         return (pr_err(INV_WALLS));
-    if (check_other_rooms(meta, rect))
+    if (check_other_rooms(meta, rect)) // maybe change to a warning?
         return (pr_err(OUT_OF_BOUNDS));
     return (0);
 }

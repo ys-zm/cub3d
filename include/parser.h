@@ -26,6 +26,7 @@ There should be 6 (SO, NO, EA, WE, F, C)\n"
 # define TOO_MANY_ELEMENTS "You have define too many elements\n\
 There should be 6 (SO, NO, EA, WE, F, C)\n"
 # define ORDER_OF_ELEMENTS "Map element should be last\n"
+# define MISSING_PATH   "Texture path missing\n"
 
 #include "meta.h"
 
@@ -41,6 +42,7 @@ typedef enum e_err {
     M_ELEMENTS,
     T_ELEMENTS,
     FILE_ORDER,
+    M_PATH,
 }   t_err;
 
 // error.c

@@ -15,22 +15,16 @@
 // why are my skip functions not working >_<
 void skip_line(char **file)
 {
-    char *f;
-
-    f = *file;
-    while (*f && *f != '\n')
-        f++;
-    // if (*f == '\n')
-    //     f++;
+    while (file && *file && **file && **file != '\n')
+        (*file)++;
+    if (**file == '\n')
+        (*file)++;
 }
 
 void skip_spaces(char **file)
 {
-    char *f;
-
-    f = *file;
-    while (*f == ' ')
-        f++;
+    while (file && *file && **file && **file == ' ')
+        (*file)++;
 }
 
 int is_valid_element(char *file)
@@ -59,8 +53,8 @@ int only_spaces(char *file)
 int count_elements(char *file)
 {
     int elements = 0;
-    int map = 0;
-    int order = 1;
+    bool map = false;
+    bool order = true;
 
     while (*file)
     {
@@ -69,21 +63,197 @@ int count_elements(char *file)
         if (is_valid_element(file))
         {
             if (map)
-                order = 0;
+                order = false;
             elements++;
         }
         else if (!only_spaces(file))
-            map = 1;
+            map = true;
         while (*file && *file != '\n')
             file++;
         if (*file == '\n')
             file++;
     }
-    if (order == 0)
+    if (order == false)
         pr_err(FILE_ORDER);
     if (elements < 6)
-        return (pr_err(M_ELEMENTS));
+        return (pr_err(M_ELEMENTS), 0);
     if (elements > 6)
-        return (pr_err(T_ELEMENTS));
-    return (order == 1);
+        return (pr_err(T_ELEMENTS), 0);
+    return (order == true);
+}
+
+
+int get_col_val(char *file, t_rgba col)
+{
+    skip_spaces(&file);
+    col.r = (uint8_t)ft_atoi(file);
+    // printf("R: %u\n", col.r);
+    while (*file && *file != ',')
+        file++;
+    col.g = ft_atoi(file + 1);
+    // printf("G: %u\n", col.g);
+    while (*file && *file != ',')
+        file++;
+    col.b = ft_atoi(file + 1);
+    // printf("B: %u\n", col.b);
+    return (0);
+}
+
+char *get_tex_val(char *file)
+{
+    int     i;
+    char    *val;
+
+    i = 0;
+    skip_spaces(&file);
+    while (file[i] && file[i] != '\n')
+		i++;
+    if (i)
+    {
+        val = ft_substr(file, 0, i);
+        if (!val)
+            return (NULL);
+        return (val);
+    }
+    return (NULL);
+}
+
+int inp_tex(t_tex *tex, char *file)
+{
+    char    *tx[4] = {"NO ", "SO ", "WE ", "EA "};
+    char    *st[4] = {tex->no, tex->so, tex->we, tex->ea};
+    int     i;
+
+    i = 0;
+   skip_spaces(&file);
+    while (i < 4 && *file && *file != tx[i][0])
+        i++;
+    st[i] = get_tex_val(file + 2);
+    if (!st[i])
+        return (pr_err(MALL_ERR));
+    printf("TEX: %s\n", st[i]);
+    if (!st[i])
+    {
+        return (pr_err(M_PATH));
+    }
+    
+    return (0); 
+}
+
+int inp_col(t_tex *tex, char *file)
+{
+    char    tx[2] = {'F', 'C'};
+    t_rgba  st[2] = {tex->floor_c, tex->ceiling_c};
+    int     i;
+
+    i = 0;
+   skip_spaces(&file);
+    while (i < 2 && *file && *file == tx[i])
+        i++;
+    if (get_col_val(file + 1, st[i]))
+        return (pr_err(MALL_ERR));
+    return (0); 
+}
+
+int is_tex(char *file)
+{
+    char    *tx[4] = {"NO ", "SO ", "WE ", "EA "};
+    int     i;
+
+    i = -1;
+    while (++i < 4)
+    {
+        if (!ft_strncmp(file, tx[i], 3))
+            return (1);
+    }
+    return (0);
+}
+
+int is_col(char *file)
+{
+    if (*file == 'F')
+        return (1);
+    if (*file == 'C')
+        return (1);
+    return (0);
+}
+
+int save_elements(t_tex *tex, char *file)
+{
+    while (*file)
+    {
+        skip_spaces(&file);
+        if (is_tex(file))
+        {
+            if (inp_tex(tex, file))
+            {
+                return (1);
+            }
+        }
+        else if (is_col(file))
+        {
+            if (inp_col(tex, file))
+                return (1);
+        }
+        skip_line(&file);
+    }
+    printf("HI: %s\n", tex->no);
+    return (0);
+}
+
+int check_if_map_line(char *file)
+{
+	while (*file && *file != '\n')
+	{
+		if (*file != ' ')
+			break ;
+		file++;
+	}
+	if (*file == '\n')
+		return (0);
+	return (1);
+}
+
+int save_map(t_meta *meta, char *file)
+{
+    int	i;
+
+    while (*file)
+    {
+        if (check_if_map_line(file))
+            break ;
+        skip_line(&file);
+    }
+    if (*file)
+	{
+		i = ft_strlen(file);
+		meta->map_file = ft_substr(file, 0, i);
+        if (!meta->map_file)
+            return (pr_err(MALL_ERR));
+		return (0);
+	}
+	else
+		return (1);
+}
+
+void print_stuff(t_tex *t)
+{
+    printf("pN: %s\n", t->no);
+    printf("pS: %s\n", t->so);
+    printf("pE: %s\n", t->ea);
+    printf("pW: %s\n", t->we);
+}
+
+int parse_textures(t_meta *meta, char *file)
+{
+    if (count_elements(file) == 0)
+        return (1);
+    if (save_elements(&meta->tex, file))
+        return (1);
+    
+    print_stuff(&meta->tex);
+
+    if (save_map(meta, file))
+        return (1);
+    return (0);
 }

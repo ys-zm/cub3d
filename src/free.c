@@ -15,14 +15,18 @@
 
 void free_t_tex(t_tex *tex)
 {
+    printf("free function called\n");
+    printf("N: %s\n", tex->no);
+     printf("S: %s\n", tex->so);
+      printf("E: %s\n", tex->ea);
+       printf("W: %s\n", tex->we);
     free(tex->no);
     free(tex->so);
     free(tex->ea);
     free(tex->we);
-    free(tex);
 }
 
 void meta_free(t_meta *meta)
 {
-    free_t_tex(meta->tex);
+    free_t_tex(&(meta->tex));
 }
