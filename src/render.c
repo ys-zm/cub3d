@@ -1,16 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   render.c                                           :+:      :+:    :+:   */
+/*   render.c                                          :+:    :+:             */
 /*                                                    +:+                     */
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/09 17:55:01 by yzaim            ###   ########.fr       */
+/*   Updated: 2023/11/13 21:24:56 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "MLX42/MLX42.h"
 #include "meta.h"
+#include "vector.h"
+#include <math.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <string.h>
+
+
+#define MAP_OFFSET_X 0
+#define MAP_OFFSET_Y 0
+
+const t_vec2i DRAW_OFFSET = {
+	MAP_OFFSET_X, MAP_OFFSET_Y
+};
 
 const t_rgba CELL_COLORS[] = {
 	[MAP_EMPTY]	= {0xff00aaff},
@@ -19,45 +33,63 @@ const t_rgba CELL_COLORS[] = {
 };
 
 
-const t_cell_type MAP[] = {
-	MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL,
-	MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_WALL, MAP_SPACE, MAP_WALL,
-	MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_WALL,
-	MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_WALL, MAP_WALL, MAP_WALL,
-	MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_WALL,
-	MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_WALL,
-	MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_WALL,
-	MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL,
-};
-
-
-void draw_cell(t_meta *meta, t_cell_type cell, uint32_t cell_x, uint32_t cell_y)
+t_vec2i render_get_draw_offset()
 {
-	const size_t center_x = (meta->image->width / 2) - (CELL_WIDTH * (MAP_WIDTH / 2));
-	const size_t center_y = (meta->image->height / 2) - (CELL_HEIGHT * (MAP_HEIGHT / 2));
-	const size_t x_offset = (cell_x * CELL_WIDTH) + cell_x + center_x;
-	const size_t y_offset = (cell_y * CELL_HEIGHT) + cell_y + center_y;
-
-	draw_square(meta->image, x_offset, y_offset, CELL_WIDTH, CELL_HEIGHT, CELL_COLORS[cell].value);
+	return (DRAW_OFFSET);
 }
 
-void render_player(t_meta *meta)
+
+void draw_cell(mlx_image_t *image, t_map *m, uint32_t cell_x, uint32_t cell_y)
 {
-	draw_square(meta->image, meta->player.x, meta->player.y, PLAYER_WIDTH, PLAYER_HEIGHT, COLOR_PLAYER);
+	const size_t x_offset = (cell_x * CELL_WIDTH) + cell_x + DRAW_OFFSET[VEC_X];
+	const size_t y_offset = (cell_y * CELL_HEIGHT) + cell_y + DRAW_OFFSET[VEC_Y];
+
+	// const size_t x_offset = (cell_x * CELL_WIDTH) + DRAW_OFFSET[VEC_X];
+	// const size_t y_offset = (cell_y * CELL_HEIGHT) + DRAW_OFFSET[VEC_Y];
+
+	const t_cell_type cell = (m->level[(cell_y * m->width) + cell_x]);
+
+	draw_square(image, x_offset, y_offset, CELL_WIDTH, CELL_HEIGHT, CELL_COLORS[cell].value);
 }
 
-void render_map_grid(t_meta *meta)
+// The player is essentially just a single point/pixel, around which we draw a square with the "player point" in its center.
+void render_player(mlx_image_t *image, t_player *p)
+{
+	t_vec2i draw_pos = vec2f_to_vec2i(p->position) + DRAW_OFFSET;
+	draw_pos[VEC_X] -= ((float) PLAYER_WIDTH / 2);
+	draw_pos[VEC_Y] -= ((float) PLAYER_HEIGHT / 2);
+
+	// Draw the player square.
+	draw_square(image,	draw_pos[VEC_X], draw_pos[VEC_Y],
+						PLAYER_WIDTH, PLAYER_HEIGHT, COLOR_PLAYER);
+
+	// Draw the player look direction.
+	draw_line(image,	vec2f_to_vec2i(p->position) + DRAW_OFFSET,	
+						vec2f_to_vec2i(p->beam) + DRAW_OFFSET,
+						(t_rgba) {0x00FF00FF});
+
+	size_t i = 0;
+	while (i < PLAYER_RAY_COUNT)
+	{
+		draw_line(image,	vec2f_to_vec2i(p->rays[i].start)	+ DRAW_OFFSET,	
+							vec2f_to_vec2i(p->rays[i].end)		+ DRAW_OFFSET,
+							(t_rgba) {0xFF1500FF});
+		i++;
+	}
+}
+
+void render_map_grid(mlx_image_t *image, t_map *m)
 {
 	size_t cell_y;
 	size_t cell_x;
 
 	cell_y = 0;
-	while (cell_y < MAP_HEIGHT)
+	while (cell_y < m->height)
 	{
 		cell_x = 0;
-		while (cell_x < MAP_WIDTH)
+		while (cell_x < m->width)
 		{
-			draw_cell(meta, MAP[(cell_y * MAP_WIDTH) + cell_x], cell_x, cell_y);
+			draw_cell(image, m, cell_x, cell_y);
 			cell_x++;
 		}
 		cell_y++;

@@ -1,14 +1,15 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         :::      ::::::::    #
+#                                                        ::::::::              #
 #    Makefile                                          :+:    :+:              #
-#                                                     +:+ +:+         +:+      #
-#    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/11/08 23:31:37 by joppe         ########   odam.nl          #
+#                                                     +:+                      #
+#    By: joppe <jboeve@student.codam.nl>             +#+                       #
+#                                                   +#+                        #
+#    Created: 2023/11/10 00:29:31 by joppe         #+#    #+#                  #
+#    Updated: 2023/11/12 20:23:08 by joppe         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
+
 
 
 ######################
@@ -39,9 +40,14 @@ IFLAGS		:= -Ilibft/include -Iinclude -IMLX42/include
 SRC_DIR		:=	src
 SRCS		:= 	cub3d.c \
 				game.c \
-				keys.c \
+				input.c \
 				render.c \
 				draw.c \
+				player.c \
+				utils.c \
+				test_utils.c \
+				map.c \
+				vector.c \
 				timer.c
 
 HEADER_DIR	:=	include
@@ -87,7 +93,6 @@ $(LIBMLX): MLX42
 	mkdir -p MLX42/build
 	cmake MLX42 -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -B MLX42/build
 	make -C MLX42/build -j4
-	cp MLX42/build/compile_commands.json .
 
 clean:
 	rm -rf $(OBJ_DIR)
@@ -106,6 +111,7 @@ run: all
 	$(RUN_CMD)
 
 compile_commands: fclean
+	cp MLX42/build/compile_commands.json .
 	$(MAKE) | compiledb
 
 norm:

@@ -1,16 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   cub3d.c                                            :+:      :+:    :+:   */
+/*   cub3d.c                                           :+:    :+:             */
 /*                                                    +:+                     */
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/07 15:36:26 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/09 17:56:46 by yzaim            ###   ########.fr       */
+/*   Updated: 2023/11/12 20:30:33 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include "libft.h"
 #include "meta.h"
+#include "MLX42/MLX42.h"
+#include "timer.h"
+
+
 
 // Exit the program as failure.
 static void ft_error(void)
@@ -21,7 +29,7 @@ static void ft_error(void)
 
 static void	fps_hook(void *param)
 {
-	t_meta			*meta = param;
+	t_meta	*meta = param;
 
 	if (!(meta->fps_timer.time_func))
 		timer_init(&meta->fps_timer, mlx_get_time);
@@ -61,8 +69,9 @@ int cub3d(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 	game_init(&meta);
+	mlx_cursor_hook(meta.mlx, cursor_hook, &meta);
+	mlx_key_hook(meta.mlx, key_hook, &meta);
 	mlx_loop_hook(meta.mlx, fps_hook, &meta);
-	mlx_key_hook(meta.mlx, keyhook, &meta);
 	mlx_loop_hook(meta.mlx, game_loop, &meta);
 	mlx_loop(meta.mlx);
 	mlx_terminate(meta.mlx);

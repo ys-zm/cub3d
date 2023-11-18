@@ -6,11 +6,12 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 22:45:21 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/08 22:50:50 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/09 21:32:00 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "timer.h"
+#include "MLX42/MLX42.h"
 
 t_timer	*timer_init(t_timer *t, double (*time_func)(void))
 {
