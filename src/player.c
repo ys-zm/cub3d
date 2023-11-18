@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/10 02:25:34 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/13 21:31:05 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/18 14:44:25 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static t_ray raycast(t_map *map, t_vec2f start, t_vec2f angle, size_t depth)
 // Draws a line until we encounter a wall
 void player_raycast(t_player *p)
 {
-	const size_t depth = 500;
+	const size_t depth = 100;
 	t_vec2f	dir;
 	size_t	i;
 
@@ -73,7 +73,7 @@ void player_raycast(t_player *p)
 	while (i < PLAYER_RAY_COUNT)
 	{
 		dir = vec2f_normalize(vec2f_rotate2d(p->angle + deg_to_rad(i)));
-		p->rays[i] = raycast(&p->meta->map, p->position, p->direction * dir, depth);
+		p->rays[i] = raycast(&p->meta->map, p->position, dir, depth);
 		i++;	
 	}
 }

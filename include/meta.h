@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/18 15:39:16 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/11/18 14:44:35 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,6 @@
 #include <inttypes.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-
 #include "timer.h"
 #include "vector.h"
 #include "MLX42/MLX42.h"
@@ -40,7 +35,7 @@
 #define PI 3.1415926535
 
 // Window settings
-#define WINDOW_WIDTH 1024
+#define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720
 #define WINDOW_TITLE "Gammoe"
 
@@ -52,7 +47,7 @@
 
 #define PLAYER_WIDTH		16
 #define PLAYER_HEIGHT		16
-#define PLAYER_RAY_COUNT	360
+#define PLAYER_RAY_COUNT	180
 #define PLAYER_WALK_SPEED	15
 #define PLAYER_ROTATE_SPEED	5
 #define PLAYER_RUN_MODIFIER 2.5
