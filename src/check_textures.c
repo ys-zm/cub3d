@@ -29,14 +29,15 @@ void skip_spaces(char **file)
 
 int is_valid_element(char *file)
 {
-    char *el[6] = {"NO ", "SO ", "WE ", "EA ", "F ", "C "};
-    int i;
+    char    *el[6] = {"NO ", "SO ", "WE ", "EA ", "F ", "C "};
+    size_t  i;
 
-    i = -1;
-    while (++i < 6)
+    i = 0;
+    while (i < 6)
     {
         if (ft_strncmp(file, el[i], ft_strlen(el[i])) == 0)
             return (1);
+        i++;
     }
     return (0);
 }
@@ -108,26 +109,25 @@ char *get_tex_val(char *file)
             return (NULL);
         return (val);
     }
-    return (NULL);
+    return (ft_strdup(""));
 }
 
 int inp_tex(t_tex *tex, char *file)
 {
-    char    *tx[4] = {"NO ", "SO ", "WE ", "EA "};
+    char    tx[4] = {'N', 'S', 'W', 'E'};
     char    **st[4] = {&tex->no, &tex->so, &tex->we, &tex->ea};
     int     i;
 
     i = 0;
    skip_spaces(&file);
-    while (i < 4 && *file && *file != tx[i][0])
+    while (i < 4 && *file && *file != tx[i])
         i++;
     *st[i] = get_tex_val(file + 2);
-    if (!(*st[i]))
+    if (!st[i])
+    if (!(st[i]))
         return (pr_err(MALL_ERR));
-    if (!(*st[i]))
-    {
+    if (!ft_strncmp(*st[i], "", 1))
         return (pr_err(M_PATH));
-    }
     return (0); 
 }
 
@@ -148,14 +148,15 @@ int inp_col(t_tex *tex, char *file)
 
 int is_tex(char *file)
 {
-    char    *tx[4] = {"NO ", "SO ", "WE ", "EA "};
+    char    *tx[4] = {"NO ", "SO ", "WE ", "EA "}; // leak bait
     int     i;
 
-    i = -1;
-    while (++i < 4)
+    i = 0;
+    while (i < 4)
     {
         if (!ft_strncmp(file, tx[i], 3))
             return (1);
+        i++;
     }
     return (0);
 }

@@ -112,9 +112,9 @@ int map_ext(char *file)
 		i++;
 	if (!i)
 		return (1);
-	while (file[i] && file[i] == str[j])
+	while (file[i] && file[i] == str[j++])
 		i++;
-	if (file[i])
+	if (file[i] != '\0')
 		return (1);
 	return (0);
 }
