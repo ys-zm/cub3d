@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/18 14:44:35 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/11/18 15:49:12 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@
 
 #define PLAYER_WIDTH		16
 #define PLAYER_HEIGHT		16
-#define PLAYER_RAY_COUNT	180
+#define PLAYER_RAY_COUNT	90
 #define PLAYER_WALK_SPEED	15
 #define PLAYER_ROTATE_SPEED	5
 #define PLAYER_RUN_MODIFIER 2.5
@@ -97,7 +97,7 @@ typedef struct s_player {
 	t_vec2f direction;
 	t_vec2f beam;
 	t_ray 	rays[PLAYER_RAY_COUNT];
-	float	angle;
+	float	angle_rad;
 } t_player;
 
 typedef struct s_map {
@@ -118,20 +118,20 @@ typedef struct s_meta {
 }	t_meta;
 
 // cub3d.c
-int	cub3d(int argc, char *argv[]);
+int		cub3d(int argc, char *argv[]);
 
 // game.c
-void game_init(t_meta *meta);
-void game_loop(void* param);
+void	game_init(t_meta *meta);
+void	game_loop(void* param);
 
 // player.c
-void player_move(t_player *p, t_vec2f transform);
-void player_look(t_player *p, double angle);
-void player_raycast(t_player *p);
+void	player_move(t_player *p, t_vec2f transform);
+void	player_look(t_player *p, double angle);
+void	player_raycast(t_player *p);
 
 // input.c
-void key_hook(mlx_key_data_t keydata, void* param);
-void cursor_hook(double xpos, double ypos, void* param);
+void	key_hook(mlx_key_data_t keydata, void* param);
+void	cursor_hook(double xpos, double ypos, void* param);
 
 // render.c
 t_vec2i	render_get_draw_offset();

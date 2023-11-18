@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/10 02:25:34 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/18 14:44:25 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/11/18 15:48:06 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ void player_look(t_player *p, double angle)
 {
 	const uint32_t len = 50;
 
-	p->angle = fmod(p->angle + angle, 2 * PI);
-	if (p->angle < 0)
-		p->angle += 2 * PI;
+	p->angle_rad = fmod(p->angle_rad + angle, 2 * PI);
+	if (p->angle_rad < 0)
+		p->angle_rad += 2 * PI;
 
-	p->direction = vec2f_normalize(vec2f_rotate2d(p->angle));
+	p->direction = vec2f_normalize(vec2f_rotate2d(p->angle_rad));
 	p->beam = p->position + p->direction * (t_vec2f) {len, len};
 
 	player_raycast(p);
@@ -65,14 +65,14 @@ static t_ray raycast(t_map *map, t_vec2f start, t_vec2f angle, size_t depth)
 // Draws a line until we encounter a wall
 void player_raycast(t_player *p)
 {
-	const size_t depth = 100;
+	const size_t depth = 500;
 	t_vec2f	dir;
 	size_t	i;
 
 	i = 0;
 	while (i < PLAYER_RAY_COUNT)
 	{
-		dir = vec2f_normalize(vec2f_rotate2d(p->angle + deg_to_rad(i)));
+		dir = vec2f_normalize(vec2f_rotate2d(p->angle_rad + deg_to_rad(i) - (PLAYER_RAY_COUNT / 2)));
 		p->rays[i] = raycast(&p->meta->map, p->position, dir, depth);
 		i++;	
 	}

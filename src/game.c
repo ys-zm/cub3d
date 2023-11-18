@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 22:35:05 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/12 20:03:30 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/18 15:46:58 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,9 @@ static void game_update(t_meta *meta, double time_delta)
 		player_move(p, -move * p->direction);
 
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_A))
-		player_move(p, vec2f_normalize(vec2f_rotate2d(p->angle + (3 * PI / 2))) * move);
+		player_move(p, vec2f_normalize(vec2f_rotate2d(p->angle_rad + (3 * PI / 2))) * move);
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_D))
-		player_move(p, vec2f_normalize(vec2f_rotate2d(p->angle + (PI / 2))) * move);
+		player_move(p, vec2f_normalize(vec2f_rotate2d(p->angle_rad + (PI / 2))) * move);
 
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_Q))
 		player_look(p, -rotate);
