@@ -58,8 +58,7 @@ int count_elements(char *file)
 
     while (*file)
     {
-        while (*file == ' ')
-            file++;
+        skip_spaces(&file);
         if (is_valid_element(file))
         {
             if (map)
@@ -68,10 +67,7 @@ int count_elements(char *file)
         }
         else if (!only_spaces(file))
             map = true;
-        while (*file && *file != '\n')
-            file++;
-        if (*file == '\n')
-            file++;
+        skip_line(&file);
     }
     if (order == false)
         pr_err(FILE_ORDER);
@@ -83,19 +79,16 @@ int count_elements(char *file)
 }
 
 
-int get_col_val(char *file, t_rgba col)
+int get_col_val(char *file, t_rgba *col)
 {
     skip_spaces(&file);
-    col.r = (uint8_t)ft_atoi(file);
-    // printf("R: %u\n", col.r);
+    col->r = (uint8_t)ft_atoi(file);
     while (*file && *file != ',')
         file++;
-    col.g = ft_atoi(file + 1);
-    // printf("G: %u\n", col.g);
+    col->g = ft_atoi(file + 1);
     while (*file && *file != ',')
         file++;
-    col.b = ft_atoi(file + 1);
-    // printf("B: %u\n", col.b);
+    col->b = ft_atoi(file + 1);
     return (0);
 }
 
@@ -121,34 +114,32 @@ char *get_tex_val(char *file)
 int inp_tex(t_tex *tex, char *file)
 {
     char    *tx[4] = {"NO ", "SO ", "WE ", "EA "};
-    char    *st[4] = {tex->no, tex->so, tex->we, tex->ea};
+    char    **st[4] = {&tex->no, &tex->so, &tex->we, &tex->ea};
     int     i;
 
     i = 0;
    skip_spaces(&file);
     while (i < 4 && *file && *file != tx[i][0])
         i++;
-    st[i] = get_tex_val(file + 2);
-    if (!st[i])
+    *st[i] = get_tex_val(file + 2);
+    if (!(*st[i]))
         return (pr_err(MALL_ERR));
-    printf("TEX: %s\n", st[i]);
-    if (!st[i])
+    if (!(*st[i]))
     {
         return (pr_err(M_PATH));
     }
-    
     return (0); 
 }
 
 int inp_col(t_tex *tex, char *file)
 {
     char    tx[2] = {'F', 'C'};
-    t_rgba  st[2] = {tex->floor_c, tex->ceiling_c};
+    t_rgba  *st[2] = {&tex->floor_c, &tex->ceiling_c};
     int     i;
 
     i = 0;
    skip_spaces(&file);
-    while (i < 2 && *file && *file == tx[i])
+    while (i < 2 && *file && *file != tx[i])
         i++;
     if (get_col_val(file + 1, st[i]))
         return (pr_err(MALL_ERR));
@@ -197,7 +188,6 @@ int save_elements(t_tex *tex, char *file)
         }
         skip_line(&file);
     }
-    printf("HI: %s\n", tex->no);
     return (0);
 }
 
@@ -236,23 +226,13 @@ int save_map(t_meta *meta, char *file)
 		return (1);
 }
 
-void print_stuff(t_tex *t)
-{
-    printf("pN: %s\n", t->no);
-    printf("pS: %s\n", t->so);
-    printf("pE: %s\n", t->ea);
-    printf("pW: %s\n", t->we);
-}
-
 int parse_textures(t_meta *meta, char *file)
 {
+
     if (count_elements(file) == 0)
         return (1);
-    if (save_elements(&meta->tex, file))
+    if (save_elements(&(meta->tex), file))
         return (1);
-    
-    print_stuff(&meta->tex);
-
     if (save_map(meta, file))
         return (1);
     return (0);

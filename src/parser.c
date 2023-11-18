@@ -99,23 +99,24 @@ uint32_t	find_height(char *map)
 	return (h);
 }
 
-
+// check if there are characters before .cub and no characters after
 int map_ext(char *file)
 {
 	char str[4] = {'.', 'c', 'u', 'b'};
-	int len;
 	int i;
 	int j;
 
-	len = ft_strlen(file);
-	i = len - 4;
+	i = 0;
 	j = 0;
-	while (i < len)
-	{
-		if (file[i++] != str[j++])
-			return (0);
-	}
-	return (1);
+	while (file[i] && file[i] != '.')
+		i++;
+	if (!i)
+		return (1);
+	while (file[i] && file[i] == str[j])
+		i++;
+	if (file[i])
+		return (1);
+	return (0);
 }
 
 // returns 1 if texture matches and if able to save textuer
@@ -159,7 +160,7 @@ int	parser(t_meta *meta, char *map_file)
 	char *file = NULL;
 	char *rect = NULL;
 	
-	if (!map_ext(map_file)) // check map ext
+	if (map_ext(map_file)) // check map ext
 		return(pr_err(INV_EXT));
 	fd = open(map_file, O_RDONLY); // open file
 	if (fd == -1)
@@ -169,8 +170,6 @@ int	parser(t_meta *meta, char *map_file)
 		return(pr_err(MALL_ERR));
 	if (parse_textures(meta, file))
 		return (free(file), 1);
-
-	// need to separate file first
 	free(file);
 	meta->map.width = find_width(meta->map_file); // find largest width
 	meta->map.height = find_height(meta->map_file); // find height of map
