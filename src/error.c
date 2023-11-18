@@ -20,8 +20,9 @@ int	pr(char *err, int exit_code)
 
 int pr_err(t_err type)
 {
-	char	*msg[8] = {INVALID_CHAR, INVALID_EXT, INVALID_WALLS,TOO_MANY_PLAYERS, INVALID_FILE, MALLOC_FAIL, WRO_ARGS, OOB_FLOOR};
+	char	*msg[11] = {INVALID_CHAR, INVALID_EXT, INVALID_WALLS,TOO_MANY_PLAYERS, INVALID_FILE, MALLOC_FAIL, WRO_ARGS, OOB_FLOOR, MISSING_ELEMENTS, TOO_MANY_ELEMENTS, ORDER_OF_ELEMENTS};
 
-	if (type > 0 && type < 8)
+	if (type > 0 && type < 11)
 		return (write(2, msg[type], ft_strlen(msg[type])), 1);
+	return (0);
 }

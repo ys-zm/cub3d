@@ -187,56 +187,56 @@ int save_map(t_meta *meta, char *file)
 		return (1);
 }
 
-int save_colour(char *file, char type, t_rgba colour)
-{
-	while (*file && *file == type && *file != '\n')
-		file++;
-	while (*file && *file != '\n' && *file == ' ')
-		file++;
+// int save_colour(char *file, char type, t_rgba colour)
+// {
+// 	while (*file && *file == type && *file != '\n')
+// 		file++;
+// 	while (*file && *file != '\n' && *file == ' ')
+// 		file++;
 
-}
+// }
 
-int check_elements(t_meta *meta, char *file)
-{ 
-	char *save;
+// int check_elements(t_meta *meta, char *file)
+// { 
+// 	char *save;
 
-	save = file;
-	while (*file)
-	{
-		while (*file && *file == ' ' && *file != '\n')
-			file++;
-		if (*file == 'N' && save_tex(file, "NO", &(meta->tex->no)))
-		{
-			while (*file && *file != '\n')
-				file++;
-		}
-		else if (*file == 'S' && save_tex(file, "SO", &(meta->tex->so)))
-		{
-			while (*file && *file != '\n')
-				file++;
-		}
-		else if (*file == 'W' && save_tex(file, "WE", &(meta->tex->we)))
-		{
-			while (*file && *file != '\n')
-				file++;
-		}
-		else if (*file == 'E' && save_tex(file, "EA", &(meta->tex->ea)))
-		{
-			while (*file && *file != '\n')
-				file++;
-		}
-		else if (*file == 'F' && save_colour(file, 'F', &(meta->tex->floor_c)))
-		{
+// 	save = file;
+// 	while (*file)
+// 	{
+// 		while (*file && *file == ' ' && *file != '\n')
+// 			file++;
+// 		if (*file == 'N' && save_tex(file, "NO", &(meta->tex->no)))
+// 		{
+// 			while (*file && *file != '\n')
+// 				file++;
+// 		}
+// 		else if (*file == 'S' && save_tex(file, "SO", &(meta->tex->so)))
+// 		{
+// 			while (*file && *file != '\n')
+// 				file++;
+// 		}
+// 		else if (*file == 'W' && save_tex(file, "WE", &(meta->tex->we)))
+// 		{
+// 			while (*file && *file != '\n')
+// 				file++;
+// 		}
+// 		else if (*file == 'E' && save_tex(file, "EA", &(meta->tex->ea)))
+// 		{
+// 			while (*file && *file != '\n')
+// 				file++;
+// 		}
+// 		else if (*file == 'F' && save_colour(file, 'F', &(meta->tex->floor_c)))
+// 		{
 
-		}
-		if (meta->tex->ea && meta->tex->we && meta->tex->no && meta->tex->so)
-			break;
-		file++;
-	}
-	save_map(meta, file);
-	free(save);
-	return (0);
-}
+// 		}
+// 		if (meta->tex->ea && meta->tex->we && meta->tex->no && meta->tex->so)
+// 			break;
+// 		file++;
+// 	}
+// 	save_map(meta, file);
+// 	free(save);
+// 	return (0);
+// }
 
 
 // parse map into 1D array
@@ -255,8 +255,11 @@ int	parser(t_meta *meta, char *map_file)
 	file = read_file(fd);
 	if (!file)
 		return(pr_err(MALL_ERR));
-	if (check_elements(meta, file))
+	if (count_elements(file) == 0)
 		return (1);
+	// if (check_elements(meta, file))
+	// 	return (1);
+	exit(0);
 	// need to separate file first
 	meta->map.width = find_width(meta->map_file); // find largest width
 	meta->map.height = find_height(meta->map_file); // find height of map
