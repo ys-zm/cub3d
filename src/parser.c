@@ -119,39 +119,6 @@ int map_ext(char *file)
 	return (0);
 }
 
-// returns 1 if texture matches and if able to save textuer
-int save_tex(char *file, char *cmp, char **tex)
-{
-	int i;
-	int j;
-
-	j = 0;
-	i = 0;
-	while (*file && cmp[i] && *file != '\n')
-	{
-		if (*file != cmp[i])
-			break;
-		i++;
-		file++;
-	}
-	if (i == 2)
-	{
-		while (*file && *file == ' ' && *file != '\n')
-			file++;
-		while (file[j] && file[j] != '\n')
-			j++;
-		*tex = ft_substr(file, 0, j);
-		if (!tex)
-			return (0);
-		return (1);
-	}
-	else
-	{
-		*tex = ft_strdup(NULL);
-	}
-	return (0);
-}
-
 // parse map into 1D array
 // index = (y * w) + x (input y and x coordinates to find index pos in array)
 int	parser(t_meta *meta, char *map_file)
@@ -168,16 +135,17 @@ int	parser(t_meta *meta, char *map_file)
 	file = read_file(fd);
 	if (!file)
 		return(pr_err(MALL_ERR));
-	if (parse_textures(meta, file))
+	if (parse_elements(meta, file))
 		return (free(file), 1);
-	free(file);
+	// free(file);
+	printf("map: %s\n", meta->map_file);
 	meta->map.width = find_width(meta->map_file); // find largest width
 	meta->map.height = find_height(meta->map_file); // find height of map
 	// w * h sized rectangle
 	rect = make_rect(meta->map_file, meta->map.width, meta->map.height);
-	if (!rect)
-		return(free(meta->map_file), pr_err(MALL_ERR));
 	free(meta->map_file);
+	if (!rect)
+		return(pr_err(MALL_ERR));
 	if (check_map(meta, rect))
 		return (free(rect), 1);
 	free(rect);

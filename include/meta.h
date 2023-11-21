@@ -115,40 +115,59 @@ typedef struct s_meta {
 }	t_meta;
 
 // cub3d.c
-int	cub3d(int argc, char *argv[]);
+int		cub3d(int argc, char *argv[]);
 
 // game.c
-void game_init(t_meta *meta);
-void game_loop(void* param);
+void 	game_init(t_meta *meta);
+void 	game_loop(void* param);
 
 // player.c
-void player_move(t_meta *meta);
+void 	player_move(t_meta *meta);
 
 // keys.c
-void keyhook(mlx_key_data_t keydata, void* param);
+void 	keyhook(mlx_key_data_t keydata, void* param);
 
 // render.c
-void render_player(t_meta *meta);
-void render_clear_bg(mlx_image_t *image);
-void render_map_grid(t_meta *meta);
+void 	render_player(t_meta *meta);
+void 	render_clear_bg(mlx_image_t *image);
+void 	render_map_grid(t_meta *meta);
 
 // draw.c
-void draw_square(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color);
-void cube_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color);
+void 	draw_square(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color);
+void 	cube_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color);
 
 // parser.c
-int parser(t_meta *meta, char *map_file);
-
-// error.c
-int pr(char *err, int exit_code);
+int 	parser(t_meta *meta, char *map_file);
 
 // check_map.c
-int check_map(t_meta *meta, char *rect);
-int find_index(t_meta *meta, uint32_t y, uint32_t x);
+int 	check_map(t_meta *meta, char *rect);
+int		find_index(t_meta *meta, uint32_t y, uint32_t x);
 
 // free.c
-void meta_free(t_meta *meta);
+void 	meta_free(t_meta *meta);
+
+// parse_elements.c
+void skip_line(char **file);
+void skip_spaces(char **file);
+int input_texture(t_tex *tex, char *file);
+int input_colour(t_tex *tex, char *file);
+int save_elements(t_tex *tex, char *file);
+int 	parse_elements(t_meta *meta, char *file);
 
 // check_textures.c
-int parse_textures(t_meta *meta, char *file);
+bool	is_valid_element(char *file);
+bool	only_spaces(char *file);
+bool	elements_order(char *file);
+bool	is_duplicate(char *file);
+
+// input_map.c
+bool	is_map_line(char *file);
+int		input_map(t_meta *meta, char *file);
+
+// parse_textures.c
+void	get_colour_value(char *file, t_rgba *col);
+char	*get_tex_val(char *file);
+bool	is_texture(char *file);
+bool	is_colour(char *file);
+
 #endif

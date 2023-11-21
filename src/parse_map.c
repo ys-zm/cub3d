@@ -12,17 +12,41 @@
 
 #include "meta.h"
 
-int	pr(char *err, int exit_code)
+bool is_map_line(char *file)
 {
-	write(2, err, ft_strlen(err));
-	return (exit_code);
+	while (*file && *file != '\n')
+	{
+		if (*file != ' ')
+			break ;
+		file++;
+	}
+	if (*file == '\n')
+		return (false);
+	return (true);
 }
 
-int pr_err(t_err type)
+int input_map(t_meta *meta, char *file)
 {
-	char	*msg[11] = {INVALID_CHAR, INVALID_EXT, INVALID_WALLS,TOO_MANY_PLAYERS, INVALID_FILE, MALLOC_FAIL, WRO_ARGS, OOB_FLOOR, ORDER_OF_ELEMENTS, MISSING_PATH, DUPLICATES};
+    int	i;
 
-	if (type > 0 && type < 11)
-		return (write(2, msg[type], ft_strlen(msg[type])), 1);
-	return (0);
+    while (*file)
+    {
+        skip_spaces(&file);
+        if (is_texture(file) || is_colour(file))
+            skip_line(&file);
+        else if (only_spaces(file))
+            skip_line(&file);
+        else
+            break ;
+    }
+    if (*file)
+	{
+		i = ft_strlen(file);
+		meta->map_file = ft_substr(file, 0, i);
+        if (!meta->map_file)
+            return (pr_err(MALL_ERR));
+		return (EXIT_SUCCESS);
+	}
+	else
+		return (EXIT_FAILURE);
 }

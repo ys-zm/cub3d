@@ -48,7 +48,10 @@ SRCS		:= 	cub3d.c \
 				check_map.c \
 				free.c \
 				check_textures.c \
-				check_walls.c
+				check_walls.c \
+				parse_elements.c \
+				parse_map.c \
+				parse_textures.c
 
 HEADER_DIR	:=	include
 HEADERS 	:=	meta.h \
