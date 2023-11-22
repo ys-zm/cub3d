@@ -36,15 +36,21 @@ int input_texture(t_tex *tex, char *file)
     int     i;
 
     i = 0;
-   skip_spaces(&file);
-    while (i < 4 && *file && *file != element[i])
+    skip_spaces(&file);
+    while (i < 4)
+    {
+        if (*file && *file == element[i])
+        {
+            *path[i] = get_tex_val(file + 2);
+            if (!(path[i]))
+                return (pr_err(MALL_ERR), EXIT_FAILURE);
+            if (!ft_strncmp(*path[i], "", 1))
+                return (pr_err(M_PATH), EXIT_FAILURE);
+            break ;
+        }
         i++;
-    *path[i] = get_tex_val(file + 2);
-    if (!(path[i]))
-        return (pr_err(MALL_ERR), EXIT_FAILURE);
-    if (!ft_strncmp(*path[i], "", 1))
-        return (pr_err(M_PATH), EXIT_FAILURE);
-    return (EXIT_SUCCESS); 
+    }
+    return (EXIT_SUCCESS);
 }
 
 // add check for RBG code correctness?

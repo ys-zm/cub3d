@@ -147,11 +147,11 @@ int		find_index(t_meta *meta, uint32_t y, uint32_t x);
 void 	meta_free(t_meta *meta);
 
 // parse_elements.c
-void skip_line(char **file);
-void skip_spaces(char **file);
-int input_texture(t_tex *tex, char *file);
-int input_colour(t_tex *tex, char *file);
-int save_elements(t_tex *tex, char *file);
+void	skip_line(char **file);
+void	skip_spaces(char **file);
+int		input_texture(t_tex *tex, char *file);
+int		input_colour(t_tex *tex, char *file);
+int		save_elements(t_tex *tex, char *file);
 int 	parse_elements(t_meta *meta, char *file);
 
 // check_textures.c

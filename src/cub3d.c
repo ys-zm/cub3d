@@ -52,7 +52,6 @@ int cub3d(int argc, char *argv[])
 	if (parser(&meta, argv[1]))
 		return(meta_free(&meta), 1);
 	meta_free(&meta);
-	return (0);
 	// MLX allows you to define its core behaviour before startup.
 	meta.mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE, true);
 	if (!meta.mlx)

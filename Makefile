@@ -37,21 +37,22 @@ LIBMLX		:=	MLX42/build/libmlx42.a
 IFLAGS		:= -Ilibft/include -Iinclude -IMLX42/include
 
 SRC_DIR		:=	src
-SRCS		:= 	cub3d.c \
+	
+SRCS	= 		check_textures.c \
+				check_walls.c \
+				parse_elements.c \
+				parse_map.c \
+				check_map.c \
+				parse_textures.c \
+				parser.c	\
+				error.c \
+				free.c	\
+				cub3d.c \
 				game.c \
 				keys.c \
 				render.c \
 				draw.c \
-				timer.c \
-				parser.c \
-				error.c \
-				check_map.c \
-				free.c \
-				check_textures.c \
-				check_walls.c \
-				parse_elements.c \
-				parse_map.c \
-				parse_textures.c
+				timer.c
 
 HEADER_DIR	:=	include
 HEADERS 	:=	meta.h \
