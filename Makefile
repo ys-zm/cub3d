@@ -38,15 +38,15 @@ IFLAGS		:= -Ilibft/include -Iinclude -IMLX42/include
 
 SRC_DIR		:=	src
 	
-SRCS	= 		check_textures.c \
-				check_walls.c \
-				parse_elements.c \
-				parse_map.c \
-				check_map.c \
-				parse_textures.c \
-				parser.c	\
-				error.c \
-				free.c	\
+SRCS	= 		parser/check_textures.c \
+				parser/check_walls.c \
+				parser/parse_elements.c \
+				parser/parse_map.c \
+				parser/check_map.c \
+				parser/parse_textures.c \
+				parser/parser.c	\
+				utils/error.c \
+				utils/free.c	\
 				cub3d.c \
 				game.c \
 				keys.c \
