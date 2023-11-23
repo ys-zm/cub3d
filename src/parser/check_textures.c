@@ -62,6 +62,41 @@ bool elements_order(char *file)
     return (order == true);
 }
 
+bool check_missing(int *found)
+{
+    int i;
+
+    i = 0;
+    while (i < 6)
+    {
+        if (found[i] == 0)
+            return (pr_err(MISSING_ELEMENTS), true);
+        i++;
+    }
+    return (false);
+}
+
+bool is_missing(char *file)
+{
+    char    element[6] = {'N', 'S', 'W', 'E', 'F', 'C'};
+    int     found[6] = {0, 0, 0, 0, 0, 0};
+    int     i;
+
+    while (*file)
+    {
+        i = 0;
+        skip_spaces(&file);
+        if ((is_valid_element(file) || is_colour(file)))
+        {
+            while (*file && *file != element[i] && i < 6)
+                i++;
+            found[i] = 1;
+        }
+        skip_line(&file);
+    }
+    return (check_missing(found));
+}
+
 // returns true if there are duplicate elements
 bool is_duplicate(char *file)
 {
@@ -69,19 +104,20 @@ bool is_duplicate(char *file)
     int     found[6] = {0, 0, 0, 0, 0, 0};
     int     i;
 
-    i = 0;
-    while (*file && i < 6)
+    while (*file)
     {
+        i = 0;
         skip_spaces(&file);
-        if (is_valid_element(file) && *file == element[i] && found[i] == 0)
+        if ((is_valid_element(file) || is_colour(file)))
         {
-            if (!found[i])
+            while (*file && *file != element[i] && i < 6)
+                i++;
+            if (found[i] == 0)
                 found[i] = 1;
             else
                 return (pr_err(DUP_ELEMENTS), true);
         }
         skip_line(&file);
-        i++;
     }
     return (false);
 }

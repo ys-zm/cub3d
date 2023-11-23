@@ -3,89 +3,94 @@
 // returns 1 if walls are not closed
 int check_horiz_left(t_meta *meta, char *map)
 {
-    int closed = 0;
-    int x;
-    int y;
+	uint32_t x;
+	uint32_t y;
+	bool closed;
 
-    y = -1;
-    while (++y < (int)meta->map.height)
+    y = 0;
+    while (y < meta->map.height)
     {
-        closed = 0;
-        x = -1;
-        while (++x < (int)meta->map.width)
+        closed = false;
+        x = 0;
+        while (x < meta->map.width)
         {
             // printf("c: %c\n", map[find_index(meta, y, x)]);
             if (map[find_index(meta, y, x)] == '1')
-                closed = 1;
+                closed = true;
             if (!closed && map[find_index(meta, y, x)] == '0') // walls not closed
-                return (pr_err(INV_WALLS));
+                return (pr_err(INV_WALLS), EXIT_FAILURE);
+            x++;
         }
+        y++;
     }
-    return (0);
+    return (EXIT_SUCCESS);
 }
 
 int check_vert_top(t_meta *meta, char *map)
 {
-    int closed = 0;
-    int x;
-    int y;
+	uint32_t x;
+	uint32_t y;
+	bool closed;
 
-    x = -1;
-    while (++x < (int)meta->map.width)
+    x = 0;
+    closed = false;
+    while (x < meta->map.width)
     {
-        closed = 0;
-        y = -1;
-        while (++y < (int)meta->map.height)
+        closed = false;
+        y = 0;
+        while (y < meta->map.height)
         {
             if (map[find_index(meta, y, x)] == '1')
                 closed = 1;
             if (!closed && map[find_index(meta, y, x)] == '0') // walls not closed
-                return (pr_err(INV_WALLS));
+                return (pr_err(INV_WALLS), EXIT_FAILURE);
+            y++;
         }
+        x++;
     }
-    return (0);
+    return (EXIT_SUCCESS);
 }
 
 int check_horiz_right(t_meta *meta, char *map)
 {
-    int closed = 0;
-    uint32_t x;
-    uint32_t y;
+    uint32_t    x;
+    uint32_t    y;
+    bool        closed;
 
     y = meta->map.height;
     while (--y > 0)
     {
-        closed = 0;
+        closed = false;
         x = meta->map.width;
         while (--x > 0)
         {
             if (map[find_index(meta, y, x)] == '1')
-                closed = 1;
+                closed = true;
             if (!closed && map[find_index(meta, y, x)] == '0') // walls not closed
-                return (pr_err(INV_WALLS));
+                return (pr_err(INV_WALLS), EXIT_FAILURE);
         }
     }
-    return (0);
+    return (EXIT_SUCCESS);
 }
 
 int check_vert_down(t_meta *meta, char *map)
 {
-    int closed = 0;
-    uint32_t x;
-    uint32_t y;
+    uint32_t    x;
+    uint32_t    y;
+    bool        closed;
 
     x = meta->map.width;
     while (--x > 0)
     {
-        closed = 0;
+        closed = false;
         y = meta->map.height;
         while (--y > 0)
         {
             if (map[find_index(meta, y, x)] == '1')
-                closed = 1;
+                closed = true;
             if (!closed && map[find_index(meta, y, x)] == '0') // walls not closed
-                return (pr_err(INV_WALLS));
+                return (pr_err(INV_WALLS), EXIT_FAILURE);
         }
     }
-    return (0);
+    return (EXIT_SUCCESS);
 }

@@ -37,7 +37,7 @@ int input_map(t_meta *meta, char *file)
         else if (only_spaces(file))
             skip_line(&file);
         else
-            break ;
+			break ;
     }
     if (*file)
 	{
@@ -48,5 +48,5 @@ int input_map(t_meta *meta, char *file)
 		return (EXIT_SUCCESS);
 	}
 	else
-		return (EXIT_FAILURE);
+		return (pr_err(MISSING_MAP), EXIT_FAILURE);
 }

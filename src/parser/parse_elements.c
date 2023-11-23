@@ -24,7 +24,7 @@ void skip_line(char **file)
 // skips all spaces in a line
 void skip_spaces(char **file)
 {
-    while (file && *file && **file && **file == ' ')
+    while (file && *file && **file && (**file == ' ' || **file == 9))
         (*file)++;
 }
 
@@ -88,10 +88,80 @@ int save_elements(t_tex *tex, char *file)
     return (EXIT_SUCCESS);
 }
 
+// check if color code values are between 0-255
+bool valid_value(char *file)
+{
+    int i;
+
+    i = 0;
+    skip_spaces(&file);
+    while (file[i] && ft_isdigit(file[i]))
+        i++;
+    if (!i)
+        return (false);
+    if (i > 3)
+        return (false);
+    if (i == 3)
+    {
+        if (file[0] > '2')
+            return (false);
+        if (file[0] == '2' && file[1] > '5')
+            return (false);
+        if (file[0] == '2' && file[1] == '5' && file[2] > '5')
+            return (false);
+    }
+    return (true);
+
+}
+
+void skip_digits(char **file)
+{
+    while (file && *file && **file && ft_isdigit(**file))
+        (*file)++;
+    skip_spaces(file);
+    if (**file == ',')
+        (*file)++;
+}
+
+bool is_valid_color(char *file)
+{
+    int i;
+
+    i = 0;
+    if (*file && (*file == 'F' || *file == 'C'))
+    {
+        file++;
+        while (i < 3)
+        {
+            skip_spaces(&file);
+            if (!valid_value(file))
+                return (pr_err(COLOR_CODE_WRONG), false);
+            skip_digits(&file);
+            i++;
+        }
+    }
+    return (true);
+}
+
+bool colors_valid(char *file)
+{
+    while (*file)
+    {
+        skip_spaces(&file);
+        if (is_valid_element(file))
+        {
+            if (is_colour(file) && !is_valid_color(file))
+                return (false);
+        }
+        skip_line(&file);
+    }
+    return (true);
+}
+
 int parse_elements(t_meta *meta, char *file)
 {
 
-    if (!elements_order(file) || is_duplicate(file))
+    if (!elements_order(file) || is_duplicate(file) || is_missing(file) || !colors_valid(file))
         return (EXIT_FAILURE);
     if (save_elements(&(meta->tex), file))
         return (EXIT_FAILURE);

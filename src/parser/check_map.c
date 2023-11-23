@@ -26,20 +26,20 @@ int check_pos(char c)
 // valid chars : 1, 0, N, S, E, W
 int check_chars(char *map)
 {
-    int player;
+    uint32_t player;
 
     player = 0;
     while (*map)
     {
         if (!valid_char(*map))
-            return (pr_err(INV_CHAR));
+            return (pr_err(INV_CHAR), EXIT_FAILURE);
         if (check_pos(*map))
             player++;
         if (player > 1)
-            return (pr_err(PLAY_ERR));
+            return (pr_err(PLAY_ERR), EXIT_FAILURE);
         map++;
     }
-    return (0);
+    return (EXIT_SUCCESS);
 }
 
 // index = (y * w) + x
@@ -69,54 +69,63 @@ int flood_fill(t_meta *meta, char *map, int x, int y)
     return (ret);
 }
 
-void save_start_pos(t_meta *meta, char *map)
+bool save_start_pos(t_meta *meta, char *map)
 {
-	int x;
-	int y;
+	uint32_t    x;
+	uint32_t    y;
+    bool        found;
     
-    y = -1;
-	while (++y < (int)meta->map.height)
+    found = false;
+    y = 0;
+	while (y < meta->map.height)
 	{
-        x = -1;
-		while (++x < (int)meta->map.width)
+        x = 0;
+		while (x < meta->map.width)
 		{
 			if (check_pos(map[find_index(meta, y, x)]))
             {
                 meta->player.start_x = x;
                 meta->player.start_y = y;
+                found = true;
             }
+            x++;
 		}
+        y++;
 	}
+    return (found);
 }
 
 // instead of this maybe just crop the map?
 int check_other_rooms(t_meta *meta, char *map)
 {
-	int x;
-	int y;
+	u_int32_t   x;
+	uint32_t    y;
     
-    y = -1;
-	while (++y < (int)meta->map.height)
+    y = 0;
+	while (y < meta->map.height)
 	{
-        x = -1;
-		while (++x < (int)meta->map.width)
+        x = 0;
+		while (x < meta->map.width)
 		{
             if (map[find_index(meta, y, x)] == '0')
-                return (1);
+                return (EXIT_FAILURE);
+            x++;
 		}
+        y++;
 	}
-    return (0);
+    return (EXIT_SUCCESS);
 }
 
 int check_map(t_meta *meta, char *rect)
 {
     if (check_chars(rect))
-		return (1);
-    save_start_pos(meta, rect);
+        return (EXIT_FAILURE);
+    if (!save_start_pos(meta, rect))
+        return (pr_err(NO_PLAYER));
     rect[find_index(meta, meta->player.start_y, meta->player.start_x)] = '0';
     if (flood_fill(meta, rect, meta->player.start_x, meta->player.start_y))
         return (pr_err(INV_WALLS));
     if (check_other_rooms(meta, rect)) // maybe change to a warning?
         return (pr_err(OUT_OF_BOUNDS));
-    return (0);
+    return (EXIT_SUCCESS);
 }

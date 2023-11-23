@@ -21,10 +21,13 @@
 # define MALLOC_FAIL "Malloc error\n"
 # define WRO_ARGS "Wrong number of arguments\n"
 # define OOB_FLOOR "There are inaccessible floors in this map\n"
-# define ORDER_OF_ELEMENTS "Map element should be last\n"
+# define ORDER_OF_ELEMENTS "Error in map file, check that the map element is last and there are no extra characters between elements\n"
 # define MISSING_PATH   "Texture path missing\n"
 # define DUPLICATES "Make sure you have only and at least one value for each element\n"
-#include "meta.h"
+# define NO_PLAYER_POS "There is no player position in the map\n"
+# define ELEMENT_MISSING "One or more definition of elements is missing\n"
+# define NO_MAP "Map element is missing\n"
+# define INV_COLOR_CODE "Please check color codes for F and C elements\nRGB values should be between 0-255\n"
 
 typedef enum e_err {
     INV_CHAR, 
@@ -38,6 +41,10 @@ typedef enum e_err {
     FILE_ORDER,
     M_PATH,
     DUP_ELEMENTS,
+    NO_PLAYER,
+    MISSING_ELEMENTS,
+    MISSING_MAP,
+    COLOR_CODE_WRONG,
 }   t_err;
 
 // error.c

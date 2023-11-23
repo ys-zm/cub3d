@@ -78,7 +78,7 @@ uint32_t	find_width(char *map)
 		if (w < count)
 			w = count;
 	}
-	printf("w: %u\n", w);
+	// printf("w: %u\n", w);
 	return (w);
 }
 
@@ -95,7 +95,7 @@ uint32_t	find_height(char *map)
 		map++;
 	}
 	h += 1;
-	printf("h: %u\n", h);
+	// printf("h: %u\n", h);
 	return (h);
 }
 
@@ -128,26 +128,25 @@ int	parser(t_meta *meta, char *map_file)
 	char *rect = NULL;
 	
 	if (map_ext(map_file)) // check map ext
-		return(pr_err(INV_EXT));
+		return(pr_err(INV_EXT), EXIT_FAILURE);
 	fd = open(map_file, O_RDONLY); // open file
 	if (fd == -1)
-		return (pr_err(INV_FILE));
+		return (pr_err(INV_FILE), EXIT_FAILURE);
 	file = read_file(fd);
 	if (!file)
 		return(pr_err(MALL_ERR));
 	if (parse_elements(meta, file))
-		return (free(file), 1);
-	// free(file);
-	printf("map: %s\n", meta->map_file);
+		return (free(file), EXIT_FAILURE);
+
 	meta->map.width = find_width(meta->map_file); // find largest width
 	meta->map.height = find_height(meta->map_file); // find height of map
 	// w * h sized rectangle
 	rect = make_rect(meta->map_file, meta->map.width, meta->map.height);
 	free(meta->map_file);
 	if (!rect)
-		return(pr_err(MALL_ERR));
+		return(pr_err(MALL_ERR), EXIT_FAILURE);
 	if (check_map(meta, rect))
-		return (free(rect), 1);
+		return (free(rect), EXIT_FAILURE);
 	free(rect);
-	return (0);
+	return (EXIT_SUCCESS);
 }

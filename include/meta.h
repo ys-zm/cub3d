@@ -159,6 +159,7 @@ bool	is_valid_element(char *file);
 bool	only_spaces(char *file);
 bool	elements_order(char *file);
 bool	is_duplicate(char *file);
+bool	is_missing(char *file);
 
 // input_map.c
 bool	is_map_line(char *file);

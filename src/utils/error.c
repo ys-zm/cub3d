@@ -20,9 +20,10 @@ int	pr(char *err, int exit_code)
 
 int pr_err(t_err type)
 {
-	char	*msg[11] = {INVALID_CHAR, INVALID_EXT, INVALID_WALLS,TOO_MANY_PLAYERS, INVALID_FILE, MALLOC_FAIL, WRO_ARGS, OOB_FLOOR, ORDER_OF_ELEMENTS, MISSING_PATH, DUPLICATES};
+	char	*msg[15] = {INVALID_CHAR, INVALID_EXT, INVALID_WALLS,TOO_MANY_PLAYERS, INVALID_FILE, MALLOC_FAIL, WRO_ARGS, OOB_FLOOR, ORDER_OF_ELEMENTS, MISSING_PATH, DUPLICATES, NO_PLAYER_POS, ELEMENT_MISSING, NO_MAP, INV_COLOR_CODE};
 
-	if (type > 0 && type < 11)
+	write(2, "Error\n", 6);
+	if (type >= 0 && type < 15)
 		return (write(2, msg[type], ft_strlen(msg[type])), 1);
 	return (0);
 }

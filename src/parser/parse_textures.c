@@ -49,13 +49,13 @@ char *get_tex_val(char *file)
 // returns true of the characters match those of a valid texture element
 bool is_texture(char *file)
 {
-    char    *tx[4] = {"NO ", "SO ", "WE ", "EA "};
+    char    *tx[4] = {"NO", "SO", "WE", "EA"};
     int     i;
 
     i = 0;
     while (i < 4)
     {
-        if (!ft_strncmp(file, tx[i], 3))
+        if (!ft_strncmp(file, tx[i], 2))
             return (true);
         i++;
     }
