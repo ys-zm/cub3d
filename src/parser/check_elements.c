@@ -13,7 +13,7 @@
 #include "meta.h"
 
 // checks if the element abbreviations are valid
-bool is_valid_element(char *file)
+bool    is_valid_element(char *file)
 {
     char    *el[6] = {"NO", "SO", "WE", "EA", "F", "C"};
     size_t  i;
@@ -29,7 +29,7 @@ bool is_valid_element(char *file)
 }
 
 // returns true if there are only spaces until '\0' or '\n'
-bool only_spaces(char *file)
+bool    only_spaces(char *file)
 {
     while (*file && *file == ' ')
         file++;
@@ -38,9 +38,19 @@ bool only_spaces(char *file)
     return (false);
 }
 
+// returns true if the map element is reached
+bool    is_map_element(char *file)
+{
+    while (*file && valid_map_char(*file))
+        file++;
+    if (*file == '\0' || *file == '\n')
+        return (true);
+    return (false); 
+}
+
 // checks if there are elements after the MAP elements
 // returns true if order is correct (i.e. map element at the end)
-bool elements_order(char *file)
+bool    elements_order(char *file)
 {
     bool map = false;
     bool order = true;

@@ -12,39 +12,38 @@
 
 #include "meta.h"
 
-bool	is_map_line(char *file)
+// skips a line on the file until '\n' char
+void skip_line(char **file)
 {
-	while (*file && *file != '\n')
-	{
-		if (*file != ' ')
-			break ;
-		file++;
-	}
-	if (*file == '\n')
-		return (false);
-	return (true);
+    while (file && *file && **file && **file != '\n')
+        (*file)++;
+    if (**file == '\n')
+        (*file)++;
 }
 
-int	input_map(t_meta *meta, char *file)
+// skips all spaces in a line
+void skip_spaces(char **file)
 {
-    int	i;
+    while (file && *file && **file && (**file == ' ' || **file == 9))
+        (*file)++;
+}
 
-    while (*file)
-    {
-        skip_spaces(&file);
-        if (is_texture(file) || is_colour(file) || only_spaces(file))
-            skip_line(&file);
-        else
-			break ;
-    }
-    if (*file)
-	{
-		i = ft_strlen(file);
-		meta->map_file = ft_substr(file, 0, i);
-        if (!meta->map_file)
-            return (pr_err(MALL_ERR));
-		return (EXIT_SUCCESS);
-	}
-	else
-		return (pr_err(MISSING_MAP), EXIT_FAILURE);
+void skip_digits(char **file)
+{
+    while (file && *file && **file && ft_isdigit(**file))
+        (*file)++;
+    skip_spaces(file);
+    if (**file == ',')
+        (*file)++;
+}
+
+int valid_map_char(char c)
+{
+    return (c == '1' || c == '0' || c == 'N' || c == 'S' \
+    || c == 'E' || c == 'W' || c == ' ');
+}
+
+int player_pos_char(char c)
+{
+    return (c == 'N' || c == 'S' || c == 'E' || c == 'S');
 }

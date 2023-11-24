@@ -12,35 +12,6 @@
 
 #include "meta.h"
 
-char	*make_rect(char *map, uint32_t w, uint32_t h)
-{
-	char		*r;
-	int			i;
-	uint32_t	lc;
-
-	lc = 0;
-	i = 0;
-	r = malloc(sizeof(char) * (w * h) + h + 1);
-	if (!r)
-		return (NULL);
-	while (*map)
-	{
-		lc = 0;
-		while(*map && *map != '\n')
-		{
-			r[i++] = *map;
-			lc++;
-			map++;
-		}
-		while (lc++ < w)
-			r[i++] = ' ';
-		if (*map == '\n')
-			map++;
-	}
-	r[i] = 0;
-	return (r);
-}
-
 char	*read_file(int fd)
 {
 	char *line;
@@ -58,47 +29,6 @@ char	*read_file(int fd)
 	return (full_map);
 }
 
-// func to find longest width in map
-uint32_t	find_width(char *map)
-{
-	int w;
-	int count;
-
-	w = -1;
-	while (*map)
-	{
-		count = 0;
-		while (*map && *map != '\n')
-		{
-			count++;
-			map++;
-		}
-		if (*map == '\n')
-			map++;
-		if (w < count)
-			w = count;
-	}
-	// printf("w: %u\n", w);
-	return (w);
-}
-
-//TODO add a check for a trailing '\n' character?
-uint32_t	find_height(char *map)
-{
-	uint32_t	h;
-
-	h = 0;
-	while (*map)
-	{
-		if (*map == '\n')
-			h++;
-		map++;
-	}
-	h += 1;
-	// printf("h: %u\n", h);
-	return (h);
-}
-
 // check if there are characters before .cub and no characters after
 int map_ext(char *file)
 {
@@ -111,12 +41,12 @@ int map_ext(char *file)
 	while (file[i] && file[i] != '.')
 		i++;
 	if (!i)
-		return (1);
+		return (EXIT_FAILURE);
 	while (file[i] && file[i] == str[j++])
 		i++;
 	if (file[i] != '\0')
-		return (1);
-	return (0);
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 // parse map into 1D array

@@ -20,6 +20,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <stdbool.h>
 
 #include "timer.h"
 #include "libft.h"
@@ -136,9 +137,6 @@ void 	render_map_grid(t_meta *meta);
 void 	draw_square(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color);
 void 	cube_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color);
 
-// parser.c
-int 	parser(t_meta *meta, char *map_file);
-
 // check_map.c
 int 	check_map(t_meta *meta, char *rect);
 int		find_index(t_meta *meta, uint32_t y, uint32_t x);
@@ -146,29 +144,60 @@ int		find_index(t_meta *meta, uint32_t y, uint32_t x);
 // free.c
 void 	meta_free(t_meta *meta);
 
+// PARSER
+
+// parser.c
+char	*read_file(int fd);
+int		map_ext(char *file);
+int 	parser(t_meta *meta, char *map_file);
+
+// parse_map.c
+bool	is_map_line(char *file);
+int		input_map(t_meta *meta, char *file);
+
 // parse_elements.c
-void	skip_line(char **file);
-void	skip_spaces(char **file);
 int		input_texture(t_tex *tex, char *file);
 int		input_colour(t_tex *tex, char *file);
 int		save_elements(t_tex *tex, char *file);
 int 	parse_elements(t_meta *meta, char *file);
 
-// check_textures.c
+// check_colors.c
+bool	valid_rgb_value(char *file);
+bool	is_valid_color(char *file);
+bool	colors_valid(char *file);
+
+// check_elements.c
 bool	is_valid_element(char *file);
 bool	only_spaces(char *file);
+bool	is_map_element(char *file);
 bool	elements_order(char *file);
-bool	is_duplicate(char *file);
+bool	check_missing(int *found);
 bool	is_missing(char *file);
+bool	is_duplicate(char *file);
 
-// input_map.c
-bool	is_map_line(char *file);
-int		input_map(t_meta *meta, char *file);
+// check_map.c
+bool	is_map_chars_valid(char *map);
+int		flood_fill(t_meta *meta, char *map, int x, int y);
+bool	save_start_pos(t_meta *meta, char *map);
+bool	is_floor_exposed(t_meta *meta, char *map);
 
 // parse_textures.c
 void	get_colour_value(char *file, t_rgba *col);
 char	*get_tex_val(char *file);
 bool	is_texture(char *file);
 bool	is_colour(char *file);
+
+// utils_one.c
+void	skip_line(char **file);
+void	skip_spaces(char **file);
+void	skip_digits(char **file);
+int		valid_map_char(char c);
+int		player_pos_char(char c);
+
+// utils_two.c
+int			find_index(t_meta *meta, uint32_t y, uint32_t x);
+uint32_t	find_width(char *map);
+uint32_t	find_height(char *map);
+char		*make_rect(char *map, uint32_t w, uint32_t h);
 
 #endif

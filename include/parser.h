@@ -51,8 +51,8 @@ typedef enum e_err {
 int pr_err(t_err type);
 
 // check_map.c
-int valid_char(char c);
-int check_pos(char c);
-int check_chars(char *map);
+int valid_map_char(char c);
+int player_pos_char(char c);
+bool is_map_chars_valid(char *map);
 
 #endif
