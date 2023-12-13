@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   main.c                                            :+:    :+:             */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+                     */
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
@@ -16,5 +16,5 @@
 
 int main(int argc, char *argv[])
 {
-	return cub3d(argc, argv);
+	return (cub3d(argc, argv));
 }

@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   draw.c                                            :+:    :+:             */
+/*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+                     */
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/09 01:32:57 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/18 20:28:45 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/11/09 17:55:11 by yzaim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "MLX42/MLX42.h"
 #include "meta.h"
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 // TODO Struct that contains all this info because well. tHe nORm
 void draw_rect(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color)

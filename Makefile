@@ -1,19 +1,17 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                        ::::::::              #
-#    Makefile                                          :+:    :+:              #
-#                                                     +:+                      #
-#    By: joppe <jboeve@student.codam.nl>             +#+                       #
-#                                                   +#+                        #
-#    Created: 2023/11/10 00:29:31 by joppe         #+#    #+#                  #
-#    Updated: 2023/11/12 20:23:08 by joppe         ########   odam.nl          #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: jboeve <ivan-mel@student.42.fr>          +#+  +:+       +#+           #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
+#    Updated: 2023/12/11 12:46:04 by yzaim            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-
-
 ######################
-# OS Dependend flags #
+# OS Dependent flags #
 ######################
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
@@ -29,7 +27,7 @@ RUN_CMD		:= ./$(NAME)
 
 # CFLAGS		+= -Wall -Wextra -Werror
 CFLAGS		+= -Wall -Wextra
-CFLAGS		+= -g -fsanitize=address
+# CFLAGS		+= -g -fsanitize=address
 # CFLAGS		+= -Ofast -flto -march=native
 
 LIBFT		:=	libft/build/libft.a
@@ -38,7 +36,20 @@ LIBMLX		:=	MLX42/build/libmlx42.a
 IFLAGS		:= -Ilibft/include -Iinclude -IMLX42/include
 
 SRC_DIR		:=	src
-SRCS		:= 	cub3d.c \
+	
+SRCS	= 		parser/check_elements.c \
+				parser/check_walls.c \
+				parser/parse_elements.c \
+				parser/parse_map.c \
+				parser/check_map.c \
+				parser/parse_textures.c \
+				parser/parser.c	\
+				parser/check_colors.c \
+				parser/utils_one.c \
+				parser/utils_two.c \
+				utils/error.c \
+				utils/free.c	\
+				cub3d.c \
 				game.c \
 				input.c \
 				render.c \
@@ -57,7 +68,9 @@ HEADERS 	:=	meta.h \
 OBJ_DIR		:=	obj
 
 
-TEST_SRCS	:= 	test.c
+TEST_L_FLAGS	:= -L ~/.capt/root/usr/lib/x86_64-linux-gnu
+TEST_I_FLAGS	:= -I ~/.capt/root/usr/include
+TEST_SRCS	:= 	test_parser.c
 TEST		:=	tests
 TEST_SRCS	:=	$(addprefix $(TEST)/, $(TEST_SRCS))
 TEST_BINS	:=	$(patsubst $(TEST)/%.c, $(TEST)/bin/%, $(TEST_SRCS))
@@ -121,7 +134,7 @@ $(TEST)/bin:
 	mkdir $@
 
 $(TEST)/bin/%: $(TEST)/%.c $(OBJS)
-	$(CC) $(CFLAGS) $(IFLAGS) $< $(OBJS) $(LIBFT) -o $@ -lcriterion
+	$(CC) $(CFLAGS) $(IFLAGS) $(TEST_I_FLAGS) $(TEST_L_FLAGS) $(MLX_CFLAGS) $< $(OBJS) $(LIBFT) $(LIBMLX) -o $@ -lcriterion 
 
 test: make_libs $(OBJS) $(TEST)/bin $(TEST_BINS)
 	for test in $(TEST_BINS) ; do ./$$test -j1 ; done

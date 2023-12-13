@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   render.c                                          :+:    :+:             */
+/*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+                     */
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "MLX42/MLX42.h"
 #include "meta.h"
 #include "vector.h"
 #include <math.h>
@@ -36,7 +35,23 @@ const t_rgba CELL_COLORS[] = {
 t_vec2i render_get_draw_offset()
 {
 	return (DRAW_OFFSET);
-}
+}                                                  ::::::::             */
+4
+/*   render.c                                           :+:      :+:    :+:   */
+5
+/*                                                    +:+                     */
+6
+/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
+7
+/*                                                  +#+                       */
+8
+/*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
+9
+/*   Updated: 2023/11/18 20:56:34 by jboeve        ########   odam.nl         */
+10
+/*                                                                            */
+11
+/* ************************************************************************** */
 
 
 void draw_cell(mlx_image_t *image, t_map *m, uint32_t cell_x, uint32_t cell_y)

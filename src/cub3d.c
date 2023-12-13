@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   cub3d.c                                           :+:    :+:             */
+/*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+                     */
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
@@ -10,14 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include "libft.h"
 #include "meta.h"
-#include "MLX42/MLX42.h"
-#include "timer.h"
-
 
 
 // Exit the program as failure.
@@ -43,16 +36,22 @@ static void	fps_hook(void *param)
 		meta->fps++;
 }
 
-int cub3d(int argc, char *argv[])
+void leaks(void)
+{
+	system("leaks -q app");
+}
+
+int cub3d(int argc, char **argv)
 {
 	t_meta	meta;
 
-	UNUSED(argc);
-	UNUSED(argv);
-
+	// UNUSED(argv);
+	if (argc != 2)
+		return (pr_err(ARG_ERR));
 	// Zero our struct to prevent garbage data.
 	ft_bzero(&meta, sizeof(t_meta));
-
+	if (parser(&meta, argv[1]))
+		return(meta_free(&meta), 1);
 	// MLX allows you to define its core behaviour before startup.
 	meta.mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE, true);
 	if (!meta.mlx)
@@ -75,5 +74,6 @@ int cub3d(int argc, char *argv[])
 	mlx_loop_hook(meta.mlx, game_loop, &meta);
 	mlx_loop(meta.mlx);
 	mlx_terminate(meta.mlx);
+	meta_free(&meta);
 	return (EXIT_SUCCESS);
 }
