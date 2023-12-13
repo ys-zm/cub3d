@@ -130,7 +130,7 @@ $(TEST)/bin:
 	mkdir $@
 
 $(TEST)/bin/%: $(TEST)/%.c $(OBJS)
-	$(CC) $(CFLAGS) $(IFLAGS) $< $(OBJS) $(LIBFT) -o $@ -lcriterion $(TEST_I_FLAG) $(TEST_L_FLAG) $(MLX_CFLAGS) $(LIBMLX)
+	$(CC) $(CFLAGS) $(IFLAGS) $(TEST_I_FLAGS) $(TEST_L_FLAGS) $(MLX_CFLAGS) $< $(OBJS) $(LIBFT) $(LIBMLX) -o $@ -lcriterion 
 
 test: make_libs $(OBJS) $(TEST)/bin $(TEST_BINS)
 	for test in $(TEST_BINS) ; do ./$$test -j1 ; done
