@@ -106,7 +106,7 @@ typedef struct s_player {
 } t_player;
 
 typedef struct s_map {
-	t_cell_type *arr;
+	t_cell_type *level;
 	uint32_t	width;
 	uint32_t	height;
 }	t_map;
@@ -126,7 +126,6 @@ typedef struct s_meta {
 	t_timer 	update_timer;
 	t_timer 	fps_timer;
 	t_player 	player;
-	t_map 		map;
 	uint32_t 	fps;
 	t_map		map;
 	t_tex		tex;
