@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 22:35:05 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/09 17:56:57 by yzaim            ###   ########.fr       */
+/*   Updated: 2023/11/18 20:39:45 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,6 @@ void game_init(t_meta *meta)
 	p->position[VEC_X] = (float) meta->map.width * CELL_WIDTH / 2;
 	p->position[VEC_Y] = (float) meta->map.height * CELL_WIDTH/ 2;
 
-	// p->position[VEC_X] = 0;
-	// p->position[VEC_Y] = 0;
-
 
 	player_look(p, deg_to_rad(180.0f));
 }
@@ -84,9 +81,9 @@ static void game_update(t_meta *meta, double time_delta)
 		player_move(p, -move * p->direction);
 
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_A))
-		player_move(p, vec2f_normalize(vec2f_rotate2d(p->angle + (3 * PI / 2))) * move);
+		player_move(p, vec2f_normalize(vec2f_rotate2d(p->angle_rad + (3 * PI / 2))) * move);
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_D))
-		player_move(p, vec2f_normalize(vec2f_rotate2d(p->angle + (PI / 2))) * move);
+		player_move(p, vec2f_normalize(vec2f_rotate2d(p->angle_rad + (PI / 2))) * move);
 
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_Q))
 		player_look(p, -rotate);
@@ -118,5 +115,6 @@ void game_loop(void* param)
 
 	render_clear_bg(meta->image);
 	render_map_grid(meta->image, &meta->map);
+	render_player_view(meta->image, &meta->player);
 	render_player(meta->image, &meta->player);
 }

@@ -15,16 +15,16 @@
 #include "meta.h"
 
 // TODO Struct that contains all this info because well. tHe nORm
-void draw_square(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color)
+void draw_rect(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color)
 {
 	size_t	x;
 	size_t	y;
 
 	y = 0;
-	while (y < width)
+	while (y < height)
 	{
 		x = 0;
-		while (x < height)
+		while (x < width)
 		{
 			draw_put_pixel(image, x_pos + x, y_pos + y, color);
 			x++;

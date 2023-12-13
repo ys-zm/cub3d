@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/11 03:51:14 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/11 03:58:12 by joppe         ########   odam.nl         */
+/*   Updated: 2023/11/18 13:21:55 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define VECTOR_H
 
 #include <inttypes.h>
+#include <sys/cdefs.h>
 
 
 #define VEC_X 0
