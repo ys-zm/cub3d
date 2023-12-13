@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/18 20:45:26 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/13 16:24:24 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,16 +182,8 @@ void	print_cell(t_cell_type cell);
 void 	game_init(t_meta *meta);
 void 	game_loop(void* param);
 
-// player.c
-void 	player_move(t_meta *meta);
-
 // keys.c
 void 	keyhook(mlx_key_data_t keydata, void* param);
-
-// render.c
-void 	render_player(t_meta *meta);
-void 	render_clear_bg(mlx_image_t *image);
-void 	render_map_grid(t_meta *meta);
 
 // draw.c
 void 	draw_square(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color);
@@ -199,7 +191,7 @@ void 	cube_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color)
 
 // check_map.c
 int 	check_map(t_meta *meta, char *rect);
-int		find_index(t_meta *meta, uint32_t y, uint32_t x);
+int		find_index(t_meta *meta, uint32_t x, uint32_t y);
 
 // free.c
 void 	meta_free(t_meta *meta);
@@ -255,9 +247,11 @@ int		valid_map_char(char c);
 int		player_pos_char(char c);
 
 // utils_two.c
-int			find_index(t_meta *meta, uint32_t y, uint32_t x);
 uint32_t	find_width(char *map);
 uint32_t	find_height(char *map);
 char		*make_rect(char *map, uint32_t w, uint32_t h);
+
+// test_utils.c
+void print_map(char *map, uint32_t w, uint32_t h);
 
 #endif

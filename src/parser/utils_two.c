@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   utils_two.c                                       :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 18:08:19 by yzaim             #+#    #+#             */
-/*   Updated: 2023/11/09 18:52:24 by yzaim            ###   ########.fr       */
+/*   Updated: 2023/12/13 16:41:33 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
+#include <stdint.h>
 
 // func to find longest width in map
 uint32_t	find_width(char *map)
 {
-	int w;
-	int count;
+	uint32_t w;
+	uint32_t count;
 
-	w = -1;
+	w = 0;
 	while (*map)
 	{
 		count = 0;
@@ -32,7 +33,7 @@ uint32_t	find_width(char *map)
 		if (w < count)
 			w = count;
 	}
-	// printf("w: %u\n", w);
+	printf("w: %u\n", w);
 	return (w);
 }
 
@@ -41,15 +42,22 @@ uint32_t	find_height(char *map)
 {
 	uint32_t	h;
 
-	h = 0;
+	h = 1;
 	while (*map)
 	{
 		if (*map == '\n')
-			h++;
+		{
+			map++;
+			if (*map && *map != '\n')
+			{
+				h++;
+			}
+			continue;
+		}
 		map++;
 	}
-	h += 1;
-	// printf("h: %u\n", h);
+	// h += 1;
+	printf("h: %u\n", h);
 	return (h);
 }
 
@@ -83,7 +91,7 @@ char	*make_rect(char *map, uint32_t w, uint32_t h)
 }
 
 // index = (y * w) + x
-int find_index(t_meta *meta, uint32_t y, uint32_t x)
+int find_index(t_meta *meta, uint32_t x, uint32_t y)
 {
     return ((y * meta->map.width) + x);
 }

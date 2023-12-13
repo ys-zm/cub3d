@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   check_map.c                                       :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 18:08:19 by yzaim             #+#    #+#             */
-/*   Updated: 2023/11/09 18:52:24 by yzaim            ###   ########.fr       */
+/*   Updated: 2023/12/13 16:44:53 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
+#include <stdio.h>
 
 // valid chars : 1, 0, N, S, E, W
 bool	is_map_chars_valid(char *map)
@@ -40,12 +41,12 @@ int	flood_fill(t_meta *meta, char *map, int x, int y)
 	ret = 0;
 	if (x < 0 || y < 0 || y >= (int)meta->map.height || x >= (int)meta->map.width)
 		return (1);
-	if (map[find_index(meta, y, x)] == '1' || map[find_index(meta, y, x)] == '2')
+	if (map[find_index(meta, x, y)] == '1' || map[find_index(meta, x, y)] == '2')
 		return (0);
-	if (map[find_index(meta, y, x)] == ' ')
+	if (map[find_index(meta, x, y)] == ' ')
 		return (1);
-	if (map[find_index(meta, y, x)] == '0')
-		map[find_index(meta, y, x)] = '2';
+	if (map[find_index(meta, x, y)] == '0')
+		map[find_index(meta, x, y)] = '2';
 	ret += flood_fill(meta, map, x + 1, y);
 	ret += flood_fill(meta, map, x - 1, y);
 	ret += flood_fill(meta, map, x, y + 1);
@@ -66,10 +67,10 @@ bool	save_start_pos(t_meta *meta, char *map)
 		x = 0;
 		while (x < meta->map.width)
 		{
-			if (player_pos_char(map[find_index(meta, y, x)]))
+			if (player_pos_char(map[find_index(meta, x, y)]))
 			{
-				meta->player.start_x = x;
-				meta->player.start_y = y;
+				meta->player.position[VEC_Y] = y;
+				meta->player.position[VEC_X] = x;
 				found = true;
 			}
 			x++;
@@ -79,7 +80,7 @@ bool	save_start_pos(t_meta *meta, char *map)
 	return (found);
 }
 
-// instead of this maybe just crop the map?
+// TODO instead of this maybe just crop the map?
 bool	is_floor_exposed(t_meta *meta, char *map)
 {
 	uint32_t	x;
@@ -91,7 +92,7 @@ bool	is_floor_exposed(t_meta *meta, char *map)
 		x = 0;
 		while (x < meta->map.width)
 		{
-			if (map[find_index(meta, y, x)] == '0')
+			if (map[find_index(meta, x, y)] == '0')
 				return (true);
 			x++;
 		}
@@ -106,8 +107,9 @@ int	check_map(t_meta *meta, char *rect)
 		return (EXIT_FAILURE);
 	if (!save_start_pos(meta, rect))
 		return (pr_err(NO_PLAYER));
-	rect[find_index(meta, meta->player.start_y, meta->player.start_x)] = '0';
-	if (flood_fill(meta, rect, meta->player.start_x, meta->player.start_y))
+	rect[find_index(meta, meta->player.position[VEC_X], meta->player.position[VEC_Y])] = '0';
+
+	if (flood_fill(meta, rect, meta->player.position[VEC_X], meta->player.position[VEC_Y]))
 		return (pr_err(INV_WALLS));
 	if (is_floor_exposed(meta, rect)) // maybe change to a warning?
 		return (pr_err(OUT_OF_BOUNDS));
