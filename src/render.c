@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   render.c                                           :+:      :+:    :+:   */
+/*   render.c                                          :+:    :+:             */
 /*                                                    +:+                     */
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/18 20:56:34 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/13 16:07:42 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,24 +35,7 @@ const t_rgba CELL_COLORS[] = {
 t_vec2i render_get_draw_offset()
 {
 	return (DRAW_OFFSET);
-}                                                  ::::::::             */
-4
-/*   render.c                                           :+:      :+:    :+:   */
-5
-/*                                                    +:+                     */
-6
-/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
-7
-/*                                                  +#+                       */
-8
-/*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-9
-/*   Updated: 2023/11/18 20:56:34 by jboeve        ########   odam.nl         */
-10
-/*                                                                            */
-11
-/* ************************************************************************** */
-
+}
 
 void draw_cell(mlx_image_t *image, t_map *m, uint32_t cell_x, uint32_t cell_y)
 {
@@ -95,7 +78,6 @@ void render_player(mlx_image_t *image, t_player *p)
 
 float ray_distance(t_ray r)
 {
-	t_vec2f diff = r.end - r.start;
 	return sqrtf((r.end[VEC_X] - r.start[VEC_X]) * (r.end[VEC_X] - r.start[VEC_X]) + (r.end[VEC_Y] - r.start[VEC_Y]) * (r.end[VEC_Y] - r.start[VEC_Y]));
 }
 

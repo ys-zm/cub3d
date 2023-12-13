@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    Makefile                                          :+:    :+:              #
 #                                                     +:+ +:+         +:+      #
 #    By: jboeve <ivan-mel@student.42.fr>          +#+  +:+       +#+           #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/12/11 12:46:04 by yzaim            ###   ########.fr        #
+#    Updated: 2023/12/13 16:25:01 by jboeve        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ else ifeq ($(shell uname -m),x86_64)
 endif
 
 NAME		:= app
-RUN_CMD		:= ./$(NAME)
+RUN_CMD		:= ./$(NAME) test_maps/simple.cub
 
 # CFLAGS		+= -Wall -Wextra -Werror
 CFLAGS		+= -Wall -Wextra

@@ -6,13 +6,15 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/10 16:32:18 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/12 18:58:13 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/13 16:24:39 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "meta.h"
+#include <stdint.h>
 #include <stdio.h>
+#include <sys/types.h>
 
 const char *CELL_NAMES[] = {
 	[MAP_EMPTY]	= "MAP_EMPTY",
@@ -36,3 +38,13 @@ void 	print_cell(t_cell_type cell)
 	printf("cell [%s]\n", CELL_NAMES[cell]);
 }
 
+void print_map(char *map, uint32_t w, uint32_t h)
+{
+	size_t i = 0;
+	while (map[i] && i < w * h)
+	{
+		printf("map [%.*s]\n", w, map + i);
+		i += w;
+	}
+
+}

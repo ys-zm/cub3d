@@ -15,9 +15,9 @@ int check_horiz_left(t_meta *meta, char *map)
         while (x < meta->map.width)
         {
             // printf("c: %c\n", map[find_index(meta, y, x)]);
-            if (map[find_index(meta, y, x)] == '1')
+            if (map[find_index(meta, x, y)] == '1')
                 closed = true;
-            if (!closed && map[find_index(meta, y, x)] == '0') // walls not closed
+            if (!closed && map[find_index(meta, x, y)] == '0') // walls not closed
                 return (pr_err(INV_WALLS), EXIT_FAILURE);
             x++;
         }
@@ -40,9 +40,9 @@ int check_vert_top(t_meta *meta, char *map)
         y = 0;
         while (y < meta->map.height)
         {
-            if (map[find_index(meta, y, x)] == '1')
+            if (map[find_index(meta, x, y)] == '1')
                 closed = 1;
-            if (!closed && map[find_index(meta, y, x)] == '0') // walls not closed
+            if (!closed && map[find_index(meta, x, y)] == '0') // walls not closed
                 return (pr_err(INV_WALLS), EXIT_FAILURE);
             y++;
         }
@@ -64,9 +64,9 @@ int check_horiz_right(t_meta *meta, char *map)
         x = meta->map.width;
         while (--x > 0)
         {
-            if (map[find_index(meta, y, x)] == '1')
+            if (map[find_index(meta, x, y)] == '1')
                 closed = true;
-            if (!closed && map[find_index(meta, y, x)] == '0') // walls not closed
+            if (!closed && map[find_index(meta, x, y)] == '0') // walls not closed
                 return (pr_err(INV_WALLS), EXIT_FAILURE);
         }
     }
@@ -86,9 +86,9 @@ int check_vert_down(t_meta *meta, char *map)
         y = meta->map.height;
         while (--y > 0)
         {
-            if (map[find_index(meta, y, x)] == '1')
+            if (map[find_index(meta, x, y)] == '1')
                 closed = true;
-            if (!closed && map[find_index(meta, y, x)] == '0') // walls not closed
+            if (!closed && map[find_index(meta, x, y)] == '0') // walls not closed
                 return (pr_err(INV_WALLS), EXIT_FAILURE);
         }
     }
