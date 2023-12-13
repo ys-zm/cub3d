@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "enemy.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "*.tcc": "c",
+        "system_error": "c"
     }
 }
