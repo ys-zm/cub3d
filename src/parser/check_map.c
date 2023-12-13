@@ -74,7 +74,7 @@ bool	save_start_pos(t_meta *meta, char *map)
 			}
 			x++;
 		}
-		y++
+		y++;
 	}
 	return (found);
 }

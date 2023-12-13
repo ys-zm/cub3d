@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ivan-mel <ivan-mel@student.42.fr>          +#+  +:+       +#+         #
+#    By: jboeve <ivan-mel@student.42.fr>          +#+  +:+       +#+           #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/11/09 18:33:32 by yzaim            ###   ########.fr        #
+#    Updated: 2023/12/11 12:46:04 by yzaim            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,12 +23,12 @@ else ifeq ($(shell uname -m),x86_64)
 	MLX_CFLAGS = -lglfw3 -framework IOKit -framework Cocoa
 endif
 
-NAME		:= app
+NAME		:= cub3D
 RUN_CMD		:= ./$(NAME)
 
 # CFLAGS		+= -Wall -Wextra -Werror
 CFLAGS		+= -Wall -Wextra
-CFLAGS		+= -g -fsanitize=address
+# CFLAGS		+= -g -fsanitize=address
 # CFLAGS		+= -Ofast -flto -march=native
 
 LIBFT		:=	libft/build/libft.a

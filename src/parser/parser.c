@@ -32,19 +32,19 @@ char	*read_file(int fd)
 // check if there are characters before .cub and no characters after
 int map_ext(char *file)
 {
-	char str[4] = {'.', 'c', 'u', 'b'};
+	// char str[4] = {'.', 'c', 'u', 'b'};
+	const char *str = ".cub";
 	int i;
 	int j;
 
 	i = 0;
 	j = 0;
-	while (file[i] && file[i] != '.')
-		i++;
-	if (!i)
+	
+	char *dot = ft_strrchr(file, '.');
+
+	if (dot == file)
 		return (EXIT_FAILURE);
-	while (file[i] && file[i] == str[j++])
-		i++;
-	if (file[i] != '\0')
+	else if (ft_strncmp(dot, str, ft_strlen(dot)))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
