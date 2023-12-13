@@ -64,7 +64,9 @@ HEADERS 	:=	meta.h \
 OBJ_DIR		:=	obj
 
 
-TEST_SRCS	:= 	test.c
+TEST_L_FLAGS	:= -L ~/.capt/root/usr/lib/x86_64-linux-gnu
+TEST_I_FLAGS	:= -I ~/.capt/root/usr/include
+TEST_SRCS	:= 	test_parser.c
 TEST		:=	tests
 TEST_SRCS	:=	$(addprefix $(TEST)/, $(TEST_SRCS))
 TEST_BINS	:=	$(patsubst $(TEST)/%.c, $(TEST)/bin/%, $(TEST_SRCS))
@@ -128,7 +130,7 @@ $(TEST)/bin:
 	mkdir $@
 
 $(TEST)/bin/%: $(TEST)/%.c $(OBJS)
-	$(CC) $(CFLAGS) $(IFLAGS) $< $(OBJS) $(LIBFT) -o $@ -lcriterion
+	$(CC) $(CFLAGS) $(IFLAGS) $< $(OBJS) $(LIBFT) -o $@ -lcriterion $(TEST_I_FLAG) $(TEST_L_FLAG) $(MLX_CFLAGS) $(LIBMLX)
 
 test: make_libs $(OBJS) $(TEST)/bin $(TEST_BINS)
 	for test in $(TEST_BINS) ; do ./$$test -j1 ; done

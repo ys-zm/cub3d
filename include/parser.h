@@ -29,6 +29,8 @@
 # define NO_MAP "Map element is missing\n"
 # define INV_COLOR_CODE "Please check color codes for F and C elements\nRGB values should be between 0-255\n"
 
+# include "meta.h"
+
 typedef enum e_err {
     INV_CHAR, 
     INV_EXT, 
