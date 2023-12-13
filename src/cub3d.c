@@ -40,7 +40,7 @@ void leaks(void)
 	system("leaks -q app");
 }
 
-int cub3d(int argc, char *argv[])
+int cub3d(int argc, char **argv)
 {
 	t_meta	meta;
 
@@ -51,8 +51,6 @@ int cub3d(int argc, char *argv[])
 	ft_bzero(&meta, sizeof(t_meta));
 	if (parser(&meta, argv[1]))
 		return(meta_free(&meta), 1);
-	meta_free(&meta);
-	return (0);
 	// MLX allows you to define its core behaviour before startup.
 	meta.mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE, true);
 	if (!meta.mlx)
@@ -69,11 +67,11 @@ int cub3d(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 	game_init(&meta);
-	exit(0);
 	mlx_loop_hook(meta.mlx, fps_hook, &meta);
 	mlx_key_hook(meta.mlx, keyhook, &meta);
 	mlx_loop_hook(meta.mlx, game_loop, &meta);
 	mlx_loop(meta.mlx);
 	mlx_terminate(meta.mlx);
+	meta_free(&meta);
 	return (EXIT_SUCCESS);
 }

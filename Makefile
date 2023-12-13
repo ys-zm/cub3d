@@ -23,7 +23,7 @@ else ifeq ($(shell uname -m),x86_64)
 	MLX_CFLAGS = -lglfw3 -framework IOKit -framework Cocoa
 endif
 
-NAME		:= cub3D
+NAME		:= app
 RUN_CMD		:= ./$(NAME)
 
 # CFLAGS		+= -Wall -Wextra -Werror
