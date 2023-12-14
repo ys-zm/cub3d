@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/14 17:34:31 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/14 20:05:28 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@
 // TODO Move all this stuff to some kind of game.h
 #define CELL_WIDTH			64
 #define CELL_HEIGHT			64
+#define CELL_SIZE 			64
 
 #define PLAYER_WIDTH		16
 #define PLAYER_HEIGHT		16
@@ -80,6 +81,13 @@ typedef enum e_cell_type {
     MAP_SPACE,
 }	t_cell_type;
 
+typedef enum e_side {
+	HIT_NONE,
+	HIT_NS,
+	HIT_EW,
+}	t_side;
+
+
 
 
 typedef union s_rgba
@@ -95,11 +103,20 @@ typedef union s_rgba
 }	t_rgba;
 
 typedef struct s_ray {
-	t_vec2f start;
-	t_vec2f end;
+	uint32_t	perp_wall_distance;
+	uint32_t	len;
+	t_vec2f		end;
+	t_vec2f		direction;
+	t_vec2f		side_distance;
+	t_vec2f		delta_distance;
+	t_vec2i		map_pos;
+	t_vec2i		step;
+	t_side		hit_side;
+	bool 		hit;
 } t_ray;
 
 typedef struct s_meta t_meta;
+
 
 // NOTE: Maybe switch to double instead of float?
 typedef struct s_player {
@@ -109,8 +126,9 @@ typedef struct s_player {
 	t_vec2i map_cell;
 	t_vec2f position;
 	t_vec2f direction;
+	t_vec2f	cam_plane;
 	t_vec2f beam;
-	t_ray 	rays[PLAYER_RAY_COUNT];
+	t_ray 	rays[WINDOW_WIDTH];
 	float	angle_rad;
 } t_player;
 
@@ -252,6 +270,10 @@ int		player_pos_char(char c);
 uint32_t	find_width(char *map);
 uint32_t	find_height(char *map);
 char		*make_rect(char *map, uint32_t w, uint32_t h);
+
+// math_utils.c
+t_vec2f vec2f_abs(t_vec2f vec);
+
 
 // test_utils.c
 void print_map(char *map, uint32_t w, uint32_t h);

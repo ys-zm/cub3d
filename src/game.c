@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 22:35:05 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/14 17:37:39 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/14 17:45:59 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void game_init(t_meta *meta)
 	timer_init(&meta->update_timer, mlx_get_time);
 	timer_start(&meta->update_timer);
 
-	// Give player a reference to meta struct.
+	// setup player stuff.
 	p->meta = meta;
 
 	p->position[VEC_X] = (CELL_WIDTH + 1) * meta->map.player_start_x;
@@ -37,6 +37,12 @@ void game_init(t_meta *meta)
 
 	p->position[VEC_X] += (CELL_WIDTH / 2);
     p->position[VEC_Y] += (CELL_HEIGHT / 2);
+
+	p->cam_plane = (t_vec2f) {0.0f, 0.66f};
+
+
+
+
 
 	print_vec2f("Player position", meta->player.position);
 	print_vec2f("Player direction", meta->player.direction);

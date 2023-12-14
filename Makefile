@@ -38,6 +38,7 @@ SRCS	= 		parser/check_elements.c \
 				parser/utils_two.c \
 				utils/error.c \
 				utils/free.c	\
+				utils/math_utils.c	\
 				cub3d.c \
 				game.c \
 				input.c \
