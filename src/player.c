@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/10 02:25:34 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/14 20:07:26 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/14 20:13:55 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void player_raycast(t_player *p)
 				r->hit = true;
 		}
 
-		if(r->hit_side == HIT_NS)
+		if(r->hit_side == HIT_EW)
 		{
 			r->perp_wall_distance = (r->side_distance[VEC_Y] - r->delta_distance[VEC_Y]);
 		}
@@ -105,7 +105,9 @@ void player_raycast(t_player *p)
 			r->perp_wall_distance = (r->side_distance[VEC_X] - r->delta_distance[VEC_X]);
 
 
-		r->len = (int)(p->meta->image->height / r->perp_wall_distance);
+		// r->len = (int)(p->meta->image->height / r->perp_wall_distance);
+		// TODO LEFT OFF HERE
+		printf("ray len %d\n", r->perp_wall_distance);
 
 		i++;
 	}
