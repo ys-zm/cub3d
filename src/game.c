@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   game.c                                             :+:      :+:    :+:   */
+/*   game.c                                            :+:    :+:             */
 /*                                                    +:+                     */
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 22:35:05 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/18 20:39:45 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/14 17:07:10 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,27 +22,13 @@
 #include <unistd.h>
 #include <float.h>
 
-// Temp
-#define MAP_WIDTH 			8
-#define MAP_HEIGHT			8
-
-t_cell_type MAP[] = {
-	MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL,
-	MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_WALL, MAP_SPACE, MAP_WALL,
-	MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_WALL,
-	MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_WALL, MAP_WALL, MAP_WALL,
-	MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_WALL,
-	MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_WALL,
-	MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_WALL, MAP_SPACE, MAP_SPACE, MAP_SPACE, MAP_WALL,
-	MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL,
-};
-
 void game_init(t_meta *meta)
 {
 	t_player* const p = &meta->player;
 
 	timer_init(&meta->update_timer, mlx_get_time);
 	timer_start(&meta->update_timer);
+
 	// Give player a reference to meta struct.
 	p->meta = meta;
 
@@ -52,8 +38,7 @@ void game_init(t_meta *meta)
 	// p->position[VEC_X] = (float) meta->map.width * CELL_WIDTH / 2;
 	// p->position[VEC_Y] = (float) meta->map.height * CELL_WIDTH/ 2;
 
-
-	// player_look(p, deg_to_rad(180.0f));
+	player_look(p, deg_to_rad(180.0f));
 }
 
 // This function handles all the "simulation" type stuff such as moving players opening doors, etc.
