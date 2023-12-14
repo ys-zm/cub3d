@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/13 16:07:42 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/14 17:28:34 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ float ray_distance(t_ray r)
 	return sqrtf((r.end[VEC_X] - r.start[VEC_X]) * (r.end[VEC_X] - r.start[VEC_X]) + (r.end[VEC_Y] - r.start[VEC_Y]) * (r.end[VEC_Y] - r.start[VEC_Y]));
 }
 
-void render_player_view(mlx_image_t *image, t_player *p)
+void render_player_viewport(mlx_image_t *image, t_player *p)
 {
 	size_t i = 0;
 	t_ray tmp;

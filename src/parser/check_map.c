@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 18:08:19 by yzaim             #+#    #+#             */
-/*   Updated: 2023/12/13 16:44:53 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/14 17:35:58 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ bool	save_start_pos(t_meta *meta, char *map)
 		{
 			if (player_pos_char(map[find_index(meta, x, y)]))
 			{
-				meta->player.position[VEC_Y] = y;
-				meta->player.position[VEC_X] = x;
+				meta->map.player_start_x = x;
+				meta->map.player_start_y = y;
 				save_start_direction(meta, map[find_index(meta, x, y)]);
 				found = true;
 			}
@@ -152,8 +152,8 @@ int	check_map(t_meta *meta, char *rect)
 		return (EXIT_FAILURE);
 	if (!save_start_pos(meta, rect))
 		return (pr_err(NO_PLAYER));
-	rect[find_index(meta, meta->player.position[VEC_X], meta->player.position[VEC_Y])] = '0';
-	if (flood_fill(meta, rect, meta->player.position[VEC_X], meta->player.position[VEC_Y]))
+	rect[find_index(meta, meta->map.player_start_x, meta->map.player_start_y)] = '0';
+	if (flood_fill(meta, rect, meta->map.player_start_x, meta->map.player_start_y))
 		return (pr_err(INV_WALLS));
 	if (is_floor_exposed(meta, rect)) // maybe change to a warning?
 		return (pr_err(OUT_OF_BOUNDS));

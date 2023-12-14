@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 22:35:05 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/14 17:07:10 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/14 17:37:39 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,14 @@ void game_init(t_meta *meta)
 	// Give player a reference to meta struct.
 	p->meta = meta;
 
-	printf("Player direction X: %f Y: %f\n", meta->player.direction[VEC_X], meta->player.direction[VEC_Y]);
-	printf("Player position X: %f Y: %f\n", meta->player.position[VEC_X], meta->player.position[VEC_Y]);
-	// // Setup player initial position, later this correspond with the PLAYER_START in the map.
-	// p->position[VEC_X] = (float) meta->map.width * CELL_WIDTH / 2;
-	// p->position[VEC_Y] = (float) meta->map.height * CELL_WIDTH/ 2;
+	p->position[VEC_X] = (CELL_WIDTH + 1) * meta->map.player_start_x;
+	p->position[VEC_Y] = (CELL_HEIGHT + 1) * meta->map.player_start_y;
+
+	p->position[VEC_X] += (CELL_WIDTH / 2);
+    p->position[VEC_Y] += (CELL_HEIGHT / 2);
+
+	print_vec2f("Player position", meta->player.position);
+	print_vec2f("Player direction", meta->player.direction);
 
 	player_look(p, deg_to_rad(180.0f));
 }
@@ -90,6 +93,6 @@ void game_loop(void* param)
 
 	render_clear_bg(meta->image);
 	render_map_grid(meta->image, &meta->map);
-	render_player_view(meta->image, &meta->player);
+	render_player_viewport(meta->image, &meta->player);
 	render_player(meta->image, &meta->player);
 }

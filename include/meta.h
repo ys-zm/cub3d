@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/13 16:24:24 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/14 17:34:31 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,8 @@ typedef struct s_map {
 	t_cell_type *level;
 	uint32_t	width;
 	uint32_t	height;
+	uint32_t 	player_start_x;
+	uint32_t 	player_start_y;
 }	t_map;
 
 typedef struct s_tex {
@@ -159,7 +161,7 @@ void	cursor_hook(double xpos, double ypos, void* param);
 
 // render.c
 t_vec2i	render_get_draw_offset();
-void render_player_view(mlx_image_t *image, t_player *p);
+void render_player_viewport(mlx_image_t *image, t_player *p);
 void	render_player(mlx_image_t *image, t_player *p);
 void	render_clear_bg(mlx_image_t *image);
 void	render_map_grid(mlx_image_t *image, t_map *m);

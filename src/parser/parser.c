@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 18:08:19 by yzaim             #+#    #+#             */
-/*   Updated: 2023/11/09 18:52:24 by yzaim            ###   ########.fr       */
+/*   Updated: 2023/12/14 17:22:20 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,13 @@ int	parser(t_meta *meta, char *map_file)
 	meta->map.height = find_height(meta->map_file); // find height of map
 	// w * h sized rectangle
 	rect = make_rect(meta->map_file, meta->map.width, meta->map.height);
+	print_map(rect, meta->map.width, meta->map.height);
 	free(meta->map_file);
 	if (!rect)
 		return(pr_err(MALL_ERR), EXIT_FAILURE);
 	if (check_map(meta, rect))
 		return (free(rect), EXIT_FAILURE);
-	print_map_cell(meta->map.level, meta->map.width, meta->map.height);
+	// print_map_cell(meta->map.level, meta->map.width, meta->map.height);
 	free(rect);
 	return (EXIT_SUCCESS);
 }
