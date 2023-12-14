@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "meta.h"
+# include "test_utils.h"
 
 char	*read_file(int fd)
 {
@@ -77,6 +78,7 @@ int	parser(t_meta *meta, char *map_file)
 		return(pr_err(MALL_ERR), EXIT_FAILURE);
 	if (check_map(meta, rect))
 		return (free(rect), EXIT_FAILURE);
+	print_map_cell(meta->map.level, meta->map.width, meta->map.height);
 	free(rect);
 	return (EXIT_SUCCESS);
 }

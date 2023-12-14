@@ -48,3 +48,22 @@ void print_map(char *map, uint32_t w, uint32_t h)
 	}
 
 }
+
+void print_map_cell(t_cell_type *level, uint32_t w, uint32_t h)
+{
+	size_t i = 0;
+	size_t k = 0;
+	size_t j;
+	while (i < h)
+	{
+		j = 0;
+		while (j < w)
+		{
+			printf("%d", level[k]);
+			k++;
+			j++;
+		}
+		printf("\n");
+		i++;
+	}
+}

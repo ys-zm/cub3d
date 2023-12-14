@@ -1,0 +1,1 @@
+void print_map_cell(t_cell_type *level, uint32_t w, uint32_t h);
