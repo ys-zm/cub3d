@@ -27,7 +27,8 @@ RUN_CMD		:= ./$(NAME) test_maps/simple.cub
 
 # CFLAGS		+= -Wall -Wextra -Werror
 CFLAGS		+= -Wall -Wextra
-# CFLAGS		+= -g -fsanitize=address
+CFLAGS		+= -g -fsanitize=address
+# CFLAGS		+= -g
 # CFLAGS		+= -Ofast -flto -march=native
 
 LIBFT		:=	libft/build/libft.a

@@ -101,6 +101,37 @@ bool	is_floor_exposed(t_meta *meta, char *map)
 	return (false);
 }
 
+t_cell_type find_enum_value(char c)
+{
+	if (c == ' ')
+	{
+		return (MAP_EMPTY);
+	}
+	else if (c == '1')
+	{
+		return (MAP_WALL);
+	}
+	else
+	{
+		return (MAP_SPACE);
+	}
+}
+
+bool save_map(t_meta *meta, char *rect)
+{
+	uint32_t	i;
+
+	meta->map.level = malloc(sizeof(t_cell_type) * meta->map.width * meta->map.height);
+	if (!meta->map.level)
+		return (false);
+	i = 0;
+	while (rect[i])
+	{
+		meta->map.level[i] = find_enum_value(rect[i]);
+		i++;
+	}
+	return (true);
+}
 int	check_map(t_meta *meta, char *rect)
 {
 	if (!is_map_chars_valid(rect))
@@ -108,10 +139,11 @@ int	check_map(t_meta *meta, char *rect)
 	if (!save_start_pos(meta, rect))
 		return (pr_err(NO_PLAYER));
 	rect[find_index(meta, meta->player.position[VEC_X], meta->player.position[VEC_Y])] = '0';
-
 	if (flood_fill(meta, rect, meta->player.position[VEC_X], meta->player.position[VEC_Y]))
 		return (pr_err(INV_WALLS));
 	if (is_floor_exposed(meta, rect)) // maybe change to a warning?
 		return (pr_err(OUT_OF_BOUNDS));
+	if (!save_map(meta, rect))
+		return(pr_err(MALL_ERR));
 	return (EXIT_SUCCESS);
 }

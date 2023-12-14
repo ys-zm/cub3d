@@ -39,9 +39,9 @@ t_cell_type MAP[] = {
 
 static void init_map(t_map *m)
 {
-	m->level = MAP;
-	m->width = MAP_WIDTH;
-	m->height = MAP_HEIGHT;
+	// m->level = MAP;
+	// m->width = MAP_WIDTH;
+	// m->height = MAP_HEIGHT;
 }
 
 

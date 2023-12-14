@@ -24,4 +24,5 @@ void free_t_tex(t_tex *tex)
 void meta_free(t_meta *meta)
 {
     free_t_tex(&(meta->tex));
+    free(meta->map.level);
 }
