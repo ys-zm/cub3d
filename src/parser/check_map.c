@@ -54,6 +54,19 @@ int	flood_fill(t_meta *meta, char *map, int x, int y)
 	return (ret);
 }
 
+// change if statements
+void	save_start_direction(t_meta *meta, char p)
+{
+	if (p == 'N')
+		meta->player.direction[VEC_Y] = 1;
+	if (p == 'S')
+		meta->player.direction[VEC_Y] = -1;
+	if (p == 'E')
+		meta->player.direction[VEC_X] = 1;
+	if (p == 'W')
+		meta->player.direction[VEC_X] = -1;
+}
+
 bool	save_start_pos(t_meta *meta, char *map)
 {
 	uint32_t	x;
@@ -71,6 +84,7 @@ bool	save_start_pos(t_meta *meta, char *map)
 			{
 				meta->player.position[VEC_Y] = y;
 				meta->player.position[VEC_X] = x;
+				save_start_direction(meta, map[find_index(meta, x, y)]);
 				found = true;
 			}
 			x++;

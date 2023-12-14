@@ -37,33 +37,23 @@ t_cell_type MAP[] = {
 	MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL, MAP_WALL,
 };
 
-static void init_map(t_map *m)
-{
-	// m->level = MAP;
-	// m->width = MAP_WIDTH;
-	// m->height = MAP_HEIGHT;
-}
-
-
-
 void game_init(t_meta *meta)
 {
 	t_player* const p = &meta->player;
 
 	timer_init(&meta->update_timer, mlx_get_time);
 	timer_start(&meta->update_timer);
-
-	init_map(&meta->map);
-
 	// Give player a reference to meta struct.
 	p->meta = meta;
 
-	// Setup player initial position, later this correspond with the PLAYER_START in the map.
-	p->position[VEC_X] = (float) meta->map.width * CELL_WIDTH / 2;
-	p->position[VEC_Y] = (float) meta->map.height * CELL_WIDTH/ 2;
+	printf("Player direction X: %f Y: %f\n", meta->player.direction[VEC_X], meta->player.direction[VEC_Y]);
+	printf("Player position X: %f Y: %f\n", meta->player.position[VEC_X], meta->player.position[VEC_Y]);
+	// // Setup player initial position, later this correspond with the PLAYER_START in the map.
+	// p->position[VEC_X] = (float) meta->map.width * CELL_WIDTH / 2;
+	// p->position[VEC_Y] = (float) meta->map.height * CELL_WIDTH/ 2;
 
 
-	player_look(p, deg_to_rad(180.0f));
+	// player_look(p, deg_to_rad(180.0f));
 }
 
 // This function handles all the "simulation" type stuff such as moving players opening doors, etc.
