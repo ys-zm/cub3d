@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/15 15:20:09 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/15 19:24:50 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/15 19:32:00 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,6 @@ t_ray raycaster_cast(t_meta *m, t_vec2f start, t_vec2f direction, t_ray_hit_chec
 	else
 		r.len = (side_distance[VEC_X] - delta_distance[VEC_X]);
 
-	r.end = direction * (t_vec2f) {r.len, r.len};
+	r.end = direction * (t_vec2f) {r.len, r.len} + vec2i_to_vec2f(map_pos);
 	return r;
 }

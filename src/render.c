@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/15 19:25:51 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/15 19:33:09 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,15 @@ void render_player(mlx_image_t *image, t_player *p)
 						PLAYER_WIDTH, PLAYER_HEIGHT, COLOR_PLAYER);
 
 	size_t i = 0;
-	while (i < WINDOW_WIDTH)
+	while (i < 1)
 	{
-		t_vec2f x = {p->rays[i].len, p->rays[i].len};
-		t_vec2f cell = {CELL_SIZE, CELL_SIZE};
-		draw_line(image,	vec2f_to_vec2i(p->rays[i].start * cell),
-							vec2f_to_vec2i(p->rays[i].end * x * cell),
-							(t_rgba) {0xFFFF00FF});
+		t_ray *r = &p->rays[i];
+		printf("----------------------\n");
+		print_vec2f("start", p->rays[i].start);
+		print_vec2f("end", p->rays[i].end);
+		draw_line(image,	vec2f_to_vec2i(r->start * CELL_SIZE),	
+							vec2f_to_vec2i(r->end * CELL_SIZE),
+							(t_rgba) {0x00FF00FF});
 		i++;
 	}
 
