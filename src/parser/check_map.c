@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 18:08:19 by yzaim             #+#    #+#             */
-/*   Updated: 2023/12/14 17:35:58 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/15 16:57:32 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,18 @@ int	flood_fill(t_meta *meta, char *map, int x, int y)
 // change if statements
 void	save_start_direction(t_meta *meta, char p)
 {
-	if (p == 'N')
-		meta->player.direction[VEC_Y] = 1;
-	if (p == 'S')
-		meta->player.direction[VEC_Y] = -1;
-	if (p == 'E')
-		meta->player.direction[VEC_X] = 1;
-	if (p == 'W')
-		meta->player.direction[VEC_X] = -1;
+	const bool	comp_ns = (p == 'N');
+	const bool	comp_ew = (p == 'E');
+
+	// TODO DO THIS SHIT LATERRR!?!?!
+	meta->map.start_dir = DIR_E & DIR_N;
+	// 0001
+	// 0010
+	// 0011  
+	if (p == 'N' || p == 'S')
+		meta->player.direction[VEC_Y] = 1 * comp_ns + -1 * !comp_ns;
+	if (p == 'E' || p == 'W')
+		meta->player.direction[VEC_X] = 1 * comp_ew + -1 * !comp_ew;
 }
 
 bool	save_start_pos(t_meta *meta, char *map)

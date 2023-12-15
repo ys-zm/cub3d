@@ -44,6 +44,7 @@ SRCS	= 		parser/check_elements.c \
 				input.c \
 				render.c \
 				draw.c \
+				raycaster.c \
 				player.c \
 				utils.c \
 				test_utils.c \

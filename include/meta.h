@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/14 20:05:28 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/15 16:54:24 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@
 #define PI 3.1415926535
 
 // Window settings
-#define WINDOW_WIDTH 1920
-#define WINDOW_HEIGHT 1080
+#define WINDOW_WIDTH 720
+#define WINDOW_HEIGHT 480
 #define WINDOW_TITLE "Gammoe"
 
 #define PLAYER_VIEWPORT_X 720
@@ -63,7 +63,7 @@
 #define PLAYER_WIDTH		16
 #define PLAYER_HEIGHT		16
 #define PLAYER_RAY_COUNT	90
-#define PLAYER_WALK_SPEED	15
+#define PLAYER_WALK_SPEED	1.0f
 #define PLAYER_ROTATE_SPEED	5
 #define PLAYER_RUN_MODIFIER 2.5
 
@@ -74,6 +74,7 @@
 #define VEC_Y 1
 
 
+typedef bool	(t_ray_hit_check) (void *p, int32_t x, int32_t y);
 
 typedef enum e_cell_type {
     MAP_EMPTY,
@@ -87,6 +88,13 @@ typedef enum e_side {
 	HIT_EW,
 }	t_side;
 
+
+typedef enum e_direction {
+	DIR_N = 1,
+	DIR_E = 2,
+	DIR_S = 4,
+	DIR_W = 8,
+}	t_direction;
 
 
 
@@ -137,6 +145,7 @@ typedef struct s_map {
 	uint32_t	width;
 	uint32_t	height;
 	uint32_t 	player_start_x;
+	t_direction start_dir;
 	uint32_t 	player_start_y;
 }	t_map;
 
@@ -183,6 +192,9 @@ void render_player_viewport(mlx_image_t *image, t_player *p);
 void	render_player(mlx_image_t *image, t_player *p);
 void	render_clear_bg(mlx_image_t *image);
 void	render_map_grid(mlx_image_t *image, t_map *m);
+
+// raycaster.c
+t_ray raycaster_cast(t_vec2f start, t_vec2f direction, t_ray_hit_check *hit);
 
 // map.c
 t_cell_type	map_get_cell_type(t_map *m, t_vec2f pos);
