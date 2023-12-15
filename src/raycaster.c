@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/15 15:20:09 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/15 16:10:31 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/15 16:18:03 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ t_ray raycaster_cast(t_vec2f start, t_vec2f direction, t_ray_hit_check *hit)
 	r.delta_distance[VEC_X] = (direction[VEC_X] == 0) ? 1e30 : fabs(1 / direction[VEC_X]);
 	r.delta_distance[VEC_Y] = (direction[VEC_Y] == 0) ? 1e30 : fabs(1 / direction[VEC_Y]);
 
-	// t_vec2i p_pos = vec2f_to_vec2i(p.position) / (t_vec2i) {CELL_SIZE, CELL_SIZE};
 	t_vec2f p_pos = start;
 	r.map_pos = vec2f_to_vec2i(p_pos);
 
@@ -80,7 +79,7 @@ t_ray raycaster_cast(t_vec2f start, t_vec2f direction, t_ray_hit_check *hit)
 
 	// r.len = (int)(p.meta.image.height / r.perp_wall_distance);
 	// TODO LEFT OFF HERE
-	// printf("ray len %d\n", r.perp_wall_distance);
+	printf("ray len %d\n", r.perp_wall_distance);
 
 	return r;
 }

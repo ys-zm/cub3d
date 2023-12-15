@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 22:35:05 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/15 16:12:06 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/15 16:27:47 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,9 @@ void game_init(t_meta *meta)
 
 	// setup player stuff.
 	p->meta = meta;
-
-	// p->position[VEC_X] = (CELL_WIDTH + 1) * meta->map.player_start_x;
-	// p->position[VEC_Y] = (CELL_HEIGHT + 1) * meta->map.player_start_y;
-
-	// p->position[VEC_X] += (CELL_WIDTH / 2);
-	// p->position[VEC_Y] += (CELL_HEIGHT / 2);
-
-	p->position[VEC_X] = meta->map.player_start_x;
-	p->position[VEC_Y] = meta->map.player_start_y;
+	p->position[VEC_X] = meta->map.player_start_x + 0.5f;
+	p->position[VEC_Y] = meta->map.player_start_y + 0.5f;
 	p->cam_plane = (t_vec2f) {0.0f, 0.66f};
-
 
 
 	player_look(p, deg_to_rad(180.0f));
