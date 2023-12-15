@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/15 15:20:09 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/15 19:18:27 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/15 19:24:50 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,49 +24,52 @@ t_ray raycaster_cast(t_meta *m, t_vec2f start, t_vec2f direction, t_ray_hit_chec
 {
 	t_ray r;
 	ft_bzero(&r, sizeof(t_ray));
+	t_vec2f		delta_distance;
+	t_vec2i		step;
+	t_vec2i		map_pos;
+	t_vec2f		side_distance;
 
 
-	r.delta_distance[VEC_X] = (direction[VEC_X] == 0) ? 1e30 : fabs(1 / direction[VEC_X]);
-	r.delta_distance[VEC_Y] = (direction[VEC_Y] == 0) ? 1e30 : fabs(1 / direction[VEC_Y]);
+	delta_distance[VEC_X] = (direction[VEC_X] == 0) ? 1e30 : fabs(1 / direction[VEC_X]);
+	delta_distance[VEC_Y] = (direction[VEC_Y] == 0) ? 1e30 : fabs(1 / direction[VEC_Y]);
 
 	t_vec2f p_pos = start;
-	r.map_pos = vec2f_to_vec2i(p_pos);
-	r.direction = direction;
+	map_pos = vec2f_to_vec2i(p_pos);
 
 	if (direction[VEC_X] < 0)
 	{
-		r.step[VEC_X] = -1;
-		r.side_distance[VEC_X] = (p_pos[VEC_X] - r.map_pos[VEC_X]) * r.delta_distance[VEC_X];
+		step[VEC_X] = -1;
+		side_distance[VEC_X] = (p_pos[VEC_X] - map_pos[VEC_X]) * delta_distance[VEC_X];
 	}
 	else
 	{
-		r.step[VEC_X] = 1;
-		r.side_distance[VEC_X] = (r.map_pos[VEC_X] + 1.0f - p_pos[VEC_X]) * r.delta_distance[VEC_X];
+		step[VEC_X] = 1;
+		side_distance[VEC_X] = (map_pos[VEC_X] + 1.0f - p_pos[VEC_X]) * delta_distance[VEC_X];
 	}
 	if (direction[VEC_Y] < 0)
 	{
-		r.step[VEC_Y] = -1;
-		r.side_distance[VEC_Y] = (p_pos[VEC_Y] - r.map_pos[VEC_Y]) * r.delta_distance[VEC_Y];
+		step[VEC_Y] = -1;
+		side_distance[VEC_Y] = (p_pos[VEC_Y] - map_pos[VEC_Y]) * delta_distance[VEC_Y];
 	}
 	else
 	{
-		r.step[VEC_Y] = 1;
-		r.side_distance[VEC_Y] = (r.map_pos[VEC_Y] + 1.0f - p_pos[VEC_Y]) * r.delta_distance[VEC_Y];
+		step[VEC_Y] = 1;
+		side_distance[VEC_Y] = (map_pos[VEC_Y] + 1.0f - p_pos[VEC_Y]) * delta_distance[VEC_Y];
 	}
 
 	r.hit = false;
 	while (!r.hit)
 	{
-		if (r.side_distance[VEC_X] < r.side_distance[VEC_Y])	
+		if (side_distance[VEC_X] < side_distance[VEC_Y])	
 		{
-			r.side_distance[VEC_X] += r.delta_distance[VEC_X];
-			r.map_pos[VEC_X] += r.step[VEC_X];
+			side_distance[VEC_X] += delta_distance[VEC_X];
+			map_pos[VEC_X] += step[VEC_X];
 			r.hit_side = HIT_NS;
 		}
 		else
 		{
-			r.side_distance[VEC_Y] += r.delta_distance[VEC_Y];
-			r.map_pos[VEC_Y] += r.step[VEC_Y];
+			side_distance[VEC_Y] += delta_distance[VEC_Y];
+			map_pos[VEC_Y] += step[VEC_Y];
 			r.hit_side = HIT_EW;
 		}
 		r.hit = *hit;
@@ -74,11 +77,11 @@ t_ray raycaster_cast(t_meta *m, t_vec2f start, t_vec2f direction, t_ray_hit_chec
 
 	if(r.hit_side == HIT_EW)
 	{
-		r.perp_wall_distance = (r.side_distance[VEC_Y] - r.delta_distance[VEC_Y]);
+		r.len = (side_distance[VEC_Y] - delta_distance[VEC_Y]);
 	}
 	else
-		r.perp_wall_distance = (r.side_distance[VEC_X] - r.delta_distance[VEC_X]);
+		r.len = (side_distance[VEC_X] - delta_distance[VEC_X]);
 
-	r.end = r.direction * (t_vec2f) {r.perp_wall_distance, r.perp_wall_distance};
+	r.end = direction * (t_vec2f) {r.len, r.len};
 	return r;
 }

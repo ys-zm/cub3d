@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/15 19:15:08 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/15 19:24:50 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,14 +111,9 @@ typedef union s_rgba
 }	t_rgba;
 
 typedef struct s_ray {
-	float		perp_wall_distance;
-	uint32_t	len;
+	float		len;
 	t_vec2f		end;
-	t_vec2f		direction;
-	t_vec2f		side_distance;
-	t_vec2f		delta_distance;
-	t_vec2i		map_pos;
-	t_vec2i		step;
+	t_vec2f		start;
 	t_side		hit_side;
 	bool 		hit;
 } t_ray;
