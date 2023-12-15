@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/14 20:05:28 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/15 15:27:30 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@
 #define VEC_Y 1
 
 
+typedef bool	(*t_ray_hit_check)(int32_t x, int32_t y);
 
 typedef enum e_cell_type {
     MAP_EMPTY,

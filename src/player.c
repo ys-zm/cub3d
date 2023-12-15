@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/10 02:25:34 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/14 20:13:55 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/15 15:34:10 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,17 @@ void player_look(t_player *p, double angle)
 	player_raycast(p);
 }
 
+
+t_ray_hit_check hit_wall(void *p, uint32_t x, uint32_t y)
+{
+	t_map *m = (t_map *) p;
+
+	if (m->level[y * m->width + x] == MAP_WALL)
+		return true;
+	return false;
+}
+
+
 void player_raycast(t_player *p)
 {
 	// iterate over normalized camera space, mapping it to the viewports's width. (-1, 1)
@@ -50,65 +61,8 @@ void player_raycast(t_player *p)
 		t_ray *r = &p->rays[i];
 		// TODO Maybe a double.
 		float cam_x = 2 * i / (double) p->meta->image->width - 1;
-		r->direction = p->direction + p->cam_plane * (t_vec2f) {1.0f, cam_x};
-
-		r->delta_distance[VEC_X] = (r->direction[VEC_X] == 0) ? 1e30 : fabs(1 / r->direction[VEC_X]);
-		r->delta_distance[VEC_Y] = (r->direction[VEC_Y] == 0) ? 1e30 : fabs(1 / r->direction[VEC_Y]);
-
-		r->map_pos = vec2f_to_vec2i(p->position) / CELL_SIZE;
-
-		if (r->direction[VEC_X] < 0)
-		{
-			r->step[VEC_X] = -1;
-			r->side_distance[VEC_X] = (p->position[VEC_X] - r->map_pos[VEC_X]) * r->delta_distance[VEC_X];
-		}
-		else
-		{
-			r->step[VEC_X] = 1;
-			r->side_distance[VEC_X] = (r->map_pos[VEC_X] + 1.0f - p->position[VEC_X]) * r->delta_distance[VEC_X];
-		}
-		if (r->direction[VEC_Y] < 0)
-		{
-			r->step[VEC_Y] = -1;
-			r->side_distance[VEC_Y] = (p->position[VEC_Y] - r->map_pos[VEC_Y]) * r->delta_distance[VEC_Y];
-		}
-		else
-		{
-			r->step[VEC_Y] = 1;
-			r->side_distance[VEC_Y] = (r->map_pos[VEC_Y] + 1.0f - p->position[VEC_Y]) * r->delta_distance[VEC_Y];
-		}
-
-		r->hit = false;
-		while (!r->hit)
-		{
-			if (r->side_distance[VEC_X] < r->side_distance[VEC_Y])	
-			{
-				r->side_distance[VEC_X] += r->delta_distance[VEC_X];
-				r->map_pos[VEC_X] += r->step[VEC_X];
-				r->hit_side = HIT_NS;
-			}
-			else
-			{
-				r->side_distance[VEC_Y] += r->delta_distance[VEC_Y];
-				r->map_pos[VEC_Y] += r->step[VEC_Y];
-				r->hit_side = HIT_EW;
-			}
-			if (p->meta->map.level[find_index(p->meta, r->map_pos[VEC_X], r->map_pos[VEC_Y])] != MAP_SPACE)
-				r->hit = true;
-		}
-
-		if(r->hit_side == HIT_EW)
-		{
-			r->perp_wall_distance = (r->side_distance[VEC_Y] - r->delta_distance[VEC_Y]);
-		}
-		else
-			r->perp_wall_distance = (r->side_distance[VEC_X] - r->delta_distance[VEC_X]);
-
-
-		// r->len = (int)(p->meta->image->height / r->perp_wall_distance);
-		// TODO LEFT OFF HERE
-		printf("ray len %d\n", r->perp_wall_distance);
-
+		t_vec2f ray_direction = p->direction + p->cam_plane * (t_vec2f) {1.0f, cam_x};
+		p->rays[i] = raycaster_cast(hit_wall, cam_x, ray_direction);
 		i++;
 	}
 }
