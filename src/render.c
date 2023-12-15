@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/15 16:28:43 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/15 19:17:55 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,11 @@ void render_player(mlx_image_t *image, t_player *p)
 	size_t i = 0;
 	while (i < WINDOW_WIDTH)
 	{
-		// t_vec2i x = {p->rays[i].len, p->rays[i].len};
-		// print_vec2i("x", x);
-		// print_vec2i("diretion + len", p->rays[i].direction + x);
-		// print_vec2i("diretion", p->rays[i].direction);
+		t_vec2f x = {p->rays[i].perp_wall_distance, p->rays[i].perp_wall_distance};
+		t_vec2f cell = {CELL_SIZE, CELL_SIZE};
+		draw_line(image,	vec2f_to_vec2i(p->rays[i].direction * cell),
+							vec2f_to_vec2i(p->rays[i].end * x * cell),
+							(t_rgba) {0xFFFF00FF});
 		i++;
 	}
 

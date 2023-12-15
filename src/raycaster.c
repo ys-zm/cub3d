@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/15 15:20:09 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/15 16:36:52 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/15 19:18:27 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 #include "vector.h"
 #include <stdint.h>
 #include <math.h>
+#include <stdio.h>
 
 
 
-t_ray raycaster_cast(t_vec2f start, t_vec2f direction, t_ray_hit_check *hit)
+
+t_ray raycaster_cast(t_meta *m, t_vec2f start, t_vec2f direction, t_ray_hit_check *hit)
 {
 	t_ray r;
 	ft_bzero(&r, sizeof(t_ray));
@@ -29,6 +31,7 @@ t_ray raycaster_cast(t_vec2f start, t_vec2f direction, t_ray_hit_check *hit)
 
 	t_vec2f p_pos = start;
 	r.map_pos = vec2f_to_vec2i(p_pos);
+	r.direction = direction;
 
 	if (direction[VEC_X] < 0)
 	{
@@ -76,10 +79,6 @@ t_ray raycaster_cast(t_vec2f start, t_vec2f direction, t_ray_hit_check *hit)
 	else
 		r.perp_wall_distance = (r.side_distance[VEC_X] - r.delta_distance[VEC_X]);
 
-
-	// r.len = (int)(p.meta.image.height / r.perp_wall_distance);
-	// TODO LEFT OFF HERE
-	// printf("ray len %d\n", r.perp_wall_distance);
-
+	r.end = r.direction * (t_vec2f) {r.perp_wall_distance, r.perp_wall_distance};
 	return r;
 }
