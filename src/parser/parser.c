@@ -19,7 +19,7 @@ char	*read_file(int fd)
 	char *full_map;
 
 	line = get_next_line(fd);
-	full_map = NULL;
+	full_map = ft_strdup("");
 	while (line)
 	{
 		full_map = ft_strjoin_free(full_map, line);
@@ -35,15 +35,9 @@ int map_ext(char *file)
 {
 	// char str[4] = {'.', 'c', 'u', 'b'};
 	const char *str = ".cub";
-	int i;
-	int j;
 
-	i = 0;
-	j = 0;
-	
 	char *dot = ft_strrchr(file, '.');
-
-	if (dot == file)
+	if (!dot || dot == file)
 		return (EXIT_FAILURE);
 	else if (ft_strncmp(dot, str, ft_strlen(dot)))
 		return (EXIT_FAILURE);
