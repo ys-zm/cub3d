@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/10 02:25:34 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/15 15:34:10 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/15 16:06:23 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ void player_look(t_player *p, double angle)
 }
 
 
-t_ray_hit_check hit_wall(void *p, uint32_t x, uint32_t y)
+bool hit_wall(void *p, int32_t x, int32_t y)
 {
 	t_map *m = (t_map *) p;
 
 	if (m->level[y * m->width + x] == MAP_WALL)
-		return true;
-	return false;
+		return (true);
+	return (false);
 }
 
 
@@ -58,11 +58,12 @@ void player_raycast(t_player *p)
 	uint32_t i = 0;
 	while (i < p->meta->image->width)
 	{
-		t_ray *r = &p->rays[i];
-		// TODO Maybe a double.
+
 		float cam_x = 2 * i / (double) p->meta->image->width - 1;
 		t_vec2f ray_direction = p->direction + p->cam_plane * (t_vec2f) {1.0f, cam_x};
-		p->rays[i] = raycaster_cast(hit_wall, cam_x, ray_direction);
+		t_vec2f ray_start = p->position;
+		print_vec2f("ray_start", p->position);
+		p->rays[i] = raycaster_cast(ray_start, ray_direction, hit_wall);
 		i++;
 	}
 }

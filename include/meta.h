@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/15 15:27:30 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/15 16:04:16 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@
 #define PI 3.1415926535
 
 // Window settings
-#define WINDOW_WIDTH 1920
-#define WINDOW_HEIGHT 1080
+#define WINDOW_WIDTH 720
+#define WINDOW_HEIGHT 480
 #define WINDOW_TITLE "Gammoe"
 
 #define PLAYER_VIEWPORT_X 720
@@ -74,7 +74,7 @@
 #define VEC_Y 1
 
 
-typedef bool	(*t_ray_hit_check)(int32_t x, int32_t y);
+typedef bool	(t_ray_hit_check) (void *p, int32_t x, int32_t y);
 
 typedef enum e_cell_type {
     MAP_EMPTY,
@@ -184,6 +184,9 @@ void render_player_viewport(mlx_image_t *image, t_player *p);
 void	render_player(mlx_image_t *image, t_player *p);
 void	render_clear_bg(mlx_image_t *image);
 void	render_map_grid(mlx_image_t *image, t_map *m);
+
+// raycaster.c
+t_ray raycaster_cast(t_vec2f start, t_vec2f direction, t_ray_hit_check *hit);
 
 // map.c
 t_cell_type	map_get_cell_type(t_map *m, t_vec2f pos);
