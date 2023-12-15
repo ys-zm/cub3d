@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                          :+:    :+:              #
-#                                                     +:+ +:+         +:+      #
-#    By: jboeve <ivan-mel@student.42.fr>          +#+  +:+       +#+           #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/12/13 16:25:01 by jboeve        ########   odam.nl          #
-#                                                                              #
-# **************************************************************************** #
-
 ######################
 # OS Dependent flags #
 ######################
@@ -50,11 +38,13 @@ SRCS	= 		parser/check_elements.c \
 				parser/utils_two.c \
 				utils/error.c \
 				utils/free.c	\
+				utils/math_utils.c	\
 				cub3d.c \
 				game.c \
 				input.c \
 				render.c \
 				draw.c \
+				raycaster.c \
 				player.c \
 				utils.c \
 				test_utils.c \

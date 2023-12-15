@@ -45,5 +45,5 @@ int valid_map_char(char c)
 
 int player_pos_char(char c)
 {
-    return (c == 'N' || c == 'S' || c == 'E' || c == 'S');
+    return (c == 'N' || c == 'S' || c == 'E' || c == 'W');
 }

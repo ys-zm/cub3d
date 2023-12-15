@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 18:08:19 by yzaim             #+#    #+#             */
-/*   Updated: 2023/12/13 16:44:53 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/15 16:57:32 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,23 @@ int	flood_fill(t_meta *meta, char *map, int x, int y)
 	return (ret);
 }
 
+// change if statements
+void	save_start_direction(t_meta *meta, char p)
+{
+	const bool	comp_ns = (p == 'N');
+	const bool	comp_ew = (p == 'E');
+
+	// TODO DO THIS SHIT LATERRR!?!?!
+	meta->map.start_dir = DIR_E & DIR_N;
+	// 0001
+	// 0010
+	// 0011  
+	if (p == 'N' || p == 'S')
+		meta->player.direction[VEC_Y] = 1 * comp_ns + -1 * !comp_ns;
+	if (p == 'E' || p == 'W')
+		meta->player.direction[VEC_X] = 1 * comp_ew + -1 * !comp_ew;
+}
+
 bool	save_start_pos(t_meta *meta, char *map)
 {
 	uint32_t	x;
@@ -69,8 +86,9 @@ bool	save_start_pos(t_meta *meta, char *map)
 		{
 			if (player_pos_char(map[find_index(meta, x, y)]))
 			{
-				meta->player.position[VEC_Y] = y;
-				meta->player.position[VEC_X] = x;
+				meta->map.player_start_x = x;
+				meta->map.player_start_y = y;
+				save_start_direction(meta, map[find_index(meta, x, y)]);
 				found = true;
 			}
 			x++;
@@ -138,8 +156,8 @@ int	check_map(t_meta *meta, char *rect)
 		return (EXIT_FAILURE);
 	if (!save_start_pos(meta, rect))
 		return (pr_err(NO_PLAYER));
-	rect[find_index(meta, meta->player.position[VEC_X], meta->player.position[VEC_Y])] = '0';
-	if (flood_fill(meta, rect, meta->player.position[VEC_X], meta->player.position[VEC_Y]))
+	rect[find_index(meta, meta->map.player_start_x, meta->map.player_start_y)] = '0';
+	if (flood_fill(meta, rect, meta->map.player_start_x, meta->map.player_start_y))
 		return (pr_err(INV_WALLS));
 	if (is_floor_exposed(meta, rect)) // maybe change to a warning?
 		return (pr_err(OUT_OF_BOUNDS));

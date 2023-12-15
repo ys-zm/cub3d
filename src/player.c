@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/10 02:25:34 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/18 20:45:45 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/15 16:41:28 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 
 void player_move(t_player *p, t_vec2f transform)
@@ -28,7 +29,7 @@ void player_move(t_player *p, t_vec2f transform)
 
 void player_look(t_player *p, double angle)
 {
-	const uint32_t len = 50;
+	const float len = 1.4f;
 
 	p->angle_rad = fmod(p->angle_rad + angle, 2 * PI);
 	if (p->angle_rad < 0)
@@ -37,43 +38,33 @@ void player_look(t_player *p, double angle)
 	p->direction = vec2f_normalize(vec2f_rotate2d(p->angle_rad));
 	p->beam = p->position + p->direction * (t_vec2f) {len, len};
 
+	print_vec2f("direction", p->direction);
+	print_vec2f("beam", p->beam);
 	player_raycast(p);
 }
 
 
-static t_ray raycast(t_map *map, t_vec2f start, t_vec2f angle, size_t depth)
+bool hit_wall(void *p, int32_t x, int32_t y)
 {
-	t_cell_type	cell;
-	size_t		len;
-	t_ray		r;
+	t_map *m = (t_map *) p;
 
-	r.start = start;
-	r.end = start;
-	len = 0;
-	while (len < depth)
-	{
-		cell = map_get_cell_type(map, r.end);
-		r.end = r.start + angle * (t_vec2f) {len, len};
-		if (cell == MAP_WALL)
-			break;
-		len++;
-	}
-	return r;
+	if (m->level[y * m->width + x] == MAP_WALL)
+		return (true);
+	return (false);
 }
 
-// TODO Abstract out.
-// Draws a line until we encounter a wall
+
 void player_raycast(t_player *p)
 {
-	const size_t depth = 500;
-	t_vec2f	dir;
-	size_t	i;
-
-	i = 0;
-	while (i < PLAYER_RAY_COUNT)
+	// iterate over normalized camera space, mapping it to the viewports's width. (-1, 1)
+	uint32_t i = 0;
+	while (i < p->meta->image->width)
 	{
-		dir = vec2f_normalize(vec2f_rotate2d(p->angle_rad + deg_to_rad(i) - (deg_to_rad(PLAYER_RAY_COUNT) / 2)));
-		p->rays[i] = raycast(&p->meta->map, p->position, dir, depth);
-		i++;	
+
+		float angle = 2 * i / (double) p->meta->image->width - 1;
+		t_vec2f ray_direction = p->direction + p->cam_plane * (t_vec2f) {1.0f, angle};
+		t_vec2f ray_start = p->position;
+		p->rays[i] = raycaster_cast(ray_start, ray_direction, hit_wall);
+		i++;
 	}
 }

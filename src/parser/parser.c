@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   parser.c                                          :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 18:08:19 by yzaim             #+#    #+#             */
-/*   Updated: 2023/11/09 18:52:24 by yzaim            ###   ########.fr       */
+/*   Updated: 2023/12/14 17:22:20 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*read_file(int fd)
 	char *full_map;
 
 	line = get_next_line(fd);
-	full_map = NULL;
+	full_map = ft_strdup("");
 	while (line)
 	{
 		full_map = ft_strjoin_free(full_map, line);
@@ -35,15 +35,9 @@ int map_ext(char *file)
 {
 	// char str[4] = {'.', 'c', 'u', 'b'};
 	const char *str = ".cub";
-	int i;
-	int j;
 
-	i = 0;
-	j = 0;
-	
 	char *dot = ft_strrchr(file, '.');
-
-	if (dot == file)
+	if (!dot || dot == file)
 		return (EXIT_FAILURE);
 	else if (ft_strncmp(dot, str, ft_strlen(dot)))
 		return (EXIT_FAILURE);
@@ -73,12 +67,13 @@ int	parser(t_meta *meta, char *map_file)
 	meta->map.height = find_height(meta->map_file); // find height of map
 	// w * h sized rectangle
 	rect = make_rect(meta->map_file, meta->map.width, meta->map.height);
+	print_map(rect, meta->map.width, meta->map.height);
 	free(meta->map_file);
 	if (!rect)
 		return(pr_err(MALL_ERR), EXIT_FAILURE);
 	if (check_map(meta, rect))
 		return (free(rect), EXIT_FAILURE);
-	print_map_cell(meta->map.level, meta->map.width, meta->map.height);
+	// print_map_cell(meta->map.level, meta->map.width, meta->map.height);
 	free(rect);
 	return (EXIT_SUCCESS);
 }
