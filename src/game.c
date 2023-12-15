@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 22:35:05 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/15 16:27:47 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/15 16:47:16 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,7 @@ void game_init(t_meta *meta)
 	p->position[VEC_Y] = meta->map.player_start_y + 0.5f;
 	p->cam_plane = (t_vec2f) {0.0f, 0.66f};
 
-
-	player_look(p, deg_to_rad(180.0f));
+	player_look(p, deg_to_rad(0.0f));
 }
 
 // This function handles all the "simulation" type stuff such as moving players opening doors, etc.

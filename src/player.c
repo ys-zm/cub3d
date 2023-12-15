@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/10 02:25:34 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/15 16:30:55 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/15 16:41:28 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void player_look(t_player *p, double angle)
 	p->direction = vec2f_normalize(vec2f_rotate2d(p->angle_rad));
 	p->beam = p->position + p->direction * (t_vec2f) {len, len};
 
+	print_vec2f("direction", p->direction);
+	print_vec2f("beam", p->beam);
 	player_raycast(p);
 }
 
