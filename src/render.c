@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/15 15:48:07 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/15 16:15:36 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,9 @@ void draw_cell(mlx_image_t *image, t_map *m, uint32_t cell_x, uint32_t cell_y)
 // The player is essentially just a single point/pixel, around which we draw a square with the "player point" in its center.
 void render_player(mlx_image_t *image, t_player *p)
 {
-	t_vec2i draw_pos = vec2f_to_vec2i(p->position);
+	t_vec2i draw_pos = vec2f_to_vec2i(p->position * (t_vec2f) {CELL_SIZE, CELL_SIZE});
+	draw_pos[VEC_X] += ((float) CELL_SIZE / 2);
+	draw_pos[VEC_Y] += ((float) CELL_SIZE / 2);
 	draw_pos[VEC_X] -= ((float) PLAYER_WIDTH / 2);
 	draw_pos[VEC_Y] -= ((float) PLAYER_HEIGHT / 2);
 

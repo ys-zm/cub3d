@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/15 16:04:16 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/15 16:12:00 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@
 #define PLAYER_WIDTH		16
 #define PLAYER_HEIGHT		16
 #define PLAYER_RAY_COUNT	90
-#define PLAYER_WALK_SPEED	15
+#define PLAYER_WALK_SPEED	1.0f
 #define PLAYER_ROTATE_SPEED	5
 #define PLAYER_RUN_MODIFIER 2.5
 

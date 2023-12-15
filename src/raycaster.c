@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/15 15:20:09 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/15 16:05:27 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/15 16:10:31 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ t_ray raycaster_cast(t_vec2f start, t_vec2f direction, t_ray_hit_check *hit)
 
 	// r.len = (int)(p.meta.image.height / r.perp_wall_distance);
 	// TODO LEFT OFF HERE
-	printf("ray len %d\n", r.perp_wall_distance);
+	// printf("ray len %d\n", r.perp_wall_distance);
 
 	return r;
 }
