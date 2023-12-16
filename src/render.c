@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/16 01:18:10 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/16 01:29:43 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,8 @@ const t_rgba CELL_COLORS[] = {
 	[MAP_SPACE]	= {0x696969ff},
 };
 
-
 void draw_cell(mlx_image_t *image, t_map *m, uint32_t cell_x, uint32_t cell_y)
 {
-	// const size_t x_offset = (cell_x * CELL_WIDTH) + cell_x + DRAW_OFFSET[VEC_X];
-	// const size_t y_offset = (cell_y * CELL_HEIGHT) + cell_y + DRAW_OFFSET[VEC_Y];
-
 	const size_t x_offset = (cell_x * CELL_WIDTH);
 	const size_t y_offset = (cell_y * CELL_HEIGHT);
 
@@ -55,7 +51,7 @@ void render_player(mlx_image_t *image, t_player *p)
 	{
 		t_ray *r = &p->rays[i];
 		t_vec2i start = vec2f_to_vec2i(r->start * CELL_SIZE);
-		t_vec2i end = vec2f_to_vec2i(r->end * CELL_SIZE);
+		t_vec2i	end	= vec2f_to_vec2i(r->end * CELL_SIZE);
 
 		draw_line(image, start, end, (t_rgba) {0xFF0000FF});
 		i++;

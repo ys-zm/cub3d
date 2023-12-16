@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/10 02:25:34 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/16 00:58:40 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/16 01:33:49 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,9 @@ void player_raycast(t_player *p)
 	{
 
 		float angle = 2 * i / (double) p->meta->image->width - 1;
-		t_vec2f ray_direction = p->direction + p->cam_plane * (t_vec2f) {1.0f, angle};
+		t_vec2f ray_direction = vec2f_normalize(p->direction + p->cam_plane * (t_vec2f) {1.0f, angle});
 		t_vec2f ray_start = p->position;
+		print_vec2f("direction",(ray_direction));
 		p->rays[i] = raycaster_cast(p->meta, ray_start, ray_direction, hit_wall);
 		i++;
 	}
