@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/15 19:24:50 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/16 01:12:16 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,6 +205,7 @@ float deg_to_rad(float deg);
 // test_utils.c
 void	print_vec2f(const char *s, t_vec2f vec);
 void	print_vec2i(const char *s, t_vec2i vec);
+void print_ray(const char *s, t_ray r);
 void	print_cell(t_cell_type cell);
 void 	game_init(t_meta *meta);
 void 	game_loop(void* param);

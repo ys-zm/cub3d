@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/16 00:57:28 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/16 01:18:10 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,15 @@ void render_player(mlx_image_t *image, t_player *p)
 	while (i < p->meta->image->width)
 	{
 		t_ray *r = &p->rays[i];
-		// printf("----------------------\n");
-		// print_vec2f("start", p->rays[i].start);
-		// print_vec2f("end", p->rays[i].end);
 		t_vec2i start = vec2f_to_vec2i(r->start * CELL_SIZE);
 		t_vec2i end = vec2f_to_vec2i(r->end * CELL_SIZE);
-		// print_vec2i("start", start);
-		// print_vec2i("end", end);
 
 		draw_line(image, start, end, (t_rgba) {0xFF0000FF});
 		i++;
 	}
+
+	// print_ray("first", p->rays[0]);
+	// print_ray("last", p->rays[p->meta->image->width - 1]);
 
 	// Draw the player look direction.
 	draw_line(image,	vec2f_to_vec2i(p->position * CELL_SIZE),	
