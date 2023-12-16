@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/16 01:29:43 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/16 02:20:58 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,10 @@ void render_player(mlx_image_t *image, t_player *p)
 	// Draw the player square.
 	draw_rect(image,	draw_pos[VEC_X], draw_pos[VEC_Y],
 						PLAYER_WIDTH, PLAYER_HEIGHT, COLOR_PLAYER);
+
+
+	// Draw cam plane.
+	draw_line(image, vec2f_to_vec2i((p->position - p->cam_plane) * CELL_SIZE), vec2f_to_vec2i((p->position + p->cam_plane) * CELL_SIZE), (t_rgba) {0xFFF000FF});
 
 	size_t i = 0;
 	while (i < p->meta->image->width)
