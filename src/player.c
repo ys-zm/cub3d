@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/10 02:25:34 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/16 02:12:57 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/16 02:49:18 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,12 @@ void player_look(t_player *p, double angle)
 		p->angle_rad += 2 * PI;
 
 	p->direction = vec2f_normalize(vec2f_rotate2d(p->angle_rad));
+	// p->cam_plane = p->cam_plane * vec2f_rotate2d(p->angle_rad);
 	p->beam = p->position + p->direction * (t_vec2f) {len, len};
+
+	double oldPlaneX = p->cam_plane[VEC_X];
+	p->cam_plane[VEC_X] = p->cam_plane[VEC_X] * cos(angle) - p->cam_plane[VEC_Y] * sin(angle);
+	p->cam_plane[VEC_Y] = oldPlaneX * sin(angle) + p->cam_plane[VEC_Y] * cos(angle);
 
 	player_raycast(p);
 }
@@ -46,7 +51,10 @@ bool hit_wall(void *p, int32_t x, int32_t y)
 {
 	t_map *m = (t_map *) p;
 
-	if (m->level[y * m->width + x] == MAP_WALL)
+	const size_t index = y * m->width + x;
+	if (index > m->width * m->height)
+		printf("MAP OUT OF BOIUNDS\n");
+	else if (m->level[index] == MAP_WALL)
 		return (true);
 	return (false);
 }
@@ -54,14 +62,13 @@ bool hit_wall(void *p, int32_t x, int32_t y)
 
 void player_raycast(t_player *p)
 {
-	// iterate over normalized camera space, mapping it to the viewports's width. (-1, 1)
 	uint32_t i = 0;
 	while (i < p->meta->image->width)
 	{
+		float camera_x = 2 * i / (double) p->meta->image->width - 1;
+		t_vec2f ray_direction = p->direction;
+		t_vec2f ray_start = p->position + (p->cam_plane * camera_x);
 
-		float angle = 2 * i / (double) p->meta->image->width - 1;
-		t_vec2f ray_direction = vec2f_normalize(p->direction + p->cam_plane * (t_vec2f) {1.0f, angle});
-		t_vec2f ray_start = p->position;
 		print_vec2f("direction",(ray_direction));
 		p->rays[i] = raycaster_cast(p->meta, ray_start, ray_direction, hit_wall);
 		i++;

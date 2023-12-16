@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/15 15:20:09 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/16 01:34:59 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/16 02:51:41 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ t_ray raycaster_cast(t_meta *m, t_vec2f start, t_vec2f direction, t_ray_hit_chec
 	t_vec2i		map_pos;
 	t_vec2f		side_distance;
 	t_vec2f		delta_distance;
+
+	size_t max_iterations = 10;
 
 	ft_bzero(&r, sizeof(t_ray));
 
@@ -56,7 +58,7 @@ t_ray raycaster_cast(t_meta *m, t_vec2f start, t_vec2f direction, t_ray_hit_chec
 		side_distance[VEC_Y] = (map_pos[VEC_Y] + 1.0f - start[VEC_Y]) * delta_distance[VEC_Y];
 	}
 
-	while (!r.hit)
+	while (!r.hit && max_iterations)
 	{
 		if (side_distance[VEC_X] < side_distance[VEC_Y])	
 		{
@@ -70,6 +72,7 @@ t_ray raycaster_cast(t_meta *m, t_vec2f start, t_vec2f direction, t_ray_hit_chec
 			map_pos[VEC_Y] += step[VEC_Y];
 			r.hit_side = HIT_EW;
 		}
+		max_iterations--;
 		r.hit = hit_check(&m->map, map_pos[VEC_X], map_pos[VEC_Y]);
 	}
 

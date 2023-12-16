@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/16 02:20:58 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/16 02:49:31 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ void render_player(mlx_image_t *image, t_player *p)
 		i++;
 	}
 
-	// print_ray("first", p->rays[0]);
-	// print_ray("last", p->rays[p->meta->image->width - 1]);
 
 	// Draw the player look direction.
 	draw_line(image,	vec2f_to_vec2i(p->position * CELL_SIZE),	
