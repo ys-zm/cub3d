@@ -27,9 +27,6 @@ const t_rgba CELL_COLORS[] = {
 
 void draw_cell(mlx_image_t *image, t_map *m, uint32_t cell_x, uint32_t cell_y)
 {
-	// const size_t x_offset = (cell_x * CELL_WIDTH) + cell_x + DRAW_OFFSET[VEC_X];
-	// const size_t y_offset = (cell_y * CELL_HEIGHT) + cell_y + DRAW_OFFSET[VEC_Y];
-
 	const size_t x_offset = (cell_x * CELL_WIDTH);
 	const size_t y_offset = (cell_y * CELL_HEIGHT);
 

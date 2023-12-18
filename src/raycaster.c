@@ -14,18 +14,26 @@
 #include "meta.h"
 #include "vector.h"
 #include <stdint.h>
+# include <math.h>
 
+bool check_hit(t_meta *meta, uint32_t x, uint32_t y)
+{
+	if (meta->map.level[find_index(meta, x, y)] == MAP_WALL)
+		return (true);
+	return (false);
+}
 
-t_ray raycaster_cast(t_ray_hit_check *hit, float angle, t_vec2f direction)
+t_ray raycaster_cast(t_meta *meta, t_vec2f p_position, float angle, t_vec2f direction)
 {
 	t_ray r;
 	ft_bzero(&r, sizeof(t_ray));
-
-
+	(void)angle;
+	(void)direction;
+	
 	r.delta_distance[VEC_X] = (r.direction[VEC_X] == 0) ? 1e30 : fabs(1 / r.direction[VEC_X]);
 	r.delta_distance[VEC_Y] = (r.direction[VEC_Y] == 0) ? 1e30 : fabs(1 / r.direction[VEC_Y]);
 
-	t_vec2i p_pos = vec2f_to_vec2i(p.position) / (t_vec2i) {CELL_SIZE, CELL_SIZE};
+	t_vec2i p_pos = vec2f_to_vec2i(p_position) / (t_vec2i) {CELL_SIZE, CELL_SIZE};
 	r.map_pos = p_pos;
 
 	if (r.direction[VEC_X] < 0)
@@ -64,7 +72,7 @@ t_ray raycaster_cast(t_ray_hit_check *hit, float angle, t_vec2f direction)
 			r.map_pos[VEC_Y] += r.step[VEC_Y];
 			r.hit_side = HIT_EW;
 		}
-		r.hit = *hit;
+		r.hit = check_hit(meta, r.map_pos[VEC_X], r.map_pos[VEC_Y]);
 	}
 
 	if(r.hit_side == HIT_EW)
@@ -77,7 +85,7 @@ t_ray raycaster_cast(t_ray_hit_check *hit, float angle, t_vec2f direction)
 
 	// r.len = (int)(p.meta.image.height / r.perp_wall_distance);
 	// TODO LEFT OFF HERE
-	printf("ray len %d\n", r.perp_wall_distance);
+	// printf("ray len %d\n", r.perp_wall_distance);
 
-
+	return (r);
 }

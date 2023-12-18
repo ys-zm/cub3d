@@ -20,87 +20,78 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-void player_move(t_player *p, t_vec2f transform)
+bool if_hits_wall(t_meta *meta, uint32_t x, uint32_t y)
 {
-	p->position += transform;
-	player_look(p, 0.0);
+	if (meta->map.level[find_index(meta, x, y)] == MAP_WALL)
+		return (true);
+	return (false);
 }
 
-void player_look(t_player *p, double angle)
+void player_move_up(t_meta *meta)
 {
-	const uint32_t len = 50;
+	t_point new_position;
 
-	p->angle_rad = fmod(p->angle_rad + angle, 2 * PI);
-	if (p->angle_rad < 0)
-		p->angle_rad += 2 * PI;
-
-	p->direction = vec2f_normalize(vec2f_rotate2d(p->angle_rad));
-	p->beam = p->position + p->direction * (t_vec2f) {len, len};
-
-	player_raycast(p);
-}
-
-
-t_ray_hit_check hit_wall(void *p, uint32_t x, uint32_t y)
-{
-	t_map *m = (t_map *) p;
-
-	if (m->level[y * m->width + x] == MAP_WALL)
-		return true;
-	return false;
-}
-
-
-void player_raycast(t_player *p)
-{
-	// iterate over normalized camera space, mapping it to the viewports's width. (-1, 1)
-	uint32_t i = 0;
-	while (i < p->meta->image->width)
+	new_position.x = (int)(meta->player.position.x + meta->player.direction.x * PLAYER_MOV_SPEED);
+	new_position.y = (int)(meta->player.position.y + meta->player.direction.y * PLAYER_MOV_SPEED);
+	if (!if_hits_wall(meta, new_position.x, new_position.y))
 	{
-		t_ray *r = &p->rays[i];
-		// TODO Maybe a double.
-		float cam_x = 2 * i / (double) p->meta->image->width - 1;
-		t_vec2f ray_direction = p->direction + p->cam_plane * (t_vec2f) {1.0f, cam_x};
-		p->rays[i] = raycaster_cast(hit_wall, cam_x, ray_direction);
-		i++;
+		meta->player.position.x += meta->player.direction.x * PLAYER_MOV_SPEED;
+		meta->player.position.y += meta->player.direction.y * PLAYER_MOV_SPEED;
 	}
 }
 
-
-static t_ray raycast(t_map *map, t_vec2f start, t_vec2f angle, size_t depth)
+void player_move_down(t_meta *meta)
 {
-	t_cell_type	cell;
-	size_t		len;
-	t_ray		r;
+	t_point new_position;
 
-	r.direction = start;
-	r.end = start;
-	len = 0;
-	while (len < depth)
+	new_position.x = (int)(meta->player.position.x - meta->player.direction.x * PLAYER_MOV_SPEED);
+	new_position.y = (int)(meta->player.position.y - meta->player.direction.y * PLAYER_MOV_SPEED);
+	if (!if_hits_wall(meta, new_position.x, new_position.y))
 	{
-		cell = map_get_cell_type(map, r.end);
-		r.end = r.direction + angle * (t_vec2f) {len, len};
-		if (cell == MAP_WALL)
-			break;
-		len++;
+		meta->player.position.x -= meta->player.direction.x * PLAYER_MOV_SPEED;
+		meta->player.position.y -= meta->player.direction.y * PLAYER_MOV_SPEED;
 	}
-	return r;
+
 }
 
-// TODO Abstract out.
-// Draws a line until we encounter a wall
-void player_raycast1(t_player *p)
+void player_move_left(t_meta *meta)
 {
-	const size_t depth = 500;
-	t_vec2f	dir;
-	size_t	i;
+	t_point new_position;
 
-	i = 0;
-	while (i < PLAYER_RAY_COUNT)
+	new_position.x = (int)(meta->player.position.x - meta->data.plane.x * PLAYER_MOV_SPEED);
+	new_position.y = (int)(meta->player.position.y - meta->data.plane.y * PLAYER_MOV_SPEED);
+	if (!if_hits_wall(meta, new_position.x, new_position.y))
 	{
-		dir = vec2f_normalize(vec2f_rotate2d(p->angle_rad + deg_to_rad(i) - (deg_to_rad(PLAYER_RAY_COUNT) / 2)));
-		p->rays[i] = raycast(&p->meta->map, p->position, dir, depth);
-		i++;	
+		meta->player.position.x -= meta->data.plane.x * PLAYER_MOV_SPEED;
+		meta->player.position.y -= meta->data.plane.y * PLAYER_MOV_SPEED;
 	}
 }
+
+void player_move_right(t_meta *meta)
+{
+	t_point new_position;
+
+	new_position.x = (int)(meta->player.position.x + meta->data.plane.x * PLAYER_MOV_SPEED);
+	new_position.y = (int)(meta->player.position.y + meta->data.plane.y * PLAYER_MOV_SPEED);
+	if (!if_hits_wall(meta, new_position.x, new_position.y))
+	{
+		meta->player.position.x += meta->data.plane.x * PLAYER_MOV_SPEED;
+		meta->player.position.y += meta->data.plane.y * PLAYER_MOV_SPEED;
+	}
+}
+
+t_vector vector_rotate(t_vector old, double radiant)
+{
+	t_vector	new;
+
+	new.x = old.x * cos(radiant) - old.y * sin(radiant);
+	new.y = old.x * sin(radiant) + old.y * cos(radiant);
+	return (new);
+}
+// negative rotation parameter turns left vs positive rotation parameter turns right
+void player_turn(t_meta *meta, double radiant)
+{
+	meta->player.direction = vector_rotate(meta->player.direction, radiant);
+	meta->data.plane = vector_rotate(meta->data.plane, radiant);
+}
+

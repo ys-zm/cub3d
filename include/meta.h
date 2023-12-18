@@ -64,8 +64,10 @@
 #define PLAYER_HEIGHT		16
 #define PLAYER_RAY_COUNT	90
 #define PLAYER_WALK_SPEED	15
-#define PLAYER_ROTATE_SPEED	5
 #define PLAYER_RUN_MODIFIER 2.5
+
+#define PLAYER_MOV_SPEED	0.1
+#define PLAYER_ROTATE_SPEED	0.1
 
 #define COLOR_BACKGROUND	0x111111FF
 #define COLOR_PLAYER		0xFFFFFFFF
@@ -88,9 +90,6 @@ typedef enum e_side {
 	HIT_EW,
 }	t_side;
 
-
-
-
 typedef union s_rgba
 {
 	uint32_t	value;
@@ -103,33 +102,46 @@ typedef union s_rgba
 	};
 }	t_rgba;
 
-typedef struct s_ray {
+typedef struct s_vector {
+	double	x;
+	double	y;
+}	t_vector;
+
+typedef struct s_point {
+	uint32_t	x;
+	uint32_t	y;
+}	t_point;
+
+typedef struct s_ray_data {
 	uint32_t	perp_wall_distance;
-	uint32_t	len;
-	t_vec2f		end;
-	t_vec2f		direction;
-	t_vec2f		side_distance;
-	t_vec2f		delta_distance;
-	t_vec2i		map_pos;
-	t_vec2i		step;
-	t_side		hit_side;
+	uint32_t	line_height;
+
+	uint32_t	start;
+	uint32_t	end;
+
+	t_vector	ray_direction;
+	t_vector	side_distance;
+	t_vector	delta_distance;
+	
+	t_vector	map_pos;
+	t_vector	step;
+	t_side		side;
 	bool 		hit;
-} t_ray;
+
+	t_vector	plane;
+} t_ray_data;
 
 typedef struct s_meta t_meta;
 
 
 // NOTE: Maybe switch to double instead of float?
 typedef struct s_player {
-	t_meta *meta;
+	t_meta		*meta;
 	// TODO Have a map_position which will be the position relative to the leftmost square.
 	// 		Based on that position we can just `position / CELL_WIDTH` to find the cell position.
-	t_vec2i map_cell;
-	t_vec2f position;
-	t_vec2f direction;
-	t_vec2f	cam_plane;
-	t_vec2f beam;
-	t_ray 	rays[WINDOW_WIDTH];
+	t_vector	position;
+	t_vector	direction;
+	t_vector	cam_plane;
 	float	angle_rad;
 } t_player;
 
@@ -160,7 +172,9 @@ typedef struct s_meta {
 	t_map		map;
 	t_tex		tex;
 	char		*map_file;
+	t_ray_data	data;
 }	t_meta;
+
 
 // cub3d.c
 int		cub3d(int argc, char *argv[]);
@@ -170,13 +184,17 @@ void	game_init(t_meta *meta);
 void	game_loop(void* param);
 
 // player.c
-void	player_move(t_player *p, t_vec2f transform);
-void	player_look(t_player *p, double angle);
-void	player_raycast(t_player *p);
+bool if_hits_wall(t_meta *meta, uint32_t x, uint32_t y);
+void player_move_up(t_meta *meta);
+void player_move_down(t_meta *meta);
+void player_move_left(t_meta *meta);
+void player_move_right(t_meta *meta);
+t_vector vector_rotate(t_vector old, double radiant);
+void player_turn(t_meta *meta, double radiant);
+
 
 // input.c
 void	key_hook(mlx_key_data_t keydata, void* param);
-void	cursor_hook(double xpos, double ypos, void* param);
 
 // render.c
 t_vec2i	render_get_draw_offset();
@@ -204,7 +222,7 @@ void 	game_init(t_meta *meta);
 void 	game_loop(void* param);
 
 // keys.c
-void 	keyhook(mlx_key_data_t keydata, void* param);
+void	keys_update(mlx_key_data_t keydata, void *param);
 
 // draw.c
 void 	draw_square(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color);

@@ -41,16 +41,17 @@ SRCS	= 		parser/check_elements.c \
 				utils/math_utils.c	\
 				cub3d.c \
 				game.c \
-				input.c \
-				render.c \
 				draw.c \
-				player.c \
 				utils.c \
 				test_utils.c \
 				map.c \
 				vector.c \
-				timer.c
+				timer.c \
+				keys.c \
+				player.c \
 
+				# raycaster.c
+			# render.c 
 HEADER_DIR	:=	include
 HEADERS 	:=	meta.h \
 				timer.h
