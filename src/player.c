@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/10 02:25:34 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/16 02:49:18 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/19 01:01:39 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,13 @@ void player_look(t_player *p, double angle)
 		p->angle_rad += 2 * PI;
 
 	p->direction = vec2f_normalize(vec2f_rotate2d(p->angle_rad));
+	print_vec2f("direction", p->direction);
 	// p->cam_plane = p->cam_plane * vec2f_rotate2d(p->angle_rad);
 	p->beam = p->position + p->direction * (t_vec2f) {len, len};
 
 	double oldPlaneX = p->cam_plane[VEC_X];
-	p->cam_plane[VEC_X] = p->cam_plane[VEC_X] * cos(angle) - p->cam_plane[VEC_Y] * sin(angle);
-	p->cam_plane[VEC_Y] = oldPlaneX * sin(angle) + p->cam_plane[VEC_Y] * cos(angle);
+	p->cam_plane[VEC_X] = p->cam_plane[VEC_X] * cos(p->angle_rad) - p->cam_plane[VEC_Y] * sin(p->angle_rad);
+	p->cam_plane[VEC_Y] = oldPlaneX * sin(p->angle_rad) + p->cam_plane[VEC_Y] * cos(p->angle_rad);
 
 	player_raycast(p);
 }
@@ -69,7 +70,6 @@ void player_raycast(t_player *p)
 		t_vec2f ray_direction = p->direction;
 		t_vec2f ray_start = p->position + (p->cam_plane * camera_x);
 
-		print_vec2f("direction",(ray_direction));
 		p->rays[i] = raycaster_cast(p->meta, ray_start, ray_direction, hit_wall);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 22:35:05 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/16 02:49:58 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/19 00:55:12 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,28 +25,31 @@
 void game_init(t_meta *meta)
 {
 	t_player* const p = &meta->player;
+	float start_angle = 0.0f;
 
 	timer_init(&meta->update_timer, mlx_get_time);
 	timer_start(&meta->update_timer);
 
+	// TODO player_init function
 	// setup player stuff.
 	p->meta = meta;
 	p->position[VEC_X] = meta->map.player_start_x + 0.5f;
 	p->position[VEC_Y] = meta->map.player_start_y + 0.5f;
 	p->cam_plane = (t_vec2f) {0.0f, 0.66f};
 
-	if (p->meta->map.start_dir == DIR_E)
-		p->direction = (t_vec2f) {-1.0f, 0.0f};
-	else if (p->meta->map.start_dir == DIR_W)
-		p->direction = (t_vec2f) {1.0f, 0.0f};
-	else if (p->meta->map.start_dir == DIR_N)
-		p->direction = (t_vec2f) {0.0f, -1.0f};
+	// TODO For some reason there is a 45 degree offset?
+	if (p->meta->map.start_dir == DIR_N)
+		start_angle = 225.0f;
 	else if (p->meta->map.start_dir == DIR_S)
-		p->direction = (t_vec2f) {0.0f, 1.0f};
+		start_angle = 45.0f;
+	else if (p->meta->map.start_dir == DIR_E)
+		start_angle = 315.0f;
+	else if (p->meta->map.start_dir == DIR_W)
+		start_angle = 135.0f;
 	p->beam = p->position + p->direction * (t_vec2f) {2.5f, 2.5f};
 
 
-	// player_look(p, deg_to_rad(45.0f));
+	player_look(p, deg_to_rad(start_angle));
 }
 
 // This function handles all the "simulation" type stuff such as moving players opening doors, etc.
