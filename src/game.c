@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 22:35:05 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/19 00:55:12 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/19 23:30:05 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ void game_init(t_meta *meta)
 		start_angle = 315.0f;
 	else if (p->meta->map.start_dir == DIR_W)
 		start_angle = 135.0f;
-	p->beam = p->position + p->direction * (t_vec2f) {2.5f, 2.5f};
-
 
 	player_look(p, deg_to_rad(start_angle));
 }
