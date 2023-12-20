@@ -84,7 +84,8 @@ bool	save_start_pos(t_meta *meta, char *map)
 			{
 				meta->map.player_start_x = x;
 				meta->map.player_start_y = y;
-				save_start_direction(meta, map[find_index(meta, x, y)]);
+				meta->map.player_start_dir = map[find_index(meta, x, y)];
+				// save_start_direction(meta, map[find_index(meta, x, y)]);
 				found = true;
 			}
 			x++;

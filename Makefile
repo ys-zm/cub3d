@@ -11,7 +11,7 @@ else ifeq ($(shell uname -m),x86_64)
 endif
 
 NAME		:= app
-RUN_CMD		:= ./$(NAME) test_maps/simple.cub
+RUN_CMD		:= ./$(NAME) test_maps/valid.cub
 
 # CFLAGS		+= -Wall -Wextra -Werror
 CFLAGS		+= -Wall -Wextra
@@ -37,20 +37,19 @@ SRCS	= 		parser/check_elements.c \
 				parser/utils_one.c \
 				parser/utils_two.c \
 				utils/error.c \
-				utils/free.c	\
-				utils/math_utils.c	\
+				utils/free.c \
+				utils/vec2d_utils.c \
+				utils/colors.c \
 				cub3d.c \
 				game.c \
-				input.c \
-				render.c \
 				draw.c \
-				raycaster.c \
-				player.c \
-				utils.c \
-				test_utils.c \
+        test_utils.c \
 				map.c \
 				vector.c \
-				timer.c
+				timer.c \
+				keys.c \
+				player.c \
+				raycaster.c
 
 HEADER_DIR	:=	include
 HEADERS 	:=	meta.h \

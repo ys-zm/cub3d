@@ -14,6 +14,7 @@
 #include "meta.h"
 #include "vector.h"
 #include <stdio.h>
+#include <limits.h>
 
 typedef struct s_mat3x3
 {

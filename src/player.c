@@ -20,60 +20,77 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-void player_move(t_player *p, t_vec2f transform)
+// detects the hit too late
+bool if_hits_wall(t_meta *meta, uint32_t x, uint32_t y)
 {
-	p->position += transform;
-	player_look(p, 0.0);
-}
-
-void player_look(t_player *p, double angle)
-{
-	const float len = 1.4f;
-
-	p->angle_rad = fmod(p->angle_rad + angle, 2 * PI);
-	if (p->angle_rad < 0)
-		p->angle_rad += 2 * PI;
-
-	p->direction = vec2f_normalize(vec2f_rotate2d(p->angle_rad));
-	p->beam = p->position + p->direction * (t_vec2f) {len, len};
-
-	p->cam_plane = (t_vec2f) {0.0f, 0.66f};
-
-
-
-	// const float rot_step = deg_to_rad(p->angle_rad);
-	// double oldPlaneX = p->cam_plane[VEC_X];
-	// p->cam_plane[VEC_X] = p->cam_plane[VEC_X]	* cos(rot_step) - p->cam_plane[VEC_Y] * sin(rot_step);
-	// p->cam_plane[VEC_Y] = oldPlaneX				* sin(rot_step) + p->cam_plane[VEC_Y] * cos(rot_step);
-
-	player_raycast(p);
-}
-
-
-bool hit_wall(void *p, int32_t x, int32_t y)
-{
-	t_map *m = (t_map *) p;
-
-	const size_t index = y * m->width + x;
-	if (index > m->width * m->height)
-		printf("MAP OUT OF BOIUNDS\n");
-	else if (m->level[index] == MAP_WALL)
+	if (meta->map.level[find_index(meta, x, y)] == MAP_WALL)
+	{
 		return (true);
+	}
 	return (false);
 }
 
-
-void player_raycast(t_player *p)
+void player_move_up(t_meta *meta)
 {
-	uint32_t i = 0;
-	while (i < p->meta->image->width)
-	{
-		float camera_x = 2 * i / (double) p->meta->image->width - 1;
-		t_vec2f ray_direction = p->direction;
-		t_vec2f ray_start = (p->position + p->cam_plane);
+	t_vec2d new_position;
+	t_player* const player = &meta->player;
 
-		p->rays[i] = raycaster_cast(p->meta, ray_start, ray_direction, hit_wall);
-		i++;
+	new_position.x = (int)(player->position.x + player->direction.x * PLAYER_MOV_SPEED);
+	new_position.y = (int)(player->position.y + player->direction.y * PLAYER_MOV_SPEED);
+	if (!if_hits_wall(meta, new_position.x, new_position.y))
+	{
+		player->position.x += player->direction.x * PLAYER_MOV_SPEED;
+		player->position.y += player->direction.y * PLAYER_MOV_SPEED;
 	}
 }
+
+void player_move_down(t_meta *meta)
+{
+	t_vec2d new_position;
+	t_player* const player = &meta->player;
+
+	new_position.x = (int)(player->position.x - player->direction.x * PLAYER_MOV_SPEED);
+	new_position.y = (int)(player->position.y - player->direction.y * PLAYER_MOV_SPEED);
+	if (!if_hits_wall(meta, new_position.x, new_position.y))
+	{
+		player->position.x -= player->direction.x * PLAYER_MOV_SPEED;
+		player->position.y -= player->direction.y * PLAYER_MOV_SPEED;
+	}
+
+}
+
+void player_move_left(t_meta *meta)
+{
+	t_vec2d new_position;
+	t_player* const player = &meta->player;
+
+	new_position.x = (int)(player->position.x - player->data.plane.x * PLAYER_MOV_SPEED);
+	new_position.y = (int)(player->position.y - player->data.plane.y * PLAYER_MOV_SPEED);
+	if (!if_hits_wall(meta, new_position.x, new_position.y))
+	{
+		player->position.x -= player->data.plane.x * PLAYER_MOV_SPEED;
+		player->position.y -= player->data.plane.y * PLAYER_MOV_SPEED;
+	}
+}
+
+void player_move_right(t_meta *meta)
+{
+	t_vec2d new_position;
+	t_player* const player = &meta->player;
+
+	new_position.x = (int)(player->position.x + player->data.plane.x * PLAYER_MOV_SPEED);
+	new_position.y = (int)(player->position.y + player->data.plane.y * PLAYER_MOV_SPEED);
+	if (!if_hits_wall(meta, new_position.x, new_position.y))
+	{
+		player->position.x += player->data.plane.x * PLAYER_MOV_SPEED;
+		player->position.y += player->data.plane.y * PLAYER_MOV_SPEED;
+	}
+}
+
+// negative rotation parameter turns left vs positive rotation parameter turns right
+void player_turn(t_meta *meta, double radiant)
+{
+	meta->player.direction = vec2d_rotate(meta->player.direction, radiant);
+	meta->player.data.plane = vec2d_rotate(meta->player.data.plane, radiant);
+}
+
