@@ -83,9 +83,16 @@ void	dda_algorithm(t_meta *meta)
 			data->side = HIT_EW;
 		}
 		//Check if ray has hit a wall
-		if (meta->map.level[find_index(meta, data->map_pos.x, data->map_pos.y)] == MAP_WALL)
+		if (data->map_pos.x >= 0 && data->map_pos.y >= 0 && data->map_pos.x < meta->map.width && data->map_pos.y < meta->map.height)
 		{
-			data->hit = true;
+			if (meta->map.level[find_index(meta, data->map_pos.x, data->map_pos.y)] == MAP_WALL)
+			{
+				data->hit = true;
+			}
+		}
+		else
+		{
+			UNIMPLEMENTED("Map out of bounds.");
 		}
 	}
 }
@@ -103,6 +110,10 @@ void	calculate_line_height(t_ray_data *data, int h)
 	} 
 	//Calculate height of line to draw on screen
 	data->line_height = (int)(h / data->perp_wall_distance);
+	if (data->line_height > WINDOW_HEIGHT)
+	{
+		data->line_height = WINDOW_HEIGHT;
+	}
 }
 
 void	calculate_draw_start_and_end(t_meta *meta, uint32_t h)
@@ -112,10 +123,14 @@ void	calculate_draw_start_and_end(t_meta *meta, uint32_t h)
 
 	data->start = -data->line_height / 2 + h / 2;
 	if (data->start < 0)
+	{
 		data->start = 0;
+	}
 	data->end = data->line_height / 2 + h / 2;
 	if (data->end >= h)
+	{
 		data->end = h - 1;
+	}
 }
 
 void	draw_column(t_meta *meta, uint32_t col, uint32_t h)

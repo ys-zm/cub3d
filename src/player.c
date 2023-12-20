@@ -36,7 +36,7 @@ void player_move_up(t_meta *meta)
 
 	new_position.x = (int)(player->position.x + player->direction.x * PLAYER_MOV_SPEED);
 	new_position.y = (int)(player->position.y + player->direction.y * PLAYER_MOV_SPEED);
-	if (!if_hits_wall(meta, new_position.x, new_position.y))
+	if (!if_hits_wall(meta, new_position.x, player->position.y) || !if_hits_wall(meta, player->position.x, new_position.y) || !if_hits_wall(meta, new_position.x, new_position.y))
 	{
 		player->position.x += player->direction.x * PLAYER_MOV_SPEED;
 		player->position.y += player->direction.y * PLAYER_MOV_SPEED;
@@ -50,7 +50,7 @@ void player_move_down(t_meta *meta)
 
 	new_position.x = (int)(player->position.x - player->direction.x * PLAYER_MOV_SPEED);
 	new_position.y = (int)(player->position.y - player->direction.y * PLAYER_MOV_SPEED);
-	if (!if_hits_wall(meta, new_position.x, new_position.y))
+	if (!if_hits_wall(meta, new_position.x, player->position.y) || !if_hits_wall(meta, player->position.x, new_position.y) || !if_hits_wall(meta, new_position.x, new_position.y))
 	{
 		player->position.x -= player->direction.x * PLAYER_MOV_SPEED;
 		player->position.y -= player->direction.y * PLAYER_MOV_SPEED;
@@ -65,7 +65,7 @@ void player_move_left(t_meta *meta)
 
 	new_position.x = (int)(player->position.x - player->data.plane.x * PLAYER_MOV_SPEED);
 	new_position.y = (int)(player->position.y - player->data.plane.y * PLAYER_MOV_SPEED);
-	if (!if_hits_wall(meta, new_position.x, new_position.y))
+	if (!if_hits_wall(meta, new_position.x, player->position.y) || !if_hits_wall(meta, player->position.x, new_position.y) || !if_hits_wall(meta, new_position.x, new_position.y))
 	{
 		player->position.x -= player->data.plane.x * PLAYER_MOV_SPEED;
 		player->position.y -= player->data.plane.y * PLAYER_MOV_SPEED;
@@ -79,7 +79,7 @@ void player_move_right(t_meta *meta)
 
 	new_position.x = (int)(player->position.x + player->data.plane.x * PLAYER_MOV_SPEED);
 	new_position.y = (int)(player->position.y + player->data.plane.y * PLAYER_MOV_SPEED);
-	if (!if_hits_wall(meta, new_position.x, new_position.y))
+	if (!if_hits_wall(meta, new_position.x, player->position.y) || !if_hits_wall(meta, player->position.x, new_position.y) || !if_hits_wall(meta, new_position.x, new_position.y))
 	{
 		player->position.x += player->data.plane.x * PLAYER_MOV_SPEED;
 		player->position.y += player->data.plane.y * PLAYER_MOV_SPEED;

@@ -56,12 +56,9 @@ void	save_start_direction(t_player *player, char dir)
 void game_init(t_meta *meta)
 {
 	t_player* const p = &meta->player;
-	float start_angle = 0.0f;
-
 	timer_init(&meta->update_timer, mlx_get_time);
 	timer_start(&meta->update_timer);
 
-	// TODO player_init function
 	// setup player stuff.
 	p->meta = meta;
 	p->position.x = meta->map.player_start_x;
@@ -78,7 +75,6 @@ void raycast_and_render(t_meta *meta)
 
 
 	col = 0;
-
 	while(col < w)
 	{
 		player->data.camera_x = 2 * col / (double)w - 1 ; //x-coordinate in camera space
@@ -91,6 +87,8 @@ void raycast_and_render(t_meta *meta)
 
 		// save calculations of line height and render else where?
 		calculate_line_height(&meta->player.data, h);
+		if (col == 0)
+			printf("LineHeight: %ld\n", meta->player.data.line_height);
 		calculate_draw_start_and_end(meta, h);
 		draw_column(meta, col, h);
 		col++;

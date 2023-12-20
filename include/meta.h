@@ -45,8 +45,8 @@
 #define PI 3.1415926535
 
 // Window settings
-#define WINDOW_WIDTH 720
-#define WINDOW_HEIGHT 480
+#define WINDOW_WIDTH 1920
+#define WINDOW_HEIGHT 1080 
 #define WINDOW_TITLE "Gammoe"
 
 #define PLAYER_VIEWPORT_X 720
@@ -180,6 +180,7 @@ typedef struct s_meta {
 	t_timer 	update_timer;
 	t_timer 	fps_timer;
 	uint32_t 	fps;
+	t_player	player;
 	t_map		map;
 	t_tex		tex;
 	char		*map_file;
@@ -194,12 +195,12 @@ void	game_init(t_meta *meta);
 void	game_loop(void* param);
 
 // player.c
-bool if_hits_wall(t_meta *meta, uint32_t x, uint32_t y);
-void player_move_up(t_meta *meta);
-void player_move_down(t_meta *meta);
-void player_move_left(t_meta *meta);
-void player_move_right(t_meta *meta);
-void player_turn(t_meta *meta, double radiant);
+bool	if_hits_wall(t_meta *meta, uint32_t x, uint32_t y);
+void	player_move_up(t_meta *meta);
+void	player_move_down(t_meta *meta);
+void	player_move_left(t_meta *meta);
+void	player_move_right(t_meta *meta);
+void	player_turn(t_meta *meta, double radiant);
 
 // input.c
 void	key_hook(void* param);
@@ -217,9 +218,6 @@ t_cell_type	map_get_cell_type(t_map *m, t_vec2d pos);
 void	draw_rect(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color);
 void	draw_line(mlx_image_t *image, t_vec2i start, t_vec2i end, t_rgba c);
 void	draw_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color);
-
-// utils.c
-float deg_to_rad(float deg);
 
 // test_utils.c
 void	print_cell(t_cell_type cell);
@@ -301,20 +299,20 @@ uint32_t	find_height(char *map);
 char		*make_rect(char *map, uint32_t w, uint32_t h);
 
 // math_utils.c
-t_vec2d vec2d_add(t_vec2d v1, t_vec2d v2);
-t_vec2d	vec2d_scalar_product(t_vec2d vec, double scalar);
-void print_vec2d(char *str, t_vec2d vector);
-t_vec2d vec2d_rotate(t_vec2d old, double radiant);
+t_vec2d		vec2d_add(t_vec2d v1, t_vec2d v2);
+t_vec2d		vec2d_scalar_product(t_vec2d vec, double scalar);
+void		print_vec2d(char *str, t_vec2d vector);
+t_vec2d		vec2d_rotate(t_vec2d old, double radiant);
 
 
 // test_utils.c
-void print_map(char *map, uint32_t w, uint32_t h);
+void		print_map(char *map, uint32_t w, uint32_t h);
 
 // colors.c
-int32_t	set_color(int32_t r, int32_t g, int32_t b, int32_t a);
-int32_t	find_wall_color(t_side side);
+int32_t		set_color(int32_t r, int32_t g, int32_t b, int32_t a);
+int32_t		find_wall_color(t_side side);
 
 // free.c
-void 	meta_free(t_meta *meta);
+void		meta_free(t_meta *meta);
 
 #endif
