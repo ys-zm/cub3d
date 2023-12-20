@@ -7,6 +7,7 @@
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 22:35:05 by joppe         #+#    #+#                 */
 /*   Updated: 2023/12/20 16:03:05 by jboeve        ########   odam.nl         */
+
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +57,12 @@ void	save_start_direction(t_player *player, char dir)
 void game_init(t_meta *meta)
 {
 	t_player* const p = &meta->player;
+	float start_angle = 0.0f;
 
 	timer_init(&meta->update_timer, mlx_get_time);
 	timer_start(&meta->update_timer);
 
+	// TODO player_init function
 	// setup player stuff.
 	p->meta = meta;
 	p->position.x = meta->map.player_start_x;
@@ -73,6 +76,7 @@ void raycast_and_render(t_meta *meta)
 	uint32_t w = WINDOW_WIDTH;
 	uint32_t h = WINDOW_HEIGHT;
 	uint32_t col;
+
 
 	col = 0;
 

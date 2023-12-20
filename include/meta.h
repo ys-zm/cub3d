@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/15 15:27:30 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/20 13:07:53 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@
 #define PI 3.1415926535
 
 // Window settings
-#define WINDOW_WIDTH 1920
-#define WINDOW_HEIGHT 1080
+#define WINDOW_WIDTH 720
+#define WINDOW_HEIGHT 480
 #define WINDOW_TITLE "Gammoe"
 
 #define PLAYER_VIEWPORT_X 720
@@ -65,6 +65,7 @@
 #define PLAYER_HEIGHT		16
 #define PLAYER_RAY_COUNT	90
 #define PLAYER_WALK_SPEED	15
+
 #define PLAYER_RUN_MODIFIER 2.5
 
 #define PLAYER_MOV_SPEED	0.05
@@ -75,11 +76,8 @@
 
 #define FOV .66
 
-#define VEC_X 0
-#define VEC_Y 1
-
-
-typedef bool	(*t_ray_hit_check)(int32_t x, int32_t y);
+typedef bool	(t_ray_hit_check) (void *p, int32_t x, int32_t y);
+typedef struct s_meta t_meta;
 
 typedef enum e_cell_type {
     MAP_EMPTY,
@@ -91,7 +89,6 @@ typedef enum e_side {
 	HIT_NS,
 	HIT_EW,
 }	t_side;
-
 
 typedef union s_rgba
 {
@@ -153,11 +150,13 @@ typedef struct s_player {
 	t_ray_data		data;
 } t_player;
 
+
 typedef struct s_map {
 	t_cell_type *level;
 	uint32_t	width;
 	uint32_t	height;
 	uint32_t 	player_start_x;
+	t_direction start_dir;
 	uint32_t 	player_start_y;
 	char		player_start_dir;
 }	t_map;
@@ -176,7 +175,6 @@ typedef struct s_meta {
 	mlx_image_t	*image;
 	t_timer 	update_timer;
 	t_timer 	fps_timer;
-	t_player 	player;
 	uint32_t 	fps;
 	t_map		map;
 	t_tex		tex;
@@ -222,6 +220,7 @@ float deg_to_rad(float deg);
 // test_utils.c
 void	print_vec2f(const char *s, t_vec2f vec);
 void	print_vec2i(const char *s, t_vec2i vec);
+void 	print_ray(const char *s, t_ray r);
 void	print_cell(t_cell_type cell);
 void 	game_init(t_meta *meta);
 void 	game_loop(void* param);
@@ -305,6 +304,7 @@ t_vec2d vec2d_add(t_vec2d v1, t_vec2d v2);
 t_vec2d	vec2d_scalar_product(t_vec2d vec, double scalar);
 void print_vec2d(char *str, t_vec2d vector);
 t_vec2d vec2d_rotate(t_vec2d old, double radiant);
+
 
 // test_utils.c
 void print_map(char *map, uint32_t w, uint32_t h);

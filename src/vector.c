@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/10 02:28:35 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/12 20:04:20 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/16 01:32:07 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ t_vec2f	vec2f_rotate2d(float angle)
 t_vec2f	vec2f_normalize(t_vec2f vec)
 {
 	float m = sqrt(vec[VEC_X] * vec[VEC_X] + vec[VEC_Y] * vec[VEC_Y]);
-	return vec / m;
+	return (vec / m);
 }
 
