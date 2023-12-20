@@ -54,7 +54,7 @@ int cub3d(int argc, char **argv)
 	}
 	game_init(&meta);
 	mlx_loop_hook(meta.mlx, game_loop, &meta);
-	mlx_key_hook(meta.mlx, keys_update, &meta);
+	mlx_loop_hook(meta.mlx, key_hook, &meta);
 	mlx_loop(meta.mlx);
 	mlx_terminate(meta.mlx);
 	meta_free(&meta);

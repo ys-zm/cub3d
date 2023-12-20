@@ -57,13 +57,34 @@ int	flood_fill(t_meta *meta, char *map, int x, int y)
 // change if statements
 void	save_start_direction(t_meta *meta, char p)
 {
-	const bool	comp_ns = (p == 'N');
-	const bool	comp_ew = (p == 'E');
-
-	if (p == 'E' || p == 'W')
-		meta->player.direction.x = 1 * comp_ew + -1 * !comp_ew;
-	if (p == 'N' || p == 'S')
-		meta->player.direction.y = 1 * comp_ns + -1 * !comp_ns;
+	if (p == 'E')
+	{
+		meta->player.direction.x = 1;
+		meta->player.direction.y = 0;
+		meta->player.cam_plane.x = 0;
+		meta->player.cam_plane.y = 0.66;
+	}
+	else if (p == 'W')
+	{
+		meta->player.direction.x = -1;
+		meta->player.direction.y = 0;
+		meta->player.cam_plane.x = 0;
+		meta->player.cam_plane.y = 0.66;
+	}
+	else if (p == 'N')
+	{
+		meta->player.direction.x = 0;
+		meta->player.direction.y = 1;
+		meta->player.cam_plane.x = 0.66;
+		meta->player.cam_plane.y = 0;
+	}
+	else
+	{
+		meta->player.direction.x = 0;
+		meta->player.direction.y = -1;
+		meta->player.cam_plane.x = 0.66;
+		meta->player.cam_plane.y = 0;
+	}
 }
 
 bool	save_start_pos(t_meta *meta, char *map)

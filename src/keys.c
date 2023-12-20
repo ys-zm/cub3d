@@ -13,11 +13,11 @@
 #include "meta.h"
 #include <stdio.h>
 
-void keys_update(mlx_key_data_t keydata, void *param)
+void key_hook(void *param)
 {
 	t_meta *meta;
 	meta = (t_meta *) param;
-	if (keydata.key == MLX_KEY_ESCAPE)
+	if (mlx_is_key_down(meta->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(meta->mlx);
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_W) == true)
 	{

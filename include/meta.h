@@ -22,6 +22,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdbool.h>
+#include <limits.h>
 
 #include "timer.h"
 #include "vector.h"
@@ -66,8 +67,8 @@
 #define PLAYER_WALK_SPEED	15
 #define PLAYER_RUN_MODIFIER 2.5
 
-#define PLAYER_MOV_SPEED	0.1
-#define PLAYER_ROTATE_SPEED	0.1
+#define PLAYER_MOV_SPEED	0.05
+#define PLAYER_ROTATE_SPEED	0.05
 
 #define COLOR_BACKGROUND	0x111111FF
 #define COLOR_PLAYER		0xFFFFFFFF
@@ -112,6 +113,15 @@ typedef struct s_point {
 	uint32_t	y;
 }	t_point;
 
+
+/*
+@param side_distance: length of ray from current position to next x or y-side
+@param delta_distance: length of ray from one x or y-side to next x or y-side
+@param step: what direction to step in x or y-direction (either +1 or -1)
+@param hit: was there a wall hit?
+@param side: was a NS or EW wall hit?
+@param perp_wall_distance: distance of perpendicular ray (Euclidean distance would give fisheye effect!)
+*/
 typedef struct s_ray_data {
 	uint32_t	perp_wall_distance;
 	uint32_t	line_height;
@@ -129,6 +139,7 @@ typedef struct s_ray_data {
 	bool 		hit;
 
 	t_vector	plane;
+	double		camera_x;
 } t_ray_data;
 
 typedef struct s_meta t_meta;
@@ -142,7 +153,7 @@ typedef struct s_player {
 	t_vector	position;
 	t_vector	direction;
 	t_vector	cam_plane;
-	float	angle_rad;
+	float		angle_rad;
 } t_player;
 
 typedef struct s_map {
@@ -194,11 +205,11 @@ void player_turn(t_meta *meta, double radiant);
 
 
 // input.c
-void	key_hook(mlx_key_data_t keydata, void* param);
+void	key_hook(void* param);
 
 // render.c
 t_vec2i	render_get_draw_offset();
-void render_player_viewport(mlx_image_t *image, t_player *p);
+void	render_player_viewport(mlx_image_t *image, t_player *p);
 void	render_player(mlx_image_t *image, t_player *p);
 void	render_clear_bg(mlx_image_t *image);
 void	render_map_grid(mlx_image_t *image, t_map *m);

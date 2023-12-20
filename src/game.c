@@ -21,6 +21,11 @@
 #include <math.h>
 #include <unistd.h>
 
+void print_vector(char *str, t_vector vector)
+{
+  printf("%s X: %f | Y: %f\n", str, vector.x, vector.y);
+}
+
 void game_init(t_meta *meta)
 {
 	t_player* const p = &meta->player;
@@ -32,6 +37,8 @@ void game_init(t_meta *meta)
 	p->meta = meta;
 	p->position.x = meta->map.player_start_x;
 	p->position.y = meta->map.player_start_y;
+  print_vector("CamPlane:", meta->player.cam_plane);
+  print_vector("PLayerDir:", meta->player.direction);
 
 }
 
@@ -45,139 +52,174 @@ int32_t find_wall_color(t_side side)
 	int32_t color;
 
 	if (side == HIT_NS)
-		color = set_color(0, 240, 60, 255);
+		color = set_color(75, 0, 130, 255);
 	else
-		color = set_color(0, 230, 20, 255);
+		color = set_color(138, 48, 226, 255);
 	return (color);
 }
 
 
-void raycast_and_render(t_meta *meta)
+void calculate_delta_dist(t_meta *meta)
 {
-	// create temps based on the lodev algo
-	meta->data.plane.x = 0;
-	meta->data.plane.y = 0.66;
-	double posX = meta->player.position.x, posY = meta->player.position.y;  //x and y start position
-	float dirX = meta->player.direction.x, dirY = meta->player.direction.y; //initial direction vector
-	float planeX = meta->data.plane.x, planeY = meta->data.plane.y; //the 2d raycaster version of camera plane
+  t_ray_data *data = &meta->data;
 
-	// printf("Pos: %f %f\n", meta->player.position.x, meta->player.position.y);
-	// printf("Dir: %f %f\n", meta->player.direction.x, meta->player.direction.y);
-	int w = meta->image->width - 1;
-	int h = meta->image->height - 1;
+  if (data->ray_direction.x == 0)
+  {
+    data->delta_distance.x = INT32_MAX;
+  }
+  else
+  {
+    data->delta_distance.x = fabs(1 / data->ray_direction.x);
+  }
+  if (data->ray_direction.y == 0)
+  {
+    data->delta_distance.y = INT32_MAX;
+  }
+  else
+  {
+    data->delta_distance.y = fabs(1 / data->ray_direction.y);
+  }
+}
 
-	for(int col = 0; col < w; col++)
+void calculate_side_distance(t_meta *meta)
+{
+  t_ray_data *data = &meta->data;
+
+  if (data->ray_direction.x < 0)
+  {
+    data->step.x = -1;
+    data->side_distance.x = (meta->player.position.x - data->map_pos.x) * data->delta_distance.x;
+  }
+  else
+  {
+    data->step.x = 1;
+    data->side_distance.x = (data->map_pos.x + 1.0 - meta->player.position.x) * data->delta_distance.x;
+  }
+  if (data->ray_direction.y < 0)
+  {
+    data->step.y = -1;
+    data->side_distance.y = (meta->player.position.y - data->map_pos.y) * data->delta_distance.y;
+  }
+  else
+  {
+    data->step.y = 1;
+    data->side_distance.y = (data->map_pos.y + 1.0 - meta->player.position.y) * data->delta_distance.y;
+  }
+}
+
+void dda_algorithm(t_meta *meta)
+{
+  t_ray_data *data = &meta->data;
+  data->hit = false;
+
+  while (data->hit == false)
+  {
+    //jump to next map square, either in x-direction, or in y-direction
+    if (data->side_distance.x < data->side_distance.y)
     {
-      //calculate ray position and direction
-      float cameraX = 2 * col / (double)w - 1; //x-coordinate in camera space
-      double rayDirX = dirX + planeX * cameraX;
-      double rayDirY = dirY + planeY * cameraX;
+      data->side_distance.x += data->delta_distance.x;
+      data->map_pos.x += data->step.x;
+      data->side = HIT_NS;
+    }
+    else
+    {
+      data->side_distance.y += data->delta_distance.y;
+      data->map_pos.y += data->step.y;
+      data->side = HIT_EW;
+    }
+    //Check if ray has hit a wall
+    if (meta->map.level[find_index(meta, data->map_pos.x, data->map_pos.y)] == MAP_WALL)
+    {
+      data->hit = true;
+    }
+  }
+}
 
-	  //which box of the map we're in
-      int mapX = (int)posX;
-      int mapY = (int)posY;
-
-      //length of ray from current position to next x or y-side
-      double sideDistX;
-      double sideDistY;
-
-       //length of ray from one x or y-side to next x or y-side
-      double deltaDistX = (rayDirX == 0) ? 1e30 : fabs(1 / rayDirX);
-      double deltaDistY = (rayDirY == 0) ? 1e30 : fabs(1 / rayDirY);
-      double perpWallDist;
-
-      //what direction to step in x or y-direction (either +1 or -1)
-      int stepX;
-      int stepY;
-
-      if (rayDirX < 0)
-      {
-        stepX = -1;
-        sideDistX = (posX - mapX) * deltaDistX;
-      }
-      else
-      {
-        stepX = 1;
-        sideDistX = (mapX + 1.0 - posX) * deltaDistX;
-      }
-      if (rayDirY < 0)
-      {
-        stepY = -1;
-        sideDistY = (posY - mapY) * deltaDistY;
-      }
-      else
-      {
-        stepY = 1;
-        sideDistY = (mapY + 1.0 - posY) * deltaDistY;
-      }
-
-      int hit = 0; //was there a wall hit?
-      int side; //was a NS or a EW wall hit?
-
-	  //perform DDA
-      while (hit == 0)
-      {
-        //jump to next map square, either in x-direction, or in y-direction
-        if (sideDistX < sideDistY)
-        {
-          sideDistX += deltaDistX;
-          mapX += stepX;
-          side = HIT_NS;
-        }
-        else
-        {
-          sideDistY += deltaDistY;
-          mapY += stepY;
-          side = HIT_EW;
-        }
-        //Check if ray has hit a wall
-		
-        if (meta->map.level[find_index(meta, mapX, mapY)] == MAP_WALL)
-			hit = 1;
-      } 
-	    //Calculate distance of perpendicular ray (Euclidean distance would give fisheye effect!)
-      if(side == 0) perpWallDist = (sideDistX - deltaDistX);
-      else          perpWallDist = (sideDistY - deltaDistY);
-
-      //Calculate height of line to draw on screen
-      int lineHeight = (int)(h / perpWallDist);
-
-      //calculate lowest and highest pixel to fill in current stripe
-      int drawStart = -lineHeight / 2 + h / 2;
-      if(drawStart < 0)drawStart = 0;
-      int drawEnd = lineHeight / 2 + h / 2;
-      if(drawEnd >= h)drawEnd = h - 1;
-
-	int32_t color;
-
-	meta->data.start = (h - lineHeight) / 2;
-	if (meta->data.start < 0)
-		meta->data.start = 0;
-	meta->data.end = (h + lineHeight) / 2;
-	if ((int)meta->data.end >= h)
-		meta->data.start = h - 1;
+void calculate_line_height(t_meta *meta, int h)
+{
+  t_ray_data *data = &meta->data;
 	
-	// draw_line
+  //Calculate distance of perpendicular ray (Euclidean distance would give fisheye effect!)
+  if(data->side == HIT_NS)
+  {
+    data->perp_wall_distance = (data->side_distance.x - data->delta_distance.x);
+  }
+  else
+  {
+    data->perp_wall_distance = (data->side_distance.y - data->delta_distance.y);
+  }
+  
+  //Calculate height of line to draw on screen
+  data->line_height = (int) h / data->perp_wall_distance;
+}
 
-	int row = 0;
+void calculate_draw_start_and_end(t_meta *meta, int h)
+{
+    //calculate lowest and highest pixel to fill in current stripe
+    t_ray_data *data = &meta->data;
+
+    data->start = -data->line_height / 2 + h / 2;
+    if (data->start < 0)
+      data->start = 0;
+    data->end = data->line_height / 2 + h / 2;
+    if ((int)data->end >= h)
+      data->end = h - 1;
+}
+
+void draw_column(t_meta *meta, int col, int h)
+{
+  uint32_t color;
+  int row;
+  
+  row = 0;
 	// draw_col(meta->image, start, end, color);
 	while (row <= (int)h)
 	{
+    // ceiling
 		if (row < (int)meta->data.start)
 		{
-			color = set_color(255, 0, 0, 255);
+			color = set_color(0, 0, 0, 255);
 		}
+    // floor
 		else if (row > (int)meta->data.end)
 		{
-			color = set_color(50, 30, 0, 255);
+			color = set_color(255, 255, 255, 255);
 		}
 		else
 		{
-			color = find_wall_color(side);
+			color = find_wall_color(meta->data.side);
 		}
 		mlx_put_pixel(meta->image, col, row, color);
 		row++;
 	}
+}
+
+void raycast_and_render(t_meta *meta)
+{
+	// create temps based on the lodev algo
+	meta->data.plane.x = meta->player.cam_plane.x;
+	meta->data.plane.y = meta->player.cam_plane.y;
+	
+	int w = meta->image->width;
+	int h = meta->image->height;
+  int col;
+  col = 0;
+	while(col < w)
+  {
+      //calculate ray position and direction
+      meta->data.camera_x = 2 * col / (double)w; //x-coordinate in camera space
+      meta->data.ray_direction.x = meta->player.direction.x + meta->data.plane.x * meta->data.camera_x;
+      meta->data.ray_direction.y = meta->player.direction.y + meta->data.plane.y * meta->data.camera_x;
+      meta->data.map_pos.x = (int)meta->player.position.x;
+      meta->data.map_pos.y = (int)meta->player.position.y;
+      calculate_delta_dist(meta);
+      calculate_side_distance(meta);
+      dda_algorithm(meta);
+      calculate_line_height(meta, h);
+      printf("lineheight: %d\n", meta->data.line_height);
+      calculate_draw_start_and_end(meta, h);
+      draw_column(meta, col, h);
+      col++;
   }
 }
 
