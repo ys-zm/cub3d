@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/16 02:49:31 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/20 13:06:22 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,6 @@ void render_player(mlx_image_t *image, t_player *p)
 
 	// Draw cam plane.
 	draw_line(image, vec2f_to_vec2i((p->position - p->cam_plane) * CELL_SIZE), vec2f_to_vec2i((p->position + p->cam_plane) * CELL_SIZE), (t_rgba) {0xFFF000FF});
-
-	size_t i = 0;
-	while (i < p->meta->image->width)
-	{
-		t_ray *r = &p->rays[i];
-		t_vec2i start = vec2f_to_vec2i(r->start * CELL_SIZE);
-		t_vec2i	end	= vec2f_to_vec2i(r->end * CELL_SIZE);
-
-		draw_line(image, start, end, (t_rgba) {0xFF0000FF});
-		i++;
-	}
 
 
 	// Draw the player look direction.

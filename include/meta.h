@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/16 02:41:17 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/20 13:07:53 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,9 @@
 #define COLOR_BACKGROUND	0x111111FF
 #define COLOR_PLAYER		0xFFFFFFFF
 
-#define VEC_X 0
-#define VEC_Y 1
-
 
 typedef bool	(t_ray_hit_check) (void *p, int32_t x, int32_t y);
+typedef struct s_meta t_meta;
 
 typedef enum e_cell_type {
     MAP_EMPTY,
@@ -88,15 +86,12 @@ typedef enum e_side {
 	HIT_EW,
 }	t_side;
 
-
 typedef enum e_direction {
 	DIR_N = 1,
 	DIR_E = 2,
 	DIR_S = 4,
 	DIR_W = 8,
 }	t_direction;
-
-
 
 typedef union s_rgba
 {
@@ -109,28 +104,6 @@ typedef union s_rgba
 		uint8_t	r;
 	};
 }	t_rgba;
-
-typedef struct s_ray {
-	float		len;
-	t_vec2f		end;
-	t_vec2f		start;
-	t_side		hit_side;
-	bool 		hit;
-} t_ray;
-
-typedef struct s_meta t_meta;
-
-
-// NOTE: Maybe switch to double instead of float?
-typedef struct s_player {
-	t_meta *meta;
-	t_vec2f position;
-	t_vec2f direction;
-	t_vec2f	cam_plane;
-	t_vec2f beam;
-	t_ray 	rays[WINDOW_WIDTH];
-	float	angle_rad;
-} t_player;
 
 typedef struct s_map {
 	t_cell_type *level;
@@ -155,7 +128,6 @@ typedef struct s_meta {
 	mlx_image_t	*image;
 	t_timer 	update_timer;
 	t_timer 	fps_timer;
-	t_player 	player;
 	uint32_t 	fps;
 	t_map		map;
 	t_tex		tex;
@@ -169,24 +141,16 @@ int		cub3d(int argc, char *argv[]);
 void	game_init(t_meta *meta);
 void	game_loop(void* param);
 
-// player.c
-void	player_move(t_player *p, t_vec2f transform);
-void	player_look(t_player *p, double angle);
-void	player_raycast(t_player *p);
-
 // input.c
 void	key_hook(mlx_key_data_t keydata, void* param);
 void	cursor_hook(double xpos, double ypos, void* param);
 
 // render.c
 t_vec2i	render_get_draw_offset();
-void render_player_viewport(mlx_image_t *image, t_player *p);
+void	render_player_viewport(mlx_image_t *image, t_player *p);
 void	render_player(mlx_image_t *image, t_player *p);
 void	render_clear_bg(mlx_image_t *image);
 void	render_map_grid(mlx_image_t *image, t_map *m);
-
-// raycaster.c
-t_ray raycaster_cast(t_meta *m, t_vec2f start, t_vec2f direction, t_ray_hit_check *hit);
 
 // map.c
 t_cell_type	map_get_cell_type(t_map *m, t_vec2f pos);
@@ -202,7 +166,7 @@ float deg_to_rad(float deg);
 // test_utils.c
 void	print_vec2f(const char *s, t_vec2f vec);
 void	print_vec2i(const char *s, t_vec2i vec);
-void print_ray(const char *s, t_ray r);
+void 	print_ray(const char *s, t_ray r);
 void	print_cell(t_cell_type cell);
 void 	game_init(t_meta *meta);
 void 	game_loop(void* param);
@@ -275,9 +239,6 @@ int		player_pos_char(char c);
 uint32_t	find_width(char *map);
 uint32_t	find_height(char *map);
 char		*make_rect(char *map, uint32_t w, uint32_t h);
-
-// math_utils.c
-t_vec2f vec2f_abs(t_vec2f vec);
 
 
 // test_utils.c
