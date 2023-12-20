@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/20 18:39:42 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/21 00:23:34 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,12 @@
 #define PI 3.1415926535
 
 // Window settings
-#define WINDOW_WIDTH 1920
-#define WINDOW_HEIGHT 1080 
+// #define WINDOW_WIDTH 1920
+// #define WINDOW_HEIGHT 1080 
+
+#define WINDOW_WIDTH 720
+#define WINDOW_HEIGHT 480 
+
 #define WINDOW_TITLE "Gammoe"
 
 #define PLAYER_VIEWPORT_X 720
@@ -111,6 +115,10 @@ typedef struct s_vec2i {
 	int32_t	y;
 }	t_vec2i;
 
+typedef struct s_vec2u {
+	uint32_t	x;
+	uint32_t	y;
+}	t_vec2u;
 
 typedef struct s_screen {
 	uint32_t	w;
@@ -152,7 +160,7 @@ typedef struct s_player {
 	t_meta		*meta;
 	t_vec2d		position;
 	t_vec2d		direction;
-	t_ray_data		data;
+	t_ray_data	data;
 } t_player;
 
 
@@ -160,6 +168,7 @@ typedef struct s_map {
 	t_cell_type *level;
 	uint32_t	width;
 	uint32_t	height;
+	t_vec2u		player_start;
 	uint32_t 	player_start_x;
 	uint32_t 	player_start_y;
 	char		player_start_dir;
@@ -202,14 +211,13 @@ void	player_move_left(t_meta *meta);
 void	player_move_right(t_meta *meta);
 void	player_turn(t_meta *meta, double radiant);
 
-// input.c
-void	key_hook(void* param);
+// keys.c
+void	keys_handle(t_meta *meta, double time_delta);
 
 // render.c
 void	render_player_viewport(mlx_image_t *image, t_player *p);
-void	render_player(mlx_image_t *image, t_player *p);
 void	render_clear_bg(mlx_image_t *image);
-void	render_map_grid(mlx_image_t *image, t_map *m);
+void	render_minimap(mlx_image_t *image, t_map *m);
 
 // map.c
 t_cell_type	map_get_cell_type(t_map *m, t_vec2d pos);
@@ -298,11 +306,12 @@ uint32_t	find_width(char *map);
 uint32_t	find_height(char *map);
 char		*make_rect(char *map, uint32_t w, uint32_t h);
 
-// math_utils.c
+// vec2d_utils.c
+void		print_vec2d(char *str, t_vec2d vector);
 t_vec2d		vec2d_add(t_vec2d v1, t_vec2d v2);
 t_vec2d		vec2d_scalar_product(t_vec2d vec, double scalar);
-void		print_vec2d(char *str, t_vec2d vector);
 t_vec2d		vec2d_rotate(t_vec2d old, double radiant);
+t_vec2d		vec2u_to_vec2d(t_vec2u v);
 
 
 // test_utils.c

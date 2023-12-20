@@ -6,20 +6,18 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/15 14:05:30 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/15 14:24:11 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/21 00:16:10 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
 #include <stdio.h>
 
-void key_hook(void *param)
+void keys_handle(t_meta *meta, double time_delta)
 {
-	t_meta *meta;
-	meta = (t_meta *) param;
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(meta->mlx);
-	if (mlx_is_key_down(meta->mlx, MLX_KEY_W) == true)
+	if (mlx_is_key_down(meta->mlx, MLX_KEY_W))
 	{
 		player_move_up(meta);
 	}
@@ -37,7 +35,7 @@ void key_hook(void *param)
 	}
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_Q))
 	{
-		player_turn(meta, PLAYER_ROTATE_SPEED * -1);
+		player_turn(meta, -PLAYER_ROTATE_SPEED);
 	}
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_E))
 	{

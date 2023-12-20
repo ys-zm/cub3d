@@ -40,14 +40,15 @@ SRCS	= 		parser/check_elements.c \
 				utils/free.c \
 				utils/vec2d_utils.c \
 				utils/colors.c \
+				game/game.c \
+				game/draw.c \
+				game/keys.c \
+				game/player.c \
+				game/raycaster.c \
+				game/render.c \
 				cub3d.c \
-				game.c \
-				draw.c \
-		        test_utils.c \
-				timer.c \
-				keys.c \
-				player.c \
-				raycaster.c
+				test_utils.c \
+				timer.c
 
 HEADER_DIR	:=	include
 HEADERS 	:=	meta.h \

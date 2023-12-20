@@ -6,12 +6,11 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/20 13:06:22 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/21 00:10:30 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
-#include "vector.h"
 #include <math.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -34,28 +33,17 @@ void draw_cell(mlx_image_t *image, t_map *m, uint32_t cell_x, uint32_t cell_y)
 	draw_rect(image, x_offset, y_offset, CELL_WIDTH, CELL_HEIGHT, CELL_COLORS[cell].value);
 }
 
-// The player is essentially just a single point/pixel, around which we draw a square with the "player point" in its center.
-void render_player(mlx_image_t *image, t_player *p)
+void render_clear_bg(mlx_image_t *image)
 {
-	t_vec2i draw_pos = vec2f_to_vec2i(p->position * (t_vec2f) {CELL_SIZE, CELL_SIZE});
+	const uint32_t	size = image->width * image->height;
+	size_t			i;
 
-	draw_pos[VEC_X] -= ((float) PLAYER_WIDTH / 2);
-	draw_pos[VEC_Y] -= ((float) PLAYER_HEIGHT / 2);
-
-	// Draw the player square.
-	draw_rect(image,	draw_pos[VEC_X], draw_pos[VEC_Y],
-						PLAYER_WIDTH, PLAYER_HEIGHT, COLOR_PLAYER);
-
-
-	// Draw cam plane.
-	draw_line(image, vec2f_to_vec2i((p->position - p->cam_plane) * CELL_SIZE), vec2f_to_vec2i((p->position + p->cam_plane) * CELL_SIZE), (t_rgba) {0xFFF000FF});
-
-
-	// Draw the player look direction.
-	draw_line(image,	vec2f_to_vec2i(p->position * CELL_SIZE),	
-						vec2f_to_vec2i(p->beam * CELL_SIZE),
-						(t_rgba) {0x00FF00FF});
-
+	i = 0;
+	while (i < size)
+	{
+		mlx_put_pixel(image, i, 0, COLOR_BACKGROUND);
+		i++;
+	}
 }
 
 void render_player_viewport(mlx_image_t *image, t_player *p)
@@ -63,7 +51,7 @@ void render_player_viewport(mlx_image_t *image, t_player *p)
 
 }
 
-void render_map_grid(mlx_image_t *image, t_map *m)
+void render_minimap(mlx_image_t *image, t_map *m)
 {
 	size_t cell_y;
 	size_t cell_x;
@@ -81,15 +69,3 @@ void render_map_grid(mlx_image_t *image, t_map *m)
 	}
 }
 
-void render_clear_bg(mlx_image_t *image)
-{
-	const uint32_t	size = image->width * image->height;
-	size_t			i;
-
-	i = 0;
-	while (i < size)
-	{
-		mlx_put_pixel(image, i, 0, COLOR_BACKGROUND);
-		i++;
-	}
-}

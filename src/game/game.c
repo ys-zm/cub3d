@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 22:35:05 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/20 18:41:37 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/21 00:24:48 by joppe         ########   odam.nl         */
 
 /*                                                                            */
 /* ************************************************************************** */
@@ -21,36 +21,37 @@
 #include <math.h>
 #include <unistd.h>
 
-void	save_start_direction(t_player *player, char dir)
+void	set_player_start_position(t_player *p, char dir)
 {
 	if (dir == 'N')
 	{
-		player->direction.x = 0;
-		player->direction.y = -1;
-		player->data.plane.x = FOV;
-		player->data.plane.y = 0;
+		p->direction.x = 0;
+		p->direction.y = -1;
+		p->data.plane.x = FOV;
+		p->data.plane.y = 0;
 	}
 	else if (dir == 'S')
 	{
-		player->direction.x = 0;
-		player->direction.y = 1;
-		player->data.plane.x = FOV;
-		player->data.plane.y = 0;
+		p->direction.x = 0;
+		p->direction.y = 1;
+		p->data.plane.x = FOV;
+		p->data.plane.y = 0;
 	}
 	else if (dir == 'E')
 	{
-		player->direction.x = 1;
-		player->direction.y = 0;
-		player->data.plane.x = 0;
-		player->data.plane.y = FOV;
+		p->direction.x = 1;
+		p->direction.y = 0;
+		p->data.plane.x = 0;
+		p->data.plane.y = FOV;
 	}
 	else // W
 	{
-		player->direction.x = -1;
-		player->direction.y = 0;
-		player->data.plane.x = 0;
-		player->data.plane.y = FOV;
+		p->direction.x = -1;
+		p->direction.y = 0;
+		p->data.plane.x = 0;
+		p->data.plane.y = FOV;
 	}
+	p->position = vec2u_to_vec2d(p->meta->map.player_start);
 }
 
 void game_init(t_meta *meta)
@@ -59,11 +60,8 @@ void game_init(t_meta *meta)
 	timer_init(&meta->update_timer, mlx_get_time);
 	timer_start(&meta->update_timer);
 
-	// setup player stuff.
 	p->meta = meta;
-	p->position.x = meta->map.player_start_x;
-	p->position.y = meta->map.player_start_y;
-	save_start_direction(&meta->player, meta->map.player_start_dir);
+	set_player_start_position(&meta->player, meta->map.player_start_dir);
 }
 
 void raycast_and_render(t_meta *meta)
@@ -72,7 +70,6 @@ void raycast_and_render(t_meta *meta)
 	uint32_t w = WINDOW_WIDTH;
 	uint32_t h = WINDOW_HEIGHT;
 	uint32_t col;
-
 
 	col = 0;
 	while(col < w)
@@ -87,17 +84,39 @@ void raycast_and_render(t_meta *meta)
 
 		// save calculations of line height and render else where?
 		calculate_line_height(&meta->player.data, h);
-		if (col == 0)
-			printf("LineHeight: %ld\n", meta->player.data.line_height);
 		calculate_draw_start_and_end(meta, h);
 		draw_column(meta, col, h);
 		col++;
 	}
 }
 
+static void game_update(t_meta *meta, double time_delta)
+{
+	keys_handle(meta, time_delta);
+}
+
 void game_loop(void* param)
 {
 	t_meta *const meta = param;
 
+	double	frame_time;
+	// Time it took for each iteration of the game_update loop.
+	double	delta_time;
+
+	frame_time = timer_delta(&meta->update_timer);
+
+	// This approximation is slightly faster than `(frame_time > 0.000000)`.
+	while (fabs(frame_time) >= 0.000005)
+	{
+		// `delta_time` is capped at `TICK_RATE`.
+		delta_time = fmin(frame_time, TICK_RATE);
+		game_update(meta, delta_time);
+
+		frame_time -= delta_time;
+	}
+	timer_start(&meta->update_timer);
+
+	render_clear_bg(meta->image);
+	render_minimap(meta->image, &meta->map);
 	raycast_and_render(meta);
 }

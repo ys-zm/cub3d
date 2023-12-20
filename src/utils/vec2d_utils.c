@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/14 18:30:23 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/20 18:41:08 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/21 00:24:29 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ t_vec2d vec2d_rotate(t_vec2d old, double radiant)
 	new.x = old.x * cos(radiant) - old.y * sin(radiant);
 	new.y = old.x * sin(radiant) + old.y * cos(radiant);
 	return (new);
+}
+
+t_vec2d vec2u_to_vec2d(t_vec2u v)
+{
+	return (t_vec2d) {v.x, v.y};
 }
 
 // t_vec2f	vec2f_normalize(t_vec2f vec)
