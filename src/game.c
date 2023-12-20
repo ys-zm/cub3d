@@ -215,8 +215,9 @@ void raycast_and_render(t_meta *meta)
       calculate_delta_dist(meta);
       calculate_side_distance(meta);
       dda_algorithm(meta);
+      print_vector("SideDist:", meta->data.side_distance);
+      print_vector("DeltaDist:", meta->data.delta_distance);
       calculate_line_height(meta, h);
-      printf("lineheight: %d\n", meta->data.line_height);
       calculate_draw_start_and_end(meta, h);
       draw_column(meta, col, h);
       col++;
