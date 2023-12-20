@@ -54,38 +54,6 @@ int	flood_fill(t_meta *meta, char *map, int x, int y)
 	return (ret);
 }
 
-// change if statements
-void	save_start_direction(t_meta *meta, char p)
-{
-	if (p == 'E')
-	{
-		meta->player.direction.x = 1;
-		meta->player.direction.y = 0;
-		meta->player.cam_plane.x = 0;
-		meta->player.cam_plane.y = 0.66;
-	}
-	else if (p == 'W')
-	{
-		meta->player.direction.x = -1;
-		meta->player.direction.y = 0;
-		meta->player.cam_plane.x = 0;
-		meta->player.cam_plane.y = 0.66;
-	}
-	else if (p == 'N')
-	{
-		meta->player.direction.x = 0;
-		meta->player.direction.y = 1;
-		meta->player.cam_plane.x = 0.66;
-		meta->player.cam_plane.y = 0;
-	}
-	else
-	{
-		meta->player.direction.x = 0;
-		meta->player.direction.y = -1;
-		meta->player.cam_plane.x = 0.66;
-		meta->player.cam_plane.y = 0;
-	}
-}
 
 bool	save_start_pos(t_meta *meta, char *map)
 {
@@ -104,7 +72,8 @@ bool	save_start_pos(t_meta *meta, char *map)
 			{
 				meta->map.player_start_x = x;
 				meta->map.player_start_y = y;
-				save_start_direction(meta, map[find_index(meta, x, y)]);
+				meta->map.player_start_dir = map[find_index(meta, x, y)];
+				// save_start_direction(meta, map[find_index(meta, x, y)]);
 				found = true;
 			}
 			x++;

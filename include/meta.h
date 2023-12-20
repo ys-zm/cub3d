@@ -73,6 +73,8 @@
 #define COLOR_BACKGROUND	0x111111FF
 #define COLOR_PLAYER		0xFFFFFFFF
 
+#define FOV .66
+
 #define VEC_X 0
 #define VEC_Y 1
 
@@ -86,10 +88,10 @@ typedef enum e_cell_type {
 }	t_cell_type;
 
 typedef enum e_side {
-	HIT_NONE,
 	HIT_NS,
 	HIT_EW,
 }	t_side;
+
 
 typedef union s_rgba
 {
@@ -103,15 +105,15 @@ typedef union s_rgba
 	};
 }	t_rgba;
 
-typedef struct s_vector {
+typedef struct s_vec2d {
 	double	x;
 	double	y;
-}	t_vector;
+}	t_vec2d;
 
-typedef struct s_point {
-	uint32_t	x;
-	uint32_t	y;
-}	t_point;
+typedef struct s_screen {
+	uint32_t	w;
+	uint32_t	h;
+}	t_screen;
 
 
 /*
@@ -123,37 +125,32 @@ typedef struct s_point {
 @param perp_wall_distance: distance of perpendicular ray (Euclidean distance would give fisheye effect!)
 */
 typedef struct s_ray_data {
-	uint32_t	perp_wall_distance;
-	uint32_t	line_height;
+	long		line_height;
+	double		perp_wall_distance;
 
 	uint32_t	start;
 	uint32_t	end;
 
-	t_vector	ray_direction;
-	t_vector	side_distance;
-	t_vector	delta_distance;
+	t_vec2d		ray_direction;
+	t_vec2d		side_distance;
+	t_vec2d		delta_distance;
 	
-	t_vector	map_pos;
-	t_vector	step;
+	t_vec2d		map_pos;
+	t_vec2d		step;
 	t_side		side;
 	bool 		hit;
 
-	t_vector	plane;
+	t_vec2d		plane;
 	double		camera_x;
 } t_ray_data;
 
 typedef struct s_meta t_meta;
 
-
-// NOTE: Maybe switch to double instead of float?
 typedef struct s_player {
 	t_meta		*meta;
-	// TODO Have a map_position which will be the position relative to the leftmost square.
-	// 		Based on that position we can just `position / CELL_WIDTH` to find the cell position.
-	t_vector	position;
-	t_vector	direction;
-	t_vector	cam_plane;
-	float		angle_rad;
+	t_vec2d		position;
+	t_vec2d		direction;
+	t_ray_data		data;
 } t_player;
 
 typedef struct s_map {
@@ -162,6 +159,7 @@ typedef struct s_map {
 	uint32_t	height;
 	uint32_t 	player_start_x;
 	uint32_t 	player_start_y;
+	char		player_start_dir;
 }	t_map;
 
 typedef struct s_tex {
@@ -183,7 +181,6 @@ typedef struct s_meta {
 	t_map		map;
 	t_tex		tex;
 	char		*map_file;
-	t_ray_data	data;
 }	t_meta;
 
 
@@ -200,15 +197,12 @@ void player_move_up(t_meta *meta);
 void player_move_down(t_meta *meta);
 void player_move_left(t_meta *meta);
 void player_move_right(t_meta *meta);
-t_vector vector_rotate(t_vector old, double radiant);
 void player_turn(t_meta *meta, double radiant);
-
 
 // input.c
 void	key_hook(void* param);
 
 // render.c
-t_vec2i	render_get_draw_offset();
 void	render_player_viewport(mlx_image_t *image, t_player *p);
 void	render_player(mlx_image_t *image, t_player *p);
 void	render_clear_bg(mlx_image_t *image);
@@ -243,8 +237,13 @@ void 	cube_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color)
 int 	check_map(t_meta *meta, char *rect);
 int		find_index(t_meta *meta, uint32_t x, uint32_t y);
 
-// free.c
-void 	meta_free(t_meta *meta);
+// raycaster.c
+void	calculate_delta_dist(t_player *player);
+void	calculate_side_distance(t_player *player);
+void	dda_algorithm(t_meta *meta);
+void	calculate_line_height(t_ray_data *data, int h);
+void	calculate_draw_start_and_end(t_meta *meta, uint32_t h);
+void	draw_column(t_meta *meta, uint32_t col, uint32_t h);
 
 // PARSER
 
@@ -302,10 +301,19 @@ uint32_t	find_height(char *map);
 char		*make_rect(char *map, uint32_t w, uint32_t h);
 
 // math_utils.c
-t_vec2f vec2f_abs(t_vec2f vec);
-
+t_vec2d vec2d_add(t_vec2d v1, t_vec2d v2);
+t_vec2d	vec2d_scalar_product(t_vec2d vec, double scalar);
+void print_vec2d(char *str, t_vec2d vector);
+t_vec2d vec2d_rotate(t_vec2d old, double radiant);
 
 // test_utils.c
 void print_map(char *map, uint32_t w, uint32_t h);
+
+// colors.c
+int32_t	set_color(int32_t r, int32_t g, int32_t b, int32_t a);
+int32_t	find_wall_color(t_side side);
+
+// free.c
+void 	meta_free(t_meta *meta);
 
 #endif

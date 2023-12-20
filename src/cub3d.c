@@ -26,32 +26,35 @@ void leaks(void)
 	system("leaks -q app");
 }
 
-int cub3d(int argc, char **argv)
+// change to create a different image for the minimap vs. main viewport
+int init_mlx_images(t_meta *meta)
 {
-	t_meta	meta;
-
-	// UNUSED(argv);
-	if (argc != 2)
-		return (pr_err(ARG_ERR));
-	// Zero our struct to prevent garbage data.
-	ft_bzero(&meta, sizeof(t_meta));
-	if (parser(&meta, argv[1]))
-		return(meta_free(&meta), 1);
-	// MLX allows you to define its core behaviour before startup.
-	meta.mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE, true);
-	if (!meta.mlx)
+	meta->mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE, true);
+	if (!meta->mlx)
 	{
 		ft_error();
 		return EXIT_FAILURE;
 	}
 
 	// Create and display the image.
-	meta.image = mlx_new_image(meta.mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
-	if (!meta.image || (mlx_image_to_window(meta.mlx, meta.image, 0, 0) < 0))
+	meta->image = mlx_new_image(meta->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
+	if (!meta->image || (mlx_image_to_window(meta->mlx, meta->image, 0, 0) < 0))
 	{
 		ft_error();
-		return EXIT_FAILURE;
+		return (EXIT_FAILURE);
 	}
+}
+
+int cub3d(int argc, char **argv)
+{
+	t_meta	meta;
+
+	if (argc != 2)
+		return (pr_err(ARG_ERR));
+	ft_bzero(&meta, sizeof(t_meta));
+	if (parser(&meta, argv[1]))
+		return(meta_free(&meta), EXIT_FAILURE);
+	init_mlx_images(&meta);
 	game_init(&meta);
 	mlx_loop_hook(meta.mlx, game_loop, &meta);
 	mlx_loop_hook(meta.mlx, key_hook, &meta);

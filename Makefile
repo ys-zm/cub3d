@@ -37,8 +37,9 @@ SRCS	= 		parser/check_elements.c \
 				parser/utils_one.c \
 				parser/utils_two.c \
 				utils/error.c \
-				utils/free.c	\
-				utils/math_utils.c	\
+				utils/free.c \
+				utils/vec2d_utils.c \
+				utils/colors.c \
 				cub3d.c \
 				game.c \
 				draw.c \
@@ -49,9 +50,8 @@ SRCS	= 		parser/check_elements.c \
 				timer.c \
 				keys.c \
 				player.c \
+				raycaster.c
 
-				# raycaster.c
-			# render.c 
 HEADER_DIR	:=	include
 HEADERS 	:=	meta.h \
 				timer.h

@@ -71,12 +71,14 @@ int	parser(t_meta *meta, char *map_file)
 		return (free(file), EXIT_FAILURE);
 	save_map_dimensions(meta->map_file, &meta->map.width, &meta->map.height);
 	rect = make_rect(meta->map_file, meta->map.width, meta->map.height);
+	// printing map for debugging
 	print_map(rect, meta->map.width, meta->map.height);
 	free(meta->map_file);
 	if (!rect)
 		return(pr_err(MALL_ERR), EXIT_FAILURE);
 	if (check_map(meta, rect))
 		return (free(rect), EXIT_FAILURE);
+	printf("PLAYER DIR: %c\n", meta->map.player_start_dir);
 	free(rect);
 	return (EXIT_SUCCESS);
 }
