@@ -19,9 +19,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+const float radius = 1.0f;
+
+
+bool	out_of_bounds(t_meta *meta, int x, int y)
+{
+	if (x < 0 || y < 0 || x >= (int)meta->map.width || y >= (int)meta->map.height)
+		return (true);
+	return (false);
+}
+
 // detects the hit too late
 bool if_hits_wall(t_meta *meta, uint32_t x, uint32_t y)
 {
+	if (out_of_bounds(meta, x, y))
+		return true;
 	if (meta->map.level[find_index(meta, x, y)] == MAP_WALL)
 	{
 		return (true);
@@ -34,9 +46,9 @@ void player_move_up(t_meta *meta)
 	t_vec2d new_position;
 	t_player* const player = &meta->player;
 
-	new_position.x = (int)(player->position.x + player->direction.x * PLAYER_MOV_SPEED);
-	new_position.y = (int)(player->position.y + player->direction.y * PLAYER_MOV_SPEED);
-	if (!if_hits_wall(meta, new_position.x, player->position.y) || !if_hits_wall(meta, player->position.x, new_position.y) || !if_hits_wall(meta, new_position.x, new_position.y))
+	new_position.x = (player->position.x + player->direction.x * PLAYER_MOV_SPEED);
+	new_position.y = (player->position.y + player->direction.y * PLAYER_MOV_SPEED) - radius;
+	if (!if_hits_wall(meta, new_position.x, new_position.y))
 	{
 		player->position.x += player->direction.x * PLAYER_MOV_SPEED;
 		player->position.y += player->direction.y * PLAYER_MOV_SPEED;
@@ -46,11 +58,12 @@ void player_move_up(t_meta *meta)
 void player_move_down(t_meta *meta)
 {
 	t_vec2d new_position;
+	
 	t_player* const player = &meta->player;
 
-	new_position.x = (int)(player->position.x - player->direction.x * PLAYER_MOV_SPEED);
-	new_position.y = (int)(player->position.y - player->direction.y * PLAYER_MOV_SPEED);
-	if (!if_hits_wall(meta, new_position.x, player->position.y) || !if_hits_wall(meta, player->position.x, new_position.y) || !if_hits_wall(meta, new_position.x, new_position.y))
+	new_position.x = (player->position.x - player->direction.x * PLAYER_MOV_SPEED);
+	new_position.y = (player->position.y - player->direction.y * PLAYER_MOV_SPEED) + radius;
+	if (!if_hits_wall(meta, new_position.x, new_position.y + radius))
 	{
 		player->position.x -= player->direction.x * PLAYER_MOV_SPEED;
 		player->position.y -= player->direction.y * PLAYER_MOV_SPEED;
@@ -63,9 +76,9 @@ void player_move_left(t_meta *meta)
 	t_vec2d new_position;
 	t_player* const player = &meta->player;
 
-	new_position.x = (int)(player->position.x - player->data.plane.x * PLAYER_MOV_SPEED);
-	new_position.y = (int)(player->position.y - player->data.plane.y * PLAYER_MOV_SPEED);
-	if (!if_hits_wall(meta, new_position.x, player->position.y) || !if_hits_wall(meta, player->position.x, new_position.y) || !if_hits_wall(meta, new_position.x, new_position.y))
+	new_position.x = (player->position.x - player->data.plane.x * PLAYER_MOV_SPEED) - radius;
+	new_position.y = (player->position.y - player->data.plane.y * PLAYER_MOV_SPEED);
+	if (!if_hits_wall(meta, new_position.x, new_position.y))
 	{
 		player->position.x -= player->data.plane.x * PLAYER_MOV_SPEED;
 		player->position.y -= player->data.plane.y * PLAYER_MOV_SPEED;
@@ -77,9 +90,9 @@ void player_move_right(t_meta *meta)
 	t_vec2d new_position;
 	t_player* const player = &meta->player;
 
-	new_position.x = (int)(player->position.x + player->data.plane.x * PLAYER_MOV_SPEED);
-	new_position.y = (int)(player->position.y + player->data.plane.y * PLAYER_MOV_SPEED);
-	if (!if_hits_wall(meta, new_position.x, player->position.y) || !if_hits_wall(meta, player->position.x, new_position.y) || !if_hits_wall(meta, new_position.x, new_position.y))
+	new_position.x = (player->position.x + player->data.plane.x * PLAYER_MOV_SPEED) + radius;
+	new_position.y = (player->position.y + player->data.plane.y * PLAYER_MOV_SPEED);
+	if (!if_hits_wall(meta, new_position.x, new_position.y))
 	{
 		player->position.x += player->data.plane.x * PLAYER_MOV_SPEED;
 		player->position.y += player->data.plane.y * PLAYER_MOV_SPEED;

@@ -156,7 +156,7 @@ void	draw_column(t_meta *meta, uint32_t col, uint32_t h)
 		else
 		{
 			color = find_wall_color(data.side);
-		}
+		} 
 		mlx_put_pixel(meta->image, col, row, color);
 		row++;
 	}
