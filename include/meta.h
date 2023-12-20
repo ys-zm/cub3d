@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/20 13:07:53 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/20 18:39:42 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 #include <limits.h>
 
 #include "timer.h"
-#include "vector.h"
 #include "libft.h"
 #include "parser.h"
 #include "get_next_line.h"
@@ -107,6 +106,12 @@ typedef struct s_vec2d {
 	double	y;
 }	t_vec2d;
 
+typedef struct s_vec2i {
+	int32_t	x;
+	int32_t	y;
+}	t_vec2i;
+
+
 typedef struct s_screen {
 	uint32_t	w;
 	uint32_t	h;
@@ -156,7 +161,6 @@ typedef struct s_map {
 	uint32_t	width;
 	uint32_t	height;
 	uint32_t 	player_start_x;
-	t_direction start_dir;
 	uint32_t 	player_start_y;
 	char		player_start_dir;
 }	t_map;
@@ -207,7 +211,7 @@ void	render_clear_bg(mlx_image_t *image);
 void	render_map_grid(mlx_image_t *image, t_map *m);
 
 // map.c
-t_cell_type	map_get_cell_type(t_map *m, t_vec2f pos);
+t_cell_type	map_get_cell_type(t_map *m, t_vec2d pos);
 
 // draw.c
 void	draw_rect(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color);
@@ -218,9 +222,6 @@ void	draw_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color);
 float deg_to_rad(float deg);
 
 // test_utils.c
-void	print_vec2f(const char *s, t_vec2f vec);
-void	print_vec2i(const char *s, t_vec2i vec);
-void 	print_ray(const char *s, t_ray r);
 void	print_cell(t_cell_type cell);
 void 	game_init(t_meta *meta);
 void 	game_loop(void* param);

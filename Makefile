@@ -43,9 +43,7 @@ SRCS	= 		parser/check_elements.c \
 				cub3d.c \
 				game.c \
 				draw.c \
-        test_utils.c \
-				map.c \
-				vector.c \
+		        test_utils.c \
 				timer.c \
 				keys.c \
 				player.c \

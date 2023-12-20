@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 22:35:05 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/20 16:03:05 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/20 18:41:37 by jboeve        ########   odam.nl         */
 
 /*                                                                            */
 /* ************************************************************************** */
@@ -14,7 +14,6 @@
 #include "MLX42/MLX42.h"
 #include "meta.h"
 #include "timer.h"
-#include "vector.h"
 #include <GLFW/glfw3.h>
 #include <stddef.h>
 #include <stdint.h>

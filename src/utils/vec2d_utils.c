@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   math_utils.c                                      :+:    :+:             */
+/*   vec2d_utils.c                                     :+:    :+:             */
 /*                                                    +:+                     */
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/14 18:30:23 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/14 18:44:48 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/20 18:41:08 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,3 +40,9 @@ t_vec2d vec2d_rotate(t_vec2d old, double radiant)
 	new.y = old.x * sin(radiant) + old.y * cos(radiant);
 	return (new);
 }
+
+// t_vec2f	vec2f_normalize(t_vec2f vec)
+// {
+// 	float m = sqrt(vec[VEC_X] * vec[VEC_X] + vec[VEC_Y] * vec[VEC_Y]);
+// 	return (vec / m);
+// }

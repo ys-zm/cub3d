@@ -6,14 +6,13 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/10 02:25:34 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/19 23:40:47 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/20 18:41:43 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
 #include "libft.h"
 #include "meta.h"
-#include "vector.h"
 #include <math.h>
 #include <stddef.h>
 #include <stdint.h>
