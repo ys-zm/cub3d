@@ -6,11 +6,30 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/07 15:36:26 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/21 00:12:59 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/21 00:29:12 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
+#include <stdlib.h>
+
+
+static void	fps_hook(void *param)
+{
+	t_meta	*meta = param;
+
+	if (!(meta->fps_timer.time_func))
+		timer_init(&meta->fps_timer, mlx_get_time);
+	if (timer_delta(&meta->fps_timer) >= 1)
+	{
+		if (meta->fps)
+			printf("FPS: [%u]\n", meta->fps);
+		timer_start(&meta->fps_timer);
+		meta->fps = 0;
+	}
+	else
+		meta->fps++;
+}
 
 
 // Exit the program as failure.
@@ -43,6 +62,7 @@ int init_mlx_images(t_meta *meta)
 		ft_error();
 		return (EXIT_FAILURE);
 	}
+	return (EXIT_SUCCESS);
 }
 
 int cub3d(int argc, char **argv)
@@ -54,9 +74,11 @@ int cub3d(int argc, char **argv)
 	ft_bzero(&meta, sizeof(t_meta));
 	if (parser(&meta, argv[1]))
 		return(meta_free(&meta), EXIT_FAILURE);
+	// TODO Error check.
 	init_mlx_images(&meta);
 	game_init(&meta);
 	mlx_loop_hook(meta.mlx, game_loop, &meta);
+	mlx_loop_hook(meta.mlx, fps_hook, &meta);
 	mlx_loop(meta.mlx);
 	mlx_terminate(meta.mlx);
 	meta_free(&meta);

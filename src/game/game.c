@@ -6,20 +6,14 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 22:35:05 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/21 00:24:48 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/21 00:32:30 by joppe         ########   odam.nl         */
 
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "MLX42/MLX42.h"
 #include "meta.h"
 #include "timer.h"
-#include <GLFW/glfw3.h>
-#include <stddef.h>
-#include <stdint.h>
-#include <stdio.h>
 #include <math.h>
-#include <unistd.h>
 
 void	set_player_start_position(t_player *p, char dir)
 {
@@ -97,11 +91,9 @@ static void game_update(t_meta *meta, double time_delta)
 
 void game_loop(void* param)
 {
-	t_meta *const meta = param;
-
-	double	frame_time;
-	// Time it took for each iteration of the game_update loop.
-	double	delta_time;
+	t_meta *const	meta = param;
+	double			frame_time;
+	double			delta_time;
 
 	frame_time = timer_delta(&meta->update_timer);
 
@@ -116,7 +108,7 @@ void game_loop(void* param)
 	}
 	timer_start(&meta->update_timer);
 
-	render_clear_bg(meta->image);
-	render_minimap(meta->image, &meta->map);
+	// render_clear_bg(meta->image);
+	// render_minimap(meta->image, &meta->map);
 	raycast_and_render(meta);
 }
