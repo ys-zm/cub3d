@@ -78,7 +78,7 @@ void raycast_and_render(t_meta *meta)
 
 while(col < w)
   {
-      player->data.camera_x = 2 * col / (double)w; //x-coordinate in camera space
+      player->data.camera_x = 2 * col / (double)w - 1; //x-coordinate in camera space
       player->data.ray_direction = vec2d_add(player->direction, vec2d_scalar_product(player->data.plane, player->data.camera_x));
 	  player->data.map_pos.x = (int)player->position.x;
       player->data.map_pos.y = (int)player->position.y;
