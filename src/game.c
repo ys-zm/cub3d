@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 22:35:05 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/14 17:45:59 by jboeve        ########   odam.nl         */
+/*   Updated: 2023/12/20 16:03:05 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,29 +69,29 @@ void game_init(t_meta *meta)
 
 void raycast_and_render(t_meta *meta)
 {	
-  t_player *player = &meta->player;
+	t_player *player = &meta->player;
 	uint32_t w = WINDOW_WIDTH;
-  uint32_t h = WINDOW_HEIGHT;
-  uint32_t col;
+	uint32_t h = WINDOW_HEIGHT;
+	uint32_t col;
 
-  col = 0;
+	col = 0;
 
-while(col < w)
-  {
-      player->data.camera_x = 2 * col / (double)w - 1; //x-coordinate in camera space
-      player->data.ray_direction = vec2d_add(player->direction, vec2d_scalar_product(player->data.plane, player->data.camera_x));
-	  player->data.map_pos.x = (int)player->position.x;
-      player->data.map_pos.y = (int)player->position.y;
-      calculate_delta_dist(&meta->player);
-      calculate_side_distance(&meta->player);
-      dda_algorithm(meta);
+	while(col < w)
+	{
+		player->data.camera_x = 2 * col / (double)w - 1 ; //x-coordinate in camera space
+		player->data.ray_direction = vec2d_add(player->direction, vec2d_scalar_product(player->data.plane, player->data.camera_x));
+		player->data.map_pos.x = (int)player->position.x;
+		player->data.map_pos.y = (int)player->position.y;
+		calculate_delta_dist(&meta->player);
+		calculate_side_distance(&meta->player);
+		dda_algorithm(meta);
 
-      // save calculations of line height and render else where?
-      calculate_line_height(&meta->player.data, h);
-      calculate_draw_start_and_end(meta, h);
-      draw_column(meta, col, h);
-      col++;
-  }
+		// save calculations of line height and render else where?
+		calculate_line_height(&meta->player.data, h);
+		calculate_draw_start_and_end(meta, h);
+		draw_column(meta, col, h);
+		col++;
+	}
 }
 
 void game_loop(void* param)

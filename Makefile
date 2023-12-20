@@ -11,7 +11,7 @@ else ifeq ($(shell uname -m),x86_64)
 endif
 
 NAME		:= app
-RUN_CMD		:= ./$(NAME) test_maps/simple.cub
+RUN_CMD		:= ./$(NAME) test_maps/valid.cub
 
 # CFLAGS		+= -Wall -Wextra -Werror
 CFLAGS		+= -Wall -Wextra
