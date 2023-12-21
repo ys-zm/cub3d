@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/15 14:05:30 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/21 01:58:42 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/21 02:05:48 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ void keys_handle(t_meta *meta, double delta_time)
 	}
 }
 
-// void mlx_set_cursor_mode(mlx_t* mlx, mouse_mode_t mode);
-// void mlx_set_mouse_pos(mlx_t* mlx, int32_t x, int32_t y);
 void mouse_hook(double xpos, double ypos, void* param)
 {
 	t_meta *meta = param;
@@ -73,26 +71,26 @@ void mouse_hook(double xpos, double ypos, void* param)
 
 	float delta_time = mlx_get_time() - time_old;
 	float speed = delta_time * fabs(x_old - xpos) * rotate_speed;
-	if (xpos > x_old)
+	if (xpos > WINDOW_WIDTH /2)
 	{
 		if (!going_right)
 		{
-			printf("going left\n");
+			// printf("going left\n");
 			delta_time = mlx_get_time() - time_old;
 			speed = delta_time * fabs(x_old - xpos) * rotate_speed;
 		}
-		player_turn(meta, -speed);
+		player_turn(meta, speed);
 		going_right = true;
 	}
 	else
 	{
 		if (going_right)
 		{
-			printf("going right\n");
+			// printf("going right\n");
 			delta_time = mlx_get_time() - time_old;
 			speed = delta_time * fabs(x_old - xpos) * rotate_speed;
 		}
-		player_turn(meta, speed);
+		player_turn(meta, -speed);
 		going_right = false;
 	}
 	// printf("delta_time [%lf]\n", delta_time);
