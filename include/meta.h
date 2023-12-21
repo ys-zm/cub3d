@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/21 00:23:34 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/21 01:07:56 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@
 #define PLAYER_HEIGHT		16
 #define PLAYER_RAY_COUNT	90
 #define PLAYER_WALK_SPEED	15
-
+#define PLAYER_MOVE_SPEED   5.0f
 #define PLAYER_RUN_MODIFIER 2.5
 
 #define PLAYER_MOV_SPEED	0.08
@@ -188,8 +188,8 @@ typedef struct s_meta {
 	mlx_image_t	*image;
 	t_timer 	update_timer;
 	t_timer 	fps_timer;
-	uint32_t 	fps;
 	t_player	player;
+	uint32_t 	fps;
 	t_map		map;
 	t_tex		tex;
 	char		*map_file;
@@ -204,6 +204,7 @@ void	game_init(t_meta *meta);
 void	game_loop(void* param);
 
 // player.c
+void player_move(t_meta *meta, t_vec2d transform);
 bool	if_hits_wall(t_meta *meta, uint32_t x, uint32_t y);
 void	player_move_up(t_meta *meta);
 void	player_move_down(t_meta *meta);
@@ -312,6 +313,7 @@ t_vec2d		vec2d_add(t_vec2d v1, t_vec2d v2);
 t_vec2d		vec2d_scalar_product(t_vec2d vec, double scalar);
 t_vec2d		vec2d_rotate(t_vec2d old, double radiant);
 t_vec2d		vec2u_to_vec2d(t_vec2u v);
+double		deg_to_rad(float deg);
 
 
 // test_utils.c

@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/10 02:25:34 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/21 00:11:03 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/21 01:07:49 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,20 @@ bool if_hits_wall(t_meta *meta, uint32_t x, uint32_t y)
 		return (true);
 	}
 	return (false);
+}
+
+void player_move(t_meta *meta, t_vec2d transform)
+{
+	t_player* const	p = &meta->player;
+	t_vec2d			new_position;
+
+	new_position.x = (p->position.x + (transform.x));
+	new_position.y = (p->position.y + (transform.y));
+	if (!if_hits_wall(meta, new_position.x, new_position.y))
+	{
+		p->position.x += transform.x;
+		p->position.y += transform.y;
+	}
 }
 
 void player_move_up(t_meta *meta)
