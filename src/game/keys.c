@@ -6,20 +6,22 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/15 14:05:30 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/21 01:07:11 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/21 01:18:05 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
-#include <stdio.h>
 
 void keys_handle(t_meta *meta, double delta_time)
 {
 	t_player* const p = &meta->player;
 	float speed = PLAYER_MOVE_SPEED * delta_time;
+	float rotate_speed = PLAYER_ROTATE_SPEED * delta_time;
 
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_LEFT_SHIFT))
 		speed *= PLAYER_RUN_MODIFIER;
+	if (mlx_is_key_down(meta->mlx, MLX_KEY_LEFT_CONTROL))
+		rotate_speed /= PLAYER_ROTATE_MODIFIER;
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(meta->mlx);
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_W))
@@ -40,10 +42,10 @@ void keys_handle(t_meta *meta, double delta_time)
 	}
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_Q))
 	{
-		player_turn(meta, -PLAYER_ROTATE_SPEED);
+		player_turn(meta, -rotate_speed);
 	}
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_E))
 	{
-		player_turn(meta, PLAYER_ROTATE_SPEED);
+		player_turn(meta, rotate_speed);
 	}
 }

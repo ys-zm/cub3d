@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/21 01:07:56 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/21 01:18:32 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,15 +64,13 @@
 #define CELL_HEIGHT			64
 #define CELL_SIZE 			64
 
-#define PLAYER_WIDTH		16
-#define PLAYER_HEIGHT		16
-#define PLAYER_RAY_COUNT	90
-#define PLAYER_WALK_SPEED	15
-#define PLAYER_MOVE_SPEED   5.0f
+#define PLAYER_MOVE_SPEED   5.0
 #define PLAYER_RUN_MODIFIER 2.5
+#define PLAYER_ROTATE_SPEED	5.0
+#define PLAYER_ROTATE_MODIFIER 2.5
+
 
 #define PLAYER_MOV_SPEED	0.08
-#define PLAYER_ROTATE_SPEED	0.05
 
 #define COLOR_BACKGROUND	0x111111FF
 #define COLOR_PLAYER		0xFFFFFFFF
@@ -204,13 +202,13 @@ void	game_init(t_meta *meta);
 void	game_loop(void* param);
 
 // player.c
-void player_move(t_meta *meta, t_vec2d transform);
+void	player_move(t_meta *meta, t_vec2d transform);
+void	player_turn(t_meta *meta, float radiant);
 bool	if_hits_wall(t_meta *meta, uint32_t x, uint32_t y);
 void	player_move_up(t_meta *meta);
 void	player_move_down(t_meta *meta);
 void	player_move_left(t_meta *meta);
 void	player_move_right(t_meta *meta);
-void	player_turn(t_meta *meta, double radiant);
 
 // keys.c
 void	keys_handle(t_meta *meta, double time_delta);

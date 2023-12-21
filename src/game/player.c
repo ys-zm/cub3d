@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/10 02:25:34 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/21 01:07:49 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/21 01:18:07 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,13 @@ void player_move(t_meta *meta, t_vec2d transform)
 		p->position.x += transform.x;
 		p->position.y += transform.y;
 	}
+}
+
+// negative rotation parameter turns left vs positive rotation parameter turns right
+void player_turn(t_meta *meta, float radiant)
+{
+	meta->player.direction = vec2d_rotate(meta->player.direction, radiant);
+	meta->player.data.plane = vec2d_rotate(meta->player.data.plane, radiant);
 }
 
 void player_move_up(t_meta *meta)
@@ -111,11 +118,3 @@ void player_move_right(t_meta *meta)
 		player->position.y += player->data.plane.y * PLAYER_MOV_SPEED;
 	}
 }
-
-// negative rotation parameter turns left vs positive rotation parameter turns right
-void player_turn(t_meta *meta, double radiant)
-{
-	meta->player.direction = vec2d_rotate(meta->player.direction, radiant);
-	meta->player.data.plane = vec2d_rotate(meta->player.data.plane, radiant);
-}
-
