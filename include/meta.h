@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/21 01:18:32 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/21 01:26:24 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,7 @@ void	player_move_left(t_meta *meta);
 void	player_move_right(t_meta *meta);
 
 // keys.c
+void mouse_hook(double xpos, double ypos, void* param);
 void	keys_handle(t_meta *meta, double time_delta);
 
 // render.c

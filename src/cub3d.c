@@ -6,10 +6,11 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/07 15:36:26 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/21 00:29:12 by joppe         ########   odam.nl         */
+/*   Updated: 2023/12/21 01:49:11 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "MLX42/MLX42.h"
 #include "meta.h"
 #include <stdlib.h>
 
@@ -77,8 +78,10 @@ int cub3d(int argc, char **argv)
 	// TODO Error check.
 	init_mlx_images(&meta);
 	game_init(&meta);
+	mlx_set_cursor_mode(meta.mlx, MLX_MOUSE_HIDDEN);
 	mlx_loop_hook(meta.mlx, game_loop, &meta);
 	mlx_loop_hook(meta.mlx, fps_hook, &meta);
+	mlx_cursor_hook(meta.mlx, mouse_hook, &meta);
 	mlx_loop(meta.mlx);
 	mlx_terminate(meta.mlx);
 	meta_free(&meta);
