@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/10 02:25:34 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/21 01:18:07 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/01 15:08:22 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,62 +59,4 @@ void player_turn(t_meta *meta, float radiant)
 {
 	meta->player.direction = vec2d_rotate(meta->player.direction, radiant);
 	meta->player.data.plane = vec2d_rotate(meta->player.data.plane, radiant);
-}
-
-void player_move_up(t_meta *meta)
-{
-	t_vec2d new_position;
-	t_player* const player = &meta->player;
-
-	new_position.x = (player->position.x + player->direction.x * PLAYER_MOV_SPEED);
-	new_position.y = (player->position.y + player->direction.y * PLAYER_MOV_SPEED);
-	if (!if_hits_wall(meta, new_position.x, new_position.y))
-	{
-		player->position.x += player->direction.x * PLAYER_MOV_SPEED;
-		player->position.y += player->direction.y * PLAYER_MOV_SPEED;
-	}
-}
-
-void player_move_down(t_meta *meta)
-{
-	t_vec2d new_position;
-	
-	t_player* const player = &meta->player;
-
-	new_position.x = (player->position.x - player->direction.x * PLAYER_MOV_SPEED);
-	new_position.y = (player->position.y - player->direction.y * PLAYER_MOV_SPEED);
-	if (!if_hits_wall(meta, new_position.x, new_position.y))
-	{
-		player->position.x -= player->direction.x * PLAYER_MOV_SPEED;
-		player->position.y -= player->direction.y * PLAYER_MOV_SPEED;
-	}
-
-}
-
-void player_move_left(t_meta *meta)
-{
-	t_vec2d new_position;
-	t_player* const player = &meta->player;
-
-	new_position.x = (player->position.x - player->data.plane.x * PLAYER_MOV_SPEED);
-	new_position.y = (player->position.y - player->data.plane.y * PLAYER_MOV_SPEED);
-	if (!if_hits_wall(meta, new_position.x, new_position.y))
-	{
-		player->position.x -= player->data.plane.x * PLAYER_MOV_SPEED;
-		player->position.y -= player->data.plane.y * PLAYER_MOV_SPEED;
-	}
-}
-
-void player_move_right(t_meta *meta)
-{
-	t_vec2d new_position;
-	t_player* const player = &meta->player;
-
-	new_position.x = (player->position.x + player->data.plane.x * PLAYER_MOV_SPEED);
-	new_position.y = (player->position.y + player->data.plane.y * PLAYER_MOV_SPEED);
-	if (!if_hits_wall(meta, new_position.x, new_position.y))
-	{
-		player->position.x += player->data.plane.x * PLAYER_MOV_SPEED;
-		player->position.y += player->data.plane.y * PLAYER_MOV_SPEED;
-	}
 }

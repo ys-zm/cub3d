@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/21 01:26:24 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/01 15:07:37 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,10 @@
 // #define WINDOW_WIDTH 1920
 // #define WINDOW_HEIGHT 1080 
 
-#define WINDOW_WIDTH 720
-#define WINDOW_HEIGHT 480 
+#define WINDOW_WIDTH 1280
+#define WINDOW_HEIGHT 720 
 
 #define WINDOW_TITLE "Gammoe"
-
-#define PLAYER_VIEWPORT_X 720
-#define PLAYER_VIEWPORT_Y 512
-#define PLAYER_VIEWPORT_WALL_WIDTH 8
 
 #define TICK_RATE (1.0 / 60.0)
 
