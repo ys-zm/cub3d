@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/02 19:51:20 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/02 21:52:00 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@
 #define COLOR_PLAYER		0xFFFFFFFF
 
 // #define FOV 0.66
-#define FOV 0.80
+#define FOV 0.85
 
 typedef bool	(t_ray_hitfunc) (void *p, uint32_t x, uint32_t y);
 typedef struct s_meta t_meta;
@@ -174,8 +174,6 @@ void	draw_rect(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t widt
 void	draw_line(mlx_image_t *image, t_vec2i start, t_vec2i end, t_rgba c);
 void	draw_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color);
 
-// test_utils.c
-void	print_cell(t_cell_type cell);
 
 // keys.c
 void	keys_update(mlx_key_data_t keydata, void *param);
@@ -186,9 +184,6 @@ void 	cube_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color)
 
 // raycaster.c
 t_ray raycaster_cast(t_meta *meta, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit);
-
-// test_utils.c
-void		print_map(char *map, uint32_t w, uint32_t h);
 
 // colors.c
 int32_t		set_color(int32_t r, int32_t g, int32_t b, int32_t a);

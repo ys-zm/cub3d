@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 22:35:05 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/02 19:49:20 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/02 20:58:27 by joppe         ########   odam.nl         */
 
 /*                                                                            */
 /* ************************************************************************** */
@@ -16,6 +16,7 @@
 #include "vector.h"
 #include <math.h>
 #include <unistd.h>
+#include "test_utils.h"
 
 void	set_player_start_position(t_player *p, char dir)
 {

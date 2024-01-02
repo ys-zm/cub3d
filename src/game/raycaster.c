@@ -6,12 +6,13 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/15 15:20:09 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/02 18:55:06 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/02 22:07:46 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
 #include <math.h>
+#include <stddef.h>
 
 inline static t_vec2d	calculate_delta_dist(t_vec2d ray_direction)
 {
@@ -65,18 +66,18 @@ inline static double	calculate_ray_length(t_side hit_side, \
 }
 
 inline static t_side	ray_move(t_vec2d *side_dist, t_vec2d *delta_dist, \
-		t_vec2d *step_size, t_vec2d *map_pos)
+		t_vec2d step_size, t_vec2d *map_pos)
 {
 	if (side_dist->x < side_dist->y)
 	{
 		side_dist->x += delta_dist->x;
-		map_pos->x += step_size->x;
+		map_pos->x += step_size.x;
 		return (HIT_NS);
 	}
 	else
 	{
 		side_dist->y += delta_dist->y;
-		map_pos->y += step_size->y;
+		map_pos->y += step_size.y;
 		return (HIT_EW);
 	}
 }
@@ -94,12 +95,21 @@ t_ray	raycaster_cast(t_meta *meta, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit)
 	delta_dist = calculate_delta_dist(dir);
 	side_dist = calculate_side_dist(dir, pp, map_pos, delta_dist);
 	step_size = calculate_step_size(dir);
-	while (1)
+	size_t limit = 25;
+	while (limit)
 	{
-		ray.hit_side = ray_move(&side_dist, &delta_dist, &step_size, &map_pos);
+		ray.hit_side = ray_move(&side_dist, &delta_dist, step_size, &map_pos);
+		// print_vec2d("side_dist", side_dist);
 		if (hit(meta, map_pos.x, map_pos.y))
+		{
+			// TODO Get hit angle.
 			break;
+		}
+		limit--;
 	}
+	if (!limit)
+		UNIMPLEMENTED("Raycaster limit reached!");
 	ray.length = calculate_ray_length(ray.hit_side, side_dist, delta_dist);
+	ray.direction = dir;
 	return (ray);
 }
