@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/02 18:56:27 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/02 19:05:30 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,11 @@ int pr_err(t_err type);
 
 // check_map.c
 int valid_map_char(char c);
-int player_pos_char(char c);
-bool is_map_chars_valid(char *map);
+int	player_pos_char(char c);
+bool	is_map_chars_valid(char *map);
+int 	check_map(t_meta *meta, char *rect);
+int		find_index(t_meta *meta, uint32_t x, uint32_t y);
+
 
 // parser.c
 char	*read_file(int fd);

@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/10 02:25:34 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/02 17:40:38 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/02 19:03:55 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,10 @@ void player_move(t_meta *meta, t_vec2d transform)
 void player_turn(t_meta *meta, float radiant)
 {
 	meta->player.direction = vec2d_rotate(meta->player.direction, radiant);
-	meta->player.plane = vec2d_rotate(meta->player.plane, radiant);
+	meta->player.cam_plane = vec2d_rotate(meta->player.cam_plane, radiant);
 }
 
 
-// tmp placed here
 t_vec2d	calculate_draw_start_and_end1(double ray_length, uint32_t h)
 {
 	//calculate lowest and highest pixel to fill in current stripe
@@ -82,10 +81,10 @@ t_vec2d	calculate_draw_start_and_end1(double ray_length, uint32_t h)
 	line_height = (int)(h / ray_length);
 	if (line_height > h)
 		line_height = h;
-	start = -line_height / 2 + h / 2;
+	start = -line_height / 2 + ((double)h) / 2;
 	if (start < 0)
 		start = 0;
-	end = line_height / 2 + h / 2;
+	end = line_height / 2 + ((double)h) / 2;
 	if (end >= h)
 		end = h - 1;
 	return ((t_vec2d) {start, end});
@@ -136,7 +135,7 @@ void player_raycast(t_player *p)
 	while(col < w)
 	{
 		camera_x = (2 * col / ((double) w) - 1);
-		ray_start = vec2d_add(p->direction, vec2d_scalar_product(p->plane, camera_x));
+		ray_start = vec2d_add(p->direction, vec2d_scalar_product(p->cam_plane, camera_x));
 		t_ray r = raycaster_cast(p->meta, p->position, ray_start, bound_check);
 
 		t_vec2d line = calculate_draw_start_and_end1(r.length, h);

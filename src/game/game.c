@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 22:35:05 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/02 17:15:37 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/02 19:03:55 by joppe         ########   odam.nl         */
 
 /*                                                                            */
 /* ************************************************************************** */
@@ -22,29 +22,29 @@ void	set_player_start_position(t_player *p, char dir)
 	{
 		p->direction.x = 0;
 		p->direction.y = -1;
-		p->plane.x = FOV;
-		p->plane.y = 0;
+		p->cam_plane.x = FOV;
+		p->cam_plane.y = 0;
 	}
 	else if (dir == 'S')
 	{
 		p->direction.x = 0;
 		p->direction.y = 1;
-		p->plane.x = FOV;
-		p->plane.y = 0;
+		p->cam_plane.x = FOV;
+		p->cam_plane.y = 0;
 	}
 	else if (dir == 'E')
 	{
 		p->direction.x = 1;
 		p->direction.y = 0;
-		p->plane.x = 0;
-		p->plane.y = FOV;
+		p->cam_plane.x = 0;
+		p->cam_plane.y = FOV;
 	}
 	else // W
 	{
 		p->direction.x = -1;
 		p->direction.y = 0;
-		p->plane.x = 0;
-		p->plane.y = FOV;
+		p->cam_plane.x = 0;
+		p->cam_plane.y = FOV;
 	}
 	p->position = vec2u_to_vec2d(p->meta->map.player_start);
 }

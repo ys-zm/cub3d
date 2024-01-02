@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/02 18:56:12 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/02 19:07:48 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 
 #include "timer.h"
 #include "libft.h"
+#include "vector.h"
 #include "get_next_line.h"
 #include "MLX42/MLX42.h"
 
@@ -70,7 +71,7 @@
 #define COLOR_BACKGROUND	0x111111FF
 #define COLOR_PLAYER		0xFFFFFFFF
 
-#define FOV .66
+#define FOV 0.66
 
 typedef bool	(t_ray_hitfunc) (void *p, uint32_t x, uint32_t y);
 typedef struct s_meta t_meta;
@@ -93,27 +94,6 @@ typedef union s_rgba
 	};
 }	t_rgba;
 
-typedef struct s_vec2d {
-	double	x;
-	double	y;
-}	t_vec2d;
-
-typedef struct s_vec2i {
-	int32_t	x;
-	int32_t	y;
-}	t_vec2i;
-
-typedef struct s_vec2u {
-	uint32_t	x;
-	uint32_t	y;
-}	t_vec2u;
-
-typedef struct s_screen {
-	uint32_t	w;
-	uint32_t	h;
-}	t_screen;
-
-
 
 typedef enum e_side {
 	HIT_NONE,
@@ -121,48 +101,18 @@ typedef enum e_side {
 	HIT_EW,
 }	t_side;
 
-/*
-@param side_distance: length of ray from current position to next x or y-side
-@param delta_distance: length of ray from one x or y-side to next x or y-side
-@param step: what direction to step in x or y-direction (either +1 or -1)
-@param hit: was there a wall hit?
-@param side: was a NS or EW wall hit?
-@param perp_wall_distance: distance of perpendicular ray (Euclidean distance would give fisheye effect!)
-*/
-typedef struct s_ray_data {
-	long		line_height;
-	double		perp_wall_distance;
-
-	uint32_t	start;
-	uint32_t	end;
-
-	t_vec2d		ray_direction;
-	t_vec2d		side_distance;
-	t_vec2d		delta_distance;
-	
-	t_vec2d		map_pos;
-	t_vec2d		step;
-	t_side		side;
-	bool 		hit;
-
-	t_vec2d		plane;
-	double		camera_x;
-} t_ray_data;
-
 typedef struct s_ray {
 	t_side	hit_side;
 	double	length;
 	t_vec2d	direction;
 } t_ray;
 
-typedef struct s_meta t_meta;
 
 typedef struct s_player {
 	t_meta		*meta;
-	t_vec2d		plane;
+	t_vec2d		cam_plane;
 	t_vec2d		position;
 	t_vec2d		direction;
-	// t_ray_data	data;
 } t_player;
 
 
@@ -226,8 +176,6 @@ void	draw_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color);
 
 // test_utils.c
 void	print_cell(t_cell_type cell);
-void 	game_init(t_meta *meta);
-void 	game_loop(void* param);
 
 // keys.c
 void	keys_update(mlx_key_data_t keydata, void *param);
@@ -236,22 +184,8 @@ void	keys_update(mlx_key_data_t keydata, void *param);
 void 	draw_square(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color);
 void 	cube_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color);
 
-// check_map.c
-int 	check_map(t_meta *meta, char *rect);
-int		find_index(t_meta *meta, uint32_t x, uint32_t y);
-
 // raycaster.c
 t_ray raycaster_cast(t_meta *meta, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit);
-
-
-// vec2d_utils.c
-void		print_vec2d(char *str, t_vec2d vector);
-t_vec2d		vec2d_add(t_vec2d v1, t_vec2d v2);
-t_vec2d		vec2d_scalar_product(t_vec2d vec, double scalar);
-t_vec2d		vec2d_rotate(t_vec2d old, double radiant);
-t_vec2d		vec2u_to_vec2d(t_vec2u v);
-double		deg_to_rad(float deg);
-
 
 // test_utils.c
 void		print_map(char *map, uint32_t w, uint32_t h);
