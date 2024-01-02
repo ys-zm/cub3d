@@ -6,158 +6,173 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/15 15:20:09 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/20 15:59:20 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/02 17:04:23 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "meta.h"
+#include "parser.h"
 #include <math.h>
+#include <stdint.h>
 
-void	calculate_delta_dist(t_player *player)
+static t_vec2d calculate_delta_dist1(t_vec2d ray_direction)
 {
-	t_ray_data* const data = &player->data;
+	t_vec2d delta_dist;
 
-	if (data->ray_direction.x == 0)
+	if (ray_direction.x == 0)
 	{
-		data->delta_distance.x = INT32_MAX;
+		delta_dist.x = INT32_MAX;
 	}
 	else
 	{
-		data->delta_distance.x = fabs(1 / data->ray_direction.x);
+		delta_dist.x = fabs(1 / ray_direction.x);
 	}
-	if (data->ray_direction.y == 0)
+	if (ray_direction.y == 0)
 	{
-		data->delta_distance.y = INT32_MAX;
+		delta_dist.y = INT32_MAX;
 	}
 	else
 	{
-		data->delta_distance.y = fabs(1 / data->ray_direction.y);
+		delta_dist.y = fabs(1 / ray_direction.y);
 	}
+	return (delta_dist);
 }
 
-void	calculate_side_distance(t_player *player)
+static t_vec2d	calculate_side_distance1(t_vec2d ray_direction, t_vec2d player_pos, t_vec2d map_pos, t_vec2d delta_dist, t_vec2d *step)
 {
-	t_ray_data* const data = &player->data;
+	t_vec2d side_dist;
 
-	if (data->ray_direction.x < 0)
+	if (ray_direction.x < 0)
 	{
-		data->step.x = -1;
-		data->side_distance.x = (player->position.x - data->map_pos.x) * data->delta_distance.x;
+		step->x = -1;
+		side_dist.x = (player_pos.x - map_pos.x) * delta_dist.x;
 	}
 	else
 	{
-		data->step.x = 1;
-		data->side_distance.x = (data->map_pos.x + 1.0 - player->position.x) * data->delta_distance.x;
+		step->x = 1;
+		side_dist.x = (map_pos.x + 1.0 - player_pos.x) * delta_dist.x;
 	}
-	if (data->ray_direction.y < 0)
+	if (ray_direction.y < 0)
 	{
-		data->step.y = -1;
-		data->side_distance.y = (player->position.y - data->map_pos.y) * data->delta_distance.y;
+		step->y = -1;
+		side_dist.y = (player_pos.y - map_pos.y) * delta_dist.y;
 	}
 	else
 	{
-		data->step.y = 1;
-		data->side_distance.y = (data->map_pos.y + 1.0 - player->position.y) * data->delta_distance.y;
+		step->y = 1;
+		side_dist.y = (map_pos.y + 1.0 - player_pos.y) * delta_dist.y;
 	}
+	return side_dist;
 }
 
-void	dda_algorithm(t_meta *meta)
-{
-	t_ray_data* const data = &meta->player.data;
-	data->hit = false;
+static double	calculate_wall_dist1(t_side hit_side, t_vec2d side_dist, t_vec2d delta_dist);
 
-	while (data->hit == false)
+static t_ray	dda_algorithm1(t_meta *meta, t_vec2d player_pos, t_vec2d ray_direction,t_ray_hitfunc has_hit)
+{
+	t_ray ray;
+	t_vec2d	map_pos;
+	t_vec2d	tmp_step;
+
+	t_vec2d delta_dist = calculate_delta_dist1(ray_direction);
+	map_pos.x = (int)player_pos.x;
+	map_pos.y = (int)player_pos.y;
+	t_vec2d side_dist = calculate_side_distance1(ray_direction, player_pos, map_pos, delta_dist, &tmp_step);
+
+	bool hit = false;
+	while (!hit)
 	{
-		//jump to next map square, either in x-direction, or in y-direction
-		if (data->side_distance.x < data->side_distance.y)
+		if (side_dist.x < side_dist.y)
 		{
-			data->side_distance.x += data->delta_distance.x;
-			data->map_pos.x += data->step.x;
-			data->side = HIT_NS;
+			side_dist.x += delta_dist.x;
+			map_pos.x += tmp_step.x;
+			ray.hit_side = HIT_NS;
 		}
 		else
 		{
-			data->side_distance.y += data->delta_distance.y;
-			data->map_pos.y += data->step.y;
-			data->side = HIT_EW;
+			side_dist.y += delta_dist.y;
+			map_pos.y += tmp_step.y;
+			ray.hit_side = HIT_EW;
 		}
-		//Check if ray has hit a wall
-		if (data->map_pos.x >= 0 && data->map_pos.y >= 0 && data->map_pos.x < meta->map.width && data->map_pos.y < meta->map.height)
-		{
-			if (meta->map.level[find_index(meta, data->map_pos.x, data->map_pos.y)] == MAP_WALL)
-			{
-				data->hit = true;
-			}
-		}
-		else
-		{
-			UNIMPLEMENTED("Map out of bounds.");
-		}
+		hit = has_hit(meta, map_pos.x, map_pos.y);
 	}
+	ray.length = calculate_wall_dist1(ray.hit_side, side_dist, delta_dist);
+	return (ray);
 }
 
-void	calculate_line_height(t_ray_data *data, int h)
+static double	calculate_wall_dist1(t_side hit_side, t_vec2d side_dist, t_vec2d delta_dist)
 {	
+	double		perp_wall_dist;
+
 	//Calculate distance of perpendicular ray (Euclidean distance would give fisheye effect!)
-	if(data->side == HIT_NS)
-	{
-		data->perp_wall_distance = (data->side_distance.x - data->delta_distance.x);
-	}
+	if (hit_side == HIT_NS)
+		perp_wall_dist = (side_dist.x - delta_dist.x);
 	else
-	{
-		data->perp_wall_distance = (data->side_distance.y - data->delta_distance.y);
-	} 
-	//Calculate height of line to draw on screen
-	data->line_height = (int)(h / data->perp_wall_distance);
-	if (data->line_height > WINDOW_HEIGHT)
-	{
-		data->line_height = WINDOW_HEIGHT;
-	}
+		perp_wall_dist = (side_dist.y - delta_dist.y);
+
+	return (perp_wall_dist);
 }
 
-void	calculate_draw_start_and_end(t_meta *meta, uint32_t h)
+t_vec2d	calculate_draw_start_and_end1(double ray_length, uint32_t h)
 {
 	//calculate lowest and highest pixel to fill in current stripe
-	t_ray_data* const data = &meta->player.data;
+	uint32_t	start;
+	uint32_t	end;
+	double	line_height = (int)(h / ray_length);
+	if (line_height > h)
+		line_height = h;
 
-	data->start = -data->line_height / 2 + h / 2;
-	if (data->start < 0)
+	start = -line_height / 2 + h / 2;
+	if (start < 0)
 	{
-		data->start = 0;
+		start = 0;
 	}
-	data->end = data->line_height / 2 + h / 2;
-	if (data->end >= h)
+	end = line_height / 2 + h / 2;
+	if (end >= h)
 	{
-		data->end = h - 1;
+		end = h - 1;
 	}
+	t_vec2d line;
+	line.x = start;
+	line.y = end;
+	return line;
 }
 
-void	draw_column(t_meta *meta, uint32_t col, uint32_t h)
+void	draw_column1(t_meta *meta, t_vec2d line, t_side side, uint32_t col, uint32_t h)
 {
 	uint32_t    color;
 	uint32_t    row;
-	t_ray_data  const data = meta->player.data;
 
 	row = 0;
 	// draw_col(meta->image, start, end, color);
 	while (row < h)
 	{
 		// ceiling
-		if (row < data.start)
+		if (row < line.x)
 		{
 			color = set_color(0, 0, 0, 255);
 		}
 		// floor
-		else if (row > data.end)
+		else if (row > line.y)
 		{
 			color = set_color(255, 255, 255, 255);
 		}
 		else
 		{
-			color = find_wall_color(data.side);
+			color = find_wall_color(side);
 		} 
 		mlx_put_pixel(meta->image, col, row, color);
 		row++;
 	}
+}
+
+
+
+t_ray raycaster_cast(t_meta *meta, t_vec2d player_pos, t_vec2d ray_direction, t_ray_hitfunc has_hit)
+{
+	t_ray	ray;
+
+	ray = dda_algorithm1(meta, player_pos, ray_direction, has_hit);
+
+	return ray;
 }

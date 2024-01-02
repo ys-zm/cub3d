@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/01 15:07:37 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/02 17:04:30 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@
 
 #define FOV .66
 
-typedef bool	(t_ray_hit_check) (void *p, int32_t x, int32_t y);
+typedef bool	(t_ray_hitfunc) (void *p, uint32_t x, uint32_t y);
 typedef struct s_meta t_meta;
 
 typedef enum e_cell_type {
@@ -81,11 +81,6 @@ typedef enum e_cell_type {
     MAP_WALL,
     MAP_SPACE,
 }	t_cell_type;
-
-typedef enum e_side {
-	HIT_NS,
-	HIT_EW,
-}	t_side;
 
 typedef union s_rgba
 {
@@ -120,6 +115,13 @@ typedef struct s_screen {
 }	t_screen;
 
 
+
+typedef enum e_side {
+	HIT_NONE,
+	HIT_NS,
+	HIT_EW,
+}	t_side;
+
 /*
 @param side_distance: length of ray from current position to next x or y-side
 @param delta_distance: length of ray from one x or y-side to next x or y-side
@@ -148,13 +150,20 @@ typedef struct s_ray_data {
 	double		camera_x;
 } t_ray_data;
 
+typedef struct s_ray {
+	t_side	hit_side;
+	double	length;
+	t_vec2d	direction;
+} t_ray;
+
 typedef struct s_meta t_meta;
 
 typedef struct s_player {
 	t_meta		*meta;
+	t_vec2d		plane;
 	t_vec2d		position;
 	t_vec2d		direction;
-	t_ray_data	data;
+	// t_ray_data	data;
 } t_player;
 
 
@@ -201,22 +210,16 @@ void	game_loop(void* param);
 void	player_move(t_meta *meta, t_vec2d transform);
 void	player_turn(t_meta *meta, float radiant);
 bool	if_hits_wall(t_meta *meta, uint32_t x, uint32_t y);
-void	player_move_up(t_meta *meta);
-void	player_move_down(t_meta *meta);
-void	player_move_left(t_meta *meta);
-void	player_move_right(t_meta *meta);
+void player_raycast(t_player *p);
 
 // keys.c
-void mouse_hook(double xpos, double ypos, void* param);
+void	mouse_hook(double xpos, double ypos, void* param);
 void	keys_handle(t_meta *meta, double time_delta);
 
 // render.c
 void	render_player_viewport(mlx_image_t *image, t_player *p);
 void	render_clear_bg(mlx_image_t *image);
 void	render_minimap(mlx_image_t *image, t_map *m);
-
-// map.c
-t_cell_type	map_get_cell_type(t_map *m, t_vec2d pos);
 
 // draw.c
 void	draw_rect(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color);
@@ -240,12 +243,11 @@ int 	check_map(t_meta *meta, char *rect);
 int		find_index(t_meta *meta, uint32_t x, uint32_t y);
 
 // raycaster.c
-void	calculate_delta_dist(t_player *player);
-void	calculate_side_distance(t_player *player);
-void	dda_algorithm(t_meta *meta);
-void	calculate_line_height(t_ray_data *data, int h);
-void	calculate_draw_start_and_end(t_meta *meta, uint32_t h);
-void	draw_column(t_meta *meta, uint32_t col, uint32_t h);
+t_ray	raycaster_cast(t_meta *meta, t_vec2d player_pos, t_vec2d ray_direction, t_ray_hitfunc has_hit);
+t_vec2d	calculate_draw_start_and_end1(double ray_length, uint32_t h);
+void	draw_column1(t_meta *meta, t_vec2d line, t_side side, uint32_t col, uint32_t h);
+
+
 
 // PARSER
 
