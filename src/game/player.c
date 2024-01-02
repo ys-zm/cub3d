@@ -6,13 +6,15 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/10 02:25:34 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/02 19:37:31 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/02 22:04:30 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
 #include "libft.h"
+#include "test_utils.h"
 #include "meta.h"
+#include "vector.h"
 #include <math.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -32,12 +34,15 @@ bool bound_check(void *param, uint32_t x, uint32_t y)
 
 void player_move(t_player *p, t_vec2d transform)
 {
-	t_vec2d			new_position;
+	t_vec2d	new_position;
 
 	new_position.x = (p->position.x + (transform.x));
 	new_position.y = (p->position.y + (transform.y));
-	// TODO Use raycast to check if we can move.
-	if (!bound_check(p->meta, new_position.x, new_position.y))
+
+	t_ray r = raycaster_cast(p->meta, p->position, vec2d_normalize(transform), bound_check);
+	// print_ray("bound_ray", &r);
+
+	if (r.length > .5)
 	{
 		p->position.x += transform.x;
 		p->position.y += transform.y;
