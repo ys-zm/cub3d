@@ -6,13 +6,14 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 22:35:05 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/02 19:03:55 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/02 19:49:20 by joppe         ########   odam.nl         */
 
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
 #include "timer.h"
+#include "vector.h"
 #include <math.h>
 #include <unistd.h>
 
@@ -47,6 +48,7 @@ void	set_player_start_position(t_player *p, char dir)
 		p->cam_plane.y = FOV;
 	}
 	p->position = vec2u_to_vec2d(p->meta->map.player_start);
+	player_move(p, (t_vec2d) {0.0, 0.0});
 }
 
 void game_init(t_meta *meta)
@@ -82,9 +84,5 @@ void game_loop(void* param)
 		frame_time -= delta_time;
 	}
 	timer_start(&meta->update_timer);
-
-	// render_clear_bg(meta->image);
-	// render_minimap(meta->image, &meta->map);
-	// raycast_and_render(meta);
-	player_raycast(&meta->player);
+	render_player_viewport(meta->image, &meta->player);
 }

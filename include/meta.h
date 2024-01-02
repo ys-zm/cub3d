@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/02 19:07:48 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/02 19:51:20 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@
 #define COLOR_BACKGROUND	0x111111FF
 #define COLOR_PLAYER		0xFFFFFFFF
 
-#define FOV 0.66
+// #define FOV 0.66
+#define FOV 0.80
 
 typedef bool	(t_ray_hitfunc) (void *p, uint32_t x, uint32_t y);
 typedef struct s_meta t_meta;
@@ -110,6 +111,7 @@ typedef struct s_ray {
 
 typedef struct s_player {
 	t_meta		*meta;
+	t_ray		rays[WINDOW_WIDTH];
 	t_vec2d		cam_plane;
 	t_vec2d		position;
 	t_vec2d		direction;
@@ -121,8 +123,6 @@ typedef struct s_map {
 	uint32_t	width;
 	uint32_t	height;
 	t_vec2u		player_start;
-	uint32_t 	player_start_x;
-	uint32_t 	player_start_y;
 	char		player_start_dir;
 }	t_map;
 
@@ -156,8 +156,8 @@ void	game_init(t_meta *meta);
 void	game_loop(void* param);
 
 // player.c
-void	player_move(t_meta *meta, t_vec2d transform);
-void	player_turn(t_meta *meta, float radiant);
+void player_move(t_player *p, t_vec2d transform);
+void	player_turn(t_player *p, float radiant);
 void	player_raycast(t_player *p);
 
 // keys.c

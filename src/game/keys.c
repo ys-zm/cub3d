@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/15 14:05:30 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/02 19:00:26 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/02 19:37:53 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,17 @@ void keys_handle(t_meta *meta, double delta_time)
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(meta->mlx);
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_W))
-		player_move(meta, (t_vec2d) {p->direction.x * speed, p->direction.y * speed});
+		player_move(p, (t_vec2d) {p->direction.x * speed, p->direction.y * speed});
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_S))
-		player_move(meta, (t_vec2d) {p->direction.x * -speed, p->direction.y * -speed});
+		player_move(p, (t_vec2d) {p->direction.x * -speed, p->direction.y * -speed});
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_A))
-		player_move(meta, (t_vec2d) {(vec2d_rotate(p->direction, PI / 2).x) * -speed, (vec2d_rotate(p->direction, PI / 2).y) * -speed});
+		player_move(p, (t_vec2d) {(vec2d_rotate(p->direction, PI / 2).x) * -speed, (vec2d_rotate(p->direction, PI / 2).y) * -speed});
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_D))
-		player_move(meta, (t_vec2d) {(vec2d_rotate(p->direction, PI / 2).x) * speed, (vec2d_rotate(p->direction, PI / 2).y) * speed});
+		player_move(p, (t_vec2d) {(vec2d_rotate(p->direction, PI / 2).x) * speed, (vec2d_rotate(p->direction, PI / 2).y) * speed});
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_Q))
-		player_turn(meta, -rotate_speed);
+		player_turn(p, -rotate_speed);
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_E))
-		player_turn(meta, rotate_speed);
+		player_turn(p, rotate_speed);
 }
 
 void mouse_hook(double xpos, double ypos, void *param)
