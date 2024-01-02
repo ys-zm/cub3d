@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/02 21:52:00 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/02 23:09:12 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,15 @@
 
 #define PI 3.1415926535
 
+#define MINIMAP_WIDTH 350
+#define MINIMAP_HEIGHT 230
 // Window settings
 // #define WINDOW_WIDTH 1920
 // #define WINDOW_HEIGHT 1080 
 
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720 
+
 
 #define WINDOW_TITLE "Gammoe"
 
@@ -64,8 +67,6 @@
 #define PLAYER_RUN_MODIFIER 2.5
 #define PLAYER_ROTATE_SPEED	5.0
 #define PLAYER_ROTATE_MODIFIER 2.5
-
-
 #define PLAYER_MOV_SPEED	0.08
 
 #define COLOR_BACKGROUND	0x111111FF
@@ -103,11 +104,10 @@ typedef enum e_side {
 }	t_side;
 
 typedef struct s_ray {
+	t_vec2d	direction;
 	t_side	hit_side;
 	double	length;
-	t_vec2d	direction;
 } t_ray;
-
 
 typedef struct s_player {
 	t_meta		*meta;
@@ -138,6 +138,7 @@ typedef struct s_tex {
 typedef struct s_meta {
 	mlx_t		*mlx;
 	mlx_image_t	*image;
+	mlx_image_t	*minimap_image;
 	t_timer 	update_timer;
 	t_timer 	fps_timer;
 	t_player	player;
@@ -164,10 +165,14 @@ void	player_raycast(t_player *p);
 void	mouse_hook(double xpos, double ypos, void* param);
 void	keys_handle(t_meta *meta, double time_delta);
 
-// render.c
-void	render_player_viewport(mlx_image_t *image, t_player *p);
-void	render_clear_bg(mlx_image_t *image);
-void	render_minimap(mlx_image_t *image, t_map *m);
+// render_minimap.c
+void	render_minimap(mlx_image_t *image, const t_map *m, const t_player *p);
+
+// render_viewport.c
+void	render_viewport(mlx_image_t *image, t_player *p);
+
+// minimap.c
+void minimap_update(mlx_image_t *image, t_player *p);
 
 // draw.c
 void	draw_rect(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color);

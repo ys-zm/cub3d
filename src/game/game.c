@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 22:35:05 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/02 20:58:27 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/02 23:09:27 by joppe         ########   odam.nl         */
 
 /*                                                                            */
 /* ************************************************************************** */
@@ -85,5 +85,6 @@ void game_loop(void* param)
 		frame_time -= delta_time;
 	}
 	timer_start(&meta->update_timer);
-	render_player_viewport(meta->image, &meta->player);
+	render_minimap(meta->minimap_image, &meta->map, &meta->player);
+	render_viewport(meta->image, &meta->player);
 }

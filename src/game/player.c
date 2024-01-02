@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/10 02:25:34 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/02 22:04:30 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/02 23:09:34 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void player_raycast(t_player *p)
 {
 	uint32_t w = p->meta->image->width;
 	uint32_t col;
-	double	camera_x;
 	t_vec2d	ray_start;
+	double	camera_x;
 
 	// TODO Just create the player.plane here instead of saving it.
 	col = 0;

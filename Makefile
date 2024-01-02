@@ -45,7 +45,8 @@ SRCS	= 		parser/check_elements.c \
 				game/keys.c \
 				game/player.c \
 				game/raycaster.c \
-				game/render.c \
+				game/render_minimap.c \
+				game/render_viewport.c \
 				cub3d.c \
 				test_utils.c \
 				timer.c

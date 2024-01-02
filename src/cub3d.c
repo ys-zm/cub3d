@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/07 15:36:26 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/02 21:50:31 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/02 23:09:20 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,20 @@ int init_mlx_images(t_meta *meta)
 		return EXIT_FAILURE;
 	}
 
-	// Create and display the image.
 	meta->image = mlx_new_image(meta->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
 	if (!meta->image || (mlx_image_to_window(meta->mlx, meta->image, 0, 0) < 0))
 	{
 		ft_error();
 		return (EXIT_FAILURE);
 	}
+	meta->minimap_image = mlx_new_image(meta->mlx, MINIMAP_WIDTH, MINIMAP_HEIGHT);
+	if (!meta->minimap_image || (mlx_image_to_window(meta->mlx, meta->minimap_image, 0, 0) < 0))
+	{
+		mlx_delete_image(meta->mlx, meta->minimap_image);
+		ft_error();
+		return (EXIT_FAILURE);
+	}
+
 	return (EXIT_SUCCESS);
 }
 
