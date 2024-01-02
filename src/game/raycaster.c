@@ -6,13 +6,16 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/15 15:20:09 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/02 22:07:46 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/03 00:18:38 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
+#include "vector.h"
 #include <math.h>
 #include <stddef.h>
+#include <stdint.h>
+#include <stdio.h>
 
 inline static t_vec2d	calculate_delta_dist(t_vec2d ray_direction)
 {
@@ -82,7 +85,16 @@ inline static t_side	ray_move(t_vec2d *side_dist, t_vec2d *delta_dist, \
 	}
 }
 
-t_ray	raycaster_cast(t_meta *meta, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit)
+static t_vec2d calculate_ray_end(t_vec2d map_pos, t_vec2d pp, t_vec2d dir)
+{
+	t_vec2d end;
+
+	end.x = fabs(map_pos.x + pp.x) * (dir.x / sqrt(dir.x * dir.x));
+	end.y = fabs(map_pos.y + pp.y) * (dir.y / sqrt(dir.y * dir.y));
+	return (end);
+}
+
+t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, void *param)
 {
 	t_ray	ray;
 	t_vec2d	map_pos;
@@ -99,16 +111,15 @@ t_ray	raycaster_cast(t_meta *meta, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit)
 	while (limit)
 	{
 		ray.hit_side = ray_move(&side_dist, &delta_dist, step_size, &map_pos);
-		// print_vec2d("side_dist", side_dist);
-		if (hit(meta, map_pos.x, map_pos.y))
+		if (hit && hit(param, map_pos.x, map_pos.y))
 		{
-			// TODO Get hit angle.
 			break;
 		}
 		limit--;
 	}
+	ray.end = calculate_ray_end(map_pos, pp, dir);
 	if (!limit)
-		UNIMPLEMENTED("Raycaster limit reached!");
+		WARNING("Raycaster limit reached!");
 	ray.length = calculate_ray_length(ray.hit_side, side_dist, delta_dist);
 	ray.direction = dir;
 	return (ray);

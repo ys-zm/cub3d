@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/14 18:30:23 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/02 21:26:28 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/03 00:26:38 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@ t_vec2d	vec2d_scalar_product(t_vec2d vec, double scalar)
 	return ((t_vec2d){vec.x * scalar, vec.y * scalar});
 }
 
+t_vec2i	vec2i_scalar_product(t_vec2i vec, double scalar)
+{
+	return ((t_vec2i){vec.x * scalar, vec.y * scalar});
+}
+
 t_vec2d	vec2d_mul(t_vec2d v1, t_vec2d v2)
 {
 	return ((t_vec2d){v1.x * v2.x, v1.y * v2.y});
@@ -35,7 +40,12 @@ t_vec2d	vec2d_mul(t_vec2d v1, t_vec2d v2)
 
 void print_vec2d(char *str, t_vec2d vector)
 {
- 	printf("%s X: %lf | Y: %lf\n", str, vector.x, vector.y);
+ 	printf("%s [%lf][%lf]\n", str, vector.x, vector.y);
+}
+
+void print_vec2i(char *str, t_vec2i vector)
+{
+ 	printf("%s [%d][%d]\n", str, vector.x, vector.y);
 }
 
 t_vec2d vec2d_rotate(t_vec2d old, double radiant)
@@ -50,6 +60,11 @@ t_vec2d vec2d_rotate(t_vec2d old, double radiant)
 t_vec2d vec2u_to_vec2d(t_vec2u v)
 {
 	return (t_vec2d) {v.x, v.y};
+}
+
+t_vec2i vec2d_to_vec2i(t_vec2d v)
+{
+	return (t_vec2i) {v.x, v.y};
 }
 
 double deg_to_rad(float deg)

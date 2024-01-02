@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 22:35:05 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/02 23:11:22 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/03 00:19:27 by joppe         ########   odam.nl         */
 
 /*                                                                            */
 /* ************************************************************************** */
@@ -49,7 +49,6 @@ void	set_player_start_position(t_player *p, char dir)
 		p->cam_plane.y = FOV;
 	}
 	p->position = vec2u_to_vec2d(p->meta->map.player_start);
-	player_move(p, (t_vec2d) {0.0, 0.0});
 }
 
 void game_init(t_meta *meta)
@@ -60,6 +59,7 @@ void game_init(t_meta *meta)
 
 	p->meta = meta;
 	set_player_start_position(&meta->player, meta->map.player_start_dir);
+	player_move(p, (t_vec2d) {0.0, 0.0});
 }
 
 static void game_update(t_meta *meta, double time_delta)

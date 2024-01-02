@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/10 02:25:34 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/02 23:11:28 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/03 00:00:13 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void player_move(t_player *p, t_vec2d transform)
 	new_position.x = (p->position.x + (transform.x));
 	new_position.y = (p->position.y + (transform.y));
 
-	t_ray r = raycaster_cast(p->meta, p->position, vec2d_normalize(transform), bound_check);
+	t_ray r = raycaster_cast(p->position, vec2d_normalize(transform), bound_check, p->meta);
 	// print_ray("bound_ray", &r);
 
 	if (r.length > .5)
@@ -71,7 +71,7 @@ void player_raycast(t_player *p)
 	{
 		camera_x = (2 * col / ((double) w) - 1);
 		ray_start = vec2d_add(p->direction, vec2d_scalar_product(p->cam_plane, camera_x));
-		p->rays[col] = raycaster_cast(p->meta, p->position, ray_start, bound_check);
+		p->rays[col] = raycaster_cast(p->position, ray_start, bound_check, p->meta);
 		col++;
 	}
 }

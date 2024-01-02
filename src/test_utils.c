@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/10 16:32:18 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/02 21:23:42 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/02 23:21:23 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void print_ray(const char *s, const t_ray *r)
 		side_text = "NS";
 	else
 		side_text = "EW";
-	printf("[%s] | ray_direction [%lf][%lf] | length [%lf] | hit_side [%s]\n", s, r->direction.x, r->direction.y, r->length, side_text);
+	printf("[%s] | ray_direction [%lf][%lf] | length [%lf] | ray_end [%lf][%lf] | hit_side [%s]\n", s, r->direction.x, r->direction.y, r->length, r->end.x, r->end.y, side_text);
 }
 
 void 	print_cell(t_cell_type cell)

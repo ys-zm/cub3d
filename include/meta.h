@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/02 23:11:08 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/03 00:01:43 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@
 #include "MLX42/MLX42.h"
 
 #define UNUSED(x) (void)(x)
+#define WARNING(message) \
+	do { \
+		fprintf(stderr, "\x1b[0m%s:%d: WARNING: %s\n", __FILE__, __LINE__, message); \
+	} while (0)
+
 #define UNIMPLEMENTED(message) \
 	do { \
 		fprintf(stderr, "\x1b[0m%s:%d: UNIMPLEMENTED: %s\n", __FILE__, __LINE__, message); \
@@ -105,6 +110,7 @@ typedef enum e_side {
 
 typedef struct s_ray {
 	t_vec2d	direction;
+	t_vec2d	end;
 	t_side	hit_side;
 	double	length;
 } t_ray;
@@ -166,7 +172,7 @@ void	mouse_hook(double xpos, double ypos, void* param);
 void	keys_handle(t_meta *meta, double time_delta);
 
 // render_minimap.c
-void	render_minimap(mlx_image_t *image, const t_map *m, const t_player *p);
+void render_minimap(mlx_image_t *image, t_map *map, const t_player *p);
 
 // render_viewport.c
 void	render_viewport(mlx_image_t *image, t_player *p);
@@ -188,7 +194,7 @@ void 	draw_square(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t w
 void 	cube_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color);
 
 // raycaster.c
-t_ray raycaster_cast(t_meta *meta, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit);
+t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, void *param);
 
 // colors.c
 int32_t		set_color(int32_t r, int32_t g, int32_t b, int32_t a);
