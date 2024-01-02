@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   check_elements.c                                  :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 18:08:19 by yzaim             #+#    #+#             */
-/*   Updated: 2023/11/09 18:52:24 by yzaim            ###   ########.fr       */
+/*   Updated: 2024/01/02 18:57:17 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "meta.h"
+#include "parser.h"
 
 // checks if the element abbreviations are valid
 bool    is_valid_element(char *file)

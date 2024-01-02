@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   parser.c                                          :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 18:08:19 by yzaim             #+#    #+#             */
-/*   Updated: 2023/11/09 18:52:24 by yzaim            ###   ########.fr       */
+/*   Updated: 2024/01/02 18:57:56 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "meta.h"
-# include "test_utils.h"
+#include "parser.h"
+#include "test_utils.h"
 
 char	*read_file(int fd)
 {
@@ -31,16 +31,11 @@ char	*read_file(int fd)
 }
 
 // check if there are characters before .cub and no characters after
-int map_ext(char *file)
+int map_extension(char *file)
 {
 	// char str[4] = {'.', 'c', 'u', 'b'};
 	const char *str = ".cub";
-	int i;
-	int j;
 
-	i = 0;
-	j = 0;
-	
 	char *dot = ft_strrchr(file, '.');
 
 	if (dot == file)
@@ -48,6 +43,12 @@ int map_ext(char *file)
 	else if (ft_strncmp(dot, str, ft_strlen(dot)))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
+}
+
+void	save_map_dimensions(char *map_file, uint32_t *width, uint32_t *height)
+{
+	*width = find_width(map_file); // find largest width
+	*height = find_height(map_file); // find height of map
 }
 
 // parse map into 1D array
@@ -58,7 +59,7 @@ int	parser(t_meta *meta, char *map_file)
 	char *file = NULL;
 	char *rect = NULL;
 	
-	if (map_ext(map_file)) // check map ext
+	if (map_extension(map_file)) // check map ext
 		return(pr_err(INV_EXT), EXIT_FAILURE);
 	fd = open(map_file, O_RDONLY); // open file
 	if (fd == -1)
@@ -68,17 +69,16 @@ int	parser(t_meta *meta, char *map_file)
 		return(pr_err(MALL_ERR));
 	if (parse_elements(meta, file))
 		return (free(file), EXIT_FAILURE);
-
-	meta->map.width = find_width(meta->map_file); // find largest width
-	meta->map.height = find_height(meta->map_file); // find height of map
-	// w * h sized rectangle
+	save_map_dimensions(meta->map_file, &meta->map.width, &meta->map.height);
 	rect = make_rect(meta->map_file, meta->map.width, meta->map.height);
+	// printing map for debugging
+	print_map(rect, meta->map.width, meta->map.height);
 	free(meta->map_file);
 	if (!rect)
 		return(pr_err(MALL_ERR), EXIT_FAILURE);
 	if (check_map(meta, rect))
 		return (free(rect), EXIT_FAILURE);
-	print_map_cell(meta->map.level, meta->map.width, meta->map.height);
+	printf("PLAYER DIR: %c\n", meta->map.player_start_dir);
 	free(rect);
 	return (EXIT_SUCCESS);
 }

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   parse_map.c                                       :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 18:08:19 by yzaim             #+#    #+#             */
-/*   Updated: 2023/11/09 18:52:24 by yzaim            ###   ########.fr       */
+/*   Updated: 2024/01/02 18:57:45 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "meta.h"
+#include "parser.h"
 
 bool	is_map_line(char *file)
 {
@@ -45,6 +45,5 @@ int	input_map(t_meta *meta, char *file)
             return (pr_err(MALL_ERR));
 		return (EXIT_SUCCESS);
 	}
-	else
-		return (pr_err(MISSING_MAP), EXIT_FAILURE);
+	return (pr_err(MISSING_MAP), EXIT_FAILURE);
 }

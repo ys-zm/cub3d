@@ -6,12 +6,11 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 18:08:19 by yzaim             #+#    #+#             */
-/*   Updated: 2023/12/13 16:41:33 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/02 18:58:36 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
-#include <stdint.h>
 
 // func to find longest width in map
 uint32_t	find_width(char *map)

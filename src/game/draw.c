@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   draw.c                                             :+:      :+:    :+:   */
+/*   draw.c                                            :+:    :+:             */
 /*                                                    +:+                     */
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/09 01:32:57 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/09 17:55:11 by yzaim            ###   ########.fr       */
+/*   Updated: 2023/12/20 18:38:27 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,40 +58,40 @@ static int32_t	direction(int32_t val)
 
 static void	bresenham_move(t_bresenham *line)
 {
-	if (line->delta[VEC_X] > line->delta[VEC_Y])
+	if (line->delta.x > line->delta.y)
 	{
-		line->current[VEC_X] += line->direction[VEC_X];
-		line->slow_move += line->delta[VEC_Y];
-		if (line->slow_move * 2 >= line->delta[VEC_X])
+		line->current.x += line->direction.x;
+		line->slow_move += line->delta.y;
+		if (line->slow_move * 2 >= line->delta.x)
 		{
-			line->current[VEC_Y] += line->direction[VEC_Y];
-			line->slow_move -= line->delta[VEC_X];
+			line->current.y += line->direction.y;
+			line->slow_move -= line->delta.x;
 		}
 	}
 	else
 	{
-		line->current[VEC_Y] += line->direction[VEC_Y];
-		line->slow_move += line->delta[VEC_X];
-		if (line->slow_move * 2 >= line->delta[VEC_Y])
+		line->current.y += line->direction.y;
+		line->slow_move += line->delta.x;
+		if (line->slow_move * 2 >= line->delta.y)
 		{
-			line->current[VEC_X] += line->direction[VEC_X];
-			line->slow_move -= line->delta[VEC_Y];
+			line->current.x += line->direction.x;
+			line->slow_move -= line->delta.y;
 		}
 	}
 }
 
 static void	bresenham(mlx_image_t *meta, t_bresenham *line, t_rgba c)
 {
-	if (line->delta[VEC_X] > line->delta[VEC_Y])
-		line->slow_move = (line->delta[VEC_Y] - line->delta[VEC_X]) / 2;
+	if (line->delta.x > line->delta.y)
+		line->slow_move = (line->delta.y - line->delta.x) / 2;
 	else
-		line->slow_move = (line->delta[VEC_X] - line->delta[VEC_Y]) / 2;
-	while (line->current[VEC_X] != line->end[VEC_X] || line->current[VEC_Y] != line->end[VEC_Y])
+		line->slow_move = (line->delta.x - line->delta.y) / 2;
+	while (line->current.x != line->end.x || line->current.y != line->end.y)
 	{
-		draw_put_pixel(meta, line->current[VEC_X], line->current[VEC_Y], c.value);
+		draw_put_pixel(meta, line->current.x, line->current.y, c.value);
 		bresenham_move(line);
 	}
-	draw_put_pixel(meta, line->current[VEC_X], line->current[VEC_Y], c.value);
+	draw_put_pixel(meta, line->current.x, line->current.y, c.value);
 }
 
 void draw_line(mlx_image_t *image, t_vec2i start, t_vec2i end, t_rgba c)
@@ -101,11 +101,11 @@ void draw_line(mlx_image_t *image, t_vec2i start, t_vec2i end, t_rgba c)
 	line.current = start;
 	line.end = end;
 
-	line.delta[VEC_Y] = abs(line.current[VEC_Y] - line.end[VEC_Y]);
-	line.delta[VEC_X] = abs(line.current[VEC_X] - line.end[VEC_X]);
+	line.delta.y = abs(line.current.y - line.end.y);
+	line.delta.x = abs(line.current.x - line.end.x);
 
-	line.direction[VEC_Y] = direction(line.end[VEC_Y] - line.current[VEC_Y] > 0);
-	line.direction[VEC_X] = direction(line.end[VEC_X] - line.current[VEC_X] > 0);
+	line.direction.y = direction(line.end.y - line.current.y > 0);
+	line.direction.x = direction(line.end.x - line.current.x > 0);
 	bresenham(image, &line, c);
 }
 

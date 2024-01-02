@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                          :+:    :+:              #
-#                                                     +:+ +:+         +:+      #
-#    By: jboeve <ivan-mel@student.42.fr>          +#+  +:+       +#+           #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/08/22 13:32:22 by jboeve            #+#    #+#              #
-#    Updated: 2023/12/13 16:25:01 by jboeve        ########   odam.nl          #
-#                                                                              #
-# **************************************************************************** #
-
 ######################
 # OS Dependent flags #
 ######################
@@ -23,7 +11,7 @@ else ifeq ($(shell uname -m),x86_64)
 endif
 
 NAME		:= app
-RUN_CMD		:= ./$(NAME) test_maps/simple.cub
+RUN_CMD		:= ./$(NAME) test_maps/valid.cub
 
 # CFLAGS		+= -Wall -Wextra -Werror
 CFLAGS		+= -Wall -Wextra
@@ -49,17 +37,17 @@ SRCS	= 		parser/check_elements.c \
 				parser/utils_one.c \
 				parser/utils_two.c \
 				utils/error.c \
-				utils/free.c	\
+				utils/free.c \
+				utils/vec2d_utils.c \
+				utils/colors.c \
+				game/game.c \
+				game/draw.c \
+				game/keys.c \
+				game/player.c \
+				game/raycaster.c \
+				game/render.c \
 				cub3d.c \
-				game.c \
-				input.c \
-				render.c \
-				draw.c \
-				player.c \
-				utils.c \
 				test_utils.c \
-				map.c \
-				vector.c \
 				timer.c
 
 HEADER_DIR	:=	include

@@ -1,4 +1,16 @@
-#include "meta.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                       ::::::::             */
+/*   check_walls.c                                     :+:    :+:             */
+/*                                                    +:+                     */
+/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
+/*                                                  +#+                       */
+/*   Created: 2024/01/02 18:57:27 by joppe         #+#    #+#                 */
+/*   Updated: 2024/01/02 18:57:30 by joppe         ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "parser.h"
 
 // returns 1 if walls are not closed
 int check_horiz_left(t_meta *meta, char *map)

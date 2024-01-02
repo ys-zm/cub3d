@@ -1,19 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   keys.c                                             :+:      :+:    :+:   */
+/*   minimap.c                                         :+:    :+:             */
 /*                                                    +:+                     */
-/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
+/*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
-/*   Created: 2023/11/12 20:04:23 by joppe         #+#    #+#                 */
-/*   Updated: 2023/11/12 20:04:28 by joppe         ########   odam.nl         */
+/*   Created: 2023/12/15 14:01:46 by jboeve        #+#    #+#                 */
+/*   Updated: 2023/12/15 14:07:39 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "MLX42/MLX42.h"
 #include "meta.h"
 
-float deg_to_rad(float deg)
+void minimap_update(t_minimap *m, t_player *p)
 {
-	return deg * (PI / 180);
+	
 }
 
+void minimap_render(t_minimap *m)
+{
+
+}
