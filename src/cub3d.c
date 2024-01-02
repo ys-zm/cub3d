@@ -6,13 +6,13 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/07 15:36:26 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/21 02:05:57 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/02 18:58:50 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
 #include "meta.h"
-#include <stdlib.h>
+#include "parser.h"
 
 
 static void	fps_hook(void *param)

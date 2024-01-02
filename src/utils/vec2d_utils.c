@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/14 18:30:23 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/12/21 01:05:47 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/02 17:43:51 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_vec2d	vec2d_scalar_product(t_vec2d vec, double scalar)
 
 void print_vec2d(char *str, t_vec2d vector)
 {
-  printf("%s X: %f | Y: %f\n", str, vector.x, vector.y);
+ 	printf("%s X: %lf | Y: %lf\n", str, vector.x, vector.y);
 }
 
 t_vec2d vec2d_rotate(t_vec2d old, double radiant)

@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                       ::::::::             */
-/*   meta.h                                             :+:      :+:    :+:   */
+/*   parser.h                                          :+:    :+:             */
 /*                                                    +:+                     */
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2023/11/09 18:54:26 by yzaim            ###   ########.fr       */
+/*   Updated: 2024/01/02 18:56:27 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PASER_H
-#define PASER_H
+#ifndef PARSER_H
+#define PARSER_H
 
 # define TOO_MANY_PLAYERS "Map should not have more than one player position\n"
 # define INVALID_CHAR "Map has invalid characters\n"
@@ -56,5 +56,59 @@ int pr_err(t_err type);
 int valid_map_char(char c);
 int player_pos_char(char c);
 bool is_map_chars_valid(char *map);
+
+// parser.c
+char	*read_file(int fd);
+int		map_ext(char *file);
+int 	parser(t_meta *meta, char *map_file);
+
+// parse_map.c
+bool	is_map_line(char *file);
+int		input_map(t_meta *meta, char *file);
+
+// parse_elements.c
+int		input_texture(t_tex *tex, char *file);
+int		input_colour(t_tex *tex, char *file);
+int		save_elements(t_tex *tex, char *file);
+int 	parse_elements(t_meta *meta, char *file);
+
+// check_colors.c
+bool	valid_rgb_value(char *file);
+bool	is_valid_color(char *file);
+bool	colors_valid(char *file);
+
+// check_elements.c
+bool	is_valid_element(char *file);
+bool	only_spaces(char *file);
+bool	is_map_element(char *file);
+bool	elements_order(char *file);
+bool	check_missing(int *found);
+bool	is_missing(char *file);
+bool	is_duplicate(char *file);
+
+// check_map.c
+bool	is_map_chars_valid(char *map);
+int		flood_fill(t_meta *meta, char *map, int x, int y);
+bool	save_start_pos(t_meta *meta, char *map);
+bool	is_floor_exposed(t_meta *meta, char *map);
+
+// parse_textures.c
+void	get_colour_value(char *file, t_rgba *col);
+char	*get_tex_val(char *file);
+bool	is_texture(char *file);
+bool	is_colour(char *file);
+
+// utils_one.c
+void	skip_line(char **file);
+void	skip_spaces(char **file);
+void	skip_digits(char **file);
+int		valid_map_char(char c);
+int		player_pos_char(char c);
+
+// utils_two.c
+uint32_t	find_width(char *map);
+uint32_t	find_height(char *map);
+char		*make_rect(char *map, uint32_t w, uint32_t h);
+
 
 #endif
