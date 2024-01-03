@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/03 22:34:21 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/03 22:42:46 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,11 @@
 #define MINIMAP_COLOR_PLAYER		0xFFFFFFFF
 #define MINIMAP_PLAYER_SIZE 		6
 #define MINIMAP_CELL_SIZE 			24
+
+#define VIEWPORT_COLOR_CEILING 		0x000000FF
+#define VIEWPORT_COLOR_FLOOR 		0xFFFFFFFF
+#define VIEWPORT_COLOR_WALL_NS		0x4B0082FF
+#define VIEWPORT_COLOR_WALL_EW		0x8A30E2FF
 
 // #define FOV 0.66
 #define FOV 0.85

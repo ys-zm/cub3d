@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2024/01/02 22:39:38 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/03 17:23:04 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/03 22:41:34 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,10 @@ static void	draw_column(t_meta *meta, t_vec2d line, t_side side, uint32_t col, u
 	{
 		// ceiling
 		if (row < line.x)
-		{
-			color = set_color(0, 0, 0, 255);
-		}
+			color = VIEWPORT_COLOR_CEILING;
 		// floor
 		else if (row > line.y)
-		{
-			color = set_color(255, 255, 255, 255);
-		}
+			color = VIEWPORT_COLOR_FLOOR;
 		else
 		{
 			color = find_wall_color(side);
