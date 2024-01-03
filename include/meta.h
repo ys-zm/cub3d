@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/03 21:27:50 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/03 21:32:46 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,11 @@
 #define PLAYER_ROTATE_MODIFIER 2.5
 #define PLAYER_MOV_SPEED	0.08
 
-#define MINIMAP_COLOR_BACKGROUND	0x111111FF
+#define MINIMAP_COLOR_BACKGROUND	0x111111cc
 #define MINIMAP_COLOR_PLAYER		0xFFFFFFFF
 #define MINIMAP_PLAYER_SIZE 		6
-#define MINIMAP_CELL_SIZE 			16
-// #define MINIMAP_CELL_SIZE 			32
+// #define MINIMAP_CELL_SIZE 			16
+#define MINIMAP_CELL_SIZE 			32
 
 // #define FOV 0.66
 #define FOV 0.85

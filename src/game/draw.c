@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/09 01:32:57 by joppe         #+#    #+#                 */
-/*   Updated: 2023/12/20 18:38:27 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/03 21:53:39 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void draw_rect(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t widt
 
 void draw_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color)
 {
-	if (x > 0 && x <= image->width && y > 0 && y <= image->height)
+	if (x > 0 && x < image->width && y > 0 && y < image->height)
 		mlx_put_pixel(image, x, y, color);
 }
 /////////////////////////////////////////////////
