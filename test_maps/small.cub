@@ -1,0 +1,13 @@
+
+NO  path_to_north
+WE  path_to_west
+EA  path_to_east
+SO	path_to_south
+F	255,89,89
+C	12, 34,3
+
+11111
+10001
+10N01
+10001
+11111

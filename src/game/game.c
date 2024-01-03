@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 22:35:05 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/03 00:19:27 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/03 21:00:05 by joppe         ########   odam.nl         */
 
 /*                                                                            */
 /* ************************************************************************** */
@@ -49,6 +49,9 @@ void	set_player_start_position(t_player *p, char dir)
 		p->cam_plane.y = FOV;
 	}
 	p->position = vec2u_to_vec2d(p->meta->map.player_start);
+	// center player in tile.
+	p->position.x += 0.5;
+	p->position.y += 0.5;
 }
 
 void game_init(t_meta *meta)

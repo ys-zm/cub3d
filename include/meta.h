@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/03 00:01:43 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/03 21:27:50 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,18 +64,17 @@
 #define TICK_RATE (1.0 / 60.0)
 
 // TODO Move all this stuff to some kind of game.h
-#define CELL_WIDTH			64
-#define CELL_HEIGHT			64
-#define CELL_SIZE 			64
-
 #define PLAYER_MOVE_SPEED   5.0
 #define PLAYER_RUN_MODIFIER 2.5
 #define PLAYER_ROTATE_SPEED	5.0
 #define PLAYER_ROTATE_MODIFIER 2.5
 #define PLAYER_MOV_SPEED	0.08
 
-#define COLOR_BACKGROUND	0x111111FF
-#define COLOR_PLAYER		0xFFFFFFFF
+#define MINIMAP_COLOR_BACKGROUND	0x111111FF
+#define MINIMAP_COLOR_PLAYER		0xFFFFFFFF
+#define MINIMAP_PLAYER_SIZE 		6
+#define MINIMAP_CELL_SIZE 			16
+// #define MINIMAP_CELL_SIZE 			32
 
 // #define FOV 0.66
 #define FOV 0.85
@@ -113,6 +112,7 @@ typedef struct s_ray {
 	t_vec2d	end;
 	t_side	hit_side;
 	double	length;
+	double 	wall_x;
 } t_ray;
 
 typedef struct s_player {

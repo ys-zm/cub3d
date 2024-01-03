@@ -6,11 +6,13 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/03 00:34:31 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/03 21:28:11 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "MLX42/MLX42.h"
 #include "meta.h"
+#include "parser.h"
 #include "vector.h"
 #include "test_utils.h"
 #include <math.h>
@@ -24,16 +26,6 @@ const t_rgba CELL_COLORS[] = {
 	[MAP_SPACE]	= {0x696969ff},
 };
 
-
-void draw_cell(mlx_image_t *image, t_map *m, uint32_t cell_x, uint32_t cell_y)
-{
-	const size_t x_offset = (cell_x * CELL_WIDTH);
-	const size_t y_offset = (cell_y * CELL_HEIGHT);
-
-	const t_cell_type cell = (m->level[(cell_y * m->width) + cell_x]);
-
-	draw_rect(image, x_offset, y_offset, CELL_WIDTH, CELL_HEIGHT, CELL_COLORS[cell].value);
-}
 
 void render_clear_bg(mlx_image_t *image, uint32_t c)
 {
@@ -59,19 +51,46 @@ static bool minimap_ray_len(void *p, uint32_t x, uint32_t y)
 	}
 }
 
+void draw_cell(mlx_image_t *image, t_cell_type cell, const uint32_t x, const uint32_t y)
+{
+	draw_rect(image, x, y, MINIMAP_CELL_SIZE, MINIMAP_CELL_SIZE, CELL_COLORS[cell].value);
+}
+
+
 void render_minimap(mlx_image_t *image, t_map *map, const t_player *p)
 {
-	const uint32_t size = 24;
-	// const double len = 50.0;
 
-	render_clear_bg(image, COLOR_BACKGROUND);
-
-	t_ray dir = raycaster_cast(p->position, p->direction, minimap_ray_len, map);
+	render_clear_bg(image, MINIMAP_COLOR_BACKGROUND);
 
 	t_vec2i start = {(image->width / 2), (image->height / 2)};
 
-	draw_rect(image, start.x - (size / 2) , start.y - (size / 2), size, size, COLOR_PLAYER);
-	t_vec2i end = vec2d_to_vec2i(vec2d_add((t_vec2d) {start.x, start.y}, vec2d_scalar_product(p->direction, (dir.length) * CELL_SIZE)));
+	int32_t center_x = start.x - (p->position.x * MINIMAP_CELL_SIZE);
+	int32_t center_y = start.y - (p->position.y * MINIMAP_CELL_SIZE);
+	size_t x = 0;
+	while (x < map->width)
+	{
 
+		size_t y = 0;
+		while (y < map->height)
+		{
+			int32_t draw_x = center_x + (x * MINIMAP_CELL_SIZE);
+			int32_t draw_y = center_y + (y * MINIMAP_CELL_SIZE);
+			draw_cell(image, map->level[(y * map->width) + x], draw_x, draw_y);
+			y++;
+		}
+		x++;
+	}
+
+
+
+
+	t_ray r = raycaster_cast(p->position, p->direction, minimap_ray_len, map);
+
+	draw_rect(image, start.x - (MINIMAP_PLAYER_SIZE / 2) , start.y - (MINIMAP_PLAYER_SIZE / 2), MINIMAP_PLAYER_SIZE, MINIMAP_PLAYER_SIZE, MINIMAP_COLOR_PLAYER);
+
+	t_vec2i end = vec2d_to_vec2i(vec2d_add((t_vec2d) {start.x, start.y}, vec2d_scalar_product(p->direction, (r.length) * MINIMAP_CELL_SIZE)));
 	draw_line(image, start, end, (t_rgba) {0xFFFF00FF});
+
+
+	draw_rect(image, center_x, center_y, 2, 2, 0xFF0000FF);
 }
