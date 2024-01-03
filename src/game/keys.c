@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/15 14:05:30 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/02 22:01:41 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/03 22:39:35 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "meta.h"
 #include "vector.h"
 #include <math.h>
+#include <stdint.h>
 #include <stdio.h>
 
 static void keys_handle_move(t_meta *meta, double delta_time)
@@ -70,52 +71,20 @@ void keys_handle(t_meta *meta, double delta_time)
 }
 
 
-void mouse_hook(double xpos, double ypos, void *param)
+void cursor_hook(double xpos, double ypos, void *param)
 {
 	t_meta *meta = param;
-	static double x_old = 0;
-	const float rotate_speed = 0.200f;
-	static bool going_right = false;
+	const int32_t center = meta->image->width / 2;
+	const float rot = 0.0004f;
+	float speed;
 
 	(void) ypos;
 
-	static double time_old = 0;
-	if (time_old == 0)
-		time_old = mlx_get_time();
-	if (x_old == 0)
-		x_old = xpos;
-
-	if (mlx_get_time() - time_old > 0.20)
-		time_old = mlx_get_time();
-
-	float delta_time = mlx_get_time() - time_old;
-	float speed = delta_time * fabs(x_old - xpos) * rotate_speed;
-	if (xpos > WINDOW_WIDTH /2)
-	{
-		if (!going_right)
-		{
-			// printf("going left\n");
-			delta_time = mlx_get_time() - time_old;
-			speed = delta_time * fabs(x_old - xpos) * rotate_speed;
-		}
-		player_turn(&meta->player, speed);
-		going_right = true;
-	}
+	if (xpos > center)
+		speed = rot * (xpos - center);
 	else
-	{
-		if (going_right)
-		{
-			// printf("going right\n");
-			delta_time = mlx_get_time() - time_old;
-			speed = delta_time * fabs(x_old - xpos) * rotate_speed;
-		}
-		player_turn(&meta->player, -speed);
-		going_right = false;
-	}
-	// printf("delta_time [%lf]\n", delta_time);
-	// printf("speed [%lf]\n", speed);
-	// printf("mousepos [%lf]\n", xpos);
-	time_old = mlx_get_time();
-	mlx_set_mouse_pos(meta->mlx, WINDOW_WIDTH / 2, WINDOW_HEIGHT /2);
-	x_old = xpos;
+		speed = -rot * (center - xpos);
+
+	player_turn(&meta->player, speed);
+	mlx_set_mouse_pos(meta->mlx, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
 }

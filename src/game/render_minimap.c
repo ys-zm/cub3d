@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/03 22:00:22 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/03 22:07:03 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,32 +60,24 @@ void draw_cell(mlx_image_t *image, t_cell_type cell, const uint32_t x, const uin
 void render_minimap(mlx_image_t *image, t_map *map, const t_player *p)
 {
 	render_clear_bg(image, MINIMAP_COLOR_BACKGROUND);
-
 	t_vec2i start = {(image->width / 2), (image->height / 2)};
 
 	uint32_t center_x = start.x - (p->position.x * MINIMAP_CELL_SIZE);
 	uint32_t center_y = start.y - (p->position.y * MINIMAP_CELL_SIZE);
 	size_t x = 0;
-	// TODO Check wether our cells are even displayable in the image I.E not out of bounds.
 	while (x < map->width)
 	{
-
 		size_t y = 0;
 		while (y < map->height)
 		{
 			int32_t cell_x = center_x + (x * MINIMAP_CELL_SIZE);
 			int32_t cell_y = center_y + (y * MINIMAP_CELL_SIZE);
 			if (cell_x + MINIMAP_CELL_SIZE >= 0 && cell_x < (int32_t) image->width && cell_y + MINIMAP_CELL_SIZE >= 0 && cell_y < (int32_t) image->height)
-			{
-				printf("drawing cell [%ld][%ld] @ [%d][%d]\n", x, y, cell_x, cell_y);
 				draw_cell(image, map->level[(y * map->width) + x], cell_x, cell_y);
-			}
 			y++;
 		}
 		x++;
 	}
-
-
 
 
 	t_ray r = raycaster_cast(p->position, p->direction, minimap_ray_len, map);
@@ -94,6 +86,4 @@ void render_minimap(mlx_image_t *image, t_map *map, const t_player *p)
 
 	t_vec2i end = vec2d_to_vec2i(vec2d_add((t_vec2d) {start.x, start.y}, vec2d_scalar_product(p->direction, (r.length) * MINIMAP_CELL_SIZE)));
 	draw_line(image, start, end, (t_rgba) {0xFFFF00FF});
-
-	draw_rect(image, center_x, center_y, 2, 2, 0xFF0000FF);
 }

@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/03 21:32:46 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/03 22:34:21 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,22 @@
 
 #define PI 3.1415926535
 
-#define MINIMAP_WIDTH 350
-#define MINIMAP_HEIGHT 230
-// Window settings
+
+// Window
 // #define WINDOW_WIDTH 1920
 // #define WINDOW_HEIGHT 1080 
-
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720 
 
-
 #define WINDOW_TITLE "Gammoe"
 
+#define MINIMAP_WIDTH 350
+#define MINIMAP_HEIGHT 230
+
+
+// Game
 #define TICK_RATE (1.0 / 60.0)
 
-// TODO Move all this stuff to some kind of game.h
 #define PLAYER_MOVE_SPEED   5.0
 #define PLAYER_RUN_MODIFIER 2.5
 #define PLAYER_ROTATE_SPEED	5.0
@@ -73,8 +74,7 @@
 #define MINIMAP_COLOR_BACKGROUND	0x111111cc
 #define MINIMAP_COLOR_PLAYER		0xFFFFFFFF
 #define MINIMAP_PLAYER_SIZE 		6
-// #define MINIMAP_CELL_SIZE 			16
-#define MINIMAP_CELL_SIZE 			32
+#define MINIMAP_CELL_SIZE 			24
 
 // #define FOV 0.66
 #define FOV 0.85
@@ -163,12 +163,12 @@ void	game_init(t_meta *meta);
 void	game_loop(void* param);
 
 // player.c
-void player_move(t_player *p, t_vec2d transform);
+void	player_move(t_player *p, t_vec2d transform);
 void	player_turn(t_player *p, float radiant);
 void	player_raycast(t_player *p);
 
 // keys.c
-void	mouse_hook(double xpos, double ypos, void* param);
+void	cursor_hook(double xpos, double ypos, void* param);
 void	keys_handle(t_meta *meta, double time_delta);
 
 // render_minimap.c
