@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/07 15:36:26 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/03 22:34:21 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/04 00:07:18 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,19 @@ int init_mlx_images(t_meta *meta)
 		ft_error();
 		return (EXIT_FAILURE);
 	}
-	meta->minimap_image = mlx_new_image(meta->mlx, MINIMAP_WIDTH, MINIMAP_HEIGHT);
-	if (!meta->minimap_image || (mlx_image_to_window(meta->mlx, meta->minimap_image, 0, 0) < 0))
+	meta->minimap.minimap_image = mlx_new_image(meta->mlx, MINIMAP_WIDTH, MINIMAP_HEIGHT);
+	if (!meta->minimap.minimap_image || (mlx_image_to_window(meta->mlx, meta->minimap.minimap_image, 0, 0) < 0))
 	{
-		mlx_delete_image(meta->mlx, meta->minimap_image);
+		mlx_delete_image(meta->mlx, meta->minimap.minimap_image);
+		ft_error();
+		return (EXIT_FAILURE);
+	}
+
+	meta->minimap.info_image = mlx_new_image(meta->mlx, MINIMAP_WIDTH, MINIMAP_INFO_HEIGHT);
+	if (!meta->minimap.info_image || (mlx_image_to_window(meta->mlx, meta->minimap.info_image, 0, MINIMAP_HEIGHT) < 0))
+	{
+		mlx_delete_image(meta->mlx, meta->image);
+		mlx_delete_image(meta->mlx, meta->minimap.minimap_image);
 		ft_error();
 		return (EXIT_FAILURE);
 	}

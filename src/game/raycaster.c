@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/12/15 15:20:09 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/03 18:30:54 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/04 00:08:41 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ inline static t_side	ray_move(t_vec2d *side_dist, t_vec2d *delta_dist, \
 	}
 }
 
-t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, void *param)
+t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *param)
 {
 	t_ray	r;
 	t_vec2d	map_pos;

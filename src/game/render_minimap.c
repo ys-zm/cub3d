@@ -6,11 +6,12 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/03 22:07:03 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/04 00:22:17 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
+#include "MLX42/MLX42_Int.h"
 #include "meta.h"
 #include "parser.h"
 #include "vector.h"
@@ -33,6 +34,7 @@ void render_clear_bg(mlx_image_t *image, uint32_t c)
 	size_t			i;
 
 	i = 0;
+	// TODO memset.
 	while (i < size)
 	{
 		mlx_put_pixel(image, i, 0, c);
@@ -40,7 +42,7 @@ void render_clear_bg(mlx_image_t *image, uint32_t c)
 	}
 }
 
-static bool minimap_ray_len(void *p, uint32_t x, uint32_t y)
+static bool minimap_ray_len(const void *p, uint32_t x, uint32_t y)
 {
 	t_map *const map = (t_map *) p;
 	if (x < map->width && y < map->height)
@@ -56,8 +58,7 @@ void draw_cell(mlx_image_t *image, t_cell_type cell, const uint32_t x, const uin
 	draw_rect(image, x, y, MINIMAP_CELL_SIZE, MINIMAP_CELL_SIZE, CELL_COLORS[cell].value);
 }
 
-
-void render_minimap(mlx_image_t *image, t_map *map, const t_player *p)
+static void render_minimap_level(mlx_image_t *image, const t_map *map, const t_player *p)
 {
 	render_clear_bg(image, MINIMAP_COLOR_BACKGROUND);
 	t_vec2i start = {(image->width / 2), (image->height / 2)};
@@ -86,4 +87,69 @@ void render_minimap(mlx_image_t *image, t_map *map, const t_player *p)
 
 	t_vec2i end = vec2d_to_vec2i(vec2d_add((t_vec2d) {start.x, start.y}, vec2d_scalar_product(p->direction, (r.length) * MINIMAP_CELL_SIZE)));
 	draw_line(image, start, end, (t_rgba) {0xFFFF00FF});
+
+}
+
+
+
+#include "../MLX42/src/font/font.h"
+
+static void cube_draw_char(mlx_image_t* image, int32_t texoffset, int32_t imgoffset)
+{
+	if (texoffset < 0)
+		return;
+
+	char* pixelx;
+	uint8_t* pixeli;
+	for (uint32_t y = 0; y < FONT_HEIGHT; y++)
+	{
+		pixelx = &font_atlas.pixels[(y * font_atlas.width + texoffset) * BPP];
+		pixeli = image->pixels + ((y * image->width + imgoffset) * BPP);
+		memcpy(pixeli, pixelx, FONT_WIDTH * BPP);
+	}
+}
+
+// NOTE: Shamelessly stolen from `mlx_put_string` but modified so we're not constantly allocating a new `mlx_image_t`
+mlx_image_t* cube_put_string(mlx_image_t *image, const char* str, int32_t x, int32_t y)
+{
+	const size_t len = strlen(str);
+	int32_t imgoffset = y * image->width + x;
+	size_t i = 0;
+	while (i < len)
+	{
+		// get index of font graphics in atlas.
+		int32_t  tex_offset = mlx_get_texoffset(str[i]);
+
+		cube_draw_char(image, tex_offset, imgoffset);
+
+		// location where the next char should be drawn in the image.
+		imgoffset += FONT_WIDTH;
+		i++;
+	}
+
+	i = 0;
+	while (i < image->width * image->height)
+	{
+		uint8_t *pixelstart = &image->pixels[i * BPP];
+		if (*pixelstart == 0x0)
+			mlx_draw_pixel(pixelstart, MINIMAP_COLOR_BACKGROUND);
+		i++;
+	}
+
+	return image;
+}
+
+static void render_info(mlx_image_t *image, const t_player *p)
+{
+	render_clear_bg(image, 0x666666ff);
+	draw_rect(image, 1, 1, image->width - 2, image->height - 2, MINIMAP_COLOR_BACKGROUND);
+
+	cube_put_string(image, "poep", 10, 10);
+
+}
+
+void render_minimap(t_minimap *minimap, const t_map *map, const t_player *p)
+{
+	render_minimap_level(minimap->minimap_image, map, p);
+	render_info(minimap->info_image, p);
 }

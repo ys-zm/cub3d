@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/03 22:42:46 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/04 00:08:57 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@
 
 #define WINDOW_TITLE "Gammoe"
 
-#define MINIMAP_WIDTH 350
-#define MINIMAP_HEIGHT 230
 
 
 // Game
@@ -71,10 +69,14 @@
 #define PLAYER_ROTATE_MODIFIER 2.5
 #define PLAYER_MOV_SPEED	0.08
 
+#define MINIMAP_WIDTH				350
+#define MINIMAP_HEIGHT				230
+#define MINIMAP_INFO_HEIGHT 		50
 #define MINIMAP_COLOR_BACKGROUND	0x111111cc
 #define MINIMAP_COLOR_PLAYER		0xFFFFFFFF
 #define MINIMAP_PLAYER_SIZE 		6
 #define MINIMAP_CELL_SIZE 			24
+
 
 #define VIEWPORT_COLOR_CEILING 		0x000000FF
 #define VIEWPORT_COLOR_FLOOR 		0xFFFFFFFF
@@ -84,7 +86,7 @@
 // #define FOV 0.66
 #define FOV 0.85
 
-typedef bool	(t_ray_hitfunc) (void *p, uint32_t x, uint32_t y);
+typedef bool	(t_ray_hitfunc) (const void *p, uint32_t x, uint32_t y);
 typedef struct s_meta t_meta;
 
 typedef enum e_cell_type {
@@ -146,11 +148,16 @@ typedef struct s_tex {
 	t_rgba	ceiling_c;
 }	t_tex;
 
+typedef struct s_minimap {
+	mlx_image_t	*minimap_image;
+	mlx_image_t	*info_image;
+} t_minimap;
+
 typedef struct s_meta {
 	mlx_t		*mlx;
 	mlx_image_t	*image;
-	mlx_image_t	*minimap_image;
 	t_timer 	update_timer;
+	t_minimap 	minimap;
 	t_timer 	fps_timer;
 	t_player	player;
 	uint32_t 	fps;
@@ -177,7 +184,7 @@ void	cursor_hook(double xpos, double ypos, void* param);
 void	keys_handle(t_meta *meta, double time_delta);
 
 // render_minimap.c
-void render_minimap(mlx_image_t *image, t_map *map, const t_player *p);
+void render_minimap(t_minimap *minimap, const t_map *map, const t_player *p);
 
 // render_viewport.c
 void	render_viewport(mlx_image_t *image, t_player *p);
@@ -199,7 +206,7 @@ void 	draw_square(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t w
 void 	cube_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color);
 
 // raycaster.c
-t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, void *param);
+t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *param);
 
 // colors.c
 int32_t		set_color(int32_t r, int32_t g, int32_t b, int32_t a);
