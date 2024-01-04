@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/04 15:45:16 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/04 21:54:43 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,13 +177,13 @@ static void render_test(t_meta *meta)
 	size_t i = 0;
 	char* pixelx;
 	uint8_t* pixeli;
-	const int32_t atlas_width = 512;
-	const int32_t cell_width = 32;
-	while (i < atlas_width)
+	const int32_t atlas_w = 512;
+	const int32_t atlas_h = 256;
+	const int32_t cell_w = 16;
+	const int32_t cell_h = 32;
+	while (i < atlas_w * atlas_h * BPP)
 	{
-		pixelx = &gimp_image.pixel_data[(i * gimp_image.width + 0) * BPP];
-		pixeli = image->pixels + ((i * image->width + 0) * BPP);
-		memcpy(pixeli, pixelx, cell_width * BPP);
+		image->pixels[i] = gimp_image.pixel_data[i];
 		i++;
 	}
 
