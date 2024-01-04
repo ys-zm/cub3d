@@ -6,12 +6,13 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/04 00:22:17 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/04 01:25:02 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
 #include "MLX42/MLX42_Int.h"
+#include "libft.h"
 #include "meta.h"
 #include "parser.h"
 #include "vector.h"
@@ -127,6 +128,7 @@ mlx_image_t* cube_put_string(mlx_image_t *image, const char* str, int32_t x, int
 		i++;
 	}
 
+	// Replace all messed-up pixels with the MINIMAP_COLOR_BACKGROUND.
 	i = 0;
 	while (i < image->width * image->height)
 	{
@@ -144,7 +146,12 @@ static void render_info(mlx_image_t *image, const t_player *p)
 	render_clear_bg(image, 0x666666ff);
 	draw_rect(image, 1, 1, image->width - 2, image->height - 2, MINIMAP_COLOR_BACKGROUND);
 
-	cube_put_string(image, "poep", 10, 10);
+	const size_t len = 32;
+	char buf[len];
+	ft_bzero(buf, len);
+	// For some reason addding a space creates some kind of dot in the image.
+	snprintf(buf, len, "POS:\t\t\t\tX%.3f\tY%.3f", p->position.x, p->position.y);
+	cube_put_string(image, buf, 10, 10);
 
 }
 
