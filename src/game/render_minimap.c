@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/04 01:25:02 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/04 15:36:25 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "vector.h"
 #include "test_utils.h"
 #include <math.h>
+#include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
@@ -145,13 +146,38 @@ static void render_info(mlx_image_t *image, const t_player *p)
 {
 	render_clear_bg(image, 0x666666ff);
 	draw_rect(image, 1, 1, image->width - 2, image->height - 2, MINIMAP_COLOR_BACKGROUND);
+	const uint32_t text_x = 5;
 
-	const size_t len = 32;
+	const size_t len = 24;
 	char buf[len];
 	ft_bzero(buf, len);
 	// For some reason addding a space creates some kind of dot in the image.
 	snprintf(buf, len, "POS:\t\t\t\tX%.3f\tY%.3f", p->position.x, p->position.y);
-	cube_put_string(image, buf, 10, 10);
+	cube_put_string(image, buf, text_x, 1);
+
+	snprintf(buf, len, "FPS:\t\t\t\t%u", p->meta->fps);
+	// TODO Add the text thing from fdf.
+	cube_put_string(image, buf, text_x, 1 + FONT_HEIGHT);
+}
+
+#include "font.c"
+
+static void render_test(t_meta *meta)
+{
+	render_clear_bg(meta->test_image, 0x999999ff);
+
+	mlx_image_t *image = meta->test_image;
+
+	size_t i = 0;
+	char* pixelx;
+	uint8_t* pixeli;
+	while (i < 512 / BPP)
+	{
+		pixelx = &gimp_image.pixel_data[(i * gimp_image.width + 0) * BPP];
+		pixeli = image->pixels + ((i * image->width + 0) * BPP);
+		memcpy(pixeli, pixelx, i * 16 * BPP);
+		i++;
+	}
 
 }
 
@@ -159,4 +185,6 @@ void render_minimap(t_minimap *minimap, const t_map *map, const t_player *p)
 {
 	render_minimap_level(minimap->minimap_image, map, p);
 	render_info(minimap->info_image, p);
+	
+	render_test(p->meta);
 }

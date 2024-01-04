@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/04 00:08:57 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/04 15:11:26 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,7 @@ typedef struct s_minimap {
 typedef struct s_meta {
 	mlx_t		*mlx;
 	mlx_image_t	*image;
+	mlx_image_t	*test_image;
 	t_timer 	update_timer;
 	t_minimap 	minimap;
 	t_timer 	fps_timer;

@@ -6,11 +6,12 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 22:35:05 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/04 00:03:32 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/04 01:42:55 by joppe         ########   odam.nl         */
 
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "MLX42/MLX42.h"
 #include "meta.h"
 #include "timer.h"
 #include "vector.h"
