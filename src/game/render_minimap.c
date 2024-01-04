@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/04 15:36:25 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/04 15:45:16 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,15 +98,21 @@ static void render_minimap_level(mlx_image_t *image, const t_map *map, const t_p
 
 static void cube_draw_char(mlx_image_t* image, int32_t texoffset, int32_t imgoffset)
 {
+	char* pixelx;
+	uint8_t* pixeli;
+
 	if (texoffset < 0)
 		return;
 
-	char* pixelx;
-	uint8_t* pixeli;
+	// The memory layout of this font is a long vertical block.
+	// Because of that we can copy them like this.
 	for (uint32_t y = 0; y < FONT_HEIGHT; y++)
 	{
+		// start pointer of font in atlas.
 		pixelx = &font_atlas.pixels[(y * font_atlas.width + texoffset) * BPP];
+		// start location in pixels buffer to paste the font
 		pixeli = image->pixels + ((y * image->width + imgoffset) * BPP);
+		// Copy row by row, the length is limited by the `FONT_WIDTH * BPP`
 		memcpy(pixeli, pixelx, FONT_WIDTH * BPP);
 	}
 }
@@ -171,11 +177,13 @@ static void render_test(t_meta *meta)
 	size_t i = 0;
 	char* pixelx;
 	uint8_t* pixeli;
-	while (i < 512 / BPP)
+	const int32_t atlas_width = 512;
+	const int32_t cell_width = 32;
+	while (i < atlas_width)
 	{
 		pixelx = &gimp_image.pixel_data[(i * gimp_image.width + 0) * BPP];
 		pixeli = image->pixels + ((i * image->width + 0) * BPP);
-		memcpy(pixeli, pixelx, i * 16 * BPP);
+		memcpy(pixeli, pixelx, cell_width * BPP);
 		i++;
 	}
 
