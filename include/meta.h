@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/04 15:11:26 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/05 00:24:37 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,6 +197,9 @@ void minimap_update(mlx_image_t *image, t_player *p);
 void	draw_rect(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color);
 void	draw_line(mlx_image_t *image, t_vec2i start, t_vec2i end, t_rgba c);
 void	draw_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color);
+
+// font_renderer.c
+void	cube_put_string(mlx_image_t *image, const char *s, uint32_t x, uint32_t y);
 
 
 // keys.c

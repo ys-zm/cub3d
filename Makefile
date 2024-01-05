@@ -47,6 +47,7 @@ SRCS	= 		parser/check_elements.c \
 				game/raycaster.c \
 				game/render_minimap.c \
 				game/render_viewport.c \
+				game/font/font_renderer.c \
 				vector/vec2i.c \
 				vector/vec2d.c \
 				vector/vec_utils.c \

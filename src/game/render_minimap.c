@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/04 21:54:43 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/05 00:54:23 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,59 +94,59 @@ static void render_minimap_level(mlx_image_t *image, const t_map *map, const t_p
 
 
 
-#include "../MLX42/src/font/font.h"
-
-static void cube_draw_char(mlx_image_t* image, int32_t texoffset, int32_t imgoffset)
-{
-	char* pixelx;
-	uint8_t* pixeli;
-
-	if (texoffset < 0)
-		return;
-
-	// The memory layout of this font is a long vertical block.
-	// Because of that we can copy them like this.
-	for (uint32_t y = 0; y < FONT_HEIGHT; y++)
-	{
-		// start pointer of font in atlas.
-		pixelx = &font_atlas.pixels[(y * font_atlas.width + texoffset) * BPP];
-		// start location in pixels buffer to paste the font
-		pixeli = image->pixels + ((y * image->width + imgoffset) * BPP);
-		// Copy row by row, the length is limited by the `FONT_WIDTH * BPP`
-		memcpy(pixeli, pixelx, FONT_WIDTH * BPP);
-	}
-}
-
-// NOTE: Shamelessly stolen from `mlx_put_string` but modified so we're not constantly allocating a new `mlx_image_t`
-mlx_image_t* cube_put_string(mlx_image_t *image, const char* str, int32_t x, int32_t y)
-{
-	const size_t len = strlen(str);
-	int32_t imgoffset = y * image->width + x;
-	size_t i = 0;
-	while (i < len)
-	{
-		// get index of font graphics in atlas.
-		int32_t  tex_offset = mlx_get_texoffset(str[i]);
-
-		cube_draw_char(image, tex_offset, imgoffset);
-
-		// location where the next char should be drawn in the image.
-		imgoffset += FONT_WIDTH;
-		i++;
-	}
-
-	// Replace all messed-up pixels with the MINIMAP_COLOR_BACKGROUND.
-	i = 0;
-	while (i < image->width * image->height)
-	{
-		uint8_t *pixelstart = &image->pixels[i * BPP];
-		if (*pixelstart == 0x0)
-			mlx_draw_pixel(pixelstart, MINIMAP_COLOR_BACKGROUND);
-		i++;
-	}
-
-	return image;
-}
+// #include "../MLX42/src/font/font.h"
+//
+// static void cube_draw_char(mlx_image_t* image, int32_t texoffset, int32_t imgoffset)
+// {
+// 	char* pixelx;
+// 	uint8_t* pixeli;
+//
+// 	if (texoffset < 0)
+// 		return;
+//
+// 	// The memory layout of this font is a long vertical block.
+// 	// Because of that we can copy them like this.
+// 	for (uint32_t y = 0; y < FONT_HEIGHT; y++)
+// 	{
+// 		// start pointer of font in atlas.
+// 		pixelx = &font_atlas.pixels[(y * font_atlas.width + texoffset) * BPP];
+// 		// start location in pixels buffer to paste the font
+// 		pixeli = image->pixels + ((y * image->width + imgoffset) * BPP);
+// 		// Copy row by row, the length is limited by the `FONT_WIDTH * BPP`
+// 		memcpy(pixeli, pixelx, FONT_WIDTH * BPP);
+// 	}
+// }
+//
+// // NOTE: Shamelessly stolen from `mlx_put_string` but modified so we're not constantly allocating a new `mlx_image_t`
+// mlx_image_t* cube_put_string(mlx_image_t *image, const char* str, int32_t x, int32_t y)
+// {
+// 	const size_t len = strlen(str);
+// 	int32_t imgoffset = y * image->width + x;
+// 	size_t i = 0;
+// 	while (i < len)
+// 	{
+// 		// get index of font graphics in atlas.
+// 		int32_t  tex_offset = mlx_get_texoffset(str[i]);
+//
+// 		cube_draw_char(image, tex_offset, imgoffset);
+//
+// 		// location where the next char should be drawn in the image.
+// 		imgoffset += FONT_WIDTH;
+// 		i++;
+// 	}
+//
+// 	// Replace all messed-up pixels with the MINIMAP_COLOR_BACKGROUND.
+// 	i = 0;
+// 	while (i < image->width * image->height)
+// 	{
+// 		uint8_t *pixelstart = &image->pixels[i * BPP];
+// 		if (*pixelstart == 0x0)
+// 			mlx_draw_pixel(pixelstart, MINIMAP_COLOR_BACKGROUND);
+// 		i++;
+// 	}
+//
+// 	return image;
+// }
 
 static void render_info(mlx_image_t *image, const t_player *p)
 {
@@ -163,36 +163,15 @@ static void render_info(mlx_image_t *image, const t_player *p)
 
 	snprintf(buf, len, "FPS:\t\t\t\t%u", p->meta->fps);
 	// TODO Add the text thing from fdf.
-	cube_put_string(image, buf, text_x, 1 + FONT_HEIGHT);
-}
-
-#include "font.c"
-
-static void render_test(t_meta *meta)
-{
-	render_clear_bg(meta->test_image, 0x999999ff);
-
-	mlx_image_t *image = meta->test_image;
-
-	size_t i = 0;
-	char* pixelx;
-	uint8_t* pixeli;
-	const int32_t atlas_w = 512;
-	const int32_t atlas_h = 256;
-	const int32_t cell_w = 16;
-	const int32_t cell_h = 32;
-	while (i < atlas_w * atlas_h * BPP)
-	{
-		image->pixels[i] = gimp_image.pixel_data[i];
-		i++;
-	}
-
+	cube_put_string(image, buf, text_x, 1 + 16);
 }
 
 void render_minimap(t_minimap *minimap, const t_map *map, const t_player *p)
 {
 	render_minimap_level(minimap->minimap_image, map, p);
 	render_info(minimap->info_image, p);
-	
-	render_test(p->meta);
+
+
+	render_clear_bg(p->meta->test_image, 0x666666ff);
+	cube_put_string(p->meta->test_image, "dikke_poep 123", 10, 10);
 }
