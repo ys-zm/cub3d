@@ -6,30 +6,32 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/07 15:36:26 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/06 02:43:01 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/06 02:52:57 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
 #include "meta.h"
 #include "parser.h"
+#include <stdint.h>
 
 
 static void	fps_hook(void *param)
 {
 	t_meta	*meta = param;
+	static uint32_t fps = 0;
 
 	if (!(meta->fps_timer.time_func))
 		timer_init(&meta->fps_timer, mlx_get_time);
 	if (timer_delta(&meta->fps_timer) >= 1)
 	{
-		if (meta->fps)
-			printf("FPS: [%u]\n", meta->fps);
+		meta->fps = fps;
+		printf("FPS: [%u]\n", fps);
 		timer_start(&meta->fps_timer);
-		meta->fps = 0;
+		fps = 0;
 	}
 	else
-		meta->fps++;
+		fps++;
 }
 
 
