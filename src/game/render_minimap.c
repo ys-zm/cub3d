@@ -6,12 +6,13 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/05 00:54:23 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/06 02:49:44 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
 #include "MLX42/MLX42_Int.h"
+#include "font/font_comicsans.h"
 #include "libft.h"
 #include "meta.h"
 #include "parser.h"
@@ -22,6 +23,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
+#include <strings.h>
 
 const t_rgba CELL_COLORS[] = {
 	[MAP_EMPTY]	= {0xff00aaff},
@@ -92,78 +94,24 @@ static void render_minimap_level(mlx_image_t *image, const t_map *map, const t_p
 
 }
 
-
-
-// #include "../MLX42/src/font/font.h"
-//
-// static void cube_draw_char(mlx_image_t* image, int32_t texoffset, int32_t imgoffset)
-// {
-// 	char* pixelx;
-// 	uint8_t* pixeli;
-//
-// 	if (texoffset < 0)
-// 		return;
-//
-// 	// The memory layout of this font is a long vertical block.
-// 	// Because of that we can copy them like this.
-// 	for (uint32_t y = 0; y < FONT_HEIGHT; y++)
-// 	{
-// 		// start pointer of font in atlas.
-// 		pixelx = &font_atlas.pixels[(y * font_atlas.width + texoffset) * BPP];
-// 		// start location in pixels buffer to paste the font
-// 		pixeli = image->pixels + ((y * image->width + imgoffset) * BPP);
-// 		// Copy row by row, the length is limited by the `FONT_WIDTH * BPP`
-// 		memcpy(pixeli, pixelx, FONT_WIDTH * BPP);
-// 	}
-// }
-//
-// // NOTE: Shamelessly stolen from `mlx_put_string` but modified so we're not constantly allocating a new `mlx_image_t`
-// mlx_image_t* cube_put_string(mlx_image_t *image, const char* str, int32_t x, int32_t y)
-// {
-// 	const size_t len = strlen(str);
-// 	int32_t imgoffset = y * image->width + x;
-// 	size_t i = 0;
-// 	while (i < len)
-// 	{
-// 		// get index of font graphics in atlas.
-// 		int32_t  tex_offset = mlx_get_texoffset(str[i]);
-//
-// 		cube_draw_char(image, tex_offset, imgoffset);
-//
-// 		// location where the next char should be drawn in the image.
-// 		imgoffset += FONT_WIDTH;
-// 		i++;
-// 	}
-//
-// 	// Replace all messed-up pixels with the MINIMAP_COLOR_BACKGROUND.
-// 	i = 0;
-// 	while (i < image->width * image->height)
-// 	{
-// 		uint8_t *pixelstart = &image->pixels[i * BPP];
-// 		if (*pixelstart == 0x0)
-// 			mlx_draw_pixel(pixelstart, MINIMAP_COLOR_BACKGROUND);
-// 		i++;
-// 	}
-//
-// 	return image;
-// }
-
 static void render_info(mlx_image_t *image, const t_player *p)
 {
 	render_clear_bg(image, 0x666666ff);
 	draw_rect(image, 1, 1, image->width - 2, image->height - 2, MINIMAP_COLOR_BACKGROUND);
 	const uint32_t text_x = 5;
 
+	const t_font_atlas *font = cube_get_font_atlas(FONT_VT323_19);
+
 	const size_t len = 24;
 	char buf[len];
 	ft_bzero(buf, len);
 	// For some reason addding a space creates some kind of dot in the image.
 	snprintf(buf, len, "POS:\t\t\t\tX%.3f\tY%.3f", p->position.x, p->position.y);
-	cube_put_string(image, buf, text_x, 1);
+	cube_put_string(image, buf, font, text_x, 1);
 
 	snprintf(buf, len, "FPS:\t\t\t\t%u", p->meta->fps);
 	// TODO Add the text thing from fdf.
-	cube_put_string(image, buf, text_x, 1 + 16);
+	cube_put_string(image, buf, font, text_x, 1 + font->font_h);
 }
 
 void render_minimap(t_minimap *minimap, const t_map *map, const t_player *p)
@@ -172,6 +120,19 @@ void render_minimap(t_minimap *minimap, const t_map *map, const t_player *p)
 	render_info(minimap->info_image, p);
 
 
-	render_clear_bg(p->meta->test_image, 0x666666ff);
-	cube_put_string(p->meta->test_image, "dikke_poep 123", 10, 10);
+
+	static double time_old = -0.4;
+	// const char *text = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
+	const char *text = "Whereas disregard 123 !@# and contempt for human rights have resulted";
+
+	if (mlx_get_time() - time_old > 0.4)
+	{
+		render_clear_bg(p->meta->test_image, 0x666666ff);
+
+		cube_put_string(p->meta->test_image, text, cube_get_font_atlas(FONT_DEJAVU_14), 10, 10);
+		cube_put_string(p->meta->test_image, text, cube_get_font_atlas(FONT_COMICSANS_14), 10, 80);
+		cube_put_string(p->meta->test_image, text, cube_get_font_atlas(FONT_VT323_14), 10, 140);
+		cube_put_string(p->meta->test_image, text, cube_get_font_atlas(FONT_VT323_19), 10, 200);
+		time_old = mlx_get_time();
+	}
 }

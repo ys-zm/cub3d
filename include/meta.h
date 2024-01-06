@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/05 00:24:37 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/06 02:20:11 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@
 #define FOV 0.85
 
 typedef bool	(t_ray_hitfunc) (const void *p, uint32_t x, uint32_t y);
+
 typedef struct s_meta t_meta;
 
 typedef enum e_cell_type {
@@ -94,6 +95,25 @@ typedef enum e_cell_type {
     MAP_WALL,
     MAP_SPACE,
 }	t_cell_type;
+
+typedef enum e_font_family {
+	FONT_DEJAVU_14,
+	FONT_COMICSANS_14,
+	FONT_VT323_14,
+	FONT_VT323_19,
+	FONT_COUNT,
+}	t_font_family;
+
+typedef struct s_font_atlas
+{
+	unsigned int 	 width;
+	unsigned int 	 height;
+	unsigned int 	 font_w;
+	unsigned int 	 font_h;
+	unsigned int 	 bpp;
+	char	 		*pixels;
+} t_font_atlas;
+
 
 typedef union s_rgba
 {
@@ -199,7 +219,8 @@ void	draw_line(mlx_image_t *image, t_vec2i start, t_vec2i end, t_rgba c);
 void	draw_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color);
 
 // font_renderer.c
-void	cube_put_string(mlx_image_t *image, const char *s, uint32_t x, uint32_t y);
+const t_font_atlas *cube_get_font_atlas(t_font_family face);
+void cube_put_string(mlx_image_t *image, const char *s, const t_font_atlas *atlas, uint32_t x, uint32_t y);
 
 
 // keys.c
