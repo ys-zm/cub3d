@@ -12,6 +12,7 @@ endif
 
 NAME		:= app
 RUN_CMD		:= ./$(NAME) test_maps/valid.cub
+# RUN_CMD		:= ./$(NAME) test_maps/small.cub
 
 # CFLAGS		+= -Wall -Wextra -Werror
 CFLAGS		+= -Wall -Wextra
@@ -38,14 +39,18 @@ SRCS	= 		parser/check_elements.c \
 				parser/utils_two.c \
 				utils/error.c \
 				utils/free.c \
-				utils/vec2d_utils.c \
 				utils/colors.c \
 				game/game.c \
 				game/draw.c \
 				game/keys.c \
 				game/player.c \
 				game/raycaster.c \
-				game/render.c \
+				game/render_minimap.c \
+				game/render_viewport.c \
+				game/font/font_renderer.c \
+				vector/vec2i.c \
+				vector/vec2d.c \
+				vector/vec_utils.c \
 				cub3d.c \
 				test_utils.c \
 				timer.c

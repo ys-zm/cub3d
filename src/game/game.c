@@ -6,11 +6,12 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 22:35:05 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/02 20:58:27 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/07 02:49:18 by joppe         ########   odam.nl         */
 
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "MLX42/MLX42.h"
 #include "meta.h"
 #include "timer.h"
 #include "vector.h"
@@ -49,7 +50,9 @@ void	set_player_start_position(t_player *p, char dir)
 		p->cam_plane.y = FOV;
 	}
 	p->position = vec2u_to_vec2d(p->meta->map.player_start);
-	player_move(p, (t_vec2d) {0.0, 0.0});
+	// center player in tile.
+	p->position.x += 0.5;
+	p->position.y += 0.5;
 }
 
 void game_init(t_meta *meta)
@@ -60,6 +63,7 @@ void game_init(t_meta *meta)
 
 	p->meta = meta;
 	set_player_start_position(&meta->player, meta->map.player_start_dir);
+	player_move(p, (t_vec2d) {0.0, 0.0});
 }
 
 static void game_update(t_meta *meta, double time_delta)
@@ -85,5 +89,6 @@ void game_loop(void* param)
 		frame_time -= delta_time;
 	}
 	timer_start(&meta->update_timer);
-	render_player_viewport(meta->image, &meta->player);
+	render_minimap(&meta->minimap, &meta->map, &meta->player);
+	render_viewport(meta->image, &meta->player);
 }

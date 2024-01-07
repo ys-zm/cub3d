@@ -6,30 +6,32 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/07 15:36:26 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/02 21:50:31 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/07 02:51:23 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
 #include "meta.h"
 #include "parser.h"
+#include <stdint.h>
 
 
 static void	fps_hook(void *param)
 {
 	t_meta	*meta = param;
+	static uint32_t fps = 0;
 
 	if (!(meta->fps_timer.time_func))
 		timer_init(&meta->fps_timer, mlx_get_time);
 	if (timer_delta(&meta->fps_timer) >= 1)
 	{
-		if (meta->fps)
-			printf("FPS: [%u]\n", meta->fps);
+		meta->fps = fps;
+		printf("FPS: [%u]\n", fps);
 		timer_start(&meta->fps_timer);
-		meta->fps = 0;
+		fps = 0;
 	}
 	else
-		meta->fps++;
+		fps++;
 }
 
 
@@ -56,13 +58,40 @@ int init_mlx_images(t_meta *meta)
 		return EXIT_FAILURE;
 	}
 
-	// Create and display the image.
 	meta->image = mlx_new_image(meta->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
 	if (!meta->image || (mlx_image_to_window(meta->mlx, meta->image, 0, 0) < 0))
 	{
 		ft_error();
 		return (EXIT_FAILURE);
 	}
+	meta->minimap.minimap_image = mlx_new_image(meta->mlx, MINIMAP_WIDTH, MINIMAP_HEIGHT);
+	if (!meta->minimap.minimap_image || (mlx_image_to_window(meta->mlx, meta->minimap.minimap_image, 0, 0) < 0))
+	{
+		ft_error();
+		return (EXIT_FAILURE);
+	}
+
+	meta->minimap.info_image = mlx_new_image(meta->mlx, MINIMAP_WIDTH, MINIMAP_INFO_HEIGHT);
+	if (!meta->minimap.info_image || (mlx_image_to_window(meta->mlx, meta->minimap.info_image, 0, MINIMAP_HEIGHT) < 0))
+	{
+		ft_error();
+		return (EXIT_FAILURE);
+	}
+
+	meta->minimap.ppos_image = mlx_new_image(meta->mlx, 1, 1);
+	if (!meta->minimap.ppos_image || (mlx_image_to_window(meta->mlx, meta->minimap.ppos_image, 3, MINIMAP_HEIGHT) < 0))
+	{
+		ft_error();
+		return (EXIT_FAILURE);
+	}
+
+	meta->minimap.fps_image = mlx_new_image(meta->mlx, 1, 1);
+	if (!meta->minimap.fps_image || (mlx_image_to_window(meta->mlx, meta->minimap.fps_image, 3, MINIMAP_HEIGHT + 16) < 0))
+	{
+		ft_error();
+		return (EXIT_FAILURE);
+	}
+
 	return (EXIT_SUCCESS);
 }
 
@@ -81,7 +110,7 @@ int cub3d(int argc, char **argv)
 	mlx_set_cursor_mode(meta.mlx, MLX_MOUSE_HIDDEN);
 	mlx_loop_hook(meta.mlx, game_loop, &meta);
 	mlx_loop_hook(meta.mlx, fps_hook, &meta);
-	mlx_cursor_hook(meta.mlx, mouse_hook, &meta);
+	mlx_cursor_hook(meta.mlx, cursor_hook, &meta);
 	mlx_loop(meta.mlx);
 	mlx_terminate(meta.mlx);
 	meta_free(&meta);
