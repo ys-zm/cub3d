@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/07 02:53:24 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/07 03:51:44 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,10 @@
 #define MINIMAP_HEIGHT				230
 #define MINIMAP_INFO_HEIGHT 		50
 #define MINIMAP_COLOR_BACKGROUND	0x111111cc
-#define MINIMAP_COLOR_PLAYER		0xFFFFFFFF
-#define MINIMAP_PLAYER_SIZE 		6
+#define MINIMAP_COLOR_BORDER		0x666666ff
+#define MINIMAP_COLOR_PLAYER		0xd32a04FF
+#define MINIMAP_PLAYER_SIZE 		7
 #define MINIMAP_CELL_SIZE 			24
-
 
 #define VIEWPORT_COLOR_CEILING 		0x000000FF
 #define VIEWPORT_COLOR_FLOOR 		0xFFFFFFFF
@@ -225,10 +225,6 @@ mlx_image_t			*cube_put_string(mlx_image_t *image, const char *s, const t_font_a
 
 // keys.c
 void	keys_update(mlx_key_data_t keydata, void *param);
-
-// draw.c
-void 	draw_square(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color);
-void 	cube_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color);
 
 // raycaster.c
 t_ray		raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *param);

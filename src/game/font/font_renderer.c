@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2024/01/05 00:02:23 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/07 02:54:07 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/07 03:28:05 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,14 @@
  * but with the ability to specifiy what font to draw.
  */
 
+#include "MLX42/MLX42_Int.h"
 #include "font_dejavu_14.h"
 #include "font_comicsans.h"
 #include "font_mlx.h"
+#include "libft.h"
 #include "meta.h"
 #include <stdio.h>
+#include <string.h>
 
 
 static int32_t get_texoffset(char c, const t_font_atlas *atlas)
@@ -67,10 +70,12 @@ mlx_image_t *cube_put_string(mlx_image_t *image, const char *s, const t_font_atl
 	const int32_t	len = ft_strlen(s);
 	const uint32_t	image_len = len * atlas->font_w;
 
-
-	if (image_len > image->width)
+	if (image_len != image->width)
+	{
+		ft_bzero(image->pixels, image->width * image->height * BPP);
 		if (!mlx_resize_image(image, image_len, atlas->font_h))
 			return (NULL);
+	}
 
 	i = 0;
 	while (i < len)
