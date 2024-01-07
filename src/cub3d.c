@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/07 15:36:26 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/06 02:52:57 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/07 02:51:23 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int init_mlx_images(t_meta *meta)
 	meta->minimap.minimap_image = mlx_new_image(meta->mlx, MINIMAP_WIDTH, MINIMAP_HEIGHT);
 	if (!meta->minimap.minimap_image || (mlx_image_to_window(meta->mlx, meta->minimap.minimap_image, 0, 0) < 0))
 	{
-		mlx_delete_image(meta->mlx, meta->minimap.minimap_image);
 		ft_error();
 		return (EXIT_FAILURE);
 	}
@@ -75,21 +74,23 @@ int init_mlx_images(t_meta *meta)
 	meta->minimap.info_image = mlx_new_image(meta->mlx, MINIMAP_WIDTH, MINIMAP_INFO_HEIGHT);
 	if (!meta->minimap.info_image || (mlx_image_to_window(meta->mlx, meta->minimap.info_image, 0, MINIMAP_HEIGHT) < 0))
 	{
-		mlx_delete_image(meta->mlx, meta->image);
-		mlx_delete_image(meta->mlx, meta->minimap.minimap_image);
 		ft_error();
 		return (EXIT_FAILURE);
 	}
 
-	meta->test_image = mlx_new_image(meta->mlx, WINDOW_WIDTH - 100, 250);
-	if (!meta->test_image || (mlx_image_to_window(meta->mlx, meta->test_image, 50, WINDOW_HEIGHT / 2 - 50) < 0))
+	meta->minimap.ppos_image = mlx_new_image(meta->mlx, 1, 1);
+	if (!meta->minimap.ppos_image || (mlx_image_to_window(meta->mlx, meta->minimap.ppos_image, 3, MINIMAP_HEIGHT) < 0))
 	{
-		mlx_delete_image(meta->mlx, meta->image);
-		mlx_delete_image(meta->mlx, meta->minimap.minimap_image);
 		ft_error();
 		return (EXIT_FAILURE);
 	}
 
+	meta->minimap.fps_image = mlx_new_image(meta->mlx, 1, 1);
+	if (!meta->minimap.fps_image || (mlx_image_to_window(meta->mlx, meta->minimap.fps_image, 3, MINIMAP_HEIGHT + 16) < 0))
+	{
+		ft_error();
+		return (EXIT_FAILURE);
+	}
 
 	return (EXIT_SUCCESS);
 }

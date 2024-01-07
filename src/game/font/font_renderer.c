@@ -6,33 +6,29 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2024/01/05 00:02:23 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/06 02:48:58 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/07 02:54:07 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
  * This file is basically a copy of the `mlx_font.c`
- * but with the ability to add more fonts.
+ * but with the ability to specifiy what font to draw.
  */
 
-#include "font_vt323_14.h"
-#include "meta.h"
-#include "font_comicsans.h"
 #include "font_dejavu_14.h"
-#include "font_vt323_14.h"
-#include "font_vt323_19.h"
+#include "font_comicsans.h"
+#include "font_mlx.h"
+#include "meta.h"
+#include <stdio.h>
 
 
-static int32_t get_texoffset(char c)
+static int32_t get_texoffset(char c, const t_font_atlas *atlas)
 {
     const bool _isprint = ft_isprint(c);
 
-	// TODO Use from font atlas
-	const int32_t font_w = 12;
-    return (-1 * !_isprint + (font_w * (c - 32)) * _isprint);
+    return (-1 * !_isprint + (atlas->font_w * (c - 32)) * _isprint);
 }
 
-// Literally a copy of `mlx_draw_char` except that ours takes a font to draw.
 static void draw_char(mlx_image_t *image, const t_font_atlas *atlas, int32_t font_loc, uint32_t imgoffset)
 {
 	char*		pixelx;
@@ -57,28 +53,30 @@ static void draw_char(mlx_image_t *image, const t_font_atlas *atlas, int32_t fon
 const t_font_atlas *cube_get_font_atlas(t_font_family face)
 {
 	const t_font_atlas *fonts[FONT_COUNT] = {
+		[FONT_MLX]			=	(t_font_atlas *) &font_mlx,
 		[FONT_DEJAVU_14]	=	(t_font_atlas *) &font_dejavu_14,
-		[FONT_COMICSANS_14]	=	(t_font_atlas *) &font_comicsans_14,
-		[FONT_VT323_14]		=	(t_font_atlas *) &font_vt323_14,
-		[FONT_VT323_19]		=	(t_font_atlas *) &font_vt323_19,
+		[FONT_COMICSANS_13]	=	(t_font_atlas *) &font_comicsans_13,
 	};
 	return fonts[face];
 }
 
 // TODO If current image is too small resize the it, eg `mlx_resize_image()`
-void cube_put_string(mlx_image_t *image, const char *s, const t_font_atlas *atlas, uint32_t x, uint32_t y)
+mlx_image_t *cube_put_string(mlx_image_t *image, const char *s, const t_font_atlas *atlas)
 {
-	const int32_t len = ft_strlen(s);
-	int32_t index;
-	int32_t i;
+	int32_t			i;
+	const int32_t	len = ft_strlen(s);
+	const uint32_t	image_len = len * atlas->font_w;
+
+
+	if (image_len > image->width)
+		if (!mlx_resize_image(image, image_len, atlas->font_h))
+			return (NULL);
 
 	i = 0;
 	while (i < len)
 	{
-		index = get_texoffset(s[i]);
-		uint32_t draw_loc = (y * image->width + (i * atlas->font_w) + x);
-		draw_char(image, atlas, index, draw_loc);
+		draw_char(image, atlas, get_texoffset(s[i], atlas), i * atlas->font_w);
 		i++;
 	}
-
+	return (image);
 }

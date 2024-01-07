@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/06 02:20:11 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/07 02:53:24 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,8 @@ typedef enum e_cell_type {
 
 typedef enum e_font_family {
 	FONT_DEJAVU_14,
-	FONT_COMICSANS_14,
-	FONT_VT323_14,
-	FONT_VT323_19,
+	FONT_MLX,
+	FONT_COMICSANS_13,
 	FONT_COUNT,
 }	t_font_family;
 
@@ -170,13 +169,14 @@ typedef struct s_tex {
 
 typedef struct s_minimap {
 	mlx_image_t	*minimap_image;
+	mlx_image_t	*ppos_image;
+	mlx_image_t	*fps_image;
 	mlx_image_t	*info_image;
 } t_minimap;
 
 typedef struct s_meta {
 	mlx_t		*mlx;
 	mlx_image_t	*image;
-	mlx_image_t	*test_image;
 	t_timer 	update_timer;
 	t_minimap 	minimap;
 	t_timer 	fps_timer;
@@ -219,8 +219,8 @@ void	draw_line(mlx_image_t *image, t_vec2i start, t_vec2i end, t_rgba c);
 void	draw_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color);
 
 // font_renderer.c
-const t_font_atlas *cube_get_font_atlas(t_font_family face);
-void cube_put_string(mlx_image_t *image, const char *s, const t_font_atlas *atlas, uint32_t x, uint32_t y);
+const t_font_atlas	*cube_get_font_atlas(t_font_family face);
+mlx_image_t			*cube_put_string(mlx_image_t *image, const char *s, const t_font_atlas *atlas);
 
 
 // keys.c
@@ -231,7 +231,7 @@ void 	draw_square(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t w
 void 	cube_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color);
 
 // raycaster.c
-t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *param);
+t_ray		raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *param);
 
 // colors.c
 int32_t		set_color(int32_t r, int32_t g, int32_t b, int32_t a);

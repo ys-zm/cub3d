@@ -6,22 +6,23 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2023/11/08 23:14:20 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/06 02:49:44 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/07 02:52:07 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
 #include "MLX42/MLX42_Int.h"
-#include "font/font_comicsans.h"
 #include "libft.h"
 #include "meta.h"
 #include "parser.h"
 #include "vector.h"
 #include "test_utils.h"
+#include <ctype.h>
 #include <math.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <strings.h>
 
@@ -94,45 +95,27 @@ static void render_minimap_level(mlx_image_t *image, const t_map *map, const t_p
 
 }
 
-static void render_info(mlx_image_t *image, const t_player *p)
+static void render_info(t_minimap *minimap, const t_player *p)
 {
-	render_clear_bg(image, 0x666666ff);
-	draw_rect(image, 1, 1, image->width - 2, image->height - 2, MINIMAP_COLOR_BACKGROUND);
-	const uint32_t text_x = 5;
+	render_clear_bg(minimap->info_image, 0x666666ff);
+	draw_rect(minimap->info_image, 1, 1, minimap->info_image->width - 2, minimap->info_image->height - 2, MINIMAP_COLOR_BACKGROUND);
 
-	const t_font_atlas *font = cube_get_font_atlas(FONT_VT323_19);
-
+	t_font_atlas const *font = cube_get_font_atlas(FONT_COMICSANS_13);
 	const size_t len = 24;
 	char buf[len];
 	ft_bzero(buf, len);
-	// For some reason addding a space creates some kind of dot in the image.
-	snprintf(buf, len, "POS:\t\t\t\tX%.3f\tY%.3f", p->position.x, p->position.y);
-	cube_put_string(image, buf, font, text_x, 1);
 
-	snprintf(buf, len, "FPS:\t\t\t\t%u", p->meta->fps);
-	// TODO Add the text thing from fdf.
-	cube_put_string(image, buf, font, text_x, 1 + font->font_h);
+
+
+	snprintf(buf, len, "POS:   X%.3f\tY%.3f", p->position.x, p->position.y);
+	minimap->ppos_image = cube_put_string(minimap->ppos_image, buf, font);
+
+	snprintf(buf, len, "FPS:   %u", p->meta->fps);
+	minimap->fps_image = cube_put_string(minimap->fps_image, buf, font);
 }
 
 void render_minimap(t_minimap *minimap, const t_map *map, const t_player *p)
 {
 	render_minimap_level(minimap->minimap_image, map, p);
-	render_info(minimap->info_image, p);
-
-
-
-	static double time_old = -0.4;
-	// const char *text = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
-	const char *text = "Whereas disregard 123 !@# and contempt for human rights have resulted";
-
-	if (mlx_get_time() - time_old > 0.4)
-	{
-		render_clear_bg(p->meta->test_image, 0x666666ff);
-
-		cube_put_string(p->meta->test_image, text, cube_get_font_atlas(FONT_DEJAVU_14), 10, 10);
-		cube_put_string(p->meta->test_image, text, cube_get_font_atlas(FONT_COMICSANS_14), 10, 80);
-		cube_put_string(p->meta->test_image, text, cube_get_font_atlas(FONT_VT323_14), 10, 140);
-		cube_put_string(p->meta->test_image, text, cube_get_font_atlas(FONT_VT323_19), 10, 200);
-		time_old = mlx_get_time();
-	}
+	render_info(minimap, p);
 }
