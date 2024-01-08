@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                       ::::::::             */
-/*   parser.h                                          :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
-/*                                                  +#+                       */
-/*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/02 19:05:30 by joppe         ########   odam.nl         */
-/*                                                                            */
+/**/
+/*   :::::::: */
+/*   parser.h  :+::+: */
+/*+:+ */
+/*   By: jboeve <jboeve@student.codam.nl>+#+  */
+/*  +#+   */
+/*   Created: 2023/11/01 20:07:37 by jboeve#+##+# */
+/*   Updated: 2024/01/02 19:05:30 by joppe ########   odam.nl */
+/**/
 /* ************************************************************************** */
 
 #ifndef PARSER_H
@@ -32,21 +32,21 @@
 # include "meta.h"
 
 typedef enum e_err {
-    INV_CHAR, 
-    INV_EXT, 
-    INV_WALLS,
-    PLAY_ERR,
-    INV_FILE,
-    MALL_ERR,
-    ARG_ERR,
-    OUT_OF_BOUNDS,
-    FILE_ORDER,
-    M_PATH,
-    DUP_ELEMENTS,
-    NO_PLAYER,
-    MISSING_ELEMENTS,
-    MISSING_MAP,
-    COLOR_CODE_WRONG,
+INV_CHAR, 
+INV_EXT, 
+INV_WALLS,
+PLAY_ERR,
+INV_FILE,
+MALL_ERR,
+ARG_ERR,
+OUT_OF_BOUNDS,
+FILE_ORDER,
+M_PATH,
+DUP_ELEMENTS,
+NO_PLAYER,
+MISSING_ELEMENTS,
+MISSING_MAP,
+COLOR_CODE_WRONG,
 }   t_err;
 
 // error.c

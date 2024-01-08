@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                       ::::::::             */
-/*   font_renderer.c                                   :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
-/*                                                  +#+                       */
-/*   Created: 2024/01/05 00:02:23 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/07 03:28:05 by joppe         ########   odam.nl         */
-/*                                                                            */
+/**/
+/*   :::::::: */
+/*   font_renderer.c   :+::+: */
+/*+:+ */
+/*   By: joppe <jboeve@student.codam.nl> +#+  */
+/*  +#+   */
+/*   Created: 2024/01/05 00:02:23 by joppe #+##+# */
+/*   Updated: 2024/01/07 03:28:05 by joppe ########   odam.nl */
+/**/
 /* ************************************************************************** */
 
 /**
@@ -27,9 +27,9 @@
 
 static int32_t get_texoffset(char c, const t_font_atlas *atlas)
 {
-    const bool _isprint = ft_isprint(c);
+const bool _isprint = ft_isprint(c);
 
-    return (-1 * !_isprint + (atlas->font_w * (c - 32)) * _isprint);
+return (-1 * !_isprint + (atlas->font_w * (c - 32)) * _isprint);
 }
 
 static void draw_char(mlx_image_t *image, const t_font_atlas *atlas, int32_t font_loc, uint32_t imgoffset)

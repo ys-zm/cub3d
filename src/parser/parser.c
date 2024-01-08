@@ -1,19 +1,19 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parser.c                                          :+:    :+:             */
-/*                                                    +:+ +:+         +:+     */
-/*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/09 18:08:19 by yzaim             #+#    #+#             */
-/*   Updated: 2024/01/02 18:57:56 by joppe         ########   odam.nl         */
-/*                                                                            */
+/**/
+/*:::  ::::::::   */
+/*   parser.c  :+::+: */
+/*+:+ +:+ +:+ */
+/*   By: yzaim <marvin@42.fr>   +#+  +:+   +#+*/
+/*+#+#+#+#+#+   +#+   */
+/*   Created: 2023/11/09 18:08:19 by yzaim #+##+# */
+/*   Updated: 2024/01/02 18:57:56 by joppe ########   odam.nl */
+/**/
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "test_utils.h"
 
-char	*read_file(int fd)
+	char	*file_to_string(int fd)
 {
 	char *line;
 	char *full_map;
@@ -34,13 +34,16 @@ char	*read_file(int fd)
 int map_extension(char *file)
 {
 	// char str[4] = {'.', 'c', 'u', 'b'};
-	const char *str = ".cub";
+	const char	*str = ".cub";
+	uint32_t	compare_len;
 
 	char *dot = ft_strrchr(file, '.');
-
-	if (dot == file)
+	if (dot == file || !dot)
 		return (EXIT_FAILURE);
-	else if (ft_strncmp(dot, str, ft_strlen(dot)))
+	compare_len = ft_strlen(dot);
+	if (compare_len < 4)
+		compare_len = 4;
+	if (ft_strncmp(dot, str, compare_len))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
@@ -53,32 +56,49 @@ void	save_map_dimensions(char *map_file, uint32_t *width, uint32_t *height)
 
 // parse map into 1D array
 // index = (y * w) + x (input y and x coordinates to find index pos in array)
-int	parser(t_meta *meta, char *map_file)
+
+char *parse_file(char *map_file)
 {
-	int fd;
+	int	fd;
 	char *file = NULL;
-	char *rect = NULL;
-	
 	if (map_extension(map_file)) // check map ext
-		return(pr_err(INV_EXT), EXIT_FAILURE);
+		return(pr_err(INV_EXT), NULL);
 	fd = open(map_file, O_RDONLY); // open file
 	if (fd == -1)
-		return (pr_err(INV_FILE), EXIT_FAILURE);
-	file = read_file(fd);
+		return (pr_err(INV_FILE), NULL);
+	file = file_to_string(fd);
 	if (!file)
-		return(pr_err(MALL_ERR));
-	if (parse_elements(meta, file))
-		return (free(file), EXIT_FAILURE);
-	save_map_dimensions(meta->map_file, &meta->map.width, &meta->map.height);
-	rect = make_rect(meta->map_file, meta->map.width, meta->map.height);
+		return(pr_err(MALL_ERR), NULL);
+	return (file);
+}
+
+int	create_rectangle_map_element(t_meta *meta)
+{
+	char	*rect = NULL;
+	rect = make_rect(meta->map_element, meta->map.width, meta->map.height);
 	// printing map for debugging
-	print_map(rect, meta->map.width, meta->map.height);
-	free(meta->map_file);
+	// print_map(rect, meta->map.width, meta->map.height);
 	if (!rect)
 		return(pr_err(MALL_ERR), EXIT_FAILURE);
-	if (check_map(meta, rect))
-		return (free(rect), EXIT_FAILURE);
-	printf("PLAYER DIR: %c\n", meta->map.player_start_dir);
-	free(rect);
+	free(meta->map_element);
+	meta->map_element = rect;
+	return (EXIT_SUCCESS);
+}
+
+// should i put a minimun on the width and height
+int	parser(t_meta *meta, char *map_file)
+{
+	char	*file = NULL;
+	
+	file = parse_file(map_file);
+	if (!file)
+		return(EXIT_FAILURE);
+	if (parse_elements(meta, file))
+		return (EXIT_FAILURE);
+	save_map_dimensions(meta->map_element, &meta->map.width, &meta->map.height);
+	create_rectangle_map_element(meta);
+	if (check_map(meta, meta->map_element))
+		return (EXIT_FAILURE);
+	free(meta->map_element);
 	return (EXIT_SUCCESS);
 }

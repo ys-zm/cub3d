@@ -1,13 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ::::::::             */
-/*   game.c                                            :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
-/*                                                  +#+                       */
-/*   Created: 2023/11/08 22:35:05 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/07 02:49:18 by joppe         ########   odam.nl         */
-
+/*                                                        :::      ::::::::   */
+/*   game.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/08 15:26:51 by yzaim             #+#    #+#             */
+/*   Updated: 2024/01/08 15:29:57 by yzaim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +62,7 @@ void game_init(t_meta *meta)
 
 	p->meta = meta;
 	set_player_start_position(&meta->player, meta->map.player_start_dir);
-	player_move(p, (t_vec2d) {0.0, 0.0});
+	player_move(p, (t_vec2d) {0.0, 0.0}); // to draw the image at the start (?)
 }
 
 static void game_update(t_meta *meta, double time_delta)
@@ -85,7 +84,6 @@ void game_loop(void* param)
 		// `delta_time` is capped at `TICK_RATE`.
 		delta_time = fmin(frame_time, TICK_RATE);
 		game_update(meta, delta_time);
-
 		frame_time -= delta_time;
 	}
 	timer_start(&meta->update_timer);

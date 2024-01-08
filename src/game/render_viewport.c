@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ::::::::             */
-/*   render_viewport.c                                 :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
-/*                                                  +#+                       */
-/*   Created: 2024/01/02 22:39:38 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/06 22:25:19 by joppe         ########   odam.nl         */
+/*                                                        ::::::::            */
+/*   render_viewport.c                                  :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: yzaim <marvin@42.fr>                         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
+/*   Updated: 2024/01/08 16:13:27 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ static t_vec2d	calculate_line_points(double ray_length, uint32_t h)
 
 static void	draw_column(t_meta *meta, t_vec2d line, t_side side, uint32_t col, uint32_t h)
 {
-	uint32_t    color;
-	uint32_t    row;
+	uint32_t	color;
+	uint32_t	row;
 
 	row = 0;
 	while (row < h)
@@ -46,7 +46,7 @@ static void	draw_column(t_meta *meta, t_vec2d line, t_side side, uint32_t col, u
 		else
 		{
 			color = find_wall_color(side);
-		} 
+		}
 		mlx_put_pixel(meta->image, col, row, color);
 		row++;
 	}

@@ -1,15 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ::::::::             */
-/*   test_utils.c                                      :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
-/*                                                  +#+                       */
-/*   Created: 2023/11/10 16:32:18 by joppe         #+#    #+#                 */
-/*   Updated: 2024/01/02 23:21:23 by joppe         ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   test_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/08 15:25:38 by yzaim             #+#    #+#             */
+/*   Updated: 2024/01/08 15:25:49 by yzaim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "meta.h"
 #include <stdint.h>
@@ -45,7 +44,6 @@ void print_map(char *map, uint32_t w, uint32_t h)
 		printf("map [%.*s]\n", w, map + i);
 		i += w;
 	}
-
 }
 
 void print_map_cell(t_cell_type *level, uint32_t w, uint32_t h)

@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                       ::::::::             */
-/*   meta.h                                            :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
-/*                                                  +#+                       */
-/*   Created: 2023/11/01 20:07:37 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/07 03:51:44 by joppe         ########   odam.nl         */
-/*                                                                            */
+/**/
+/*   :::::::: */
+/*   meta.h:+::+: */
+/*+:+ */
+/*   By: jboeve <jboeve@student.codam.nl>+#+  */
+/*  +#+   */
+/*   Created: 2023/11/01 20:07:37 by jboeve#+##+# */
+/*   Updated: 2024/01/07 03:51:44 by joppe ########   odam.nl */
+/**/
 /* ************************************************************************** */
 
 #ifndef META_H
@@ -91,9 +91,9 @@ typedef bool	(t_ray_hitfunc) (const void *p, uint32_t x, uint32_t y);
 typedef struct s_meta t_meta;
 
 typedef enum e_cell_type {
-    MAP_EMPTY,
-    MAP_WALL,
-    MAP_SPACE,
+MAP_EMPTY,
+MAP_WALL,
+MAP_SPACE,
 }	t_cell_type;
 
 typedef enum e_font_family {
@@ -184,7 +184,7 @@ typedef struct s_meta {
 	uint32_t 	fps;
 	t_map		map;
 	t_tex		tex;
-	char		*map_file;
+	char		*map_element;
 }	t_meta;
 
 

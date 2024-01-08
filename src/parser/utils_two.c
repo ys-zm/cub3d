@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils_two.c                                       :+:    :+:             */
-/*                                                    +:+ +:+         +:+     */
-/*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/09 18:08:19 by yzaim             #+#    #+#             */
-/*   Updated: 2024/01/02 18:58:36 by joppe         ########   odam.nl         */
-/*                                                                            */
+/**/
+/*:::  ::::::::   */
+/*   utils_two.c   :+::+: */
+/*+:+ +:+ +:+ */
+/*   By: yzaim <marvin@42.fr>   +#+  +:+   +#+*/
+/*+#+#+#+#+#+   +#+   */
+/*   Created: 2023/11/09 18:08:19 by yzaim #+##+# */
+/*   Updated: 2024/01/02 18:58:36 by joppe ########   odam.nl */
+/**/
 /* ************************************************************************** */
 
 #include "meta.h"
@@ -92,5 +92,5 @@ char	*make_rect(char *map, uint32_t w, uint32_t h)
 // index = (y * w) + x
 int find_index(t_meta *meta, uint32_t x, uint32_t y)
 {
-    return ((y * meta->map.width) + x);
+	return ((y * meta->map.width) + x);
 }
