@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_map.c                                        :+:      :+:    :+:   */
+/*   check_map.c                                       :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 15:42:38 by yzaim             #+#    #+#             */
-/*   Updated: 2024/01/08 15:43:04 by yzaim            ###   ########.fr       */
+/*   Created: 2023/11/09 18:08:19 by yzaim             #+#    #+#             */
+/*   Updated: 2023/12/20 18:39:26 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "meta.h"
 #include <stdio.h>
 
 // valid chars : 1, 0, N, S, E, W
@@ -69,10 +69,8 @@ bool	save_start_pos(t_meta *meta, char *map)
 		{
 			if (player_pos_char(map[find_index(meta, x, y)]))
 			{
-				meta->map.player_start.x = x;
-				meta->map.player_start.y = y;
-				// meta->map.player_start_x = x;
-				// meta->map.player_start_y = y;
+				meta->map.player_start_x = x;
+				meta->map.player_start_y = y;
 				meta->map.player_start_dir = map[find_index(meta, x, y)];
 				found = true;
 			}
@@ -141,8 +139,8 @@ int	check_map(t_meta *meta, char *rect)
 		return (EXIT_FAILURE);
 	if (!save_start_pos(meta, rect))
 		return (pr_err(NO_PLAYER));
-	rect[find_index(meta, meta->map.player_start.x, meta->map.player_start.y)] = '0';
-	if (flood_fill(meta, rect, meta->map.player_start.x, meta->map.player_start.y))
+	rect[find_index(meta, meta->map.player_start_x, meta->map.player_start_y)] = '0';
+	if (flood_fill(meta, rect, meta->map.player_start_x, meta->map.player_start_y))
 		return (pr_err(INV_WALLS));
 	if (is_floor_exposed(meta, rect)) // maybe change to a warning?
 		return (pr_err(OUT_OF_BOUNDS));

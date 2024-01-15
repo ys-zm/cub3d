@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   draw.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 15:26:25 by yzaim             #+#    #+#             */
-/*   Updated: 2024/01/08 15:26:30 by yzaim            ###   ########.fr       */
+/*                                                       ::::::::             */
+/*   draw.c                                            :+:    :+:             */
+/*                                                    +:+                     */
+/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
+/*                                                  +#+                       */
+/*   Created: 2023/11/09 01:32:57 by joppe         #+#    #+#                 */
+/*   Updated: 2023/12/20 18:38:27 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "MLX42/MLX42.h"
 #include "meta.h"
@@ -34,7 +35,7 @@ void draw_rect(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t widt
 
 void draw_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color)
 {
-	if (x < image->width && y < image->height)
+	if (x > 0 && x <= image->width && y > 0 && y <= image->height)
 		mlx_put_pixel(image, x, y, color);
 }
 /////////////////////////////////////////////////

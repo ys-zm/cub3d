@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   parse_map.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: yzaim <marvin@42.fr>                         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/01/08 15:26:06 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/08 16:06:19 by yzaim         ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/09 18:08:19 by yzaim             #+#    #+#             */
+/*   Updated: 2023/11/09 18:52:24 by yzaim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "meta.h"
 
 bool	is_map_line(char *file)
 {
@@ -27,23 +27,24 @@ bool	is_map_line(char *file)
 
 int	input_map(t_meta *meta, char *file)
 {
-	int	i;
-	
-	while (*file)
-	{
-		skip_spaces(&file);
-		if (is_texture(file) || is_colour(file) || only_spaces(file))
-			skip_line(&file);
-		else
+    int	i;
+
+    while (*file)
+    {
+        skip_spaces(&file);
+        if (is_texture(file) || is_colour(file) || only_spaces(file))
+            skip_line(&file);
+        else
 			break ;
-	}
-	if (*file)
+    }
+    if (*file)
 	{
 		i = ft_strlen(file);
-		meta->map_element = ft_substr(file, 0, i);
-		if (!meta->map_element)
-			return (pr_err(MALL_ERR));
+		meta->map_file = ft_substr(file, 0, i);
+        if (!meta->map_file)
+            return (pr_err(MALL_ERR));
 		return (EXIT_SUCCESS);
 	}
-	return (pr_err(MISSING_MAP), EXIT_FAILURE);
+	else
+		return (pr_err(MISSING_MAP), EXIT_FAILURE);
 }

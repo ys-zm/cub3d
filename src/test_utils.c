@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   test_utils.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 15:25:38 by yzaim             #+#    #+#             */
-/*   Updated: 2024/01/08 15:25:49 by yzaim            ###   ########.fr       */
+/*                                                       ::::::::             */
+/*   test_utils.c                                      :+:    :+:             */
+/*                                                    +:+                     */
+/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
+/*                                                  +#+                       */
+/*   Created: 2023/11/10 16:32:18 by joppe         #+#    #+#                 */
+/*   Updated: 2023/12/20 18:34:36 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "meta.h"
 #include <stdint.h>
@@ -21,15 +22,6 @@ const char *CELL_NAMES[] = {
 	[MAP_SPACE]	= "MAP_SPACE",
 };
 
-void print_ray(const char *s, const t_ray *r)
-{
-	char *side_text;
-	if (r->hit_side == SIDE_S || r->hit_side == SIDE_N)
-		side_text = "NS";
-	else
-		side_text = "EW";
-	printf("[%s] | ray_direction [%lf][%lf] | length [%lf] | ray_end [%lf][%lf] | hit_side [%s]\n", s, r->direction.x, r->direction.y, r->length, r->end.x, r->end.y, side_text);
-}
 
 void 	print_cell(t_cell_type cell)
 {
@@ -44,6 +36,7 @@ void print_map(char *map, uint32_t w, uint32_t h)
 		printf("map [%.*s]\n", w, map + i);
 		i += w;
 	}
+
 }
 
 void print_map_cell(t_cell_type *level, uint32_t w, uint32_t h)

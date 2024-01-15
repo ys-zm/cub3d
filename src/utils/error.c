@@ -1,17 +1,16 @@
 /* ************************************************************************** */
-/**/
-/*:::  ::::::::   */
-/*   error.c   :+::+: */
-/*+:+ +:+ +:+ */
-/*   By: yzaim <marvin@42.fr>   +#+  +:+   +#+*/
-/*+#+#+#+#+#+   +#+   */
-/*   Created: 2023/11/09 18:08:19 by yzaim #+##+# */
-/*   Updated: 2024/01/02 18:56:38 by joppe ########   odam.nl */
-/**/
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/09 18:08:19 by yzaim             #+#    #+#             */
+/*   Updated: 2023/11/09 18:52:24 by yzaim            ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
-#include "parser.h"
 
 int pr(char *err, int exit_code)
 {
@@ -36,11 +35,10 @@ int pr_err(t_err type)
 		NO_PLAYER_POS,
 		ELEMENT_MISSING,
 		NO_MAP,
-		INV_COLOR_CODE,
-		MLX_ERR};
+		INV_COLOR_CODE};
 
 	write(2, "Error\n", 6);
-	if (type >= 0 && type < 16)
+	if (type >= 0 && type < 15)
 		return (write(2, msg[type], ft_strlen(msg[type])), 1);
 	return (0);
 }
