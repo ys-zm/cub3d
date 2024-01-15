@@ -117,6 +117,15 @@ t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *par
 	r.direction = dir;
 	r.end = r.map_pos;
 
+	r.line_height = (int)(WINDOW_HEIGHT / r.length);
+	if (r.line_height > WINDOW_HEIGHT)
+		r.line_height = WINDOW_HEIGHT;
+
+	// draw start and draw end
+	r.line_point.x = -r.line_height / 2 + ((double)WINDOW_HEIGHT) / 2;
+	r.line_point.y = r.line_height / 2 + ((double)WINDOW_HEIGHT) / 2;
+	if (r.line_point.y >= WINDOW_HEIGHT)
+		r.line_point.y = WINDOW_HEIGHT - 1;
 	if (r.hit_side == SIDE_N || r.hit_side == SIDE_S)
 		r.wall_x = r.map_pos.y + r.length * r.direction.y;
 	else

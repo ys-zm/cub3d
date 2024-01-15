@@ -12,6 +12,7 @@
 
 #include "meta.h"
 #include <stdio.h>
+#include <math.h>
 
 int32_t set_color(int32_t r, int32_t g, int32_t b, int32_t a)
 {
@@ -33,30 +34,27 @@ int32_t set_color(int32_t r, int32_t g, int32_t b, int32_t a)
 // 	return (color);
 // }
 
-t_tex	get_texture(t_side side, t_attr attributes)
+mlx_texture_t	*get_texture(t_side side, t_attr attributes)
 {
 	if (side == SIDE_N)
-		return (attributes.n);
+		return (attributes.n.tex);
 	else if (side == SIDE_S)
-		return (attributes.s);
+		return (attributes.s.tex);
 	else if (side == SIDE_E)
-		return (attributes.e);
-	return (attributes.w);
+		return (attributes.e.tex);
+	return (attributes.w.tex);
 }
 
 int32_t	find_wall_color(t_attr atrributes, t_ray *ray, t_vec2d line_points, uint32_t h)
 {
-	int32_t		color;
-	t_tex		texture;
+	int32_t			color;
+	mlx_texture_t	*texture;
 
 	texture = get_texture(ray->hit_side, atrributes);
 	wall_texture_position(texture, ray, line_points, h);
-	ray->texture.y = (int)ray->texture_position & (texture.tex->height - 1);
+	ray->texture_point.y = (int)ray->texture_position & (texture->height - 1);
 	ray->texture_position += ray->step;
-	printf("h: %d\n",h);
-	// printf("texture position: %f\n", ray->texture_position);
-	// printf("x: %d | y: %d\n", ray->texture.x, ray->texture.y);
-	color = pixel_picker(texture, ray->texture.x, ray->texture.y);
+	color = pixel_picker(texture, (int)round(ray->texture_point.x), (int)round(ray->texture_point.y));
 	return (color);
 }
 

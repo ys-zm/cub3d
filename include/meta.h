@@ -138,11 +138,13 @@ typedef struct s_ray {
 	t_vec2d		direction;
 	t_vec2d		end;
 	t_vec2d		map_pos;
-	t_vec2i		texture;
+	t_vec2d		texture_point;
+	t_vec2d		line_point;
 	t_side		hit_side;
+
+	double		line_height;
 	double		length;
 	double 		wall_x;
-	double		line_height;
 	double		texture_position;
 	double		step;
 } t_ray;
@@ -254,7 +256,7 @@ void		meta_free(t_meta *meta);
 int		set_textures(t_attr *attributes);
 
 //pixel_picker.c
-uint32_t	pixel_picker(t_tex texture, uint32_t x, uint32_t y);
-void	wall_texture_position(t_tex texture, t_ray *ray, t_vec2d line_points, uint32_t h);
+uint32_t	pixel_picker(mlx_texture_t *texture, int32_t x, int32_t y);
+void	wall_texture_position(mlx_texture_t *texture, t_ray *ray, t_vec2d line_points, uint32_t h);
 
 #endif

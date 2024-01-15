@@ -12,7 +12,7 @@
 
 #include "meta.h"
 
-static t_vec2d	calculate_line_points(double ray_length, uint32_t h, double line_height)
+static t_vec2d	calculate_line_points(uint32_t h, double line_height)
 {
 	//calculate lowest and highest pixel to fill in current stripe
 	uint32_t	start;
@@ -68,10 +68,10 @@ void render_viewport(mlx_image_t *image, t_player *p)
 	uint32_t i = 0;
 	while(i < image->width)
 	{
-		p->rays[i].line_height = calculate_line_height(p->rays[i].length, image->height);
-		t_vec2d line = calculate_line_points(p->rays[i].length, image->height, p->rays[i].line_height);
+		// p->rays[i].line_height = calculate_line_height(p->rays[i].length, image->height);
+		// t_vec2d line = calculate_line_points(image->height, p->rays[i].line_height);
 		
-		draw_column(p->meta, line, &p->rays[i], i, image->height);
+		draw_column(p->meta, p->rays[i].line_point, &p->rays[i], i, image->height);
 		i++;
 	}
 }
