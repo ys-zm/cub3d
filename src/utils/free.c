@@ -12,18 +12,18 @@
 
 #include "meta.h"
 
-static void	free_t_tex(t_tex *tex)
+static void	free_t_tex(t_attr *attributes)
 {
-	free(tex->no);
-	free(tex->so);
-	free(tex->ea);
-	free(tex->we);
+	free(attributes->n.tex_path);
+	free(attributes->s.tex_path);
+	free(attributes->e.tex_path);
+	free(attributes->w.tex_path);
 }
 
 void	meta_free(t_meta *meta)
 {
-	free_t_tex(&(meta->tex));
+	free_t_tex(&(meta->attributes));
 	free(meta->map.level);
-	if (meta->map_element)
-	free(meta->map_element);
+	// if (meta->map_element)
+	// 	free(meta->map_element);
 }

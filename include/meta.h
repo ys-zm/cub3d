@@ -110,7 +110,7 @@ typedef struct s_font_atlas
 	unsigned int 	 font_w;
 	unsigned int 	 font_h;
 	unsigned int 	 bpp;
-	char	 		*pixels;
+	char			*pixels;
 } t_font_atlas;
 
 
@@ -128,17 +128,23 @@ typedef union s_rgba
 
 
 typedef enum e_side {
-	HIT_NONE,
-	HIT_NS,
-	HIT_EW,
+	SIDE_N, 
+	SIDE_S,
+	SIDE_E,
+	SIDE_W,
 }	t_side;
 
 typedef struct s_ray {
-	t_vec2d	direction;
-	t_vec2d	end;
-	t_side	hit_side;
-	double	length;
-	double 	wall_x;
+	t_vec2d		direction;
+	t_vec2d		end;
+	t_vec2d		map_pos;
+	t_vec2i		texture;
+	t_side		hit_side;
+	double		length;
+	double 		wall_x;
+	double		line_height;
+	double		texture_position;
+	double		step;
 } t_ray;
 
 typedef struct s_player {
@@ -158,14 +164,21 @@ typedef struct s_map {
 	char		player_start_dir;
 }	t_map;
 
+
 typedef struct s_tex {
-	char 	*no;
-	char 	*so;
-	char 	*we;
-	char 	*ea;
+	char			*tex_path;
+	mlx_texture_t	*tex;
+}	t_tex;
+
+typedef struct s_attr {
+	t_tex	n;
+	t_tex	s;
+	t_tex	e;
+	t_tex	w;
 	t_rgba	floor_c;
 	t_rgba	ceiling_c;
-}	t_tex;
+}	t_attr;
+
 
 typedef struct s_minimap {
 	mlx_image_t	*minimap_image;
@@ -183,7 +196,7 @@ typedef struct s_meta {
 	t_player	player;
 	uint32_t 	fps;
 	t_map		map;
-	t_tex		tex;
+	t_attr		attributes;
 	char		*map_element;
 }	t_meta;
 
@@ -231,9 +244,17 @@ t_ray		raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *pa
 
 // colors.c
 int32_t		set_color(int32_t r, int32_t g, int32_t b, int32_t a);
-int32_t		find_wall_color(t_side side);
+int32_t		find_wall_color(t_attr atrributes, t_ray *ray, t_vec2d line_points, uint32_t h);
+int32_t		find_color(t_rgba rgba);
 
 // free.c
 void		meta_free(t_meta *meta);
+
+// set_textures.c
+int		set_textures(t_attr *attributes);
+
+//pixel_picker.c
+uint32_t	pixel_picker(t_tex texture, uint32_t x, uint32_t y);
+void	wall_texture_position(t_tex texture, t_ray *ray, t_vec2d line_points, uint32_t h);
 
 #endif

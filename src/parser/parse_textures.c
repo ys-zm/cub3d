@@ -17,13 +17,18 @@
 void	get_colour_value(char *file, t_rgba *col)
 {
 	skip_spaces(&file);
-	col->r = (uint8_t)ft_atoi(file);
+	col->r = ft_atoi(file);
 	while (*file && *file != ',')
 		file++;
-	col->g = ft_atoi(file + 1);
+	if (*file == ',')
+		file++;
+	col->g = ft_atoi(file);
 	while (*file && *file != ',')
 		file++;
-	col->b = ft_atoi(file + 1);
+	if (*file == ',')
+		file++;
+	col->b = ft_atoi(file);
+	col->a = 255;
 }
 
 // mallocs the paths to NO, SO, WE, EA elements

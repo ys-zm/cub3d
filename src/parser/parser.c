@@ -67,6 +67,7 @@ char *parse_file(char *map_file)
 	if (fd == -1)
 		return (pr_err(INV_FILE), NULL);
 	file = file_to_string(fd);
+	close(fd);
 	if (!file)
 		return(pr_err(MALL_ERR), NULL);
 	return (file);

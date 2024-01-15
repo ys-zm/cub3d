@@ -13,10 +13,10 @@
 #include "parser.h"
 
 // saves path value and checks of value us empty
-int	input_texture(t_tex *tex, char *file)
+int	input_texture(t_attr *attributes, char *file)
 {
 	char	element[4] = {'N', 'S', 'W', 'E'};
-	char**	path[4] = {&tex->no, &tex->so, &tex->we, &tex->ea};
+	char**	path[4] = {&attributes->n.tex_path, &attributes->s.tex_path, &attributes->w.tex_path, &attributes->e.tex_path};
 	int i;
 
 	i = 0;
@@ -38,10 +38,10 @@ int	input_texture(t_tex *tex, char *file)
 }
 
 // add check for RBG code correctness?
-int	input_colour(t_tex *tex, char *file)
+int	input_colour(t_attr *attributes, char *file)
 {
 	char	tx[2] = {'F', 'C'};
-	t_rgba  *st[2] = {&tex->floor_c, &tex->ceiling_c};
+	t_rgba  *st[2] = {&attributes->floor_c, &attributes->ceiling_c};
 	int	i;
 
 	i = 0;
@@ -52,19 +52,19 @@ int	input_colour(t_tex *tex, char *file)
 	return (EXIT_SUCCESS); 
 }
 
-int save_elements(t_tex *tex, char *file)
+int save_elements(t_attr *attributes, char *file)
 {
 	while (*file)
 	{
 		skip_spaces(&file);
 		if (is_texture(file))
 		{
-			if (input_texture(tex, file))
+			if (input_texture(attributes, file))
 				return (EXIT_FAILURE);
 		}
 		else if (is_colour(file))
 		{
-			if (input_colour(tex, file))
+			if (input_colour(attributes, file))
 				return (EXIT_FAILURE);
 		}
 		skip_line(&file);
@@ -76,7 +76,7 @@ int parse_elements(t_meta *meta, char *file)
 {
 	if (!elements_order(file) || is_duplicate(file) || is_missing(file) || !colors_valid(file))
 		return (free(file), EXIT_FAILURE);
-	if (save_elements(&(meta->tex), file))
+	if (save_elements(&(meta->attributes), file))
 		return (free(file), EXIT_FAILURE);
 	if (input_map(meta, file))
 		return (free(file),EXIT_FAILURE);

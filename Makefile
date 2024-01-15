@@ -16,7 +16,7 @@ RUN_CMD		:= ./$(NAME) test_maps/valid.cub
 
 # CFLAGS		+= -Wall -Wextra -Werror
 CFLAGS		+= -Wall -Wextra
-# CFLAGS		+= -g -fsanitize=address
+CFLAGS		+= -g -fsanitize=address
 # CFLAGS		+= -g
 # CFLAGS		+= -Ofast -flto -march=native
 
@@ -48,12 +48,14 @@ SRCS	= 		parser/check_elements.c \
 				game/render_minimap.c \
 				game/render_viewport.c \
 				game/font/font_renderer.c \
+				renderer/pixel_picker.c \
 				vector/vec2i.c \
 				vector/vec2d.c \
 				vector/vec_utils.c \
 				cub3d.c \
 				test_utils.c \
-				timer.c
+				timer.c \
+				set_textures.c
 
 HEADER_DIR	:=	include
 HEADERS 	:=	meta.h \

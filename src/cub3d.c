@@ -93,6 +93,42 @@ int init_mlx_images(t_meta *meta)
 	}
 
 	return (EXIT_SUCCESS);
+} 
+
+uint32_t make_color(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
+{
+
+	uint32_t color = 0;
+
+    // Combine the color components using bitwise OR operations
+    color |= (uint32_t)r << 24; // Red component (shifted to the left by 24 bits)
+    color |= (uint32_t)g << 16; // Green component (shifted to the left by 16 bits)
+    color |= (uint32_t)b << 8;  // Blue component (shifted to the left by 8 bits)
+    color |= (uint32_t)a;       // Alpha component
+
+    return color;
+}
+
+void print_texture(t_meta *meta)
+{
+	int	i = 0;
+	int x = 0;
+	int	y = 0;
+	int32_t	color;
+	mlx_texture_t *texture = meta->attributes.n.tex;
+
+	while (y < 64)
+	{
+		x = 0;
+		while (x < 64)
+		{
+			color = make_color(texture->pixels[i], texture->pixels[i + 1], texture->pixels[i + 2], texture->pixels[i + 3]);
+			mlx_put_pixel(meta->image, x, y, color);
+			x++;
+			i += 4;
+		}
+		y++;
+	}
 }
 
 int cub3d(int argc, char **argv)
@@ -104,13 +140,20 @@ int cub3d(int argc, char **argv)
 	ft_bzero(&meta, sizeof(t_meta));
 	if (parser(&meta, argv[1]))
 		return(meta_free(&meta), EXIT_FAILURE);
-	// TODO Error check.
+	if (set_textures(&meta.attributes))
+		return (EXIT_FAILURE);
+	printf("Tex_N: %s\n", meta.attributes.n.tex_path);
+	printf("Tex_S: %s\n", meta.attributes.s.tex_path);
+	printf("Tex_E: %s\n", meta.attributes.e.tex_path);
+	printf("Tex_W: %s\n", meta.attributes.w.tex_path);
+	
 	init_mlx_images(&meta);
+	// TODO Error check.
 	game_init(&meta);
 	mlx_set_cursor_mode(meta.mlx, MLX_MOUSE_HIDDEN);
 	mlx_loop_hook(meta.mlx, game_loop, &meta);
 	mlx_loop_hook(meta.mlx, fps_hook, &meta);
-	mlx_cursor_hook(meta.mlx, cursor_hook, &meta);
+	// mlx_cursor_hook(meta.mlx, cursor_hook, &meta);
 	mlx_loop(meta.mlx);
 	mlx_terminate(meta.mlx);
 	meta_free(&meta);

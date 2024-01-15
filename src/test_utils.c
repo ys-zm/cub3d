@@ -24,7 +24,7 @@ const char *CELL_NAMES[] = {
 void print_ray(const char *s, const t_ray *r)
 {
 	char *side_text;
-	if (r->hit_side == HIT_NS)
+	if (r->hit_side == SIDE_S || r->hit_side == SIDE_N)
 		side_text = "NS";
 	else
 		side_text = "EW";

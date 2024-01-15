@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/**/
-/*   :::::::: */
-/*   font_renderer.c   :+::+: */
-/*+:+ */
-/*   By: joppe <jboeve@student.codam.nl> +#+  */
-/*  +#+   */
-/*   Created: 2024/01/05 00:02:23 by joppe #+##+# */
-/*   Updated: 2024/01/07 03:28:05 by joppe ########   odam.nl */
-/**/
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   game.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/08 15:26:51 by yzaim             #+#    #+#             */
+/*   Updated: 2024/01/08 15:29:57 by yzaim            ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 /**
@@ -15,7 +15,7 @@
  * but with the ability to specifiy what font to draw.
  */
 
-#include "MLX42/MLX42_Int.h"
+// #include "MLX42/MLX42_Int.h"
 #include "font_dejavu_14.h"
 #include "font_comicsans.h"
 #include "font_mlx.h"
@@ -72,7 +72,7 @@ mlx_image_t *cube_put_string(mlx_image_t *image, const char *s, const t_font_atl
 
 	if (image_len != image->width)
 	{
-		ft_bzero(image->pixels, image->width * image->height * BPP);
+		ft_bzero(image->pixels, image->width * image->height * sizeof(int32_t));
 		if (!mlx_resize_image(image, image_len, atlas->font_h))
 			return (NULL);
 	}

@@ -62,7 +62,7 @@ inline static t_vec2d	calculate_step_size(t_vec2d ray_direction)
 inline static double	calculate_ray_length(t_side hit_side, \
 		t_vec2d side_dist, t_vec2d delta_dist)
 {
-	if (hit_side == HIT_NS)
+	if (hit_side == SIDE_N || hit_side == SIDE_S)
 		return (side_dist.x - delta_dist.x);
 	else
 		return (side_dist.y - delta_dist.y);
@@ -75,34 +75,39 @@ inline static t_side	ray_move(t_vec2d *side_dist, t_vec2d *delta_dist, \
 	{
 		side_dist->x += delta_dist->x;
 		map_pos->x += step_size.x;
-		return (HIT_NS);
+		if (step_size.x > 0)
+			return (SIDE_N);
+		else
+			return(SIDE_S);
 	}
 	else
 	{
 		side_dist->y += delta_dist->y;
 		map_pos->y += step_size.y;
-		return (HIT_EW);
+		if (step_size.y > 0)
+			return (SIDE_E);
+		else
+			return (SIDE_W);
 	}
 }
 
 t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *param)
 {
 	t_ray	r;
-	t_vec2d	map_pos;
 	t_vec2d	side_dist;
 	t_vec2d	step_size;
 	t_vec2d delta_dist;
 
-	map_pos.x = (int)pp.x;
-	map_pos.y = (int)pp.y;
+	r.map_pos.x = (int)pp.x;
+	r.map_pos.y = (int)pp.y;
 	delta_dist = calculate_delta_dist(dir);
-	side_dist = calculate_side_dist(dir, pp, map_pos, delta_dist);
+	side_dist = calculate_side_dist(dir, pp, r.map_pos, delta_dist);
 	step_size = calculate_step_size(dir);
 	size_t limit = 25;
 	while (limit)
 	{
-		r.hit_side = ray_move(&side_dist, &delta_dist, step_size, &map_pos);
-		if (hit && hit(param, map_pos.x, map_pos.y))
+		r.hit_side = ray_move(&side_dist, &delta_dist, step_size, &r.map_pos);
+		if (hit && hit(param, r.map_pos.x, r.map_pos.y))
 			break;
 		limit--;
 	}
@@ -110,12 +115,12 @@ t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *par
 		WARNING("Raycaster limit reached!");
 	r.length = calculate_ray_length(r.hit_side, side_dist, delta_dist);
 	r.direction = dir;
-	r.end = map_pos;
+	r.end = r.map_pos;
 
-	if (r.hit_side == HIT_NS)
-		r.wall_x = map_pos.y + r.length * r.direction.y;
+	if (r.hit_side == SIDE_N || r.hit_side == SIDE_S)
+		r.wall_x = r.map_pos.y + r.length * r.direction.y;
 	else
-		r.wall_x = map_pos.x + r.length * r.direction.x;
+		r.wall_x = r.map_pos.x + r.length * r.direction.x;
 	r.wall_x -= floor(r.wall_x);
 	return (r);
 }
