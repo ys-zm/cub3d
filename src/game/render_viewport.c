@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/17 16:22:52 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/17 16:29:48 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ static void	draw_column(t_meta *meta, t_vec2i line, t_ray *ray, uint32_t col, ui
 	ray->texture_position = (ray->line_point.x + (ray->line_height - h) / 2) * ray->step;
 
 
-	printf("line_height [%lf]\n", ray->line_height);
-	printf("step [%lf]\n", ray->step);
-	printf("texture_point [%d]\n", ray->texture_point.x);
-	printf("texture_position [%lf]\n", ray->texture_position);
+	// printf("line_height [%lf]\n", ray->line_height);
+	// printf("step [%lf]\n", ray->step);
+	// printf("texture_point [%d]\n", ray->texture_point.x);
+	// printf("texture_position [%lf]\n", ray->texture_position);
 
 	int32_t y;
 	y = 0;
