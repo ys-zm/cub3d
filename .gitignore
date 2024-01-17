@@ -2,6 +2,7 @@
 .vscode/
 obj/
 app
+app.dSYM
 compile_commands.json
 libft/build/libft.a
 Session.vim
