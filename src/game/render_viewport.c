@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/17 15:02:31 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/17 16:10:04 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "meta.h"
 #include <stdint.h>
 #include <stdio.h>
+#include <math.h>
 
 static t_vec2d	calculate_line_points(uint32_t h, double line_height)
 {
@@ -28,38 +29,7 @@ static t_vec2d	calculate_line_points(uint32_t h, double line_height)
 	return ((t_vec2d) {start, end});
 }
 
-static void	draw_column1(t_meta *meta, t_vec2i line, t_ray *ray, uint32_t col, uint32_t h)
-{
-	uint32_t	color;
-	uint32_t	row;
-
-	row = 0;
-	
-	while (row < h)
-	{
-		// ceiling
-		if (row < line.x)
-		{
-			color = find_color(meta->attributes.ceiling_c);
-		}
-		// floor
-		else if (row > line.y)
-		{
-			color = find_color(meta->attributes.floor_c);
-		}
-		else
-		{
-			color = find_wall_color(meta->attributes, ray, line, h);
-			// color = set_color(row / 1, row / 2, row / 4, 255);
-			// color = find_color(meta->attributes.floor_c);
-		}
-		mlx_put_pixel(meta->image, col, row, color);
-		row++;
-	}
-}
-
 mlx_texture_t	*get_texture(t_side side, t_attr attributes);
-#include <math.h>
 
 static void	draw_column(t_meta *meta, t_vec2i line, t_ray *ray, uint32_t col, uint32_t h)
 {
@@ -68,9 +38,7 @@ static void	draw_column(t_meta *meta, t_vec2i line, t_ray *ray, uint32_t col, ui
 
 	texture = get_texture(ray->hit_side, meta->attributes);
 
-	ray->texture_point.x = (int)(ray->wall_x * (double)texture->width);
-	printf("texture_point [%lf]\n", ray->wall_x);
-
+	ray->texture_point.x = (int)(ray->wall_x * (int)texture->width);
 
 	if ((ray->hit_side == SIDE_N || ray->hit_side == SIDE_S) && ray->direction.x > 0)
 	{
@@ -80,22 +48,27 @@ static void	draw_column(t_meta *meta, t_vec2i line, t_ray *ray, uint32_t col, ui
 	{
 		ray->texture_point.x = texture->width - ray->texture_point.x - 1;
 	}
+
 	ray->step = 1.0 * texture->height / ray->line_height;
-	// x is draw start and y is draw end
 
-	ray->texture_position = (ray->line_point.x - (double) (h / 2.0) + ray->line_height / 2.0) * ray->step;
+	ray->texture_position = ((ray->line_point.x - (double) (h / 2.0) + ray->line_height / 2.0) * ray->step);
 
-	int32_t row;
-	row = 0;
-	while (row < (int32_t) h)
+	printf("line_height [%lf]\n", ray->line_height);
+	printf("step [%lf]\n", ray->step);
+	printf("texture_point [%d]\n", ray->texture_point.x);
+	printf("texture_position [%lf]\n", ray->texture_position);
+
+	int32_t y;
+	y = 0;
+	while (y < (int32_t) h)
 	{
 		// ceiling
-		if (row < line.x)
+		if (y < line.x)
 		{
 			color = find_color(meta->attributes.ceiling_c);
 		}
 		// floor
-		else if (row > line.y)
+		else if (y > line.y)
 		{
 			color = find_color(meta->attributes.floor_c);
 		}
@@ -105,8 +78,8 @@ static void	draw_column(t_meta *meta, t_vec2i line, t_ray *ray, uint32_t col, ui
 			ray->texture_position += ray->step;
 			color = pixel_picker(texture, (int)round(ray->texture_point.x), (int)round(ray->texture_point.y));
 		}
-		mlx_put_pixel(meta->image, col, row, color);
-		row++;
+		mlx_put_pixel(meta->image, col, y, color);
+		y++;
 	}
 
 }
