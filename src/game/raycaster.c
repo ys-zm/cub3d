@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:27:33 by yzaim             #+#    #+#             */
-/*   Updated: 2024/01/17 15:58:39 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/17 16:27:30 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,10 +126,11 @@ t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *par
 	r.line_point.y = r.line_height / 2 + ((double)WINDOW_HEIGHT) / 2;
 	if (r.line_point.y >= WINDOW_HEIGHT)
 		r.line_point.y = WINDOW_HEIGHT - 1;
+
 	if (r.hit_side == SIDE_N || r.hit_side == SIDE_S)
-		r.wall_x = r.map_pos.y + r.length * r.direction.y;
+		r.wall_x = pp.y + r.length * r.direction.y;
 	else
-		r.wall_x = r.map_pos.x + r.length * r.direction.x;
+		r.wall_x = pp.x + r.length * r.direction.x;
 	r.wall_x -= floor(r.wall_x);
 	return (r);
 }

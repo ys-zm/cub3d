@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/17 16:10:04 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/17 16:22:52 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,15 @@ static void	draw_column(t_meta *meta, t_vec2i line, t_ray *ray, uint32_t col, ui
 
 	texture = get_texture(ray->hit_side, meta->attributes);
 
-	ray->texture_point.x = (int)(ray->wall_x * (int)texture->width);
-
+	ray->texture_point.x = (int)(ray->wall_x * (double)texture->width);
 	if ((ray->hit_side == SIDE_N || ray->hit_side == SIDE_S) && ray->direction.x > 0)
-	{
 		ray->texture_point.x = texture->width - ray->texture_point.x - 1;
-	}
 	if ((ray->hit_side == SIDE_E || ray->hit_side == SIDE_W) && ray->direction.y < 0)
-	{
 		ray->texture_point.x = texture->width - ray->texture_point.x - 1;
-	}
 
 	ray->step = 1.0 * texture->height / ray->line_height;
+	ray->texture_position = (ray->line_point.x + (ray->line_height - h) / 2) * ray->step;
 
-	ray->texture_position = ((ray->line_point.x - (double) (h / 2.0) + ray->line_height / 2.0) * ray->step);
 
 	printf("line_height [%lf]\n", ray->line_height);
 	printf("step [%lf]\n", ray->step);
@@ -62,16 +57,10 @@ static void	draw_column(t_meta *meta, t_vec2i line, t_ray *ray, uint32_t col, ui
 	y = 0;
 	while (y < (int32_t) h)
 	{
-		// ceiling
 		if (y < line.x)
-		{
 			color = find_color(meta->attributes.ceiling_c);
-		}
-		// floor
 		else if (y > line.y)
-		{
 			color = find_color(meta->attributes.floor_c);
-		}
 		else
 		{
 			ray->texture_point.y = ((int) ray->texture_position) & (texture->height - 1);
