@@ -1,0 +1,17 @@
+NO  texture_examples/purplestone1.png
+WE  texture_examples/redbrick.png
+EA  texture_examples/redbrick.png
+SO	texture_examples/purplestone1.png
+F	255,255,255
+C	12, 255, 12
+
+11111111111111 
+1000010001 
+1000010001 
+1000110001 
+1000100001 
+1000100001 
+100000000111
+100000000001
+1000000E011
+1111111111 

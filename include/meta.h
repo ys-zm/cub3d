@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /**/
 /*   :::::::: */
-/*   meta.h:+::+: */
+/*   meta.h                                            :+:    :+:             */
 /*+:+ */
 /*   By: jboeve <jboeve@student.codam.nl>+#+  */
 /*  +#+   */
 /*   Created: 2023/11/01 20:07:37 by jboeve#+##+# */
-/*   Updated: 2024/01/07 03:51:44 by joppe ########   odam.nl */
+/*   Updated: 2024/01/17 14:45:28 by jboeve        ########   odam.nl         */
 /**/
 /* ************************************************************************** */
 
@@ -138,8 +138,8 @@ typedef struct s_ray {
 	t_vec2d		direction;
 	t_vec2d		end;
 	t_vec2d		map_pos;
-	t_vec2d		texture_point;
-	t_vec2d		line_point;
+	t_vec2i		texture_point;
+	t_vec2i		line_point;
 	t_side		hit_side;
 
 	double		line_height;
@@ -246,7 +246,7 @@ t_ray		raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *pa
 
 // colors.c
 int32_t		set_color(int32_t r, int32_t g, int32_t b, int32_t a);
-int32_t		find_wall_color(t_attr atrributes, t_ray *ray, t_vec2d line_points, uint32_t h);
+int32_t	find_wall_color(t_attr atrributes, t_ray *ray, t_vec2i line_points, uint32_t h);
 int32_t		find_color(t_rgba rgba);
 
 // free.c
@@ -257,6 +257,6 @@ int		set_textures(t_attr *attributes);
 
 //pixel_picker.c
 uint32_t	pixel_picker(mlx_texture_t *texture, int32_t x, int32_t y);
-void	wall_texture_position(mlx_texture_t *texture, t_ray *ray, t_vec2d line_points, uint32_t h);
+void	wall_texture_position(mlx_texture_t *texture, t_ray *ray, t_vec2i line_points, uint32_t h);
 
 #endif

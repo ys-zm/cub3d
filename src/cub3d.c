@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.c                                            :+:      :+:    :+:   */
+/*   cub3d.c                                           :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:24:47 by yzaim             #+#    #+#             */
-/*   Updated: 2024/01/08 15:25:06 by yzaim            ###   ########.fr       */
+/*   Updated: 2024/01/17 13:25:18 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
+#include "MLX42/MLX42_Int.h"
 #include "meta.h"
 #include "parser.h"
 #include <stdint.h>
@@ -94,42 +95,6 @@ int init_mlx_images(t_meta *meta)
 
 	return (EXIT_SUCCESS);
 } 
-
-uint32_t make_color(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
-{
-
-	uint32_t color = 0;
-
-    // Combine the color components using bitwise OR operations
-    color |= (uint32_t)r << 24; // Red component (shifted to the left by 24 bits)
-    color |= (uint32_t)g << 16; // Green component (shifted to the left by 16 bits)
-    color |= (uint32_t)b << 8;  // Blue component (shifted to the left by 8 bits)
-    color |= (uint32_t)a;       // Alpha component
-
-    return color;
-}
-
-void print_texture(t_meta *meta)
-{
-	int	i = 0;
-	int x = 0;
-	int	y = 0;
-	int32_t	color;
-	mlx_texture_t *texture = meta->attributes.n.tex;
-
-	while (y < 64)
-	{
-		x = 0;
-		while (x < 64)
-		{
-			color = make_color(texture->pixels[i], texture->pixels[i + 1], texture->pixels[i + 2], texture->pixels[i + 3]);
-			mlx_put_pixel(meta->image, x, y, color);
-			x++;
-			i += 4;
-		}
-		y++;
-	}
-}
 
 int cub3d(int argc, char **argv)
 {

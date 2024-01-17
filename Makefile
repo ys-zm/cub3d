@@ -11,12 +11,12 @@ else ifeq ($(shell uname -m),x86_64)
 endif
 
 NAME		:= app
-RUN_CMD		:= ./$(NAME) test_maps/valid.cub
+RUN_CMD		:= ./$(NAME) test_maps/valid_tex.cub
 # RUN_CMD		:= ./$(NAME) test_maps/small.cub
 
 # CFLAGS		+= -Wall -Wextra -Werror
 CFLAGS		+= -Wall -Wextra
-CFLAGS		+= -g -fsanitize=address
+# CFLAGS		+= -g -fsanitize=address
 # CFLAGS		+= -g
 # CFLAGS		+= -Ofast -flto -march=native
 

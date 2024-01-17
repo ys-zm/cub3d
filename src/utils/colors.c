@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   colors.c                                           :+:    :+:            */
+/*   colors.c                                          :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <yzaim@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 16:09:11 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/08 16:09:14 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/01/17 14:44:54 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,13 @@ mlx_texture_t	*get_texture(t_side side, t_attr attributes)
 	return (attributes.w.tex);
 }
 
-int32_t	find_wall_color(t_attr atrributes, t_ray *ray, t_vec2d line_points, uint32_t h)
+int32_t	find_wall_color(t_attr atrributes, t_ray *ray, t_vec2i line_points, uint32_t h)
 {
 	int32_t			color;
 	mlx_texture_t	*texture;
 
 	texture = get_texture(ray->hit_side, atrributes);
 	wall_texture_position(texture, ray, line_points, h);
-	ray->texture_point.y = (int)ray->texture_position & (texture->height - 1);
-	ray->texture_position += ray->step;
 	color = pixel_picker(texture, (int)round(ray->texture_point.x), (int)round(ray->texture_point.y));
 	return (color);
 }
