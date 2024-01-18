@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>+#+  */
 /*  +#+   */
 /*   Created: 2023/11/01 20:07:37 by jboeve#+##+# */
-/*   Updated: 2024/01/17 23:56:13 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/18 11:13:46 by jboeve        ########   odam.nl         */
 /**/
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@
 // #define WINDOW_HEIGHT 1080 
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720 
-
-#define WINDOW_TITLE "Gammoe"
 
 
 
@@ -199,6 +197,7 @@ typedef struct s_meta {
 	uint32_t 	fps;
 	t_map		map;
 	t_attr		attributes;
+	const char *scene_name;
 	char		*map_element;
 }	t_meta;
 

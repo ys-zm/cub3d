@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /**/
 /*:::  ::::::::   */
-/*   parser.c  :+::+: */
+/*   parser.c                                          :+:    :+:             */
 /*+:+ +:+ +:+ */
 /*   By: yzaim <marvin@42.fr>   +#+  +:+   +#+*/
 /*+#+#+#+#+#+   +#+   */
 /*   Created: 2023/11/09 18:08:19 by yzaim #+##+# */
-/*   Updated: 2024/01/02 18:57:56 by joppe ########   odam.nl */
+/*   Updated: 2024/01/18 10:45:18 by jboeve        ########   odam.nl         */
 /**/
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ int	parser(t_meta *meta, char *map_file)
 {
 	char	*file = NULL;
 	
+	meta->scene_name = map_file;
 	file = parse_file(map_file);
 	if (!file)
 		return(EXIT_FAILURE);

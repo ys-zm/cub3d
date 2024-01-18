@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/17 23:59:00 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/18 11:14:19 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,3 @@ void render_viewport(mlx_image_t *image, t_player *p)
 		col++;
 	}
 }
-

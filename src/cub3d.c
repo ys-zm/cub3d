@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:24:47 by yzaim             #+#    #+#             */
-/*   Updated: 2024/01/17 16:28:16 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/18 10:45:29 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void leaks(void)
 // change to create a different image for the minimap vs. main viewport
 int init_mlx_images(t_meta *meta)
 {
-	meta->mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE, true);
+	meta->mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, meta->scene_name, true);
 	if (!meta->mlx)
 	{
 		ft_error();
