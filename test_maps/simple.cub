@@ -1,9 +1,10 @@
-NO  path_to_north
-WE  path_to_west
-EA  path_to_east
-SO	path_to_south
-F	123,234,213
+NO  texture_examples/redbrick.png
+WE  texture_examples/purplestone.png
+EA  texture_examples/purplestone.png
+SO	texture_examples/redbrick.png
+F	123,234,2
 C	12,34,3
+
 11111
 10001
 10E01

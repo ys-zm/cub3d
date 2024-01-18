@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.c                                            :+:      :+:    :+:   */
+/*   cub3d.c                                           :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:24:47 by yzaim             #+#    #+#             */
-/*   Updated: 2024/01/08 15:25:06 by yzaim            ###   ########.fr       */
+/*   Updated: 2024/01/18 10:45:29 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
+#include "MLX42/MLX42_Int.h"
 #include "meta.h"
 #include "parser.h"
 #include <stdint.h>
@@ -51,7 +52,7 @@ void leaks(void)
 // change to create a different image for the minimap vs. main viewport
 int init_mlx_images(t_meta *meta)
 {
-	meta->mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE, true);
+	meta->mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, meta->scene_name, true);
 	if (!meta->mlx)
 	{
 		ft_error();
@@ -93,7 +94,7 @@ int init_mlx_images(t_meta *meta)
 	}
 
 	return (EXIT_SUCCESS);
-}
+} 
 
 int cub3d(int argc, char **argv)
 {
@@ -104,8 +105,15 @@ int cub3d(int argc, char **argv)
 	ft_bzero(&meta, sizeof(t_meta));
 	if (parser(&meta, argv[1]))
 		return(meta_free(&meta), EXIT_FAILURE);
-	// TODO Error check.
+	if (set_textures(&meta.attributes))
+		return (EXIT_FAILURE);
+	printf("Tex_N: %s\n", meta.attributes.n.tex_path);
+	printf("Tex_S: %s\n", meta.attributes.s.tex_path);
+	printf("Tex_E: %s\n", meta.attributes.e.tex_path);
+	printf("Tex_W: %s\n", meta.attributes.w.tex_path);
+	
 	init_mlx_images(&meta);
+	// TODO Error check.
 	game_init(&meta);
 	mlx_set_cursor_mode(meta.mlx, MLX_MOUSE_HIDDEN);
 	mlx_loop_hook(meta.mlx, game_loop, &meta);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /**/
 /*   :::::::: */
-/*   meta.h:+::+: */
+/*   meta.h                                            :+:    :+:             */
 /*+:+ */
 /*   By: jboeve <jboeve@student.codam.nl>+#+  */
 /*  +#+   */
 /*   Created: 2023/11/01 20:07:37 by jboeve#+##+# */
-/*   Updated: 2024/01/07 03:51:44 by joppe ########   odam.nl */
+/*   Updated: 2024/01/18 11:56:06 by jboeve        ########   odam.nl         */
 /**/
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@
 // #define WINDOW_HEIGHT 1080 
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720 
-
-#define WINDOW_TITLE "Gammoe"
 
 
 
@@ -110,7 +108,7 @@ typedef struct s_font_atlas
 	unsigned int 	 font_w;
 	unsigned int 	 font_h;
 	unsigned int 	 bpp;
-	char	 		*pixels;
+	char			*pixels;
 } t_font_atlas;
 
 
@@ -128,17 +126,25 @@ typedef union s_rgba
 
 
 typedef enum e_side {
-	HIT_NONE,
-	HIT_NS,
-	HIT_EW,
+	SIDE_N, 
+	SIDE_S,
+	SIDE_E,
+	SIDE_W,
 }	t_side;
 
 typedef struct s_ray {
-	t_vec2d	direction;
-	t_vec2d	end;
-	t_side	hit_side;
-	double	length;
-	double 	wall_x;
+	t_vec2d		direction;
+	t_vec2d		end;
+	t_vec2i		map_pos;
+	t_vec2i		texture_point;
+	t_vec2i		line_point;
+	t_side		hit_side;
+
+	double		line_height;
+	double		length;
+	double 		wall_x;
+	double		texture_position;
+	double		step;
 } t_ray;
 
 typedef struct s_player {
@@ -158,14 +164,21 @@ typedef struct s_map {
 	char		player_start_dir;
 }	t_map;
 
+
 typedef struct s_tex {
-	char 	*no;
-	char 	*so;
-	char 	*we;
-	char 	*ea;
+	char			*tex_path;
+	mlx_texture_t	*tex;
+}	t_tex;
+
+typedef struct s_attr {
+	t_tex	n;
+	t_tex	s;
+	t_tex	e;
+	t_tex	w;
 	t_rgba	floor_c;
 	t_rgba	ceiling_c;
-}	t_tex;
+}	t_attr;
+
 
 typedef struct s_minimap {
 	mlx_image_t	*minimap_image;
@@ -183,7 +196,8 @@ typedef struct s_meta {
 	t_player	player;
 	uint32_t 	fps;
 	t_map		map;
-	t_tex		tex;
+	t_attr		attributes;
+	const char *scene_name;
 	char		*map_element;
 }	t_meta;
 
@@ -231,9 +245,17 @@ t_ray		raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *pa
 
 // colors.c
 int32_t		set_color(int32_t r, int32_t g, int32_t b, int32_t a);
-int32_t		find_wall_color(t_side side);
+int32_t	find_wall_color(t_attr atrributes, t_ray *ray, t_vec2i line_points, uint32_t h);
+int32_t		find_color(t_rgba rgba);
 
 // free.c
 void		meta_free(t_meta *meta);
+
+// set_textures.c
+int		set_textures(t_attr *attributes);
+
+//pixel_picker.c
+uint32_t	pixel_picker(mlx_texture_t *texture, int32_t x, int32_t y);
+void	wall_texture_position(mlx_texture_t *texture, t_ray *ray, t_vec2i line_points, uint32_t h);
 
 #endif

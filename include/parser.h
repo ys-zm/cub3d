@@ -28,7 +28,7 @@
 # define ELEMENT_MISSING "One or more definition of elements is missing\n"
 # define NO_MAP "Map element is missing\n"
 # define INV_COLOR_CODE "Please check color codes for F and C elements\nRGB values should be between 0-255\n"
-
+# define MLX_ERR "MLX error occured"
 # include "meta.h"
 
 typedef enum e_err {
@@ -47,6 +47,7 @@ NO_PLAYER,
 MISSING_ELEMENTS,
 MISSING_MAP,
 COLOR_CODE_WRONG,
+MLX_ERROR,
 }   t_err;
 
 // error.c
@@ -70,9 +71,9 @@ bool	is_map_line(char *file);
 int		input_map(t_meta *meta, char *file);
 
 // parse_elements.c
-int		input_texture(t_tex *tex, char *file);
-int		input_colour(t_tex *tex, char *file);
-int		save_elements(t_tex *tex, char *file);
+int		input_texture(t_attr *attributes, char *file);
+int		input_colour(t_attr *attributes, char *file);
+int		save_elements(t_attr *attributes, char *file);
 int 	parse_elements(t_meta *meta, char *file);
 
 // check_colors.c

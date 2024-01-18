@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player.c                                           :+:      :+:    :+:   */
+/*   player.c                                          :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:27:23 by yzaim             #+#    #+#             */
-/*   Updated: 2024/01/08 15:27:25 by yzaim            ###   ########.fr       */
+/*   Updated: 2024/01/17 15:55:18 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void player_move(t_player *p, t_vec2d transform)
 	new_position.x = (p->position.x + (transform.x));
 	new_position.y = (p->position.y + (transform.y));
 
+	// TODO Fix.
 	t_ray r = raycaster_cast(p->position, vec2d_normalize(transform), bound_check, p->meta);
 	// print_ray("bound_ray", &r);
 
@@ -72,6 +73,7 @@ void player_raycast(t_player *p)
 		camera_x = (2 * col / ((double) w) - 1);
 		ray_start = vec2d_add(p->direction, vec2d_scalar_product(p->cam_plane, camera_x));
 		p->rays[col] = raycaster_cast(p->position, ray_start, bound_check, p->meta);
+		// printf("wall x: %f\n", p->rays[col].wall_x);
 		col++;
 	}
 }
