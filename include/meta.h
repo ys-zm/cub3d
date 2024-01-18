@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>+#+  */
 /*  +#+   */
 /*   Created: 2023/11/01 20:07:37 by jboeve#+##+# */
-/*   Updated: 2024/01/18 11:56:06 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/18 14:09:20 by jboeve        ########   odam.nl         */
 /**/
 /* ************************************************************************** */
 
@@ -126,10 +126,10 @@ typedef union s_rgba
 
 
 typedef enum e_side {
-	SIDE_N, 
-	SIDE_S,
-	SIDE_E,
-	SIDE_W,
+	SIDE_N = 0, 
+	SIDE_S = 1,
+	SIDE_E = 2,
+	SIDE_W = 3,
 }	t_side;
 
 typedef struct s_ray {

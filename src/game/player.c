@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:27:23 by yzaim             #+#    #+#             */
-/*   Updated: 2024/01/17 15:55:18 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/18 17:10:32 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,46 @@ void player_move(t_player *p, t_vec2d transform)
 	t_ray r = raycaster_cast(p->position, vec2d_normalize(transform), bound_check, p->meta);
 	// print_ray("bound_ray", &r);
 
+	const double margin = 0.005;
+
+	float angle = (atan2(p->direction.x, p->direction.y) / PI * 180 + 180);
+	printf("angle [%f]\n", angle);
 	if (r.length > .5)
 	{
-		p->position.x += transform.x;
 		p->position.y += transform.y;
+		p->position.x += transform.x;
+	}
+	else if (r.length > .1)
+	{
+		printf("angle [%f]\n", angle);
+
+		double res = 0.0;
+
+		// Colission with a wall the y-axis
+		if ((angle > 0 && angle < 45) || (angle > 315))
+		{
+			printf("Gliding N\n");
+			 res = transform.x * -p->direction.y;
+			r = raycaster_cast(p->position, (t_vec2d) {res, 0.0}, bound_check, p->meta);
+			if (r.length > .1)
+				p->position.x += res;
+		}
+		else if (angle > 90 && angle < 270)
+		{
+			printf("Gliding S\n");
+			res = transform.x * p->direction.y;
+			r = raycaster_cast(p->position, (t_vec2d) {res, 0.0}, bound_check, p->meta);
+			if (r.length > .1)
+				p->position.x += res;
+		}
+
+
+		// if (angle == 1 || angle == 2)
+		// {
+		// 	double res = transform.y * -p->direction.x;
+		// 	r = raycaster_cast(p->position, (t_vec2d) {0.0, res}, bound_check, p->meta);
+		// 	p->position.y += res;
+		// }
 	}
 	player_raycast(p);
 }
