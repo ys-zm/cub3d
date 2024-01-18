@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:27:33 by yzaim             #+#    #+#             */
-/*   Updated: 2024/01/18 11:13:21 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/18 12:05:53 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ inline static t_vec2d	calculate_delta_dist(t_vec2d ray_direction)
 }
 
 inline static t_vec2d	calculate_side_dist(t_vec2d ray_direction, \
-			t_vec2d player_pos, t_vec2d map_pos, t_vec2d delta_dist)
+			t_vec2d player_pos, t_vec2i map_pos, t_vec2d delta_dist)
 {
 	t_vec2d	side_dist;
 
@@ -49,14 +49,14 @@ inline static t_vec2d	calculate_side_dist(t_vec2d ray_direction, \
 	return (side_dist);
 }
 
-inline static t_vec2d	calculate_step_size(t_vec2d ray_direction)
+inline static t_vec2i	calculate_step_size(t_vec2d ray_direction)
 {
 	const bool		comp_x = (ray_direction.x < 0);
 	const bool		comp_y = (ray_direction.y < 0);
 	const int8_t	dir_x = (comp_x * -1) + (!comp_x * 1);
 	const int8_t	dir_y = (comp_y * -1) + (!comp_y * 1);
 
-	return ((t_vec2d){dir_x, dir_y});
+	return ((t_vec2i){dir_x, dir_y});
 }
 
 inline static double	calculate_ray_length(t_side hit_side, \
@@ -69,7 +69,7 @@ inline static double	calculate_ray_length(t_side hit_side, \
 }
 
 inline static t_side	ray_move(t_vec2d *side_dist, t_vec2d *delta_dist, \
-		t_vec2d step_size, t_vec2d *map_pos)
+		t_vec2i step_size, t_vec2i *map_pos)
 {
 	if (side_dist->x < side_dist->y)
 	{
@@ -95,7 +95,7 @@ t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *par
 {
 	t_ray	r;
 	t_vec2d	side_dist;
-	t_vec2d	step_size;
+	t_vec2i	step_size;
 	t_vec2d delta_dist;
 
 	r.map_pos.x = (int)pp.x;
@@ -115,17 +115,13 @@ t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *par
 		WARNING("Raycaster limit reached!");
 	r.length = calculate_ray_length(r.hit_side, side_dist, delta_dist);
 	r.direction = dir;
-	r.end = r.map_pos;
+	// r.end = r.map_pos;
 
 	r.line_height = (int)(WINDOW_HEIGHT / r.length);
-	if (r.line_height > WINDOW_HEIGHT)
-		r.line_height = WINDOW_HEIGHT;
 
 	// draw start and draw end
 	r.line_point.x = -r.line_height / 2 + ((double)WINDOW_HEIGHT) / 2;
 	r.line_point.y = r.line_height / 2 + ((double)WINDOW_HEIGHT) / 2;
-	if (r.line_point.y >= WINDOW_HEIGHT)
-		r.line_point.y = WINDOW_HEIGHT - 1;
 
 	if (r.hit_side == SIDE_N || r.hit_side == SIDE_S)
 		r.wall_x = pp.y + r.length * r.direction.y;
