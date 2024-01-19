@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:27:23 by yzaim             #+#    #+#             */
-/*   Updated: 2024/01/20 00:22:42 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/20 00:39:14 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void print_angle(t_player *p)
 {
 	// NORTH = 0
 	const float angle = (atan2(p->direction.x, p->direction.y) / PI * 180 + 180);
-
 	if (angle > 45.0 && angle < 135.0)
 	{
 		printf("N\n");
@@ -63,6 +62,24 @@ void player_move(t_player *p, t_vec2d transform)
 	{
 		p->position.y += transform.y;
 		p->position.x += transform.x;
+	}
+	else
+	{
+		const int comp = (r.hit_side == SIDE_N || r.hit_side == SIDE_S);
+		const t_vec2d normal = {comp, !comp};
+		const double dot_product = vec2d_dot_product(transform, normal);
+
+		t_vec2d delta_pos;
+		delta_pos.x = transform.x - normal.x * dot_product;
+		delta_pos.y = transform.y - normal.y * dot_product;
+		r = raycaster_cast(p->position, vec2d_normalize(transform), bound_check, p->meta);
+
+		if (r.length > .3)
+		{
+			p->position.x += delta_pos.x;
+			p->position.y += delta_pos.y;
+		}
+
 	}
 	print_angle(p);
 	player_raycast(p);
