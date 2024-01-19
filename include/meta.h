@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>+#+  */
 /*  +#+   */
 /*   Created: 2023/11/01 20:07:37 by jboeve#+##+# */
-/*   Updated: 2024/01/18 14:09:20 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/20 00:47:06 by joppe         ########   odam.nl         */
 /**/
 /* ************************************************************************** */
 
@@ -61,11 +61,10 @@
 // Game
 #define TICK_RATE (1.0 / 60.0)
 
-#define PLAYER_MOVE_SPEED   5.0
+#define PLAYER_MOVE_SPEED   3.5
 #define PLAYER_RUN_MODIFIER 2.5
-#define PLAYER_ROTATE_SPEED	5.0
+#define PLAYER_ROTATE_SPEED	3.0
 #define PLAYER_ROTATE_MODIFIER 2.5
-#define PLAYER_MOV_SPEED	0.08
 
 #define MINIMAP_WIDTH				350
 #define MINIMAP_HEIGHT				230
