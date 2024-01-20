@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:26:51 by yzaim             #+#    #+#             */
-/*   Updated: 2024/01/17 13:04:46 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/20 01:19:00 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 #include "meta.h"
 #include "timer.h"
 #include "vector.h"
+#include <assert.h>
 #include <math.h>
+#include <stdint.h>
 #include <unistd.h>
 #include "test_utils.h"
 
@@ -54,11 +56,37 @@ void	set_player_start_position(t_player *p, char dir)
 	p->position.y += 0.5;
 }
 
+
+
+
+void swap_tex(mlx_texture_t *tex)
+{
+	assert(tex->width == tex->height);
+
+	for (size_t x = 0; x < tex->width; x++)
+	{
+		for (size_t y = 0; y < x; y++)
+		{
+			uint32_t pixel = tex->pixels[(tex->width * y + x) * BPP];
+			tex->pixels[(tex->width * y + x) * BPP] = tex->pixels[(tex->width * x + y) * BPP];
+			tex->pixels[(tex->width * x + y) * BPP] = pixel;
+		}
+	}
+}
+
 void game_init(t_meta *meta)
 {
 	t_player* const p = &meta->player;
 	timer_init(&meta->update_timer, mlx_get_time);
 	timer_start(&meta->update_timer);
+
+
+	swap_tex(meta->attributes.n.tex);
+	swap_tex(meta->attributes.s.tex);
+	swap_tex(meta->attributes.e.tex);
+	swap_tex(meta->attributes.w.tex);
+
+
 
 	p->meta = meta;
 	set_player_start_position(&meta->player, meta->map.player_start_dir);

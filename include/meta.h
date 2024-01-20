@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>+#+  */
 /*  +#+   */
 /*   Created: 2023/11/01 20:07:37 by jboeve#+##+# */
-/*   Updated: 2024/01/20 00:47:06 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/20 01:14:53 by joppe         ########   odam.nl         */
 /**/
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720 
 
+#define BPP 4
 
 
 // Game
