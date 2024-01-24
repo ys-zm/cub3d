@@ -147,9 +147,12 @@ typedef struct s_ray {
 	double		step;
 } t_ray;
 
+
+
 typedef struct s_player {
 	t_meta		*meta;
 	t_ray		rays[WINDOW_WIDTH];
+	t_vec2d		vertical_rays[WINDOW_HEIGHT];
 	t_vec2d		cam_plane;
 	t_vec2d		position;
 	t_vec2d		direction;
@@ -259,5 +262,9 @@ int		set_textures(t_attr *attributes);
 //pixel_picker.c
 uint32_t	pixel_picker(mlx_texture_t *texture, int32_t x, int32_t y);
 void	wall_texture_position(mlx_texture_t *texture, t_ray *ray, t_vec2i line_points, uint32_t h);
+
+// floorcaster.c
+
+t_vec2d	floorcaster(t_vec2d pp, t_vec2d dir, t_vec2d cam_plane, uint32_t y);
 
 #endif

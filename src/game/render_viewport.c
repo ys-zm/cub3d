@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   render_viewport.c                                 :+:    :+:             */
+/*   render_viewport.c                                  :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/18 12:27:01 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/24 13:37:01 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,27 @@ static void	draw_column(t_meta *meta, t_ray *ray, uint32_t col, uint32_t h)
 	}
 }
 
+void	draw_fc(t_vec2d floor, )
+{
+	t_vec2i	cell;
+
+	cell = (t_vec2i){(int)floor.x, (int)floor.y};
+	// cell = vec2d_to_vec2i(floor);
+	
+	t_vec2i	t;
+	t.x = (int)
+}
+
 void render_viewport(mlx_image_t *image, t_player *p)
 {
 	uint32_t col = 0;
+	//floor and ceiling
+	while (col < image->width)
+	{
+		
+	}
+	
+	col = 0;
 	while(col < image->width)
 	{
 		draw_column(p->meta, &p->rays[col], col, image->height);

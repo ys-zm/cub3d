@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   player.c                                          :+:    :+:             */
-/*                                                    +:+ +:+         +:+     */
-/*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 15:27:23 by yzaim             #+#    #+#             */
-/*   Updated: 2024/01/17 15:55:18 by jboeve        ########   odam.nl         */
+/*                                                        ::::::::            */
+/*   player.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: yzaim <marvin@42.fr>                         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/08 15:27:23 by yzaim         #+#    #+#                 */
+/*   Updated: 2024/01/24 13:31:54 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,20 @@ void player_turn(t_player *p, float radiant)
 
 void player_raycast(t_player *p)
 {
-	uint32_t w = p->meta->image->width;
-	uint32_t col;
-	t_vec2d	ray_start;
-	double	camera_x;
+	uint32_t	w = p->meta->image->width;
+	uint32_t	h = p->meta->image->height;
+	uint32_t	col;
+	uint32_t	row;
+	t_vec2d		ray_start;
+	double		camera_x;
 
+	row = 0;
+	while (row < h)
+	{
+		p->vertical_rays[row] = floorcaster(p->position, p->direction, p->cam_plane, row);
+		row++;
+	}
+	
 	// TODO Just create the player.plane here instead of saving it.
 	col = 0;
 	while(col < w)
