@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:26:51 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/24 11:50:31 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/01/24 15:49:05 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@
 // calculate texture position
 void	wall_texture_position(mlx_texture_t *texture, t_ray *ray, t_vec2i line_points, uint32_t h)
 {
-	static double x_old = 0;
-	static double y_old = 0;
-
 	ray->texture_point.x = (int)(ray->wall_x * (double)texture->width);
 
 	if ((ray->hit_side == SIDE_N || ray->hit_side == SIDE_S) && ray->direction.x > 0)

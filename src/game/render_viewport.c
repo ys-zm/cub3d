@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/24 14:25:11 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/01/24 16:06:25 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,20 @@ static void	draw_column(t_meta *meta, t_ray *ray, uint32_t col, uint32_t h)
 	}
 }
 
-void	draw_fc(mlx_image_t *image, t_vray vray, mlx_texture_t *f_tex, mlx_texture_t *c_tex, uint32_t col, uint32_t row)
+void	draw_fc(mlx_image_t *image, t_vray *vray, mlx_texture_t *f_tex, mlx_texture_t *c_tex, uint32_t col, uint32_t row)
 {
 	t_vec2i	cell;
 
-	cell = (t_vec2i){(int)vray.floor.x, (int)vray.floor.y};
+	cell = (t_vec2i){(int)vray->floor.x, (int)vray->floor.y};
 	// cell = vec2d_to_vec2i(floor);
 
 	// coordinate of pixel in texture
-	const t_vec2i	c_t = (t_vec2i){(int)(c_tex->width * (vray.floor.x - cell.x)) & (c_tex->width - 1), (int)(c_tex->height * (vray.floor.y - cell.y)) & (c_tex->height - 1)};
-	const t_vec2i	f_t = (t_vec2i){(int)(f_tex->width * (vray.floor.x - cell.x)) & (f_tex->width - 1), (int)(f_tex->height * (vray.floor.y - cell.y)) & (f_tex->height - 1)};
-	vray.floor = vec2d_add(vray.floor, vray.step);
+	const t_vec2i	c_t = (t_vec2i){(int)(c_tex->width  * (vray->floor.x - cell.x)) & (c_tex->width - 1), 
+									(int)(c_tex->height * (vray->floor.y - cell.y)) & (c_tex->height - 1)};
+	const t_vec2i	f_t = (t_vec2i){(int)(f_tex->width  * (vray->floor.x - cell.x)) & (f_tex->width - 1),
+				 					(int)(f_tex->height * (vray->floor.y - cell.y)) & (f_tex->height - 1)};
+									
+	vray->floor = vec2d_add(vray->floor, vray->step);
 
 	const uint32_t	c_color = pixel_picker(c_tex, c_t.x, c_t.y);
 	const uint32_t	f_color = pixel_picker(f_tex, f_t.x, f_t.y);
@@ -82,17 +85,22 @@ void render_viewport(mlx_image_t *image, t_player *p)
 	uint32_t	col = 0;
 	uint32_t	row = 0;
 	//floor and ceiling
-	while (row < image->height)
+
+	if (p->should_render)
 	{
-		col = 0;
-		while (col < image->width)
+		row = 0;
+		while (row < image->height)
 		{
-			draw_fc(p->meta->image, p->vrays[row], p->meta->attributes.f.tex, p->meta->attributes.c.tex, col, row);
-			col++;
+			col = 0;
+			while (col < image->width)
+			{
+				draw_fc(p->meta->image, &p->vrays[row], p->meta->attributes.f.tex, p->meta->attributes.c.tex, col, row);
+				col++;
+			}
+			row++;
 		}
-		row++;
+		p->should_render = false;
 	}
-	
 	col = 0;
 	while(col < image->width)
 	{

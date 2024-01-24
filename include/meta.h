@@ -92,6 +92,7 @@ typedef enum e_cell_type {
 MAP_EMPTY,
 MAP_WALL,
 MAP_SPACE,
+MAP_DOOR
 }	t_cell_type;
 
 typedef enum e_font_family {
@@ -156,6 +157,7 @@ typedef struct s_player {
 	t_meta		*meta;
 	t_ray		rays[WINDOW_WIDTH];
 	t_vray		vrays[WINDOW_HEIGHT];
+	bool should_render;
 	t_vec2d		cam_plane;
 	t_vec2d		position;
 	t_vec2d		direction;

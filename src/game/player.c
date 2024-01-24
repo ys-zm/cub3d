@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:23 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/24 14:06:15 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/01/24 16:09:02 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void player_raycast(t_player *p)
 		p->vrays[row] = floorcaster(p->position, p->direction, p->cam_plane, row);
 		row++;
 	}
+	p->should_render = true;
 	
 	// TODO Just create the player.plane here instead of saving it.
 	col = 0;
