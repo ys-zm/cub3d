@@ -87,6 +87,7 @@ int	create_rectangle_map_element(t_meta *meta)
 }
 
 // should i put a minimun on the width and height
+// TODO: Add parser for floor and ceiling texture path
 int	parser(t_meta *meta, char *map_file)
 {
 	char	*file = NULL;

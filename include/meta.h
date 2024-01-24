@@ -175,6 +175,8 @@ typedef struct s_attr {
 	t_tex	s;
 	t_tex	e;
 	t_tex	w;
+	t_tex	f;
+	t_tex	c;
 	t_rgba	floor_c;
 	t_rgba	ceiling_c;
 }	t_attr;

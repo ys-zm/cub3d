@@ -6,12 +6,29 @@
 /*   By: yzaim <yzaim@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:56:45 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/08 15:59:17 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/01/24 11:14:24 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "meta.h"
+
+int	set_floor_and_ceiling_textures(t_attr *attributes)
+{
+	if (attributes->f.tex_path != NULL)
+	{
+		attributes->f.tex = mlx_load_png(attributes->f.tex_path);
+		if (attributes->f.tex == NULL)
+			return (EXIT_FAILURE);
+	}
+	if (attributes->c.tex_path != NULL)
+	{
+		attributes->c.tex = mlx_load_png(attributes->c.tex_path);
+		if (attributes->c.tex == NULL)
+			return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
+}
 
 int	set_textures(t_attr *attributes)
 {
@@ -26,6 +43,8 @@ int	set_textures(t_attr *attributes)
 		return (pr_err(MLX_ERROR));
 	attributes->w.tex = mlx_load_png(attributes->w.tex_path);
 	if (attributes->w.tex == NULL)
+		return (pr_err(MLX_ERROR));
+	if (set_floor_and_ceiling_textures(attributes))
 		return (pr_err(MLX_ERROR));
 	return (EXIT_SUCCESS);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   check_colors.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 15:30:18 by yzaim             #+#    #+#             */
-/*   Updated: 2024/01/08 15:33:48 by yzaim            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   check_colors.c                                     :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: yzaim <marvin@42.fr>                         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
+/*   Updated: 2024/01/24 11:18:50 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ bool	colors_valid(char *file)
 		skip_spaces(&file);
 		if (is_valid_element(file))
 		{
-			if (is_colour(file) && !is_valid_color(file))
+			if (!is_path(file) && is_floor_or_ceiling(file) && !is_valid_color(file))
 				return (false);
 		}
 		skip_line(&file);

@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:26:06 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/08 16:06:19 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/01/24 11:02:13 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	input_map(t_meta *meta, char *file)
 	while (*file)
 	{
 		skip_spaces(&file);
-		if (is_texture(file) || is_colour(file) || only_spaces(file))
+		if (is_wall(file) || is_floor_or_ceiling(file) || only_spaces(file))
 			skip_line(&file);
 		else
 			break ;
