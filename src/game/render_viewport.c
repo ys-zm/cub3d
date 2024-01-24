@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   render_viewport.c                                  :+:    :+:            */
+/*   render_viewport.c                                 :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/24 17:08:29 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/01/24 18:17:54 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	draw_fc(mlx_image_t *image, t_vray *vray, mlx_texture_t *f_tex, mlx_texture
 									(int)(c_tex->height * (vray->floor.y - cell.y)) & (c_tex->height - 1)};
 	const t_vec2i	f_t = (t_vec2i){(int)(f_tex->width  * (vray->floor.x - cell.x)) & (f_tex->width - 1),
 				 					(int)(f_tex->height * (vray->floor.y - cell.y)) & (f_tex->height - 1)};
-									
+
 	vray->floor = vec2d_add(vray->floor, vray->step);
 
 	const uint32_t	c_pixel = pixel_picker(c_tex, c_t.x, c_t.y);
