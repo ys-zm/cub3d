@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   set_textures.c                                     :+:    :+:            */
+/*   set_textures.c                                    :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <yzaim@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:56:45 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/24 11:14:24 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/01/25 00:29:36 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "meta.h"
+#include <stdio.h>
 
 int	set_floor_and_ceiling_textures(t_attr *attributes)
 {
@@ -27,6 +28,11 @@ int	set_floor_and_ceiling_textures(t_attr *attributes)
 		if (attributes->c.tex == NULL)
 			return (EXIT_FAILURE);
 	}
+
+	attributes->c_alt.tex = mlx_load_png("texture_examples/window_square.png");
+	if (attributes->c_alt.tex == NULL)
+		return (EXIT_FAILURE);
+
 	return (EXIT_SUCCESS);
 }
 

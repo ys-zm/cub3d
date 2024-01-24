@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>+#+  */
 /*  +#+   */
 /*   Created: 2023/11/01 20:07:37 by jboeve#+##+# */
-/*   Updated: 2024/01/18 11:56:06 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/25 00:28:17 by joppe         ########   odam.nl         */
 /**/
 /* ************************************************************************** */
 
@@ -186,6 +186,7 @@ typedef struct s_attr {
 	t_tex	w;
 	t_tex	f;
 	t_tex	c;
+	t_tex	c_alt;
 	t_rgba	floor_c;
 	t_rgba	ceiling_c;
 }	t_attr;
