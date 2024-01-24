@@ -16,7 +16,7 @@ RUN_CMD		:= ./$(NAME) test_maps/valid_tex.cub
 
 # CFLAGS		+= -Wall -Wextra -Werror
 CFLAGS		+= -Wall -Wextra
-CFLAGS		+= -g -fsanitize=address
+# CFLAGS		+= -g -fsanitize=address
 # CFLAGS		+= -g
 # CFLAGS		+= -Ofast -flto -march=native
 
@@ -55,7 +55,8 @@ SRCS	= 		parser/check_elements.c \
 				cub3d.c \
 				test_utils.c \
 				timer.c \
-				set_textures.c
+				set_textures.c \
+				game/floorcaster.c
 
 HEADER_DIR	:=	include
 HEADERS 	:=	meta.h \

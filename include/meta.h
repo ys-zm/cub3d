@@ -147,12 +147,15 @@ typedef struct s_ray {
 	double		step;
 } t_ray;
 
-
+typedef struct s_vray {
+	t_vec2d		floor;
+	t_vec2d		step;
+}	t_vray;
 
 typedef struct s_player {
 	t_meta		*meta;
 	t_ray		rays[WINDOW_WIDTH];
-	t_vec2d		vertical_rays[WINDOW_HEIGHT];
+	t_vray		vrays[WINDOW_HEIGHT];
 	t_vec2d		cam_plane;
 	t_vec2d		position;
 	t_vec2d		direction;
@@ -174,7 +177,7 @@ typedef struct s_tex {
 }	t_tex;
 
 typedef struct s_attr {
-	t_tex	n;
+	t_tex	n;	//add bit flag, if tex_path is missing then it means it is a color value
 	t_tex	s;
 	t_tex	e;
 	t_tex	w;
@@ -264,7 +267,6 @@ uint32_t	pixel_picker(mlx_texture_t *texture, int32_t x, int32_t y);
 void	wall_texture_position(mlx_texture_t *texture, t_ray *ray, t_vec2i line_points, uint32_t h);
 
 // floorcaster.c
-
-t_vec2d	floorcaster(t_vec2d pp, t_vec2d dir, t_vec2d cam_plane, uint32_t y);
+t_vray floorcaster(t_vec2d pp, t_vec2d dir, t_vec2d cam_plane, uint32_t y);
 
 #endif
