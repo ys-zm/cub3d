@@ -1,9 +1,9 @@
-NO  texture_examples/purplestone2.png
+NO  texture_examples/purplestone1.png
 WE  texture_examples/redbrick.png
 EA  texture_examples/redbrick.png
 SO	texture_examples/purplestone2.png
-F	255,255,255
-C	12, 12, 12
+F	texture_examples/wood.png
+C	texture_examples/ceiling_square.png
 
 11111111111111 
 1000010001 
