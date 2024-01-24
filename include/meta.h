@@ -23,6 +23,7 @@
 #include <fcntl.h>
 #include <stdbool.h>
 #include <limits.h>
+#include <math.h>
 
 #include "timer.h"
 #include "libft.h"
@@ -81,8 +82,8 @@
 #define VIEWPORT_COLOR_WALL_NS		0x4B0082FF
 #define VIEWPORT_COLOR_WALL_EW		0x8A30E2FF
 
-// #define FOV 0.66
-#define FOV 0.85
+#define FOV M_PI / 4
+// #define FOV 0.85
 
 typedef bool	(t_ray_hitfunc) (const void *p, uint32_t x, uint32_t y);
 

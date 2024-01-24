@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/24 16:06:25 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/01/24 17:08:29 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,10 @@ void	draw_fc(mlx_image_t *image, t_vray *vray, mlx_texture_t *f_tex, mlx_texture
 									
 	vray->floor = vec2d_add(vray->floor, vray->step);
 
-	const uint32_t	c_color = pixel_picker(c_tex, c_t.x, c_t.y);
-	const uint32_t	f_color = pixel_picker(f_tex, f_t.x, f_t.y);
-	mlx_put_pixel(image, col, WINDOW_HEIGHT - row - 1, c_color);
-	mlx_put_pixel(image, col, row, f_color);
+	const uint32_t	c_pixel = pixel_picker(c_tex, c_t.x, c_t.y);
+	const uint32_t	f_pixel = pixel_picker(f_tex, f_t.x, f_t.y);
+	mlx_put_pixel(image, col, WINDOW_HEIGHT - row - 1, c_pixel);
+	mlx_put_pixel(image, col, row, f_pixel);
 }
 
 void render_viewport(mlx_image_t *image, t_player *p)
@@ -88,7 +88,6 @@ void render_viewport(mlx_image_t *image, t_player *p)
 
 	if (p->should_render)
 	{
-		row = 0;
 		while (row < image->height)
 		{
 			col = 0;
@@ -101,6 +100,8 @@ void render_viewport(mlx_image_t *image, t_player *p)
 		}
 		p->should_render = false;
 	}
+
+	
 	col = 0;
 	while(col < image->width)
 	{
