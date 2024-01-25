@@ -1,6 +1,6 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
+/*                                                        ::::::::            */
 /*   player.c                                          :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
@@ -91,10 +91,22 @@ void player_turn(t_player *p, float radiant)
 
 void player_raycast(t_player *p)
 {
+	uint32_t	w = p->meta->image->width;
+	uint32_t	h = p->meta->image->height;
 	uint32_t	col;
-	double		camera_x;
+	uint32_t	row;
 	t_vec2d		ray_start;
+	double		camera_x;
 
+
+	row = 0;
+	while (row < h)
+	{
+		p->vrays[row] = floorcaster(p->position, p->direction, p->cam_plane, row);
+		row++;
+	}
+	p->should_render = true;
+	
 	// TODO Just create the player.plane here instead of saving it.
 	col = 0;
 	while (col < p->meta->image->width)

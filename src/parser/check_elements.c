@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   check_elements.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 15:33:58 by yzaim             #+#    #+#             */
-/*   Updated: 2024/01/08 15:42:20 by yzaim            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   check_elements.c                                   :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: yzaim <marvin@42.fr>                         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/08 15:33:58 by yzaim         #+#    #+#                 */
+/*   Updated: 2024/01/24 11:02:13 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ bool	is_missing(char *file)
 	{
 		i = 0;
 		skip_spaces(&file);
-		if ((is_valid_element(file) || is_colour(file)))
+		if ((is_valid_element(file) || is_floor_or_ceiling(file)))
 		{
 			while (*file && *file != element[i] && i < 6)
 				i++;
@@ -118,7 +118,7 @@ bool	is_duplicate(char *file)
 	{
 		i = 0;
 		skip_spaces(&file);
-		if ((is_valid_element(file) || is_colour(file)))
+		if ((is_valid_element(file) || is_floor_or_ceiling(file)))
 		{
 			while (*file && *file != element[i] && i < 6)
 				i++;

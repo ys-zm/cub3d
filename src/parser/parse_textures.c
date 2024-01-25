@@ -6,7 +6,7 @@
 /*   By: yzaim <yzaim@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:56:45 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/08 15:59:17 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/01/24 11:02:13 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*get_tex_val(char *file)
 }
 
 // returns true of the characters match those of a valid texture element
-bool	is_texture(char *file)
+bool	is_wall(char *file)
 {
 	char	*tx[4] = {"NO", "SO", "WE", "EA"};
 	int		i;
@@ -68,7 +68,7 @@ bool	is_texture(char *file)
 }
 
 // returns true of the characters match those of a valid colour element
-bool is_colour(char *file)
+bool is_floor_or_ceiling(char *file)
 {
 	if (*file == 'F')
 		return (true);

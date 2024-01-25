@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/08 16:04:46 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/01/24 11:21:34 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 // saves path value and checks of value us empty
 int	input_texture(t_attr *attributes, char *file)
 {
-	char	element[4] = {'N', 'S', 'W', 'E'};
-	char**	path[4] = {&attributes->n.tex_path, &attributes->s.tex_path, &attributes->w.tex_path, &attributes->e.tex_path};
+	char	element[6] = {'N', 'S', 'W', 'E', 'F', 'C'};
+	char**	path[6] = {&attributes->n.tex_path, &attributes->s.tex_path, &attributes->w.tex_path, &attributes->e.tex_path, &attributes->f.tex_path, &attributes->c.tex_path};
 	int i;
 
 	i = 0;
 	skip_spaces(&file);
-	while (i < 4)
+	while (i < 6)
 	{
 		if (*file && *file == element[i])
 		{
@@ -57,15 +57,24 @@ int save_elements(t_attr *attributes, char *file)
 	while (*file)
 	{
 		skip_spaces(&file);
-		if (is_texture(file))
+		if (is_wall(file))
 		{
 			if (input_texture(attributes, file))
 				return (EXIT_FAILURE);
 		}
-		else if (is_colour(file))
+		else if (is_floor_or_ceiling(file))
 		{
-			if (input_colour(attributes, file))
-				return (EXIT_FAILURE);
+			if (is_path(file))
+			{
+				printf("here i come\n");
+				if (input_texture(attributes, file))
+					return (EXIT_FAILURE);
+			}
+			else 
+			{
+				if (input_colour(attributes, file))
+					return (EXIT_FAILURE);
+			}
 		}
 		skip_line(&file);
 	}

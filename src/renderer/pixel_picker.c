@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
+/*                                                        ::::::::            */
 /*   pixel_picker.c                                    :+:    :+:             */
-/*                                                    +:+ +:+         +:+     */
-/*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 15:26:51 by yzaim             #+#    #+#             */
-/*   Updated: 2024/01/20 01:16:30 by joppe         ########   odam.nl         */
+/*                                                     +:+                    */
+/*   By: yzaim <marvin@42.fr>                         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/08 15:26:51 by yzaim         #+#    #+#                 */
+/*   Updated: 2024/01/25 13:03:21 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,16 @@ void	wall_texture_position(mlx_texture_t *texture, t_ray *ray, t_vec2i line_poin
 
 uint32_t	pixel_picker(mlx_texture_t *texture, int32_t x, int32_t y)
 {
-	int32_t	r;
-	int32_t	g;
-	int32_t	b;
-	int32_t	a;
-	int32_t	index;
+	uint8_t		r;
+	uint8_t		g;
+	uint8_t		b;
+	uint8_t		a;
+	uint32_t	index;
 
-	// printf("x: %u | y: %u\n", x, y);
-	index = x * texture->width * BPP + y * BPP;
-	// printf("index: %d\n", index);
-	r = (uint32_t)texture->pixels[index];
-	g = (uint32_t)texture->pixels[index + 1];
-	b = (uint32_t)texture->pixels[index + 2];
-	a = (uint32_t)texture->pixels[index + 3];
+	index = y * texture->width * 4 + x * 4;
+	r = texture->pixels[index];
+	g = texture->pixels[index + 1];
+	b = texture->pixels[index + 2];
+	a = texture->pixels[index + 3];
 	return (r << 24 | g << 16 | b << 8 | a);
 }
