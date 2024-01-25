@@ -99,20 +99,21 @@ bool	is_floor_exposed(t_meta *meta, char *map);
 // parse_textures.c
 void	get_colour_value(char *file, t_rgba *col);
 char	*get_tex_val(char *file);
-bool	is_texture(char *file);
-bool	is_colour(char *file);
+bool	is_wall(char *file);
+bool	is_floor_or_ceiling(char *file);
 
 // utils_one.c
-void	skip_line(char **file);
-void	skip_spaces(char **file);
-void	skip_digits(char **file);
-int		valid_map_char(char c);
-int		player_pos_char(char c);
+void		skip_line(char **file);
+void		skip_spaces(char **file);
+void		skip_digits(char **file);
+int			valid_map_char(char c);
+int			player_pos_char(char c);
 
 // utils_two.c
 uint32_t	find_width(char *map);
 uint32_t	find_height(char *map);
 char		*make_rect(char *map, uint32_t w, uint32_t h);
+bool		is_path(char *str);
 
 
 #endif

@@ -1,6 +1,7 @@
 {
     "files.associations": {
-        "cstdlib": "c",
-        "stdio.h": "c"
-    }
+		"cstdlib": "c",
+		"stdio.h": "c",
+		"meta.h": "c"
+	}
 }

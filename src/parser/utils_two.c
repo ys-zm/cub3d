@@ -94,3 +94,14 @@ int find_index(t_meta *meta, uint32_t x, uint32_t y)
 {
 	return ((y * meta->map.width) + x);
 }
+
+bool	is_path(char *str)
+{
+	while (*str != '\n')
+	{
+		if (*str == '/')
+			return (true);
+		str++;
+	}
+	return (false);
+}

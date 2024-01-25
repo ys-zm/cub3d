@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>+#+  */
 /*  +#+   */
 /*   Created: 2023/11/01 20:07:37 by jboeve#+##+# */
-/*   Updated: 2024/01/18 11:56:06 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/20 01:14:53 by joppe         ########   odam.nl         */
 /**/
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include <fcntl.h>
 #include <stdbool.h>
 #include <limits.h>
+#include <math.h>
 
 #include "timer.h"
 #include "libft.h"
@@ -56,16 +57,16 @@
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720 
 
+#define BPP 4
 
 
 // Game
 #define TICK_RATE (1.0 / 60.0)
 
-#define PLAYER_MOVE_SPEED   5.0
+#define PLAYER_MOVE_SPEED   3.5
 #define PLAYER_RUN_MODIFIER 2.5
-#define PLAYER_ROTATE_SPEED	5.0
+#define PLAYER_ROTATE_SPEED	3.0
 #define PLAYER_ROTATE_MODIFIER 2.5
-#define PLAYER_MOV_SPEED	0.08
 
 #define MINIMAP_WIDTH				350
 #define MINIMAP_HEIGHT				230
@@ -81,7 +82,6 @@
 #define VIEWPORT_COLOR_WALL_NS		0x4B0082FF
 #define VIEWPORT_COLOR_WALL_EW		0x8A30E2FF
 
-// #define FOV 0.66
 #define FOV 0.85
 
 typedef bool	(t_ray_hitfunc) (const void *p, uint32_t x, uint32_t y);
@@ -92,6 +92,7 @@ typedef enum e_cell_type {
 MAP_EMPTY,
 MAP_WALL,
 MAP_SPACE,
+MAP_DOOR
 }	t_cell_type;
 
 typedef enum e_font_family {
@@ -126,10 +127,10 @@ typedef union s_rgba
 
 
 typedef enum e_side {
-	SIDE_N, 
-	SIDE_S,
-	SIDE_E,
-	SIDE_W,
+	SIDE_N = 0, 
+	SIDE_S = 1,
+	SIDE_E = 2,
+	SIDE_W = 3,
 }	t_side;
 
 typedef struct s_ray {
@@ -147,9 +148,16 @@ typedef struct s_ray {
 	double		step;
 } t_ray;
 
+typedef struct s_vray {
+	t_vec2d		floor;
+	t_vec2d		step;
+}	t_vray;
+
 typedef struct s_player {
 	t_meta		*meta;
 	t_ray		rays[WINDOW_WIDTH];
+	t_vray		vrays[WINDOW_HEIGHT];
+	bool should_render;
 	t_vec2d		cam_plane;
 	t_vec2d		position;
 	t_vec2d		direction;
@@ -171,10 +179,13 @@ typedef struct s_tex {
 }	t_tex;
 
 typedef struct s_attr {
-	t_tex	n;
+	t_tex	n;	//add bit flag, if tex_path is missing then it means it is a color value
 	t_tex	s;
 	t_tex	e;
 	t_tex	w;
+	t_tex	f;
+	t_tex	c;
+	t_tex	c_alt;
 	t_rgba	floor_c;
 	t_rgba	ceiling_c;
 }	t_attr;
@@ -257,5 +268,8 @@ int		set_textures(t_attr *attributes);
 //pixel_picker.c
 uint32_t	pixel_picker(mlx_texture_t *texture, int32_t x, int32_t y);
 void	wall_texture_position(mlx_texture_t *texture, t_ray *ray, t_vec2i line_points, uint32_t h);
+
+// floorcaster.c
+t_vray floorcaster(t_vec2d pp, t_vec2d dir, t_vec2d cam_plane, uint32_t y);
 
 #endif

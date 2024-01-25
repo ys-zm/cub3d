@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   keys.c                                             :+:      :+:    :+:   */
+/*   keys.c                                            :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:27:07 by yzaim             #+#    #+#             */
-/*   Updated: 2024/01/08 15:27:11 by yzaim            ###   ########.fr       */
+/*   Updated: 2024/01/18 12:50:58 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ static void keys_handle_move(t_meta *meta, double delta_time)
 		pressed = true;
 		trans = vec2d_add(trans, (t_vec2d) {(vec2d_rotate(p->direction, PI / 2).x) * speed, (vec2d_rotate(p->direction, PI / 2).y) * speed});
 	}
-
 	if (pressed)
 		player_move(p, trans);
 }

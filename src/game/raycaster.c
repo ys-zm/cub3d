@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   raycaster.c                                       :+:    :+:             */
-/*                                                    +:+ +:+         +:+     */
-/*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 15:27:33 by yzaim             #+#    #+#             */
-/*   Updated: 2024/01/18 12:05:53 by jboeve        ########   odam.nl         */
+/*                                                        ::::::::            */
+/*   raycaster.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: yzaim <marvin@42.fr>                         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/08 15:27:33 by yzaim         #+#    #+#                 */
+/*   Updated: 2024/01/24 13:11:30 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ inline static double	calculate_ray_length(t_side hit_side, \
 		return (side_dist.y - delta_dist.y);
 }
 
+// moving the ray forward in the direction until there is a hit
 inline static t_side	ray_move(t_vec2d *side_dist, t_vec2d *delta_dist, \
 		t_vec2i step_size, t_vec2i *map_pos)
 {
@@ -90,6 +91,7 @@ inline static t_side	ray_move(t_vec2d *side_dist, t_vec2d *delta_dist, \
 			return (SIDE_W);
 	}
 }
+
 
 t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *param)
 {
