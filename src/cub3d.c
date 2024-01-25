@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   cub3d.c                                            :+:    :+:            */
+/*   cub3d.c                                           :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:24:47 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/24 11:14:56 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/01/25 15:30:20 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,6 @@ int cub3d(int argc, char **argv)
 		return(meta_free(&meta), EXIT_FAILURE);
 	if (set_textures(&meta.attributes))
 		return (EXIT_FAILURE);
-	printf("Tex_N: %s\n", meta.attributes.n.tex_path);
-	printf("Tex_S: %s\n", meta.attributes.s.tex_path);
-	printf("Tex_E: %s\n", meta.attributes.e.tex_path);
-	printf("Tex_W: %s\n", meta.attributes.w.tex_path);
-	printf("Tex_C: %s\n", meta.attributes.c.tex_path);
-	printf("Tex_F: %s\n", meta.attributes.f.tex_path);
 	
 	init_mlx_images(&meta);
 	// TODO Error check.

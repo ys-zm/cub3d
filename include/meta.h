@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>+#+  */
 /*  +#+   */
 /*   Created: 2023/11/01 20:07:37 by jboeve#+##+# */
-/*   Updated: 2024/01/20 01:14:53 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/25 16:46:54 by jboeve        ########   odam.nl         */
 /**/
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@
 
 #define FOV 0.85
 
+#define SPRITE_COUNT 2
+
 typedef bool	(t_ray_hitfunc) (const void *p, uint32_t x, uint32_t y);
 
 typedef struct s_meta t_meta;
@@ -157,10 +159,14 @@ typedef struct s_player {
 	t_meta		*meta;
 	t_ray		rays[WINDOW_WIDTH];
 	t_vray		vrays[WINDOW_HEIGHT];
-	bool should_render;
+	bool 		should_render;
 	t_vec2d		cam_plane;
 	t_vec2d		position;
 	t_vec2d		direction;
+	// Sprite stuff.
+	int32_t 	sprite_order[SPRITE_COUNT];
+	double		sprite_dist[SPRITE_COUNT];
+	double 		z_buffer[WINDOW_WIDTH];
 } t_player;
 
 
@@ -172,11 +178,16 @@ typedef struct s_map {
 	char		player_start_dir;
 }	t_map;
 
+typedef struct s_sprite {
+	t_vec2d			pos;
+	mlx_texture_t	*tex;
+} t_sprite;
 
 typedef struct s_tex {
 	char			*tex_path;
 	mlx_texture_t	*tex;
 }	t_tex;
+
 
 typedef struct s_attr {
 	t_tex	n;	//add bit flag, if tex_path is missing then it means it is a color value
@@ -188,6 +199,7 @@ typedef struct s_attr {
 	t_tex	c_alt;
 	t_rgba	floor_c;
 	t_rgba	ceiling_c;
+	t_sprite sprites[SPRITE_COUNT];
 }	t_attr;
 
 
@@ -271,5 +283,9 @@ void	wall_texture_position(mlx_texture_t *texture, t_ray *ray, t_vec2i line_poin
 
 // floorcaster.c
 t_vray floorcaster(t_vec2d pp, t_vec2d dir, t_vec2d cam_plane, uint32_t y);
+
+// sprite.c
+void	init_sprites(t_sprite *sprites);
+void	sprite_calculate(t_player *p);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/20 01:18:16 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/25 16:00:13 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void render_viewport(mlx_image_t *image, t_player *p)
 	uint32_t	row = 0;
 
 
-	//floor and ceiling
+	// render floor and ceiling
 	if (p->should_render)
 	{
 		while (row < image->height)
@@ -104,11 +104,13 @@ void render_viewport(mlx_image_t *image, t_player *p)
 		p->should_render = false;
 	}
 
-	
+	// render walls	
 	col = 0;
 	while (col < image->width)
 	{
 		draw_column(p->meta, &p->rays[col], col, image->height);
 		col++;
 	}
+	// render sprites
+	
 }

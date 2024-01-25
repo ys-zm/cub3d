@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:26:51 by yzaim             #+#    #+#             */
-/*   Updated: 2024/01/25 13:22:31 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/25 16:01:28 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,9 @@ void game_init(t_meta *meta)
 	t_player* const p = &meta->player;
 	timer_init(&meta->update_timer, mlx_get_time);
 	timer_start(&meta->update_timer);
+
+	init_sprites(meta->attributes.sprites);
+
 
 	p->meta = meta;
 	set_player_start_position(&meta->player, meta->map.player_start_dir);
