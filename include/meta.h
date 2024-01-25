@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>+#+  */
 /*  +#+   */
 /*   Created: 2023/11/01 20:07:37 by jboeve#+##+# */
-/*   Updated: 2024/01/18 11:56:06 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/20 01:14:53 by joppe         ########   odam.nl         */
 /**/
 /* ************************************************************************** */
 
@@ -56,16 +56,16 @@
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720 
 
+#define BPP 4
 
 
 // Game
 #define TICK_RATE (1.0 / 60.0)
 
-#define PLAYER_MOVE_SPEED   5.0
+#define PLAYER_MOVE_SPEED   3.5
 #define PLAYER_RUN_MODIFIER 2.5
-#define PLAYER_ROTATE_SPEED	5.0
+#define PLAYER_ROTATE_SPEED	3.0
 #define PLAYER_ROTATE_MODIFIER 2.5
-#define PLAYER_MOV_SPEED	0.08
 
 #define MINIMAP_WIDTH				350
 #define MINIMAP_HEIGHT				230
@@ -126,10 +126,10 @@ typedef union s_rgba
 
 
 typedef enum e_side {
-	SIDE_N, 
-	SIDE_S,
-	SIDE_E,
-	SIDE_W,
+	SIDE_N = 0, 
+	SIDE_S = 1,
+	SIDE_E = 2,
+	SIDE_W = 3,
 }	t_side;
 
 typedef struct s_ray {

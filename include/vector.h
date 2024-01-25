@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /**/
 /*   :::::::: */
-/*   vector.h  :+::+: */
+/*   vector.h                                          :+:    :+:             */
 /*+:+ */
 /*   By: joppe <jboeve@student.codam.nl> +#+  */
 /*  +#+   */
 /*   Created: 2024/01/02 19:07:15 by joppe #+##+# */
-/*   Updated: 2024/01/03 18:35:23 by joppe ########   odam.nl */
+/*   Updated: 2024/01/19 23:36:47 by joppe         ########   odam.nl         */
 /**/
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_vec2u {
 t_vec2d		vec2d_add(t_vec2d v1, t_vec2d v2);
 t_vec2d		vec2d_sub(t_vec2d v1, t_vec2d v2);
 t_vec2d		vec2d_scalar_product(t_vec2d vec, double scalar);
+double	vec2d_dot_product(t_vec2d v1, t_vec2d v2);
 t_vec2d		vec2d_mul(t_vec2d v1, t_vec2d v2);
 t_vec2d		vec2d_rotate(t_vec2d old, double radiant);
 t_vec2d		vec2d_normalize(t_vec2d vec);
