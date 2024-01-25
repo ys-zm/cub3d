@@ -66,7 +66,6 @@ int save_elements(t_attr *attributes, char *file)
 		{
 			if (is_path(file))
 			{
-				printf("here i come\n");
 				if (input_texture(attributes, file))
 					return (EXIT_FAILURE);
 			}

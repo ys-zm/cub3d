@@ -39,16 +39,16 @@ void init_sprites(t_sprite *sprites)
 		UNIMPLEMENTED("mlx_load_png failed");
 }
 
-static void sprite_sort(int32_t *order, double *dist, uint32_t count)
-{
-	size_t i = 0;
-	while (i < count)
-	{
-		s[i] =
-		i++;
-	}
+// static void sprite_sort(int32_t *order, double *dist, uint32_t count)
+// {
+// 	size_t i = 0;
+// 	while (i < count)
+// 	{
+// 		s[i] =
+// 		i++;
+// 	}
 
-}
+// }
 
 void sprite_calculate(t_player *p)
 {
@@ -64,7 +64,7 @@ void sprite_calculate(t_player *p)
 		i++;
 	}
 
-	sprite_sort(p->sprite_order, p->sprite_dist, SPRITE_COUNT);
+	sprite_sort(p->sprite_dist, p->sprite_order);
 	
 	i = 0;
 	while (i < SPRITE_COUNT)

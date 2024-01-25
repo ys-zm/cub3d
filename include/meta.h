@@ -288,4 +288,13 @@ t_vray floorcaster(t_vec2d pp, t_vec2d dir, t_vec2d cam_plane, uint32_t y);
 void	init_sprites(t_sprite *sprites);
 void	sprite_calculate(t_player *p);
 
+// test_utils.c REMOVE LATER
+
+void	print_double_array(char *msg, double *arr, uint32_t size);
+void	print_ints_array(char *msg, int32_t *arr, uint32_t size);
+
+// sprite_utils.c
+
+void	sprite_sort(double *sprite_dist, int32_t *sprite_order);
+
 #endif

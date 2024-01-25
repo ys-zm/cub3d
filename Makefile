@@ -16,9 +16,9 @@ RUN_CMD		:= ./$(NAME) test_maps/valid_tex.cub
 
 # CFLAGS		+= -Wall -Wextra -Werror
 # CFLAGS		+= -Wall -Wextra
-# CFLAGS		+= -g -fsanitize=address
+CFLAGS		+= -g -fsanitize=address
 # CFLAGS		+= -g
-CFLAGS		+= -Ofast -flto -march=native
+# CFLAGS		+= -Ofast -flto -march=native
 
 LIBFT		:=	libft/build/libft.a
 LIBMLX		:=	MLX42/build/libmlx42.a
@@ -57,7 +57,8 @@ SRCS	= 		parser/check_elements.c \
 				timer.c \
 				set_textures.c \
 				game/floorcaster.c \
-				game/sprite.c
+				game/sprite.c \
+				game/sprite_utils.c
 
 HEADER_DIR	:=	include
 HEADERS 	:=	meta.h \

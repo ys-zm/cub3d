@@ -76,3 +76,25 @@ void print_map_cell(t_cell_type *level, uint32_t w, uint32_t h)
 		i++;
 	}
 }
+
+void	print_double_array(char *msg, double *arr, uint32_t size)
+{
+	printf("%s :", msg);
+	for (int i = 0; i < size; i++)
+	{
+		printf("%lf", arr[i]);
+		if (i < size - 1)
+			printf(" | ");
+	}
+}
+
+void	print_ints_array(char *msg, int32_t *arr, uint32_t size)
+{
+	printf("%s :", msg);
+	for (int i = 0; i < size; i++)
+	{
+		printf("%u", arr[i]);
+		if (i < size - 1)
+			printf(" | ");
+	}
+}
