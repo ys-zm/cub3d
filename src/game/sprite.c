@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2024/01/25 16:01:20 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/25 16:58:20 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/26 17:22:12 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,13 @@ void sprite_calculate(t_player *p)
 	size_t i;
 
 	i = 0;
+	p->sprite_order[i] = i;
+	p->sprite_dist[i] = (7.2);
 
-	while (i < SPRITE_COUNT)
-	{
-		const t_sprite *sp = &p->meta->attributes.sprites[i];
-		p->sprite_order[i] = i;
-		p->sprite_dist[i] = ((p->position.x - sp->pos.x) * (p->position.x - sp->pos.x) + (p->position.y - sp->pos.y) * (p->position.y - sp->pos.y));
-		i++;
-	}
+	i = 1;
+	p->sprite_order[i] = i;
+	p->sprite_dist[i] = (1.2);
+
 
 	sprite_sort(p->sprite_dist, p->sprite_order);
 	

@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:25:38 by yzaim             #+#    #+#             */
-/*   Updated: 2024/01/18 14:10:17 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/26 16:10:28 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	print_double_array(char *msg, double *arr, uint32_t size)
 		if (i < size - 1)
 			printf(" | ");
 	}
+	printf("\n");
 }
 
 void	print_ints_array(char *msg, int32_t *arr, uint32_t size)
@@ -97,4 +98,5 @@ void	print_ints_array(char *msg, int32_t *arr, uint32_t size)
 		if (i < size - 1)
 			printf(" | ");
 	}
+	printf("\n");
 }
