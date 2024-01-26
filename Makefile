@@ -15,10 +15,11 @@ RUN_CMD		:= ./$(NAME) test_maps/valid_tex.cub
 # RUN_CMD		:= ./$(NAME) test_maps/small.cub
 
 # CFLAGS		+= -Wall -Wextra -Werror
-# CFLAGS		+= -Wall -Wextra
-CFLAGS		+= -g -fsanitize=address
+CFLAGS		+= -Wall -Wextra
+# CFLAGS		+= -g -fsanitize=address 
 # CFLAGS		+= -g
 # CFLAGS		+= -Ofast -flto -march=native
+LFLAGS		= -lhook -L .
 
 LIBFT		:=	libft/build/libft.a
 LIBMLX		:=	MLX42/build/libmlx42.a
@@ -88,7 +89,7 @@ all:
 	$(MAKE) $(NAME) -j4
 
 $(NAME): $(LIBFT) $(LIBMLX) $(OBJS) $(SRC_DIR)/main.c
-	$(CC) $(SRC_DIR)/main.c $(OBJS) $(LIBFT) $(LIBMLX) $(CFLAGS) $(IFLAGS) $(MLX_CFLAGS) -o $(NAME)
+	$(CC) $(SRC_DIR)/main.c $(OBJS) $(LIBFT) $(LIBMLX) $(CFLAGS) $(LFLAGS) $(IFLAGS) $(MLX_CFLAGS) -o $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS)
 	@mkdir -p $(OBJ_DIRS)
@@ -128,6 +129,9 @@ compile_commands: fclean
 
 norm:
 	norminette libft include src
+
+hook: libhook.cpp
+	g++ libhook.cpp -fPIC -shared -ldl -o libhook.so -g
 
 $(TEST)/bin:
 	mkdir $@
