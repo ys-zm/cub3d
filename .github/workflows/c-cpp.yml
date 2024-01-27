@@ -13,5 +13,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: install dependencies
+      run:  sudo apt install -y libglfw3 libglfw3-dev
     - name: make
       run: make
