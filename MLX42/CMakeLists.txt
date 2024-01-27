@@ -36,6 +36,7 @@ add_definitions(-D LODEPNG_NO_COMPILE_ANCILLARY_CHUNKS)
 
 if(UNIX)
 	set(CCSHADER ${PROJECT_SOURCE_DIR}/tools/compile_shader.sh)
+	set(CCSHADERALT ${PROJECT_SOURCE_DIR}/tools/compile_shader_alt.sh)
 	add_compile_options(
 		-Wextra
 		-Wall
@@ -85,6 +86,16 @@ add_custom_command(
 	USES_TERMINAL
 )
 
+add_custom_command(
+	COMMENT "Building alt fragment shader"
+	DEPENDS ${PROJECT_SOURCE_DIR}/shaders/alt.frag
+	OUTPUT mlx_alt_frag_shader.c
+	COMMAND ${CCSHADERALT} ${PROJECT_SOURCE_DIR}/shaders/alt.frag > mlx_alt_frag_shader.c
+	VERBATIM
+	PRE_BUILD
+	USES_TERMINAL
+)
+
 # Sources
 # -----------------------------------------------------------------------------
 add_library(mlx42 STATIC
@@ -119,6 +130,7 @@ add_library(mlx42 STATIC
 
 	mlx_vert_shader.c
 	mlx_frag_shader.c
+	mlx_alt_frag_shader.c
 )
 target_include_directories(mlx42 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 

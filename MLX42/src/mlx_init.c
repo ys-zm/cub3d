@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   mlx_init.c                                         :+:    :+:            */
+/*   mlx_init.c                                        :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: W2Wizard <main@w2wizard.dev>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/12/28 00:24:30 by W2Wizard      #+#    #+#                 */
-/*   Updated: 2023/06/08 18:16:19 by XEDGit        ########   odam.nl         */
+/*   Updated: 2024/01/27 18:09:20 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42_Int.h"
+#include <stdio.h>
 
 //= Private =//
 
@@ -127,6 +128,8 @@ static bool mlx_init_render(mlx_t* mlx)
 	glAttachShader(mlxctx->shaderprogram, vshader);
 	glAttachShader(mlxctx->shaderprogram, fshader);
 	glLinkProgram(mlxctx->shaderprogram);
+
+	printf("ALT SHADER [%s]\n", alt_frag_shader);
 
 	glDeleteShader(vshader);
 	glDeleteShader(fshader);
