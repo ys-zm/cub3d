@@ -96,6 +96,16 @@ add_custom_command(
 	USES_TERMINAL
 )
 
+add_custom_command(
+	COMMENT "Building alt vertex shader"
+	DEPENDS ${PROJECT_SOURCE_DIR}/shaders/alt.vert
+	OUTPUT mlx_alt_vert_shader.c
+	COMMAND ${CCSHADERALT} ${PROJECT_SOURCE_DIR}/shaders/alt.vert > mlx_alt_vert_shader.c
+	VERBATIM
+	PRE_BUILD
+	USES_TERMINAL
+)
+
 # Sources
 # -----------------------------------------------------------------------------
 add_library(mlx42 STATIC
@@ -111,6 +121,7 @@ add_library(mlx42 STATIC
 	${SOURCE_DIR}/mlx_mouse.c
 	${SOURCE_DIR}/mlx_put_pixel.c
 	${SOURCE_DIR}/mlx_window.c
+	${SOURCE_DIR}/mlx_switch_shader.c
 
 	# Utils
 	${SOURCE_DIR}/utils/mlx_error.c
@@ -131,6 +142,7 @@ add_library(mlx42 STATIC
 	mlx_vert_shader.c
 	mlx_frag_shader.c
 	mlx_alt_frag_shader.c
+	mlx_alt_vert_shader.c
 )
 target_include_directories(mlx42 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 

@@ -6,7 +6,7 @@
 /*   By: W2Wizard <main@w2wizard.dev>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/12/27 23:55:34 by W2Wizard      #+#    #+#                 */
-/*   Updated: 2024/01/27 18:09:12 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/27 18:50:53 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@
 extern const char* vert_shader;
 extern const char* frag_shader;
 extern const char* alt_frag_shader;
+extern const char* alt_vert_shader;
 
 // Flag to indicate if the render queue has to be sorted.
 extern bool sort_queue;
@@ -175,6 +176,10 @@ typedef struct mlx_ctx
 	GLuint			vao;
 	GLuint			vbo;
 	GLuint			shaderprogram;
+
+
+	// Cursed custom stuff
+	GLuint			shaderprogram_alt;
 
 	int32_t			initialWidth;
 	int32_t			initialHeight;

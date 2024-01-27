@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   MLX42.h                                            :+:    :+:            */
+/*   MLX42.h                                           :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: W2Wizard <main@w2wizard.dev>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/12/28 02:29:06 by W2Wizard      #+#    #+#                 */
-/*   Updated: 2023/03/30 16:23:19 by ntamayo-      ########   odam.nl         */
+/*   Updated: 2024/01/27 20:35:00 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,17 @@ extern "C" {
 
 //= Types =//
 
+typedef enum shader_program
+{
+	MLX_PROG_DEFAULT	= 0,
+	MLX_PROG_CUSTOM	= 1,
+} shader_program_t;
+
 /**
  * The input key codes are copied straight from GLFW.
  * Any new entries should have the exact same values as defined in the glfw3.h.
  */
+
 
 /**
  * A key action such as pressing or releasing a key.
@@ -933,6 +940,16 @@ const mlx_texture_t* mlx_get_font(void);
  * @return Non-negative if found or -1 if not found.
  */
 int32_t mlx_get_texoffset(char c);
+
+
+
+void 		mlx_switch_shader(mlx_t *mlx, shader_program_t prog);
+void		mlx_render(mlx_t* mlx, const uint32_t w, const uint32_t h, const uint32_t tex, const uint32_t *pixels);
+uint32_t	mlx_create_tex(mlx_t *mlx);
+
+
+
+
 
 # ifdef __cplusplus
 }

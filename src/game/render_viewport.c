@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/27 16:54:11 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/27 20:39:02 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,12 @@ void render_viewport(mlx_image_t *image, t_player *p)
 	uint32_t	row = 0;
 
 
-	//floor and ceiling
+	mlx_switch_shader(p->meta->mlx, MLX_PROG_CUSTOM);
+	mlx_render(p->meta->mlx, 100, 100, p->meta->container.tex, p->meta->container.pixels);
+
+	
+
+	// floor and ceiling
 	if (p->should_render)
 	{
 		while (row < image->height)
@@ -104,11 +109,12 @@ void render_viewport(mlx_image_t *image, t_player *p)
 		p->should_render = false;
 	}
 
-	
+
 	col = 0;
 	while (col < image->width)
 	{
 		draw_column(p->meta, &p->rays[col], col, image->height);
 		col++;
 	}
+	mlx_switch_shader(p->meta->mlx, MLX_PROG_DEFAULT);
 }

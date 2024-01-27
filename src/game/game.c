@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:26:51 by yzaim             #+#    #+#             */
-/*   Updated: 2024/01/25 13:22:31 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/27 20:37:45 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,10 @@ void game_init(t_meta *meta)
 	p->meta = meta;
 	set_player_start_position(&meta->player, meta->map.player_start_dir);
 	player_move(p, (t_vec2d) {0.0, 0.0}); // to draw the image at the start (?)
+
+
+	meta->container.tex = mlx_create_tex(meta->mlx);
+	meta->container.pixels = meta->attributes.w.tex->pixels;
 }
 
 static void game_update(t_meta *meta, double time_delta)

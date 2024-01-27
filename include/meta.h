@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>+#+  */
 /*  +#+   */
 /*   Created: 2023/11/01 20:07:37 by jboeve#+##+# */
-/*   Updated: 2024/01/20 01:14:53 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/27 20:37:11 by joppe         ########   odam.nl         */
 /**/
 /* ************************************************************************** */
 
@@ -198,6 +198,11 @@ typedef struct s_minimap {
 	mlx_image_t	*info_image;
 } t_minimap;
 
+typedef struct s_opengl {
+	uint32_t tex;
+	uint32_t *pixels;
+} t_opengl;
+
 typedef struct s_meta {
 	mlx_t		*mlx;
 	mlx_image_t	*image;
@@ -210,6 +215,9 @@ typedef struct s_meta {
 	t_attr		attributes;
 	const char *scene_name;
 	char		*map_element;
+
+
+	t_opengl container;
 }	t_meta;
 
 

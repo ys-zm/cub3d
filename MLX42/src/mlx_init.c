@@ -6,10 +6,11 @@
 /*   By: W2Wizard <main@w2wizard.dev>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/12/28 00:24:30 by W2Wizard      #+#    #+#                 */
-/*   Updated: 2024/01/27 18:19:04 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/27 18:59:37 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "MLX42/MLX42.h"
 #include "MLX42/MLX42_Int.h"
 #include <stdio.h>
 
@@ -86,6 +87,7 @@ static uint32_t mlx_compile_shader(const char* code, int32_t type)
 		return (0);
 
 	GLint len = strlen(code);
+	// printf("\n\n\nshader source [%s]\n", code);
 	glShaderSource(shader, 1, &code, &len);
 	glCompileShader(shader);
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
@@ -97,6 +99,48 @@ static uint32_t mlx_compile_shader(const char* code, int32_t type)
 		return (0);
 	}
 	return (shader);
+}
+
+// Basically a copy of `mlx_init_render` but now for the alt_ shaders.
+static bool init_alt_shader(mlx_t* mlx)
+{
+	uint32_t vshader = 0;
+	uint32_t fshader = 0;
+	char infolog[512] = {0};
+	mlx_ctx_t* mlxctx = mlx->context;
+
+	if (!(vshader = mlx_compile_shader(alt_vert_shader, GL_VERTEX_SHADER)))
+		return (mlx_error(MLX_VERTFAIL));
+	if (!(fshader = mlx_compile_shader(alt_frag_shader, GL_FRAGMENT_SHADER)))
+		return (mlx_error(MLX_FRAGFAIL));
+
+	if (!(mlxctx->shaderprogram_alt = glCreateProgram()))
+	{
+		glDeleteShader(fshader);
+		glDeleteShader(vshader);
+		return (mlx_error(MLX_SHDRFAIL));
+	}
+	glAttachShader(mlxctx->shaderprogram_alt, vshader);
+	glAttachShader(mlxctx->shaderprogram_alt, fshader);
+	glLinkProgram(mlxctx->shaderprogram_alt);
+
+
+	glDeleteShader(vshader);
+	glDeleteShader(fshader);
+	glDetachShader(mlxctx->shaderprogram_alt, vshader);
+	glDetachShader(mlxctx->shaderprogram_alt, fshader);
+
+	int32_t success;
+	glGetProgramiv(mlxctx->shaderprogram_alt, GL_LINK_STATUS, &success);
+	if (!success)
+	{
+		glGetProgramInfoLog(mlxctx->shaderprogram_alt, sizeof(infolog), NULL, infolog);
+		fprintf(stderr, "%s", infolog);
+		return (mlx_error(MLX_SHDRFAIL));
+	}
+
+
+	return (true);
 }
 
 static bool mlx_init_render(mlx_t* mlx)
@@ -119,6 +163,7 @@ static bool mlx_init_render(mlx_t* mlx)
 		return (mlx_error(MLX_VERTFAIL));
 	if (!(fshader = mlx_compile_shader(frag_shader, GL_FRAGMENT_SHADER)))
 		return (mlx_error(MLX_FRAGFAIL));
+
 	if (!(mlxctx->shaderprogram = glCreateProgram()))
 	{
 		glDeleteShader(fshader);
@@ -143,6 +188,10 @@ static bool mlx_init_render(mlx_t* mlx)
 		fprintf(stderr, "%s", infolog);
 		return (mlx_error(MLX_SHDRFAIL));
 	}
+
+	if (!init_alt_shader(mlx))
+		return (mlx_error(MLX_SHDRFAIL));
+
 	glUseProgram(mlxctx->shaderprogram);
 
 	for (size_t i = 0; i < 16; i++)
