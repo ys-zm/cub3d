@@ -6,7 +6,7 @@
 /*   By: W2Wizard <main@w2wizard.dev>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/12/28 00:24:30 by W2Wizard      #+#    #+#                 */
-/*   Updated: 2024/01/27 18:09:20 by joppe         ########   odam.nl         */
+/*   Updated: 2024/01/27 18:19:04 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,6 @@ static bool mlx_init_render(mlx_t* mlx)
 	glAttachShader(mlxctx->shaderprogram, fshader);
 	glLinkProgram(mlxctx->shaderprogram);
 
-	printf("ALT SHADER [%s]\n", alt_frag_shader);
 
 	glDeleteShader(vshader);
 	glDeleteShader(fshader);
