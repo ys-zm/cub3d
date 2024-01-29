@@ -29,6 +29,7 @@
 # define NO_MAP "Map element is missing\n"
 # define INV_COLOR_CODE "Please check color codes for F and C elements\nRGB values should be between 0-255\n"
 # define MLX_ERR "MLX error occured"
+# define INVALID_ELEMENT "There are invalid elements in the input file\n"
 # include "meta.h"
 
 typedef enum e_err {
@@ -48,6 +49,7 @@ MISSING_ELEMENTS,
 MISSING_MAP,
 COLOR_CODE_WRONG,
 MLX_ERROR,
+INV_ELE,
 }   t_err;
 
 
@@ -63,8 +65,9 @@ int		find_index(t_meta *meta, uint32_t x, uint32_t y);
 
 
 // parser.c
+char	*file_to_string(int fd);
 char	*read_file(int fd);
-int		map_ext(char *file);
+int		map_extension(char *file);
 int 	parser(t_meta *meta, char *map_file);
 
 // parse_map.c

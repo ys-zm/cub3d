@@ -37,10 +37,11 @@ int pr_err(t_err type)
 		ELEMENT_MISSING,
 		NO_MAP,
 		INV_COLOR_CODE,
-		MLX_ERR};
+		MLX_ERR,
+		INVALID_ELEMENT};
 
 	write(2, "Error\n", 6);
-	if (type >= 0 && type < 16)
+	if (type >= 0 && type < 17)
 		return (write(2, msg[type], ft_strlen(msg[type])), 1);
 	return (0);
 }

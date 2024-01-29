@@ -6,14 +6,14 @@
 /*   By: yzaim <marvin@42.fr>   +#+  +:+   +#+*/
 /*+#+#+#+#+#+   +#+   */
 /*   Created: 2023/11/09 18:08:19 by yzaim #+##+# */
-/*   Updated: 2024/01/18 10:45:18 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/29 15:34:19 by yesimzaim     ########   odam.nl         */
 /**/
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "test_utils.h"
 
-	char	*file_to_string(int fd)
+char	*file_to_string(int fd)
 {
 	char *line;
 	char *full_map;
@@ -88,6 +88,8 @@ int	create_rectangle_map_element(t_meta *meta)
 
 // should i put a minimun on the width and height
 // TODO: Add parser for floor and ceiling texture path
+
+
 int	parser(t_meta *meta, char *map_file)
 {
 	char	*file = NULL;

@@ -103,6 +103,13 @@ int cub3d(int argc, char **argv)
 	if (argc != 2)
 		return (pr_err(ARG_ERR));
 	ft_bzero(&meta, sizeof(t_meta));
+
+	if (lexer(&meta, argv[1]))
+		return (EXIT_FAILURE);
+	print_lexer_mandatory(&meta.lexer);
+	print_lexer_map(&meta.map);
+	print_lexer_extras(meta.extras);
+	return 0;
 	if (parser(&meta, argv[1]))
 		return(meta_free(&meta), EXIT_FAILURE);
 	if (set_textures(&meta.attributes))

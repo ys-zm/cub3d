@@ -12,16 +12,25 @@
 
 #include "meta.h"
 
+// Danger with freeing everything at the end? If allocation of one fails, you should free everything in the same function, dont wait until the end
 static void	free_t_tex(t_attr *attributes)
 {
-	free(attributes->n.tex_path);
-	free(attributes->s.tex_path);
-	free(attributes->e.tex_path);
-	free(attributes->w.tex_path);
-	mlx_delete_texture(attributes->n.tex);
-	mlx_delete_texture(attributes->s.tex);
-	mlx_delete_texture(attributes->e.tex);
-	mlx_delete_texture(attributes->w.tex);
+	if (attributes->n.tex_path)
+		free(attributes->n.tex_path);
+	if (attributes->s.tex_path)
+		free(attributes->s.tex_path);
+	if (attributes->e.tex_path)
+		free(attributes->e.tex_path);
+	if (attributes->w.tex_path)
+		free(attributes->w.tex_path);
+	if (attributes->n.tex)
+		mlx_delete_texture(attributes->n.tex);
+	if (attributes->s.tex)
+		mlx_delete_texture(attributes->s.tex);
+	if (attributes->w.tex)
+		mlx_delete_texture(attributes->e.tex);
+	if (attributes->w.tex)	
+		mlx_delete_texture(attributes->w.tex);
 	if (attributes->f.tex_path)
 	{
 		free(attributes->f.tex_path);

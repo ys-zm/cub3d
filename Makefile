@@ -58,7 +58,9 @@ SRCS	= 		parser/check_elements.c \
 				set_textures.c \
 				game/floorcaster.c \
 				game/sprite.c \
-				game/sprite_utils.c
+				game/sprite_utils.c \
+				parser/lexer.c \
+				parser/lexer_utils.c
 
 HEADER_DIR	:=	include
 HEADERS 	:=	meta.h \
@@ -116,6 +118,7 @@ fclean: clean tclean
 	$(MAKE) -C MLX42/build clean
 	$(MAKE) -C libft fclean
 	rm -f $(NAME)
+	rm -rf $(NAME).dSYM
 
 re: fclean all
 

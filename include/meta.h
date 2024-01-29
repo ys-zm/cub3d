@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>+#+  */
 /*  +#+   */
 /*   Created: 2023/11/01 20:07:37 by jboeve#+##+# */
-/*   Updated: 2024/01/25 16:46:54 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/29 15:27:32 by yesimzaim     ########   odam.nl         */
 /**/
 /* ************************************************************************** */
 
@@ -171,12 +171,30 @@ typedef struct s_player {
 
 
 typedef struct s_map {
+	char		*map_element;
 	t_cell_type *level;
 	uint32_t	width;
 	uint32_t	height;
 	t_vec2u		player_start;
 	char		player_start_dir;
 }	t_map;
+
+typedef struct s_flag
+{
+	char	*flag;
+	char	*content;
+	struct s_flag	*next;
+}	t_flag;
+
+
+typedef struct s_lex {
+	t_flag	n;
+	t_flag	s;
+	t_flag	e;
+	t_flag	w;
+	t_flag	c;
+	t_flag	f;
+}	t_lex;
 
 typedef struct s_sprite {
 	t_vec2d			pos;
@@ -202,13 +220,12 @@ typedef struct s_attr {
 	t_sprite sprites[SPRITE_COUNT];
 }	t_attr;
 
-
 typedef struct s_minimap {
 	mlx_image_t	*minimap_image;
 	mlx_image_t	*ppos_image;
 	mlx_image_t	*fps_image;
 	mlx_image_t	*info_image;
-} t_minimap;
+}	t_minimap;
 
 typedef struct s_meta {
 	mlx_t		*mlx;
@@ -220,8 +237,10 @@ typedef struct s_meta {
 	uint32_t 	fps;
 	t_map		map;
 	t_attr		attributes;
-	const char *scene_name;
+	const char	*scene_name;
 	char		*map_element;
+	t_lex		lexer;
+	t_flag		*extras;
 }	t_meta;
 
 
@@ -296,5 +315,19 @@ void	print_ints_array(char *msg, int32_t *arr, uint32_t size);
 // sprite_utils.c
 
 void	sprite_sort(double *sprite_dist, int32_t *sprite_order);
+
+
+// lexer.c
+
+int	lexer(t_meta *meta, char *map_file);
+
+// lexer_utils.c
+
+void	print_lexer_mandatory(t_lex *lexer);
+void	print_lexer_map(t_map *map);
+void	print_lexer_extras(t_flag *extras);
+
+// parser.c
+
 
 #endif
