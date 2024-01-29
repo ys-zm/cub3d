@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2024/01/25 16:01:20 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/26 17:24:54 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/01/29 12:50:12 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,5 @@ void	quick_sort(double *sprite_dist, int32_t *sprite_order, int32_t low, int32_t
 
 void	sprite_sort(double *sprite_dist, int32_t *sprite_order)
 {
-	print_double_array("SPRITE_DIST", sprite_dist, SPRITE_COUNT);
-	print_ints_array("SPRITE_ORDER", sprite_order, SPRITE_COUNT);
-	printf("SPRITECOUNT: %u\n", SPRITE_COUNT);
 	quick_sort(sprite_dist, sprite_order, 0, SPRITE_COUNT - 1);
-	print_double_array("SPRITE_DIST", sprite_dist, SPRITE_COUNT);
-	print_ints_array("SPRITE_ORDER", sprite_order, SPRITE_COUNT);
 }

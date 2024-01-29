@@ -6,12 +6,13 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2024/01/25 16:01:20 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/26 17:22:12 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/01/29 13:00:59 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
 #include "vector.h"
+//#include <algorithm>
 #include <stddef.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -39,16 +40,20 @@ void init_sprites(t_sprite *sprites)
 		UNIMPLEMENTED("mlx_load_png failed");
 }
 
-// static void sprite_sort(int32_t *order, double *dist, uint32_t count)
-// {
-// 	size_t i = 0;
-// 	while (i < count)
-// 	{
-// 		s[i] =
-// 		i++;
-// 	}
+bool if_black(uint32_t color)
+{
+	// Extract individual color channels
+    uint8_t r = (color >> 24) & 0xFF;
+    uint8_t g = (color >> 16) & 0xFF;
+    uint8_t b = (color >> 8) & 0xFF;
 
-// }
+    // Check if all color channels are 0 (black)
+    if (r == 0 && g == 0 && b == 0) {
+        return true; // Black
+    } else {
+        return false; // Not black
+    }
+}
 
 void sprite_calculate(t_player *p)
 {
@@ -101,14 +106,30 @@ void sprite_calculate(t_player *p)
 		if (draw_end.x >= (int32_t) p->meta->image->width)
 			draw_end.x = p->meta->image->width - 1;
 
-
+		// loop through every vertical stripe of the sprite on the screen
 		int stripe = draw_start.x;
 		while (stripe < draw_end.x)
 		{
-				
+			int tex_x;
+			tex_x = (int)(256 * (stripe - (-sprite_width / 2 + sprite_screen_x)) * p->meta->attributes.sprites[i].tex->width / sprite_width) / 256;
+			if (transform.y > 0 && stripe > 0 && stripe < p->meta->image->width && transform.y < p->z_buffer[stripe])
+			{
+				int	y;
+				y = draw_start.y;
+				while (y < draw_end.y)
+				{
+					int d = (y) * 256 - p->meta->image->height * 128 + sprite_height * 128; //256 and 128 factors to avoid floats
+					int tex_y = ((d * p->meta->attributes.sprites[i].tex->height) / sprite_height) / 256;
+					uint32_t color = pixel_picker(p->meta->attributes.sprites[i].tex, tex_x, tex_y);
+					if (!if_black(color))
+					{
+						mlx_put_pixel(p->meta->image, stripe, y, color);
+					}
+					y++;
+				}
+			}
 			stripe++;
 		}
-	
 		i++;
 	}
 
