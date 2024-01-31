@@ -13,26 +13,18 @@
 #include "meta.h"
 #include "parser.h"
 
-void print_lexer_mandatory(t_lex *lexer)
-{
-	printf("NO: %s\n", lexer->n.content);
-	printf("SO: %s\n", lexer->s.content);
-	printf("EA: %s\n", lexer->e.content);
-	printf("WE: %s\n", lexer->w.content);
-	printf("F: %s\n", lexer->c.content);
-	printf("C: %s\n", lexer->f.content);
-}
 
 void	print_lexer_map(t_map *map)
 {
 	printf("MAP: %s\n", map->map_element);
 }
 
-void print_lexer_extras(t_flag **extras)
+void print_lexer_elements(t_flag *elements)
 {
-	while (*extras)
+	while (elements != NULL)
 	{
-		printf("OBJ: %s\n", (*extras)->content);
-		*extras = (*extras)->next;
+		printf("%s: ", elements->flag);
+		printf("%s\n", elements->content);
+		elements = elements->next;
 	}
 }

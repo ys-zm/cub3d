@@ -81,7 +81,7 @@ int	input_map_lexer(char *file, t_map *map)
 
 // map_lex returns an error if 1) the map element exists already (that means there are two maps in the file)
 // 2) if the map element is reached before all mandatory elements are found (N, S, E, W) - wrong order
-int	map_lex(char **file, t_map *map, t_lex *lexer, int *skip)
+int	map_lex(char **file, t_map *map, int *skip, int mandatory)
 {
 	int	exit_code;
 
@@ -89,7 +89,7 @@ int	map_lex(char **file, t_map *map, t_lex *lexer, int *skip)
 	{	
 		exit_code = pr_err(DUP_ELEMENTS);
 	}
-	else if (mandatory_elements(lexer))
+	else if (mandatory == 6)
 	{
 		exit_code = input_map_lexer(*file, map);
 	}

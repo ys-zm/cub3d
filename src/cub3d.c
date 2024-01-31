@@ -106,10 +106,12 @@ int cub3d(int argc, char **argv)
 
 	if (lexer(&meta, argv[1]))
 		return (EXIT_FAILURE);
-	print_lexer_mandatory(&meta.lexer);
 	print_lexer_map(&meta.map);
-	print_lexer_extras(&meta.extras);
-	return 0;
+	printf("!!!: %s\n", meta.elements->flag);
+	print_lexer_elements(meta.elements);
+	// free stuff
+	return (0);
+
 	if (parser(&meta, argv[1]))
 		return(meta_free(&meta), EXIT_FAILURE);
 	if (set_textures(&meta.attributes))

@@ -1,16 +1,13 @@
-NO  texture_examples/redbrick.png
-WE  texture_examples/purplestone.png
-EA  texture_examples/purplestone.png
-SO	texture_examples/redbrick.png
-F	texture_examples/redbrick.png
-C	texture_examples/redbrick.png
+NO texture_examples/redbrick.png
+WE texture_examples/purplestone.png
+EA texture_examples/purplestone.png
+SO texture_examples/redbrick.png
+SO texture_examples/redbrick.png
+F texture_examples/redbrick.png
+C texture_examples/redbrick.png
 
 11111
 10001
 10E01
 10001
 11111
-
-
-
-OBJ oemwiufhwe

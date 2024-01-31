@@ -15,7 +15,7 @@
 // checks if the element abbreviations are valid
 bool	is_valid_element(char *file)
 {
-	char*el[6] = {"NO", "SO", "WE", "EA", "F", "C"};
+	char	*el[6] = {"NO", "SO", "WE", "EA", "F", "C"};
 	size_t  i;
 
 	i = 0;
