@@ -318,16 +318,36 @@ void	sprite_sort(double *sprite_dist, int32_t *sprite_order);
 
 
 // lexer.c
-
+char *extract_file(char *map_file);
+bool	mandatory_elements(t_lex *lex);
+int	lex(char *file, t_lex *lexer, t_map *map, t_flag **extras);
 int	lexer(t_meta *meta, char *map_file);
 
 // lexer_utils.c
 
 void	print_lexer_mandatory(t_lex *lexer);
 void	print_lexer_map(t_map *map);
-void	print_lexer_extras(t_flag *extras);
+void	print_lexer_extras(t_flag **extras);
 
-// parser.c
+// map_lexer.c
+
+bool	nl_only_spaces(char *file);
+int		end_of_map(char *file);
+void	skip_map_element(char **file, int *skip);
+int		input_map_lexer(char *file, t_map *map);
+int		map_lex(char **file, t_map *map, t_lex *lexer, int *skip);
+
+// extra_lexer.c
+
+char	*get_title_val(char *file);
+int		save_extra_title(t_flag **extras, char **file);
+bool	is_valid_extra(char *file);
+int		lexer_input_extra(t_flag **extras, char *file, int *skip);
+
+//flag_lexer.c
+
+char	*get_val(char *file);
+int		input_lexer(t_lex *lex, char *file, int *skip);
 
 
 #endif

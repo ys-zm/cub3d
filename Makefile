@@ -60,7 +60,10 @@ SRCS	= 		parser/check_elements.c \
 				game/sprite.c \
 				game/sprite_utils.c \
 				parser/lexer.c \
-				parser/lexer_utils.c
+				parser/lexer_utils.c \
+				parser/map_lexer.c \
+				parser/flag_lexer.c \
+				parser/extra_lexer.c 
 
 HEADER_DIR	:=	include
 HEADERS 	:=	meta.h \

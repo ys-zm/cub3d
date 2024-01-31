@@ -28,11 +28,11 @@ void	print_lexer_map(t_map *map)
 	printf("MAP: %s\n", map->map_element);
 }
 
-void print_lexer_extras(t_flag *extras)
+void print_lexer_extras(t_flag **extras)
 {
-	while (extras)
+	while (*extras)
 	{
-		printf("SP: %s\n", extras->content);
-		extras = extras->next;
+		printf("OBJ: %s\n", (*extras)->content);
+		*extras = (*extras)->next;
 	}
 }

@@ -108,7 +108,7 @@ int cub3d(int argc, char **argv)
 		return (EXIT_FAILURE);
 	print_lexer_mandatory(&meta.lexer);
 	print_lexer_map(&meta.map);
-	print_lexer_extras(meta.extras);
+	print_lexer_extras(&meta.extras);
 	return 0;
 	if (parser(&meta, argv[1]))
 		return(meta_free(&meta), EXIT_FAILURE);
