@@ -23,8 +23,8 @@ void print_lexer_elements(t_flag *elements)
 {
 	while (elements != NULL)
 	{
-		printf("%s: ", elements->flag);
-		printf("%s\n", elements->content);
+		printf("key %s: ", elements->flag);
+		printf("value %s |\n", elements->content);
 		elements = elements->next;
 	}
 }

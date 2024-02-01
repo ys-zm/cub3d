@@ -106,8 +106,7 @@ int cub3d(int argc, char **argv)
 
 	if (lexer(&meta, argv[1]))
 		return (EXIT_FAILURE);
-	print_lexer_map(&meta.map);
-	printf("!!!: %s\n", meta.elements->flag);
+	// print_lexer_map(&meta.map);
 	print_lexer_elements(meta.elements);
 	// free stuff
 	return (0);

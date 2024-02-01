@@ -87,6 +87,7 @@ int	map_lex(char **file, t_map *map, int *skip, int mandatory)
 
 	if (map->map_element != NULL)
 	{	
+		printf("ERRPR DUP_ELEMENTS ");
 		exit_code = pr_err(DUP_ELEMENTS);
 	}
 	else if (mandatory == 6)
@@ -95,6 +96,7 @@ int	map_lex(char **file, t_map *map, int *skip, int mandatory)
 	}
 	else
 	{
+		printf("ERRPR FILE ORDER ");
 		exit_code = pr_err(FILE_ORDER);
 	}
 	skip_map_element(file, skip);

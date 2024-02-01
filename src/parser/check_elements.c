@@ -22,7 +22,9 @@ bool	is_valid_element(char *file)
 	while (i < 6)
 	{
 		if (ft_strncmp(file, el[i], ft_strlen(el[i])) == 0)
+		{
 			return (true);
+		}
 		i++;
 	}
 	return (false);
@@ -44,7 +46,9 @@ bool	is_map_element(char *file)
 	while (*file && valid_map_char(*file))
 		file++;
 	if (*file == '\0' || *file == '\n')
-		return (true);
+	{
+			return (true);
+	}
 	return (false);
 }
 

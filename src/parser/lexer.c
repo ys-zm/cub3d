@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   lexer.c                                            :+:    :+:            */
+/*   lexer.c                                           :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/24 11:18:50 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/01 16:26:58 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*get_key(char *file)
 	char	*key;
 
 	i = 0;
-	while (file[i] != ' ')
+	while (file[i] != ' ' && file[i] != '\n')
 		i++;
 	if (i)
 	{
@@ -55,15 +55,15 @@ char	*get_val(char *file)
 
 	i = 0;
 	j = 0;
-	while (file[j] != ' ')
-		j++;
-	while (file[j] == ' ')
+	while (file[j] != ' ' && file[j] != '\n')
 		j++;
 	i = j;
-	while (file[j] != '\n' && file[j])
+	while (file[j] == ' ' && file[j] != '\n')
+		j++;
+	while (file[j] && file[j] != '\n')
 		j++;
 	if (i < j)
-	{	val = ft_substr(file, i, j);
+	{	val = ft_substr(file, i, j - i);
 		if (!val)
 			return (pr_err(MALL_ERR), NULL);
 		return (val);
@@ -80,6 +80,7 @@ t_flag	*create_new_node(char *file)
 	if (!node->flag)
 		return (NULL);
 	node->content = get_val(file);
+	if (!node->flag)
 	if (!node->content)
 		return (free(node->flag), NULL);
 	node->next = NULL;
@@ -88,18 +89,18 @@ t_flag	*create_new_node(char *file)
 
 void	add_to_list (t_flag **elements, t_flag *new_node)
 {
-	t_flag **list;
+	t_flag *list;
 
-	list = elements;
-	if (!*list)
+	list = *elements;
+	if (*elements == NULL)
 	{	
-		*list = new_node;
+		*elements = new_node;
 	}
 	else
 	{
-		while ((*list)->next != NULL)
-			*list = (*list)->next;
-		(*list)->next = new_node;
+		while (list->next != NULL)
+			list = list->next;
+		list->next = new_node;
 	}
 }
 
@@ -115,11 +116,11 @@ bool	is_duplicate_flag(t_flag *elements, char *key)
 }
 
 // if key is not a duplicate and is mandatory
-bool	is_valid_key(t_flag **elements, t_flag *new_node)
+bool	is_valid_key(t_flag *elements, t_flag *new_node)
 {
-	if (is_duplicate_flag(*elements, new_node->flag) && is_valid_element(new_node->flag))
-		return (false);
-	return (true);
+	if (!is_duplicate_flag(elements, new_node->flag) && is_valid_element(new_node->flag))
+		return (true);
+	return (false);
 }
 
 int	lex(char *file, t_map *map, t_flag **elements)
@@ -139,17 +140,20 @@ int	lex(char *file, t_map *map, t_flag **elements)
 			exit_code = map_lex(&file, map, &skip, mandatory);
 		}
 		else if (only_spaces(file))
+		{
 			skip = 1;
+		}
 		else
 		{	
+			skip = 1;
 			new_node = create_new_node(file);
 			if (!new_node)
 				return (pr_err(MALL_ERR));
-			if (is_valid_key(elements, new_node))
+			if (is_valid_key(*elements, new_node))
 				mandatory++;
-			else
-				return (free(new_node->flag), free(new_node->content), \
-						free(new_node), pr_err(DUP_ELEMENTS));
+			// else
+				// return (free(new_node->flag), free(new_node->content), \
+				// 		free(new_node), pr_err(DUP_ELEMENTS));
 			add_to_list(elements, new_node);
 		}
 		if (exit_code)
