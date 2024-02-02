@@ -25,25 +25,3 @@ bool	is_map_line(char *file)
 	return (true);
 }
 
-int	input_map(t_meta *meta, char *file)
-{
-	int	i;
-	
-	while (*file)
-	{
-		skip_spaces(&file);
-		if (is_wall(file) || is_floor_or_ceiling(file) || only_spaces(file))
-			skip_line(&file);
-		else
-			break ;
-	}
-	if (*file)
-	{
-		i = ft_strlen(file);
-		meta->map_element = ft_substr(file, 0, i);
-		if (!meta->map_element)
-			return (pr_err(MALL_ERR));
-		return (EXIT_SUCCESS);
-	}
-	return (pr_err(MISSING_MAP), EXIT_FAILURE);
-}

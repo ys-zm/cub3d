@@ -80,8 +80,8 @@ void game_init(t_meta *meta)
 	timer_init(&meta->update_timer, mlx_get_time);
 	timer_start(&meta->update_timer);
 
-	init_sprites(meta->attributes.sprites);
-
+	if (init_sprites(meta->attributes.sprite_count, &meta->player.sprite_order, &meta->player.sprite_dist))
+		UNIMPLEMENTED("sprite initialisation failed\n");
 
 	p->meta = meta;
 	set_player_start_position(&meta->player, meta->map.player_start_dir);

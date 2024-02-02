@@ -76,34 +76,28 @@ char *parse_file(char *map_file)
 int	create_rectangle_map_element(t_meta *meta)
 {
 	char	*rect = NULL;
-	rect = make_rect(meta->map_element, meta->map.width, meta->map.height);
+	rect = make_rect(meta->map.map_element, meta->map.width, meta->map.height);
 	// printing map for debugging
 	// print_map(rect, meta->map.width, meta->map.height);
 	if (!rect)
 		return(pr_err(MALL_ERR), EXIT_FAILURE);
-	free(meta->map_element);
-	meta->map_element = rect;
+	free(meta->map.map_element);
+	meta->map.map_element = rect;
 	return (EXIT_SUCCESS);
 }
 
-// should i put a minimun on the width and height
-// TODO: Add parser for floor and ceiling texture path
-
-
-int	parser(t_meta *meta, char *map_file)
+int	parser(t_meta *meta)
 {
 	char	*file = NULL;
 	
-	meta->scene_name = map_file;
-	file = parse_file(map_file);
-	if (!file)
-		return(EXIT_FAILURE);
-	if (parse_elements(meta, file))
-		return (EXIT_FAILURE);
-	save_map_dimensions(meta->map_element, &meta->map.width, &meta->map.height);
+
+	// things to do on the map element: SHOULD WORK
+	save_map_dimensions(meta->map.map_element, &meta->map.width, &meta->map.height);
 	create_rectangle_map_element(meta);
-	if (check_map(meta, meta->map_element))
+	if (check_map(meta, meta->map.map_element))
 		return (EXIT_FAILURE);
-	free(meta->map_element);
+	if (parse_elements(meta))
+		return (EXIT_FAILURE);
+	free(meta->map.map_element);
 	return (EXIT_SUCCESS);
 }

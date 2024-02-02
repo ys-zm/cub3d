@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:24:47 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/25 15:30:20 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/02/02 15:42:44 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,11 @@ int cub3d(int argc, char **argv)
 	if (lexer(&meta, argv[1]))
 		return (EXIT_FAILURE);
 	// print_lexer_map(&meta.map);
-	print_lexer_elements(meta.elements);
-	// free stuff
-	return (0);
-
-	if (parser(&meta, argv[1]))
+	// print_lexer_elements(meta.elements);
+	if (parser(&meta))
 		return(meta_free(&meta), EXIT_FAILURE);
+	// print_attributes(&meta.attributes);
+	// print_sprites_array(meta.attributes.sprites, meta.attributes.sprite_count);
 	if (set_textures(&meta.attributes))
 		return (EXIT_FAILURE);
 	

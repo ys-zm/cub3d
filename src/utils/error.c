@@ -38,10 +38,13 @@ int pr_err(t_err type)
 		NO_MAP,
 		INV_COLOR_CODE,
 		MLX_ERR,
-		INVALID_ELEMENT};
+		INVALID_ELEMENT,
+		SP_CONTENT_ERR,
+		DOUBLE_ERR,
+	};
 
 	write(2, "Error\n", 6);
-	if (type >= 0 && type < 17)
+	if (type >= 0 && type < 19)
 		return (write(2, msg[type], ft_strlen(msg[type])), 1);
 	return (0);
 }

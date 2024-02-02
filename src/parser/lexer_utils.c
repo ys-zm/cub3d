@@ -16,15 +16,18 @@
 
 void	print_lexer_map(t_map *map)
 {
-	printf("MAP: %s\n", map->map_element);
+	printf("MAP:\n%s\n\n", map->map_element);
 }
 
 void print_lexer_elements(t_flag *elements)
 {
+	uint32_t	counter = 0;
+
 	while (elements != NULL)
 	{
-		printf("key %s: ", elements->flag);
-		printf("value %s |\n", elements->content);
+		printf("KEY_%d %s\n", counter, elements->flag);
+		printf("VALUE_%d %s\n", counter, elements->content);
 		elements = elements->next;
+		counter++;
 	}
 }

@@ -67,7 +67,7 @@ bool	colors_valid(char *file)
 			if (!is_path(file) && is_floor_or_ceiling(file) && !is_valid_color(file))
 				return (false);
 		}
-		skip_line(&file);
+		skip_line(&file, 1);
 	}
 	return (true);
 }

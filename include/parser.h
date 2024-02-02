@@ -30,6 +30,8 @@
 # define INV_COLOR_CODE "Please check color codes for F and C elements\nRGB values should be between 0-255\n"
 # define MLX_ERR "MLX error occured"
 # define INVALID_ELEMENT "There are invalid elements in the input file\n"
+# define SP_CONTENT_ERR "Please format the sprite element content as follows, SP path/to/texture XX.XX XX.XX\n"
+# define DOUBLE_ERR "Please check that your doubles are formatted correctly\n"
 # include "meta.h"
 
 typedef enum e_err {
@@ -50,6 +52,8 @@ MISSING_MAP,
 COLOR_CODE_WRONG,
 MLX_ERROR,
 INV_ELE,
+SP_CONTENT,
+SP_DOUBLE_ERR
 }   t_err;
 
 
@@ -57,8 +61,8 @@ INV_ELE,
 int pr_err(t_err type);
 
 // check_map.c
-int valid_map_char(char c);
-int	player_pos_char(char c);
+int 	valid_map_char(char c);
+int		player_pos_char(char c);
 bool	is_map_chars_valid(char *map);
 int 	check_map(t_meta *meta, char *rect);
 int		find_index(t_meta *meta, uint32_t x, uint32_t y);
@@ -68,17 +72,16 @@ int		find_index(t_meta *meta, uint32_t x, uint32_t y);
 char	*file_to_string(int fd);
 char	*read_file(int fd);
 int		map_extension(char *file);
-int 	parser(t_meta *meta, char *map_file);
+int 	parser(t_meta *meta);
 
 // parse_map.c
 bool	is_map_line(char *file);
-int		input_map(t_meta *meta, char *file);
 
 // parse_elements.c
-int		input_texture(t_attr *attributes, char *file);
-int		input_colour(t_attr *attributes, char *file);
+int	input_texture_path(t_attr *attributes, char *flag, char *content);
+int	input_colour(t_attr *attributes, char *flag, char *content);
 int		save_elements(t_attr *attributes, char *file);
-int 	parse_elements(t_meta *meta, char *file);
+int		parse_elements(t_meta *meta);
 
 // check_colors.c
 bool	valid_rgb_value(char *file);
@@ -89,7 +92,6 @@ bool	colors_valid(char *file);
 bool	is_valid_element(char *file);
 bool	only_spaces(char *file);
 bool	is_map_element(char *file);
-bool	elements_order(char *file);
 bool	check_missing(int *found);
 bool	is_missing(char *file);
 bool	is_duplicate(char *file);
@@ -107,7 +109,7 @@ bool	is_wall(char *file);
 bool	is_floor_or_ceiling(char *file);
 
 // utils_one.c
-void		skip_line(char **file);
+void		skip_line(char **file, int to_skip);
 void		skip_spaces(char **file);
 void		skip_digits(char **file);
 int			valid_map_char(char c);
@@ -118,6 +120,12 @@ uint32_t	find_width(char *map);
 uint32_t	find_height(char *map);
 char		*make_rect(char *map, uint32_t w, uint32_t h);
 bool		is_path(char *str);
+uint32_t	count_sprites(t_flag *elements);
 
+// utils_three.c
+
+double	ft_atod(char *s);
+bool	is_double(char *s);
+bool	valid_sprite_content(char *content);
 
 #endif

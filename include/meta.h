@@ -97,6 +97,14 @@ MAP_SPACE,
 MAP_DOOR
 }	t_cell_type;
 
+typedef enum e_element_type {
+CEIL_FLOOR,
+WALL,
+SPRITE,
+DOOR,
+NON_VALID
+}	t_element_type;
+
 typedef enum e_font_family {
 	FONT_DEJAVU_14,
 	FONT_MLX,
@@ -164,8 +172,8 @@ typedef struct s_player {
 	t_vec2d		position;
 	t_vec2d		direction;
 	// Sprite stuff.
-	int32_t 	sprite_order[SPRITE_COUNT];
-	double		sprite_dist[SPRITE_COUNT];
+	int32_t 	*sprite_order; // malloc these based on the sprite count
+	double		*sprite_dist;
 	double 		z_buffer[WINDOW_WIDTH];
 } t_player;
 
@@ -186,28 +194,29 @@ typedef struct s_flag
 	struct s_flag	*next;
 }	t_flag;
 
-typedef struct s_sprite {
-	t_vec2d			pos;
-	mlx_texture_t	*tex;
-} t_sprite;
-
 typedef struct s_tex {
 	char			*tex_path;
 	mlx_texture_t	*tex;
 }	t_tex;
 
+typedef struct s_sprite {
+	t_vec2d			pos;
+	t_tex			tex;
+} t_sprite;
 
 typedef struct s_attr {
-	t_tex	n;	//add bit flag, if tex_path is missing then it means it is a color value
-	t_tex	s;
-	t_tex	e;
-	t_tex	w;
-	t_tex	f;
-	t_tex	c;
-	t_tex	c_alt;
-	t_rgba	floor_c;
-	t_rgba	ceiling_c;
-	t_sprite sprites[SPRITE_COUNT];
+	t_tex		n;	//add bit flag, if tex_path is missing then it means it is a color value
+	t_tex		s;
+	t_tex		e;
+	t_tex		w;
+	t_tex		f;
+	t_tex		c;
+	t_tex		c_alt;
+	t_rgba		floor_c;
+	t_rgba		ceiling_c;
+	uint32_t	sprite_count;
+	uint32_t	sprite_arr_index;
+	t_sprite	*sprites; // we need to make the sprite count modular
 }	t_attr;
 
 typedef struct s_minimap {
@@ -228,7 +237,6 @@ typedef struct s_meta {
 	t_map		map;
 	t_attr		attributes;
 	const char	*scene_name;
-	char		*map_element;
 	t_flag		*elements;
 }	t_meta;
 
@@ -250,13 +258,13 @@ void	cursor_hook(double xpos, double ypos, void* param);
 void	keys_handle(t_meta *meta, double time_delta);
 
 // render_minimap.c
-void render_minimap(t_minimap *minimap, const t_map *map, const t_player *p);
+void 	render_minimap(t_minimap *minimap, const t_map *map, const t_player *p);
 
 // render_viewport.c
 void	render_viewport(mlx_image_t *image, t_player *p);
 
 // minimap.c
-void minimap_update(mlx_image_t *image, t_player *p);
+void 	minimap_update(mlx_image_t *image, t_player *p);
 
 // draw.c
 void	draw_rect(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color);
@@ -269,37 +277,40 @@ mlx_image_t			*cube_put_string(mlx_image_t *image, const char *s, const t_font_a
 
 
 // keys.c
-void	keys_update(mlx_key_data_t keydata, void *param);
+void		keys_update(mlx_key_data_t keydata, void *param);
 
 // raycaster.c
 t_ray		raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *param);
 
 // colors.c
 int32_t		set_color(int32_t r, int32_t g, int32_t b, int32_t a);
-int32_t	find_wall_color(t_attr atrributes, t_ray *ray, t_vec2i line_points, uint32_t h);
+int32_t		find_wall_color(t_attr atrributes, t_ray *ray, t_vec2i line_points, uint32_t h);
 int32_t		find_color(t_rgba rgba);
 
 // free.c
 void		meta_free(t_meta *meta);
+void		free_t_flag_list(t_flag **list);
 
 // set_textures.c
-int		set_textures(t_attr *attributes);
+int			set_textures(t_attr *attributes);
 
 //pixel_picker.c
 uint32_t	pixel_picker(mlx_texture_t *texture, int32_t x, int32_t y);
-void	wall_texture_position(mlx_texture_t *texture, t_ray *ray, t_vec2i line_points, uint32_t h);
+void		wall_texture_position(mlx_texture_t *texture, t_ray *ray, t_vec2i line_points, uint32_t h);
 
 // floorcaster.c
-t_vray floorcaster(t_vec2d pp, t_vec2d dir, t_vec2d cam_plane, uint32_t y);
+t_vray 	floorcaster(t_vec2d pp, t_vec2d dir, t_vec2d cam_plane, uint32_t y);
 
 // sprite.c
-void	init_sprites(t_sprite *sprites);
+int		init_sprites(uint32_t sprite_count, int32_t **sprite_order, double **sprite_dist);
 void	sprite_calculate(t_player *p);
 
 // test_utils.c REMOVE LATER
 
 void	print_double_array(char *msg, double *arr, uint32_t size);
 void	print_ints_array(char *msg, int32_t *arr, uint32_t size);
+void	print_sprites_array(t_sprite *arr, uint32_t size);
+void	print_attributes(t_attr *attributes);
 
 // sprite_utils.c
 

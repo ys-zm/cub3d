@@ -16,28 +16,19 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdlib.h>
-
+#include "parser.h"
 
 
 // Stub
-void init_sprites(t_sprite *sprites)
+int init_sprites(uint32_t sprite_count, int32_t **sprite_order, double **sprite_dist)
 {
-	size_t i = 0;
-
-	while (i < SPRITE_COUNT)
-	{
-		sprites[i].pos = (t_vec2d){2.5 + (i + 2), 2.5 + (i + 2)};
-		i++;
-	}
-	i = 0;
-	sprites[i].tex = mlx_load_png("texture_examples/barrel.png");
-	if (!sprites[i].tex)
-		UNIMPLEMENTED("mlx_load_png failed");
-
-	i = 1;
-	sprites[i].tex = mlx_load_png("texture_examples/pillar.png");
-	if (!sprites[i].tex)
-		UNIMPLEMENTED("mlx_load_png failed");
+	*sprite_order = malloc(sizeof(int32_t) * sprite_count);
+	if (!*sprite_order)
+		return (pr_err(MALL_ERR), EXIT_FAILURE);
+	*sprite_dist = malloc(sizeof(double) * sprite_count);
+	if (!*sprite_dist)
+		return (pr_err(MALL_ERR), EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 bool if_black(uint32_t color)
@@ -63,15 +54,10 @@ void sprite_calculate(t_player *p)
 	p->sprite_order[i] = i;
 	p->sprite_dist[i] = (7.2);
 
-	i = 1;
-	p->sprite_order[i] = i;
-	p->sprite_dist[i] = (1.2);
-
-
 	sprite_sort(p->sprite_dist, p->sprite_order);
 	
 	i = 0;
-	while (i < SPRITE_COUNT)
+	while (i < p->meta->attributes.sprite_count)
 	{
 		const t_sprite *sp = p->meta->attributes.sprites;
 		const t_vec2d s_pos	= (t_vec2d){sp[p->sprite_order[i]].pos.x - p->position.x, sp[p->sprite_order[i]].pos.y - p->position.y};
@@ -111,7 +97,7 @@ void sprite_calculate(t_player *p)
 		while (stripe < draw_end.x)
 		{
 			int tex_x;
-			tex_x = (int)(256 * (stripe - (-sprite_width / 2 + sprite_screen_x)) * p->meta->attributes.sprites[i].tex->width / sprite_width) / 256;
+			tex_x = (int)(256 * (stripe - (-sprite_width / 2 + sprite_screen_x)) * p->meta->attributes.sprites[i].tex.tex->width / sprite_width) / 256;
 			if (transform.y > 0 && stripe > 0 && stripe < p->meta->image->width && transform.y < p->z_buffer[stripe])
 			{
 				int	y;
@@ -119,8 +105,8 @@ void sprite_calculate(t_player *p)
 				while (y < draw_end.y)
 				{
 					int d = (y) * 256 - p->meta->image->height * 128 + sprite_height * 128; //256 and 128 factors to avoid floats
-					int tex_y = ((d * p->meta->attributes.sprites[i].tex->height) / sprite_height) / 256;
-					uint32_t color = pixel_picker(p->meta->attributes.sprites[i].tex, tex_x, tex_y);
+					int tex_y = ((d * p->meta->attributes.sprites[i].tex.tex->height) / sprite_height) / 256;
+					uint32_t color = pixel_picker(p->meta->attributes.sprites[i].tex.tex, tex_x, tex_y);
 					if (!if_black(color))
 					{
 						mlx_put_pixel(p->meta->image, stripe, y, color);

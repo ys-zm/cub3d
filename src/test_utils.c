@@ -100,3 +100,31 @@ void	print_ints_array(char *msg, int32_t *arr, uint32_t size)
 	}
 	printf("\n");
 }
+
+void	print_sprites_array(t_sprite *arr, uint32_t size)
+{
+	uint32_t	i;
+
+	i = 0;
+	while (i < size)
+	{
+		printf("%d. SP %s %lf %lf\n", i, arr[i].tex.tex_path, arr[i].pos.x, arr[i].pos.y);
+		i++;
+	}
+}
+
+void	print_attributes(t_attr *attributes)
+{
+	printf("NO: %s\n", attributes->n.tex_path);
+	printf("SO: %s\n", attributes->s.tex_path);
+	printf("WE: %s\n", attributes->w.tex_path);
+	printf("EA: %s\n", attributes->e.tex_path);
+	if (attributes->f.tex_path)
+		printf("F: %s\n", attributes->f.tex_path);
+	else
+		printf("F: %d,%d,%d\n", attributes->floor_c.r, attributes->floor_c.g, attributes->floor_c.b);
+	if (attributes->c.tex_path)
+		printf("C: %s\n", attributes->c.tex_path);
+		else
+		printf("C: %d,%d,%d\n", attributes->ceiling_c.r, attributes->ceiling_c.g, attributes->ceiling_c.b);
+}

@@ -21,7 +21,7 @@ bool	is_valid_element(char *file)
 	i = 0;
 	while (i < 6)
 	{
-		if (ft_strncmp(file, el[i], ft_strlen(el[i])) == 0)
+		if (ft_strncmp(file, el[i], ft_strlen(el[i]) + 1) == 0)
 		{
 			return (true);
 		}
@@ -52,30 +52,6 @@ bool	is_map_element(char *file)
 	return (false);
 }
 
-// checks if there are elements after the MAP elements
-// returns true if order is correct (i.e. map element at the end)
-bool	elements_order(char *file)
-{
-	bool	map = false;
-	bool	order = true;
-
-	while (*file)
-	{
-		skip_spaces(&file);
-		if (is_valid_element(file))
-		{
-			if (map)
-				order = false;
-		}
-		else if (!only_spaces(file))
-			map = true;
-		skip_line(&file);
-	}
-	if (order == false)
-		pr_err(FILE_ORDER);
-	return (order == true);
-}
-
 bool	check_missing(int *found)
 {
 	int	i;
@@ -88,27 +64,6 @@ bool	check_missing(int *found)
 		i++;
 	}
 	return (false);
-}
-
-bool	is_missing(char *file)
-{
-	char	element[6] = {'N', 'S', 'W', 'E', 'F', 'C'};
-	int	found[6] = {0, 0, 0, 0, 0, 0};
-	int	i;
-
-	while (*file)
-	{
-		i = 0;
-		skip_spaces(&file);
-		if ((is_valid_element(file) || is_floor_or_ceiling(file)))
-		{
-			while (*file && *file != element[i] && i < 6)
-				i++;
-			found[i] = 1;
-		}
-		skip_line(&file);
-	}
-	return (check_missing(found));
 }
 
 // returns true if there are duplicate elements
@@ -131,7 +86,7 @@ bool	is_duplicate(char *file)
 			else
 				return (pr_err(DUP_ELEMENTS), true);
 		}
-		skip_line(&file);
+		skip_line(&file, 1);
 	}
 	return (false);
 }

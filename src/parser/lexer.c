@@ -57,9 +57,9 @@ char	*get_val(char *file)
 	j = 0;
 	while (file[j] != ' ' && file[j] != '\n')
 		j++;
-	i = j;
 	while (file[j] == ' ' && file[j] != '\n')
 		j++;
+	i = j;
 	while (file[j] && file[j] != '\n')
 		j++;
 	if (i < j)
@@ -108,7 +108,7 @@ bool	is_duplicate_flag(t_flag *elements, char *key)
 {
 	while (elements != NULL)
 	{
-		if (!ft_strncmp(elements->flag, key, ft_strlen(key)))
+		if (!ft_strncmp(elements->flag, key, ft_strlen(key) + 1))
 			return (true);
 		elements = elements->next;
 	}
@@ -116,20 +116,26 @@ bool	is_duplicate_flag(t_flag *elements, char *key)
 }
 
 // if key is not a duplicate and is mandatory
-bool	is_valid_key(t_flag *elements, t_flag *new_node)
+bool	is_valid_key(t_flag *elements, t_flag *new_node, int *mandatory)
 {
+
+	if (is_duplicate_flag(elements, new_node->flag) && is_valid_element(new_node->flag))
+		return (false);
 	if (!is_duplicate_flag(elements, new_node->flag) && is_valid_element(new_node->flag))
-		return (true);
-	return (false);
+	{
+		(*mandatory)++;
+	}
+	return (true);
 }
 
 int	lex(char *file, t_map *map, t_flag **elements)
 {
 	t_flag	*new_node;
-	int	exit_code;
-	int	skip;
-	int	mandatory = 0;
+	int		exit_code;
+	int		skip;
+	int		mandatory;
 
+	mandatory = 0;
 	while (*file)
 	{
 		exit_code = 0;
@@ -145,21 +151,17 @@ int	lex(char *file, t_map *map, t_flag **elements)
 		}
 		else
 		{	
-			skip = 1;
 			new_node = create_new_node(file);
 			if (!new_node)
 				return (pr_err(MALL_ERR));
-			if (is_valid_key(*elements, new_node))
-				mandatory++;
-			// else
-				// return (free(new_node->flag), free(new_node->content), \
-				// 		free(new_node), pr_err(DUP_ELEMENTS));
+			if (!is_valid_key(*elements, new_node, &mandatory))
+				return (free(new_node->flag), free(new_node->content), free(new_node),\
+				 pr_err(DUP_ELEMENTS));
 			add_to_list(elements, new_node);
 		}
 		if (exit_code)
 			return (EXIT_FAILURE);
-		if (skip)
-			skip_line(&file);
+		skip_line(&file, skip);
 	}
 	return (EXIT_SUCCESS);
 }
@@ -174,6 +176,6 @@ int	lexer(t_meta *meta, char *map_file)
 	if (!file)
 		return(EXIT_FAILURE);
 	if (lex(file, &meta->map, &meta->elements))
-		return (EXIT_FAILURE); //also free everything in case of error!
+		return (free_t_flag_list(&meta->elements), EXIT_FAILURE); //also free everything in case of error!
 	return (EXIT_SUCCESS);
 }

@@ -37,6 +37,7 @@ SRCS	= 		parser/check_elements.c \
 				parser/check_colors.c \
 				parser/utils_one.c \
 				parser/utils_two.c \
+				parser/utils_three.c \
 				utils/error.c \
 				utils/free.c \
 				utils/colors.c \

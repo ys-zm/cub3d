@@ -14,20 +14,19 @@
 
 // saves the RGB values of the F and C elements
 // check if RGB is correct?
-void	get_colour_value(char *file, t_rgba *col)
+void	get_colour_value(char *content, t_rgba *col)
 {
-	skip_spaces(&file);
-	col->r = ft_atoi(file);
-	while (*file && *file != ',')
-		file++;
-	if (*file == ',')
-		file++;
-	col->g = ft_atoi(file);
-	while (*file && *file != ',')
-		file++;
-	if (*file == ',')
-		file++;
-	col->b = ft_atoi(file);
+	col->r = ft_atoi(content);
+	while (*content && *content != ',')
+		content++;
+	if (*content == ',')
+		content++;
+	col->g = ft_atoi(content);
+	while (*content && *content != ',')
+		content++;
+	if (*content == ',')
+		content++;
+	col->b = ft_atoi(content);
 	col->a = 255;
 }
 
