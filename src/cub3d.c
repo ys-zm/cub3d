@@ -94,27 +94,29 @@ int init_mlx_images(t_meta *meta)
 	}
 
 	return (EXIT_SUCCESS);
-} 
+}
+
+int	init_input(t_meta *meta, char *av)
+{
+	if (lexer(meta, av))
+		return (EXIT_FAILURE);
+	if (parser(meta))
+		return(meta_free(meta), EXIT_FAILURE);
+	if (set_textures(&meta->attributes))
+		return (meta_free(meta), EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+}
 
 int cub3d(int argc, char **argv)
 {
 	t_meta	meta;
 
+	// atexit(&leaks);
 	if (argc != 2)
 		return (pr_err(ARG_ERR));
 	ft_bzero(&meta, sizeof(t_meta));
-
-	if (lexer(&meta, argv[1]))
+	if (init_input(&meta, argv[1]))
 		return (EXIT_FAILURE);
-	// print_lexer_map(&meta.map);
-	// print_lexer_elements(meta.elements);
-	if (parser(&meta))
-		return(meta_free(&meta), EXIT_FAILURE);
-	// print_attributes(&meta.attributes);
-	// print_sprites_array(meta.attributes.sprites, meta.attributes.sprite_count);
-	if (set_textures(&meta.attributes))
-		return (EXIT_FAILURE);
-	
 	init_mlx_images(&meta);
 	// TODO Error check.
 	game_init(&meta);

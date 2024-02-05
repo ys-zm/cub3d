@@ -324,7 +324,7 @@ int		lexer(t_meta *meta, char *map_file);
 // lexer_utils.c
 
 void	print_lexer_map(t_map *map);
-void print_lexer_elements(t_flag *elements);
+void 	print_lexer_elements(t_flag *elements);
 
 // map_lexer.c
 

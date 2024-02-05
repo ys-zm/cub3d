@@ -118,10 +118,10 @@ bool	is_duplicate_flag(t_flag *elements, char *key)
 // if key is not a duplicate and is mandatory
 bool	is_valid_key(t_flag *elements, t_flag *new_node, int *mandatory)
 {
-	printf("flag: %s\n", new_node->flag);
-	printf("content: %s\n", new_node->content);
 	if (is_duplicate_flag(elements, new_node->flag) && is_valid_element(new_node->flag))
+	{
 		return (false);
+	}
 	if (!is_duplicate_flag(elements, new_node->flag) && is_valid_element(new_node->flag))
 	{
 		(*mandatory)++;

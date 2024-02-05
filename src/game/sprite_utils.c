@@ -41,7 +41,6 @@ uint32_t	partition(double *sprite_dist, int32_t *sprite_order, int32_t low, int3
 	while (i < j)
 	{
 		// TODO: find a better way to compare doubles
-		printf("i: %d | j: %d\n", i, j);
 		while (sprite_dist[i] <= pivot && i <= high - 1)
 			i++;
 		while (sprite_dist[j] > pivot && j >= low + 1)
@@ -59,7 +58,6 @@ uint32_t	partition(double *sprite_dist, int32_t *sprite_order, int32_t low, int3
 
 void	quick_sort(double *sprite_dist, int32_t *sprite_order, int32_t low, int32_t high)
 {
-	printf("low %d, high %d\n", low, high);
 	if (low < high)
 	{
 		int32_t	pivot = partition(sprite_dist, sprite_order, low, high);

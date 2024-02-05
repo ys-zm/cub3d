@@ -152,7 +152,7 @@ int	set_up_sprites(t_meta *meta)
 {
 	if (meta->attributes.sprite_count)
 	{
-		meta->attributes.sprites = malloc(sizeof(t_sprite) * meta->attributes.sprite_count);
+		meta->attributes.sprites = calloc(meta->attributes.sprite_count, sizeof(t_sprite));
 		if (!meta->attributes.sprites)
 			return (pr_err(MALL_ERR), EXIT_FAILURE);
 	}

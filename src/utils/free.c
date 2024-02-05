@@ -13,38 +13,23 @@
 #include "meta.h"
 
 // Danger with freeing everything at the end? If allocation of one fails, you should free everything in the same function, dont wait until the end
+
+void	f_tex(t_tex *attr)
+{
+	if (attr->tex_path)
+		free(attr->tex_path);
+	if (attr->tex)
+		mlx_delete_texture(attr->tex);
+}
+
 static void	free_t_tex(t_attr *attributes)
 {
-	if (attributes->n.tex_path)
-	{
-		free(attributes->n.tex_path);
-		mlx_delete_texture(attributes->n.tex);
-	}
-	if (attributes->s.tex_path)
-	{
-		free(attributes->s.tex_path);
-		mlx_delete_texture(attributes->s.tex);
-	}
-	if (attributes->e.tex_path)
-	{
-		free(attributes->e.tex_path);
-		mlx_delete_texture(attributes->e.tex);
-	}
-	if (attributes->w.tex_path)
-	{
-		free(attributes->w.tex_path);
-		mlx_delete_texture(attributes->w.tex);
-	}	
-	if (attributes->f.tex_path)
-	{
-		free(attributes->f.tex_path);
-		mlx_delete_texture(attributes->f.tex);
-	}
-	if (attributes->c.tex_path)
-	{
-		free(attributes->c.tex_path);
-		mlx_delete_texture(attributes->c.tex);
-	}
+	f_tex(&attributes->n);
+	f_tex(&attributes->s);
+	f_tex(&attributes->e);
+	f_tex(&attributes->w);
+	f_tex(&attributes->f);
+	f_tex(&attributes->c);
 }
 
 void	free_t_flag_list(t_flag **list)
@@ -72,11 +57,7 @@ void	free_t_sprites(t_sprite **sprites, uint32_t sprite_count)
 	arr = *sprites;
 	while (i < sprite_count)
 	{
-		if (arr[i].tex.tex_path)
-		{
-			free(arr[i].tex.tex_path);
-			mlx_delete_texture(arr[i].tex.tex);
-		}
+		f_tex(&arr[i].tex);
 		i++;
 	}
 	free(*sprites);
@@ -84,7 +65,7 @@ void	free_t_sprites(t_sprite **sprites, uint32_t sprite_count)
 
 void	meta_free(t_meta *meta)
 {
-	free_t_tex(&(meta->attributes));
+	free_t_tex(&meta->attributes);
 	free(meta->map.level);
 	if (meta->attributes.sprites)
 		free_t_sprites(&meta->attributes.sprites, meta->attributes.sprite_count);
