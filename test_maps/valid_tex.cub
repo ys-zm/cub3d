@@ -5,13 +5,19 @@ SO texture_examples/purplestone2.png
 F texture_examples/floor.png
 C texture_examples/ceiling_square.png
 
+SP texture_examples/barrel.png 3.5 2.5
+SP texture_examples/barrel.png 4.5 2.5
+SP texture_examples/barrel.png 5.5 2.5
+SP texture_examples/hoofd.png 6.5 2.5
+SP texture_examples/sexy.png 7.5 2.5
+
 11111111111111 
-1000010001 
-1000N10001 
 1000000001 
 1000000001 
 1000000001 
-111000000111
-100000100001
+1000000001 
+1111101111 
+111000N00111
+100000000001
 10000000011
 1111111111 

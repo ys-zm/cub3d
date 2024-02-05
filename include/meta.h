@@ -1,14 +1,16 @@
 /* ************************************************************************** */
-/**/
-/*   :::::::: */
+/*                                                                            */
+/*                                                       ::::::::             */
 /*   meta.h                                            :+:    :+:             */
-/*+:+ */
-/*   By: jboeve <jboeve@student.codam.nl>+#+  */
-/*  +#+   */
-/*   Created: 2023/11/01 20:07:37 by jboeve#+##+# */
-/*   Updated: 2024/01/29 15:27:32 by yesimzaim     ########   odam.nl         */
-/**/
+/*                                                    +:+                     */
+/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
+/*                                                  +#+                       */
+/*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
+/*   Updated: 2024/02/05 14:01:52 by joppe         ########   odam.nl         */
+/*                                                                            */
 /* ************************************************************************** */
+
+
 
 #ifndef META_H
 #define META_H
@@ -232,12 +234,12 @@ typedef struct s_meta {
 	t_timer 	update_timer;
 	t_minimap 	minimap;
 	t_timer 	fps_timer;
-	t_player	player;
 	uint32_t 	fps;
 	t_map		map;
 	t_attr		attributes;
 	const char	*scene_name;
 	t_flag		*elements;
+	t_player	player;
 }	t_meta;
 
 
