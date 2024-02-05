@@ -1,11 +1,12 @@
-NO  texture_examples/redbrick.png
-WE  texture_examples/purplestone.png
-EA  texture_examples/purplestone.png
-SO	texture_examples/redbrick.png
-F	texture_examples/redbrick.png
-C	texture_examples/redbrick.png
+NO texture_examples/redbrick.png
+WE texture_examples/purplestone.png
+EA texture_examples/purplestone.png
+SO texture_examples/redbrick.png
+F texture_examples/redbrick.png
+C texture_examples/redbrick.png
 
 SP texture_examples/barrel.png 2.2 2.2
+
 11111111111111 
 1000010001 
 1000010001 

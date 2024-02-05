@@ -35,7 +35,7 @@ char	*get_key(char *file)
 	char	*key;
 
 	i = 0;
-	while (file[i] != ' ' && file[i] != '\n')
+	while ((file[i] != ' ' && file[i] != '\t')  && file[i] != '\n')
 		i++;
 	if (i)
 	{
@@ -55,9 +55,9 @@ char	*get_val(char *file)
 
 	i = 0;
 	j = 0;
-	while (file[j] != ' ' && file[j] != '\n')
+	while ((file[j] != ' ' && file[j] != '\t')  && file[j] != '\n')
 		j++;
-	while (file[j] == ' ' && file[j] != '\n')
+	while ((file[j] == ' ' || file[j] == '\t') && file[j] != '\n')
 		j++;
 	i = j;
 	while (file[j] && file[j] != '\n')
@@ -118,7 +118,8 @@ bool	is_duplicate_flag(t_flag *elements, char *key)
 // if key is not a duplicate and is mandatory
 bool	is_valid_key(t_flag *elements, t_flag *new_node, int *mandatory)
 {
-
+	printf("flag: %s\n", new_node->flag);
+	printf("content: %s\n", new_node->content);
 	if (is_duplicate_flag(elements, new_node->flag) && is_valid_element(new_node->flag))
 		return (false);
 	if (!is_duplicate_flag(elements, new_node->flag) && is_valid_element(new_node->flag))
@@ -135,6 +136,7 @@ int	lex(char *file, t_map *map, t_flag **elements)
 	int		skip;
 	int		mandatory;
 
+	int i = 0;
 	mandatory = 0;
 	while (*file)
 	{

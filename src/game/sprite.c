@@ -31,19 +31,18 @@ int init_sprites(uint32_t sprite_count, int32_t **sprite_order, double **sprite_
 	return (EXIT_SUCCESS);
 }
 
-bool if_black(uint32_t color)
+// extracts individual color channels, checks if color channels are 0 (black)
+bool is_black(uint32_t color)
 {
-	// Extract individual color channels
     uint8_t r = (color >> 24) & 0xFF;
     uint8_t g = (color >> 16) & 0xFF;
     uint8_t b = (color >> 8) & 0xFF;
 
-    // Check if all color channels are 0 (black)
-    if (r == 0 && g == 0 && b == 0) {
-        return true; // Black
-    } else {
-        return false; // Not black
+    if (r == 0 && g == 0 && b == 0) 
+	{
+        return true;
     }
+    return false;
 }
 
 void sprite_calculate(t_player *p)
@@ -54,7 +53,7 @@ void sprite_calculate(t_player *p)
 	p->sprite_order[i] = i;
 	p->sprite_dist[i] = (7.2);
 
-	sprite_sort(p->sprite_dist, p->sprite_order);
+	sprite_sort(p->sprite_dist, p->sprite_order, p->meta->attributes.sprite_count);
 	
 	i = 0;
 	while (i < p->meta->attributes.sprite_count)
@@ -107,7 +106,7 @@ void sprite_calculate(t_player *p)
 					int d = (y) * 256 - p->meta->image->height * 128 + sprite_height * 128; //256 and 128 factors to avoid floats
 					int tex_y = ((d * p->meta->attributes.sprites[i].tex.tex->height) / sprite_height) / 256;
 					uint32_t color = pixel_picker(p->meta->attributes.sprites[i].tex.tex, tex_x, tex_y);
-					if (!if_black(color))
+					if (!is_black(color))
 					{
 						mlx_put_pixel(p->meta->image, stripe, y, color);
 					}

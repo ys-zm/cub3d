@@ -21,7 +21,7 @@ bool	is_valid_element(char *file)
 	i = 0;
 	while (i < 6)
 	{
-		if (ft_strncmp(file, el[i], ft_strlen(el[i]) + 1) == 0)
+		if (!ft_strncmp(file, el[i], ft_strlen(el[i]) + 1))
 		{
 			return (true);
 		}

@@ -314,8 +314,7 @@ void	print_attributes(t_attr *attributes);
 
 // sprite_utils.c
 
-void	sprite_sort(double *sprite_dist, int32_t *sprite_order);
-
+void	sprite_sort(double *sprite_dist, int32_t *sprite_order, uint32_t sprite_count);
 
 // lexer.c
 char 	*extract_file(char *map_file);
