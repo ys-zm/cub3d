@@ -22,7 +22,6 @@
 // Stub
 int init_sprites(uint32_t sprite_count, int32_t **sprite_order, double **sprite_dist)
 {
-	printf("sprite arrays initiated!\n");
 	*sprite_order = malloc(sizeof(int32_t) * sprite_count);
 	if (!*sprite_order)
 		return (pr_err(MALL_ERR), EXIT_FAILURE);
@@ -60,7 +59,6 @@ void sprite_calculate(t_player *p)
 
 	sprite_sort(p->sprite_dist, p->sprite_order, p->meta->attributes.sprite_count);
 	
-	printf("sprite count: %d\n", p->meta->attributes.sprite_count);
 	i = 0;
 	while (i < p->meta->attributes.sprite_count)
 	{
