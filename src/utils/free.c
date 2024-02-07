@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   free.c                                             :+:    :+:            */
+/*   free.c                                            :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <yzaim@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:53:55 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/24 11:22:41 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/07 12:04:35 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ void	f_tex(t_tex *attr)
 	if (attr->tex_path)
 		free(attr->tex_path);
 	if (attr->tex)
+	{
 		mlx_delete_texture(attr->tex);
+	}
 }
 
 static void	free_t_tex(t_attr *attributes)
@@ -30,6 +32,7 @@ static void	free_t_tex(t_attr *attributes)
 	f_tex(&attributes->w);
 	f_tex(&attributes->f);
 	f_tex(&attributes->c);
+	f_tex(&attributes->c_alt);
 }
 
 void	free_t_flag_list(t_flag **list)
@@ -67,6 +70,7 @@ void	meta_free(t_meta *meta)
 {
 	free_t_tex(&meta->attributes);
 	free(meta->map.level);
-	if (meta->attributes.sprites)
-		free_t_sprites(&meta->attributes.sprites, meta->attributes.sprite_count);
+	free_t_sprites(&meta->attributes.sprites, meta->attributes.sprite_count);
+	free(meta->player.sprite_dist);
+	free(meta->player.sprite_order);
 }

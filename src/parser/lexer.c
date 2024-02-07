@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/01 16:26:58 by yesimzaim     ########   odam.nl         */
+/*   Updated: 2024/02/07 11:16:09 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,7 @@ int	lexer(t_meta *meta, char *map_file)
 	if (!file)
 		return(EXIT_FAILURE);
 	if (lex(file, &meta->map, &meta->elements))
-		return (free_t_flag_list(&meta->elements), EXIT_FAILURE); //also free everything in case of error!
+		return (free(file), free_t_flag_list(&meta->elements), EXIT_FAILURE); //also free everything in case of error!
+	free(file);
 	return (EXIT_SUCCESS);
 }

@@ -16,8 +16,8 @@ RUN_CMD		:= ./$(NAME) test_maps/valid_tex.cub
 
 # CFLAGS		+= -Wall -Wextra -Werror
 # CFLAGS		+= -Wall -Wextra
-CFLAGS		+= -g -fsanitize=address
-# CFLAGS		+= -g
+# CFLAGS		+= -g -fsanitize=address
+# # CFLAGS		+= -g
 # CFLAGS		+= -Ofast -flto -march=native
 
 LIBFT		:=	libft/build/libft.a
