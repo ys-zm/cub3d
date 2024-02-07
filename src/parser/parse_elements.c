@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/24 11:21:34 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/07 16:42:32 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,11 @@ int	input_sprite_texture_path(t_sprite **sprites_array, uint32_t *i ,char *conte
 	return (EXIT_SUCCESS);
 }
 
+int	input_door_path(t_door *doors, char *content)
+{
+	doors->tex.tex_path = content;
+}
+
 int	handle_element(t_meta *meta, t_element_type type, char *flag, char *content)
 {
 	int exit_code;
@@ -143,7 +148,10 @@ int	handle_element(t_meta *meta, t_element_type type, char *flag, char *content)
 	else if (type == SPRITE)
 	{
 		exit_code = input_sprite_texture_path(&meta->attributes.sprites, &meta->attributes.sprite_arr_index, content);
-		// printf("%d. SP %s %lf %lf\n", 0, meta->attributes.sprites[0].tex.tex_path, meta->attributes.sprites[0].pos.x, meta->attributes.sprites[0].pos.y);
+	}
+	else if (type == DOOR)
+	{
+		exit_code = input_door_path(&meta->attributes.doors, content)
 	}
 	return (exit_code);
 }
@@ -175,17 +183,29 @@ uint32_t	count_doors(t_cell_type *map, uint32_t w, uint32_t h)
 	return (doors);
 }
 
-int	save_index(t_door *doors, uint32_t door_count)
+int	save_door_index(uint32_t arr, uint32_t door_count, t_map map)
 {
 	uint32_t	i;
+	uint32_t	j;
 
+	j = 0;
 	i = 0;
+	while (i < map.width * map.height)
+	{
+		if (map[i] == MAP_DOOR)
+		{
+			arr[j].idx = i;
+			if (j < door_count)
+				j++;
+		}
+		i++;
+	}
 }
 
 int	set_doors(t_meta *meta)
 {
-	meta.attributes.doors = malloc(sizeof(t_door) * meta.attributes.door_count);
-	if (!meta.attributes.doors)
+	meta.attributes.doors.idx = malloc(sizeof(uint32_t) * meta.attributes.door_count);
+	if (!meta.attributes.doors.idx)
 		return (pr_err(MALL_ERR));
 
 }
@@ -194,11 +214,14 @@ int parse_elements(t_meta *meta)
 {
 	t_flag *elements = meta->elements;
 	meta->attributes.sprite_count = count_sprites(meta->elements);
-	meta.attributes.door_count = count_doors(meta.map.level, meta.map.width, meta.map.height);
+	meta.attributes.doors.door_count = count_doors(meta.map.level, meta.map.width, meta.map.height);
 	meta->attributes.sprite_arr_index = 0;
 
-	if (meta.attributes.door_count)
+	if (meta.attributes.doors.door_count)
 	{
+		if(set_doors(meta) || save_door_index(meta.attributes.doors.idx, meta.attributes.doors.door_count, meta.map))
+			return (EXIT_FAILURE);
+		
 		// save door idx
 	}
 	if (set_up_sprites(meta))
