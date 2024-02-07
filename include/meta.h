@@ -206,6 +206,11 @@ typedef struct s_sprite {
 	t_tex			tex;
 } t_sprite;
 
+typedef struct s_door {
+	t_tex		tex;
+	uint32_t	idx;
+}
+
 typedef struct s_attr {
 	t_tex		n;	//add bit flag, if tex_path is missing then it means it is a color value
 	t_tex		s;
@@ -219,6 +224,8 @@ typedef struct s_attr {
 	uint32_t	sprite_count;
 	uint32_t	sprite_arr_index;
 	t_sprite	*sprites; // we need to make the sprite count modular
+	uint32_t	door_count;
+	t_door		*doors;
 }	t_attr;
 
 typedef struct s_minimap {

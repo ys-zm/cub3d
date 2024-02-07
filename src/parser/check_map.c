@@ -114,6 +114,8 @@ t_cell_type find_enum_value(char c)
 	{
 		return (MAP_WALL);
 	}
+	else if (c == 'D')
+		return (MAP_DOOR);
 	else
 	{
 		return (MAP_SPACE);
@@ -135,6 +137,7 @@ bool save_map(t_meta *meta, char *rect)
 	}
 	return (true);
 }
+
 int	check_map(t_meta *meta, char *rect)
 {
 	if (!is_map_chars_valid(rect))

@@ -28,7 +28,6 @@ IFLAGS		:= -Ilibft/include -Iinclude -IMLX42/include
 SRC_DIR		:=	src
 	
 SRCS	= 		parser/check_elements.c \
-				parser/check_walls.c \
 				parser/parse_elements.c \
 				parser/parse_map.c \
 				parser/check_map.c \

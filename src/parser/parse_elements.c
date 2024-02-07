@@ -159,12 +159,48 @@ int	set_up_sprites(t_meta *meta)
 	return (EXIT_SUCCESS);
 }
 
+uint32_t	count_doors(t_cell_type *map, uint32_t w, uint32_t h)
+{
+	uint32_t	doors;
+	uint32_t	i;
+
+	doors = 0;
+	i = 0;
+	while (i < w * h)
+	{
+		if (map[i] == MAP_DOOR)
+			doors++;
+		i++;
+	}
+	return (doors);
+}
+
+int	save_index(t_door *doors, uint32_t door_count)
+{
+	uint32_t	i;
+
+	i = 0;
+}
+
+int	set_doors(t_meta *meta)
+{
+	meta.attributes.doors = malloc(sizeof(t_door) * meta.attributes.door_count);
+	if (!meta.attributes.doors)
+		return (pr_err(MALL_ERR));
+
+}
+
 int parse_elements(t_meta *meta)
 {
 	t_flag *elements = meta->elements;
 	meta->attributes.sprite_count = count_sprites(meta->elements);
+	meta.attributes.door_count = count_doors(meta.map.level, meta.map.width, meta.map.height);
 	meta->attributes.sprite_arr_index = 0;
 
+	if (meta.attributes.door_count)
+	{
+		// save door idx
+	}
 	if (set_up_sprites(meta))
 		return (EXIT_FAILURE);
 	while (elements != NULL)
