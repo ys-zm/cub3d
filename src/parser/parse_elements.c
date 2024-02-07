@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/07 16:42:32 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/07 16:49:17 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ int	input_sprite_texture_path(t_sprite **sprites_array, uint32_t *i ,char *conte
 int	input_door_path(t_door *doors, char *content)
 {
 	doors->tex.tex_path = content;
+	return (EXIT_SUCCESS);
 }
 
 int	handle_element(t_meta *meta, t_element_type type, char *flag, char *content)
