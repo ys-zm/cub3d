@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/07 16:49:17 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/08 12:35:25 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ int	handle_element(t_meta *meta, t_element_type type, char *flag, char *content)
 	}
 	else if (type == DOOR)
 	{
-		exit_code = input_door_path(&meta->attributes.doors, content)
+		exit_code = input_door_path(&meta->attributes.doors, content);
 	}
 	return (exit_code);
 }
@@ -184,7 +184,7 @@ uint32_t	count_doors(t_cell_type *map, uint32_t w, uint32_t h)
 	return (doors);
 }
 
-int	save_door_index(uint32_t arr, uint32_t door_count, t_map map)
+int	save_door_index(uint32_t *arr, uint32_t door_count, t_map map)
 {
 	uint32_t	i;
 	uint32_t	j;
@@ -193,37 +193,39 @@ int	save_door_index(uint32_t arr, uint32_t door_count, t_map map)
 	i = 0;
 	while (i < map.width * map.height)
 	{
-		if (map[i] == MAP_DOOR)
+		if (map.level[i] == MAP_DOOR)
 		{
-			arr[j].idx = i;
+			arr[j] = i;
 			if (j < door_count)
 				j++;
+			else
+				return (EXIT_FAILURE);
 		}
 		i++;
 	}
+	return (EXIT_SUCCESS);
 }
 
 int	set_doors(t_meta *meta)
 {
-	meta.attributes.doors.idx = malloc(sizeof(uint32_t) * meta.attributes.door_count);
-	if (!meta.attributes.doors.idx)
+	meta->attributes.doors.idx = malloc(sizeof(uint32_t) * meta->attributes.doors.door_count);
+	if (!meta->attributes.doors.idx)
 		return (pr_err(MALL_ERR));
-
+	return (EXIT_SUCCESS);
 }
 
 int parse_elements(t_meta *meta)
 {
 	t_flag *elements = meta->elements;
 	meta->attributes.sprite_count = count_sprites(meta->elements);
-	meta.attributes.doors.door_count = count_doors(meta.map.level, meta.map.width, meta.map.height);
+	meta->attributes.doors.door_count = count_doors(meta->map.level, meta->map.width, meta->map.height);
 	meta->attributes.sprite_arr_index = 0;
 
-	if (meta.attributes.doors.door_count)
+	if (meta->attributes.doors.door_count)
 	{
-		if(set_doors(meta) || save_door_index(meta.attributes.doors.idx, meta.attributes.doors.door_count, meta.map))
+		if(set_doors(meta) || save_door_index(meta->attributes.doors.idx, meta->attributes.doors.door_count, meta->map))
 			return (EXIT_FAILURE);
 		
-		// save door idx
 	}
 	if (set_up_sprites(meta))
 		return (EXIT_FAILURE);
