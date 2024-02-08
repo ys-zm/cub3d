@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ::::::::             */
-/*   meta.h                                            :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
-/*                                                  +#+                       */
+/*                                                        ::::::::            */
+/*   meta.h                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: joppe <jboeve@student.codam.nl>              +#+                     */
+/*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/02/05 14:01:52 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/08 13:54:31 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,7 +218,7 @@ typedef struct s_attr {
 	t_rgba		ceiling_c;
 	uint32_t	sprite_count;
 	uint32_t	sprite_arr_index;
-	t_sprite	*sprites; // we need to make the sprite count modular
+	t_sprite	*sprites;
 }	t_attr;
 
 typedef struct s_minimap {

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ::::::::             */
-/*   sprite_utils.c                                    :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
-/*                                                  +#+                       */
+/*                                                        ::::::::            */
+/*   sprite_utils.c                                     :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jboeve <jboeve@student.codam.nl>             +#+                     */
+/*                                                   +#+                      */
 /*   Created: 2024/01/25 16:01:20 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/29 12:50:12 by yesimzaim     ########   odam.nl         */
+/*   Updated: 2024/02/08 14:06:22 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,27 @@ void	quick_sort(double *sprite_dist, int32_t *sprite_order, int32_t low, int32_t
 	}
 }
 
+void	reverse(double *arr1, int32_t *arr2, uint32_t size)
+{
+	uint32_t	i;
+	double		tmp1;
+	int32_t		tmp2;
+
+	i = 0;
+	while (i < size / 2)
+	{
+		tmp1 = arr1[i];
+		arr1[i] = arr1[size - i - 1];
+		arr1[size - i - 1] = tmp1;
+		tmp2 = arr2[i];
+		arr2[i] = arr2[size - i - 1];
+		arr2[size - i - 1] = tmp2;
+		i++;
+	}
+}
+
 void	sprite_sort(double *sprite_dist, int32_t *sprite_order, uint32_t sprite_count)
 {
 	quick_sort(sprite_dist, sprite_order, 0, sprite_count - 1);
+	// reverse(sprite_dist, sprite_order, sprite_count);
 }
