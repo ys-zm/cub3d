@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/25 16:01:20 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/02/08 15:13:24 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/08 17:31:59 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ void	quick_sort(double *sprite_dist, int32_t *sprite_order, int32_t low, int32_t
 {
 	if (low < high)
 	{
-		int32_t	pivot = partition(sprite_dist, sprite_order, low, high);
-		quick_sort(sprite_dist, sprite_order, low, pivot - 1);
-		quick_sort(sprite_dist, sprite_order, pivot + 1, high);
+		int32_t	partition_index = partition(sprite_dist, sprite_order, low, high);
+		quick_sort(sprite_dist, sprite_order, low, partition_index - 1);
+		quick_sort(sprite_dist, sprite_order, partition_index + 1, high);
 	}
 }
 

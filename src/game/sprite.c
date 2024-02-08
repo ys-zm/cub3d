@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/25 16:01:20 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/02/08 15:09:00 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/08 17:40:45 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,11 @@ void sprite_calculate(t_player *p)
 
 	sprite_sort(p->sprite_dist, p->sprite_order, p->meta->attributes.sprite_count);
 
-	print_ints_array("SPRITE ORDER", p->sprite_order, p->meta->attributes.sprite_count);
-	print_double_array("SPRITE DIST", p->sprite_dist, p->meta->attributes.sprite_count, p->meta->attributes.sprites, p->sprite_order);
-
 	i = 0;
 	while (i < p->meta->attributes.sprite_count)
 	{
 		const t_sprite *sp = p->meta->attributes.sprites;
 		const t_vec2d s_pos	= (t_vec2d){sp[p->sprite_order[i]].pos.x - p->position.x, sp[p->sprite_order[i]].pos.y - p->position.y};
-
 
 		const double inv_det = 1.0 / (p->cam_plane.x * p->direction.y - p->direction.x * p->cam_plane.y);
 
@@ -103,7 +99,7 @@ void sprite_calculate(t_player *p)
 		while (stripe < draw_end.x)
 		{
 			int tex_x;
-			tex_x = (int)(256 * (stripe - (-sprite_width / 2 + sprite_screen_x)) * p->meta->attributes.sprites[i].tex.tex->width / sprite_width) / 256;
+			tex_x = (int)(256 * (stripe - (-sprite_width / 2 + sprite_screen_x)) * p->meta->attributes.sprites[p->sprite_order[i]].tex.tex->width / sprite_width) / 256;
 			if (transform.y > 0 && stripe > 0 && stripe < p->meta->image->width && transform.y < p->z_buffer[stripe])
 			{
 				int	y;
@@ -111,8 +107,8 @@ void sprite_calculate(t_player *p)
 				while (y < draw_end.y)
 				{
 					int d = (y) * 256 - p->meta->image->height * 128 + sprite_height * 128; //256 and 128 factors to avoid floats
-					int tex_y = ((d * p->meta->attributes.sprites[i].tex.tex->height) / sprite_height) / 256;
-					uint32_t color = pixel_picker(p->meta->attributes.sprites[i].tex.tex, tex_x, tex_y);
+					int tex_y = ((d * p->meta->attributes.sprites[p->sprite_order[i]].tex.tex->height) / sprite_height) / 256;
+					uint32_t color = pixel_picker(p->meta->attributes.sprites[p->sprite_order[i]].tex.tex, tex_x, tex_y);
 					if (!is_black(color))
 					{
 						mlx_put_pixel(p->meta->image, stripe, y, color);

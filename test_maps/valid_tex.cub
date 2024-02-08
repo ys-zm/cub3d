@@ -7,6 +7,8 @@ C texture_examples/ceiling_square.png
 
 SP texture_examples/pillar.png 4.5 2.5
 SP texture_examples/barrel.png 5.5 3.5
+SP texture_examples/hoofd.png 2.5 3.5
+SP texture_examples/sexy.png 2.5 2.5
 
 11111111111111
 1000000001
