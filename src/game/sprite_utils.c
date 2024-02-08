@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/25 16:01:20 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/02/08 14:06:22 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/08 15:13:24 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ uint32_t	partition(double *sprite_dist, int32_t *sprite_order, int32_t low, int3
 		}
 	}
 	swap_doubles(&sprite_dist[low], &sprite_dist[j]);
-	swap_ints(&sprite_order[low], &sprite_order[i]);
+	swap_ints(&sprite_order[low], &sprite_order[j]);
 	return (j);
 }
 
@@ -88,5 +88,5 @@ void	reverse(double *arr1, int32_t *arr2, uint32_t size)
 void	sprite_sort(double *sprite_dist, int32_t *sprite_order, uint32_t sprite_count)
 {
 	quick_sort(sprite_dist, sprite_order, 0, sprite_count - 1);
-	// reverse(sprite_dist, sprite_order, sprite_count);
+	reverse(sprite_dist, sprite_order, sprite_count);
 }

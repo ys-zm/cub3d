@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/02/08 13:54:31 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/08 15:08:42 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,7 +309,7 @@ void	sprite_calculate(t_player *p);
 
 // test_utils.c REMOVE LATER
 
-void	print_double_array(char *msg, double *arr, uint32_t size);
+void	print_double_array(char *msg, double *arr, uint32_t size, t_sprite *sp, int32_t *order);
 void	print_ints_array(char *msg, int32_t *arr, uint32_t size);
 void	print_sprites_array(t_sprite *arr, uint32_t size);
 void	print_attributes(t_attr *attributes);

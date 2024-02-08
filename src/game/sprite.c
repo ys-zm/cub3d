@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/25 16:01:20 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/02/08 14:09:34 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/08 15:09:00 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,15 @@ void sprite_calculate(t_player *p)
 	while (i < p->meta->attributes.sprite_count)
 	{
 		p->sprite_order[i] = i;
-		p->sprite_dist[i] = (p->position.x - p->meta->attributes.sprites[i].pos.x) * (p->position.x - p->meta->attributes.sprites[i].pos.x) + (p->position.y - p->meta->attributes.sprites[i].pos.y) * (p->position.y - p->meta->attributes.sprites[i].pos.y);
+		t_vec2d sp_pos = p->meta->attributes.sprites[i].pos;
+		p->sprite_dist[i] = ((p->position.x - sp_pos.x) * (p->position.x - sp_pos.x)) + ((p->position.y - sp_pos.y) * (p->position.y - sp_pos.y));
 		i++;
 	}
 
 	sprite_sort(p->sprite_dist, p->sprite_order, p->meta->attributes.sprite_count);
 
-	// print_double_array("SPRITE DIST", p->sprite_dist, p->meta->attributes.sprite_count);
+	print_ints_array("SPRITE ORDER", p->sprite_order, p->meta->attributes.sprite_count);
+	print_double_array("SPRITE DIST", p->sprite_dist, p->meta->attributes.sprite_count, p->meta->attributes.sprites, p->sprite_order);
 
 	i = 0;
 	while (i < p->meta->attributes.sprite_count)
@@ -69,8 +71,6 @@ void sprite_calculate(t_player *p)
 
 
 		const double inv_det = 1.0 / (p->cam_plane.x * p->direction.y - p->direction.x * p->cam_plane.y);
-		
-		printf("invdet [%lf]\n", inv_det);
 
 		const t_vec2d transform = {inv_det * (p->direction.y * s_pos.x - p->direction.x * s_pos.y), 
 							inv_det * (-(p->cam_plane.y) * s_pos.x + p->cam_plane.x * s_pos.y)};

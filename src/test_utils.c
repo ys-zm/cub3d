@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   test_utils.c                                      :+:    :+:             */
-/*                                                    +:+ +:+         +:+     */
-/*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 15:25:38 by yzaim             #+#    #+#             */
-/*   Updated: 2024/01/26 16:10:28 by yzaim         ########   odam.nl         */
+/*                                                        ::::::::            */
+/*   test_utils.c                                       :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: yzaim <marvin@42.fr>                         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/08 15:25:38 by yzaim         #+#    #+#                 */
+/*   Updated: 2024/02/08 15:08:32 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,20 @@ void print_map_cell(t_cell_type *level, uint32_t w, uint32_t h)
 	}
 }
 
-void	print_double_array(char *msg, double *arr, uint32_t size)
+void	print_double_array(char *msg, double *arr, uint32_t size, t_sprite *sp, int32_t *order)
 {
-	printf("%s :", msg);
+	printf("%s: ", msg);
 	for (int i = 0; i < size; i++)
 	{
 		printf("%lf", arr[i]);
+		if (i < size - 1)
+			printf(" | ");
+	}
+	printf("\n");
+	printf("TEXTURES: ");
+	for  (int i = 0; i < size; i++)
+	{
+		printf("%s", sp[order[i]].tex.tex_path + 17);
 		if (i < size - 1)
 			printf(" | ");
 	}

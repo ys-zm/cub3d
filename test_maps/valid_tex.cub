@@ -6,16 +6,14 @@ F texture_examples/floor.png
 C texture_examples/ceiling_square.png
 
 SP texture_examples/pillar.png 4.5 2.5
-SP texture_examples/barrel.png 5.5 2.5
-SP texture_examples/hoofd.png 6.5 2.5
-SP texture_examples/sexy.png 7.5 2.5
+SP texture_examples/barrel.png 5.5 3.5
 
 11111111111111
 1000000001
 1000000001
 1000000001
 1000000001
-1111101111
+100000000111
 111000N00111
 100000000001
 10000000011
