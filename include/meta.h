@@ -1,16 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ::::::::             */
-/*   meta.h                                            :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
-/*                                                  +#+                       */
+/*                                                        ::::::::            */
+/*   meta.h                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: joppe <jboeve@student.codam.nl>              +#+                     */
+/*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/02/05 14:01:52 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/08 12:52:25 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #ifndef META_H
 #define META_H
@@ -52,7 +50,6 @@
 
 #define PI 3.1415926535
 
-
 // Window
 // #define WINDOW_WIDTH 1920
 // #define WINDOW_HEIGHT 1080 
@@ -60,7 +57,6 @@
 #define WINDOW_HEIGHT 720 
 
 #define BPP 4
-
 
 // Game
 #define TICK_RATE (1.0 / 60.0)
@@ -100,11 +96,12 @@ MAP_DOOR
 }	t_cell_type;
 
 typedef enum e_element_type {
+INVALID,
 CEIL_FLOOR,
 WALL,
 SPRITE,
-DOOR,
-NON_VALID
+DOOR_CL,
+DOOR_OP
 }	t_element_type;
 
 typedef enum e_font_family {
@@ -124,7 +121,6 @@ typedef struct s_font_atlas
 	char			*pixels;
 } t_font_atlas;
 
-
 typedef union s_rgba
 {
 	uint32_t	value;
@@ -136,7 +132,6 @@ typedef union s_rgba
 		uint8_t	r;
 	};
 }	t_rgba;
-
 
 typedef enum e_side {
 	SIDE_N = 0, 
@@ -178,7 +173,6 @@ typedef struct s_player {
 	double		*sprite_dist;
 	double 		z_buffer[WINDOW_WIDTH];
 } t_player;
-
 
 typedef struct s_map {
 	char		*map_element;

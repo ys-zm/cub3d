@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/08 12:35:25 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/08 12:54:47 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ t_element_type	check_element_type(char *flag)
 	if (!ft_strncmp(flag, "SP", 2))
 		return (SPRITE);
 	if (!ft_strncmp(flag, "DR", 2))
-		return (DOOR);
-	return (NON_VALID);
+		return (DOOR_CL);
+	return (INVALID);
 }
 
 int	handle_ceil_floor(t_attr *attributes, char *flag, char *content)
@@ -150,7 +150,7 @@ int	handle_element(t_meta *meta, t_element_type type, char *flag, char *content)
 	{
 		exit_code = input_sprite_texture_path(&meta->attributes.sprites, &meta->attributes.sprite_arr_index, content);
 	}
-	else if (type == DOOR)
+	else if (type == DOOR_CL)
 	{
 		exit_code = input_door_path(&meta->attributes.doors, content);
 	}
@@ -232,7 +232,7 @@ int parse_elements(t_meta *meta)
 	while (elements != NULL)
 	{
 		t_element_type type = check_element_type(elements->flag);
-		if (type != NON_VALID)
+		if (type != INVALID)
 			handle_element(meta, type, elements->flag, elements->content);
 		elements = elements->next;
 	}

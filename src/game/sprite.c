@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       ::::::::             */
-/*   sprite.c                                          :+:    :+:             */
-/*                                                    +:+                     */
-/*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
-/*                                                  +#+                       */
+/*                                                        ::::::::            */
+/*   sprite.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jboeve <jboeve@student.codam.nl>             +#+                     */
+/*                                                   +#+                      */
 /*   Created: 2024/01/25 16:01:20 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/02/07 12:48:55 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/08 13:06:59 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ void sprite_calculate(t_player *p)
 
 	sprite_sort(p->sprite_dist, p->sprite_order, p->meta->attributes.sprite_count);
 
-	// print_double_array("SPRITE DIST", p->sprite_dist, p->meta->attributes.sprite_count);
-
 	i = 0;
 	while (i < p->meta->attributes.sprite_count)
 	{
@@ -68,9 +66,7 @@ void sprite_calculate(t_player *p)
 		const t_vec2d s_pos	= (t_vec2d){sp[p->sprite_order[i]].pos.x - p->position.x, sp[p->sprite_order[i]].pos.y - p->position.y};
 
 
-		const double inv_det = 1.0 / (p->cam_plane.x * p->direction.y) - (p->cam_plane.y * p->direction.x);
-
-
+		double inv_det = 1.0 / (p->cam_plane.x * p->direction.y) - (p->cam_plane.y * p->direction.x);
 		const t_vec2d transform = {inv_det * (p->direction.y * s_pos.x - p->direction.x * s_pos.y), 
 							inv_det * (-(p->cam_plane.y) * s_pos.x + p->cam_plane.x * s_pos.y)};
 		
