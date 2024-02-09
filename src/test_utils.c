@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:25:38 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/09 15:16:27 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/09 16:32:14 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void print_ray(const char *s, const t_ray *r)
 		side_text = "NS";
 	else
 		side_text = "EW";
-	printf("[%s] | ray_direction [%lf][%lf] | length [%lf] | ray_end [%lf][%lf] | hit_side [%s]\n", s, r->direction.x, r->direction.y, r->length, r->end.x, r->end.y, side_text);
+	printf("[%s] | ray_direction [%lf][%lf] | length [%lf] | ray_end [%lf][%lf] | hit_side [%s] | cell_type [%s]\n", s, r->direction.x, r->direction.y, r->length, r->end.x, r->end.y, CELL_NAMES[r->hit_cell], side_text);
 }
 
 void print_direction(t_side dir)

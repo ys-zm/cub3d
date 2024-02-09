@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:33 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/09 16:17:54 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/09 16:40:05 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *par
 		r.hit_side = ray_move(&side_dist, &delta_dist, step_size, &r.map_pos);
 		r.hit_cell = hit(param, r.map_pos.x, r.map_pos.y);
 		// Tmporary
+		r.end = vec2i_to_vec2d(r.map_pos);
 		if (hit && r.hit_cell)
 			break;
 		limit--;
