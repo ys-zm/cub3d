@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/02/09 16:18:17 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/09 16:45:10 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,6 +259,7 @@ void	game_loop(void* param);
 void	player_move(t_player *p, t_vec2d transform);
 void	player_turn(t_player *p, float radiant);
 void	player_raycast(t_player *p);
+void player_interact(t_player *p);
 
 // keys.c
 void	cursor_hook(double xpos, double ypos, void* param);

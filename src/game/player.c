@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:27:23 by yzaim             #+#    #+#             */
-/*   Updated: 2024/02/09 16:43:11 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/09 16:45:49 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,8 +124,8 @@ void player_interact(t_player *p)
 	{
 		printf("ray set\n");
 		world_interact(p, r->end);
+		player_raycast(p);
 	}
-	player_raycast(p);
 }
 
 
