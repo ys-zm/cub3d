@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   meta.h                                             :+:    :+:            */
+/*   meta.h                                            :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/02/08 12:52:25 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/09 14:44:08 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ typedef enum e_cell_type {
 MAP_EMPTY,
 MAP_WALL,
 MAP_SPACE,
-MAP_DOOR
+MAP_DOOR_OPEN,
+MAP_DOOR_CLOSED,
 }	t_cell_type;
 
 typedef enum e_element_type {
