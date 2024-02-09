@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2024/02/09 14:47:27 by joppe         #+#    #+#                 */
-/*   Updated: 2024/02/09 16:13:33 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/09 17:01:58 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ void world_door_toggle(t_map *m, t_cell_type cell, size_t index)
 		m->level[index] = MAP_DOOR_CLOSED;
 }
 
-void world_interact(t_player *p, t_vec2d map_pos)
+void world_interact(t_player *p, t_vec2d cell_pos)
 {
-	const size_t index = find_index(p->meta, map_pos.y, map_pos.y);
+	const size_t index = find_index(p->meta, cell_pos.x, cell_pos.y);
 	const t_cell_type cell = p->meta->map.level[index];
 	world_door_toggle(&p->meta->map, cell, index);
 }

@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:27:07 by yzaim             #+#    #+#             */
-/*   Updated: 2024/02/09 16:53:24 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/09 16:56:28 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,7 @@ void keys_handle(t_meta *meta, double delta_time)
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_E))
 		player_turn(p, rotate_speed);
 	if (key_pressed(meta, MLX_KEY_F))
-	{
-		printf("key pressed\n");
 		player_interact(p);
-	}
 
 
 	keys_handle_move(meta, delta_time);
