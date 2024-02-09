@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:26:51 by yzaim             #+#    #+#             */
-/*   Updated: 2024/02/07 12:15:51 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/09 17:20:51 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,31 +24,32 @@ void	set_player_start_position(t_player *p, char dir)
 {
 	if (dir == 'N')
 	{
-		p->direction.x = 0;
-		p->direction.y = -1;
+		// This unfucks the doors not working when you haven't called `player_turn`
+		p->direction.x = 0.0000001;
+		p->direction.y = -1.0;
 		p->cam_plane.x = FOV;
-		p->cam_plane.y = 0;
+		p->cam_plane.y = 0.0;
 	}
 	else if (dir == 'S')
 	{
-		p->direction.x = 0;
+		p->direction.x = 0.0000001;
 		p->direction.y = 1;
-		p->cam_plane.x = FOV;
+		p->cam_plane.x = -FOV;
 		p->cam_plane.y = 0;
 	}
 	else if (dir == 'E')
 	{
-		p->direction.x = 1;
+		p->direction.x = 1.0000001;
 		p->direction.y = 0;
 		p->cam_plane.x = 0;
 		p->cam_plane.y = FOV;
 	}
 	else // W
 	{
-		p->direction.x = -1;
+		p->direction.x = -1.0000001;
 		p->direction.y = 0;
 		p->cam_plane.x = 0;
-		p->cam_plane.y = FOV;
+		p->cam_plane.y = -FOV;
 	}
 	p->position = vec2u_to_vec2d(p->meta->map.player_start);
 	// center player in tile.

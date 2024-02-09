@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:24:47 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/07 12:04:12 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/09 17:15:21 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	fps_hook(void *param)
 	if (timer_delta(&meta->fps_timer) >= 1)
 	{
 		meta->fps = fps;
-		printf("FPS: [%u]\n", fps);
+		// printf("FPS: [%u]\n", fps);
 		timer_start(&meta->fps_timer);
 		fps = 0;
 	}
