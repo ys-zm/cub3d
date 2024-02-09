@@ -25,7 +25,7 @@ bool bound_check(const void *param, uint32_t x, uint32_t y)
 {
 	t_meta *const meta = (t_meta *) param;
 	if (x < meta->map.width && y < meta->map.height)
-		return (meta->map.level[(y * meta->map.width) + x] == MAP_WALL);
+		return (meta->map.level[(y * meta->map.width) + x] == MAP_WALL || meta->map.level[(y * meta->map.width) + x] == MAP_DOOR_CLOSED);
 	else
 	{
 		UNIMPLEMENTED("Map out of bounds.");

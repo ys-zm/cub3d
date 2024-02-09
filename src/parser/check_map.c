@@ -115,7 +115,7 @@ t_cell_type find_enum_value(char c)
 		return (MAP_WALL);
 	}
 	else if (c == 'D')
-		return (MAP_DOOR);
+		return (MAP_DOOR_CLOSED);
 	else
 	{
 		return (MAP_SPACE);

@@ -101,8 +101,7 @@ INVALID,
 CEIL_FLOOR,
 WALL,
 SPRITE,
-DOOR_CL,
-DOOR_OP
+DOOR
 }	t_element_type;
 
 typedef enum e_font_family {

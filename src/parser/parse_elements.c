@@ -58,7 +58,7 @@ t_element_type	check_element_type(char *flag)
 	if (!ft_strncmp(flag, "SP", 2))
 		return (SPRITE);
 	if (!ft_strncmp(flag, "DR", 2))
-		return (DOOR_CL);
+		return (DOOR);
 	return (INVALID);
 }
 
@@ -150,7 +150,7 @@ int	handle_element(t_meta *meta, t_element_type type, char *flag, char *content)
 	{
 		exit_code = input_sprite_texture_path(&meta->attributes.sprites, &meta->attributes.sprite_arr_index, content);
 	}
-	else if (type == DOOR_CL)
+	else if (type == DOOR)
 	{
 		exit_code = input_door_path(&meta->attributes.doors, content);
 	}
@@ -177,7 +177,7 @@ uint32_t	count_doors(t_cell_type *map, uint32_t w, uint32_t h)
 	i = 0;
 	while (i < w * h)
 	{
-		if (map[i] == MAP_DOOR)
+		if (map[i] == MAP_DOOR_CLOSED)
 			doors++;
 		i++;
 	}
@@ -193,7 +193,7 @@ int	save_door_index(uint32_t *arr, uint32_t door_count, t_map map)
 	i = 0;
 	while (i < map.width * map.height)
 	{
-		if (map.level[i] == MAP_DOOR)
+		if (map.level[i] == MAP_DOOR_CLOSED)
 		{
 			arr[j] = i;
 			if (j < door_count)
