@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/25 16:00:13 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/02/09 14:55:45 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include <stdio.h>
 #include <math.h>
 
-mlx_texture_t	*get_texture(t_side side, t_attr attributes);
 
 static void	draw_column(t_meta *meta, t_ray *ray, uint32_t col, uint32_t h)
 {
@@ -25,7 +24,7 @@ static void	draw_column(t_meta *meta, t_ray *ray, uint32_t col, uint32_t h)
 	int32_t			color;
 	mlx_texture_t	*texture;
 
-	texture = get_texture(ray->hit_side, meta->attributes);
+	texture = get_texture(ray->hit_cell, ray->hit_side, meta->attributes);
 
 	ray->texture_point.x = (int)(ray->wall_x * texture->width);
 	if ((ray->hit_side == SIDE_N || ray->hit_side == SIDE_S) && ray->direction.x > 0)

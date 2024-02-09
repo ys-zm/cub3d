@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2024/01/18 13:59:19 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/01/18 14:10:07 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/02/09 15:21:55 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,15 @@
 #define TEST_UTILS_H
 
 #include "meta.h"
+
+static const char *CELL_NAMES[] = {
+	[MAP_EMPTY]	= "MAP_EMPTY",
+	[MAP_WALL]	= "MAP_WALL",
+	[MAP_SPACE]	= "MAP_SPACE",
+	[MAP_DOOR_OPEN]	= "MAP_DOOR_OPEN",
+	[MAP_DOOR_CLOSED]	= "MAP_DOOR_CLOSED",
+};
+
 
 
 // test_utils.c

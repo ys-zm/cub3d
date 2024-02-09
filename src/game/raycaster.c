@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   raycaster.c                                        :+:    :+:            */
+/*   raycaster.c                                       :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:33 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/24 13:11:30 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/09 16:17:54 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,9 @@ t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *par
 	while (limit)
 	{
 		r.hit_side = ray_move(&side_dist, &delta_dist, step_size, &r.map_pos);
-		if (hit && hit(param, r.map_pos.x, r.map_pos.y))
+		r.hit_cell = hit(param, r.map_pos.x, r.map_pos.y);
+		// Tmporary
+		if (hit && r.hit_cell)
 			break;
 		limit--;
 	}
@@ -117,7 +119,6 @@ t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *par
 		WARNING("Raycaster limit reached!");
 	r.length = calculate_ray_length(r.hit_side, side_dist, delta_dist);
 	r.direction = dir;
-	// r.end = r.map_pos;
 
 	r.line_height = (int)(WINDOW_HEIGHT / r.length);
 

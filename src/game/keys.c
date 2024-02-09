@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:27:07 by yzaim             #+#    #+#             */
-/*   Updated: 2024/01/18 12:50:58 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/02/09 16:00:52 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,18 @@ static void keys_handle_move(t_meta *meta, double delta_time)
 	if (pressed)
 		player_move(p, trans);
 }
-void render_test(t_meta *meta);
 
+static bool	key_pressed(t_meta *meta, keys_t k)
+{
+	bool	*state;
+
+	state = &meta->key_states[k - MLX_KEY_SPACE];
+	if (mlx_is_key_down(meta->mlx, k) && !*state)
+		*state = true;
+	else if (!mlx_is_key_down(meta->mlx, k) && *state)
+		*state = false;
+	return (*state);
+}
 void keys_handle(t_meta *meta, double delta_time)
 {
 	t_player* const p = &meta->player;
@@ -67,6 +77,10 @@ void keys_handle(t_meta *meta, double delta_time)
 		player_turn(p, -rotate_speed);
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_E))
 		player_turn(p, rotate_speed);
+	if (key_pressed(meta, MLX_KEY_F))
+		player_interact(p);
+
+
 	keys_handle_move(meta, delta_time);
 }
 

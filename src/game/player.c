@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:27:23 by yzaim             #+#    #+#             */
-/*   Updated: 2024/02/05 14:03:01 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/09 16:08:32 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,38 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-bool bound_check(const void *param, uint32_t x, uint32_t y)
+t_cell_type bound_check(const void *param, uint32_t x, uint32_t y)
 {
 	t_meta *const meta = (t_meta *) param;
+	t_cell_type cur_cell;
+
 	if (x < meta->map.width && y < meta->map.height)
-		return (meta->map.level[(y * meta->map.width) + x] == MAP_WALL || meta->map.level[(y * meta->map.width) + x] == MAP_DOOR_CLOSED);
+	{
+		cur_cell = meta->map.level[(y * meta->map.width) + x];
+		if (cur_cell == MAP_WALL || cur_cell == MAP_DOOR_CLOSED)
+			return (cur_cell);
+		else
+			return (0);
+	}
+	else
+	{
+		UNIMPLEMENTED("Map out of bounds.");
+	}
+}
+
+t_cell_type bound_check_interact(const void *param, uint32_t x, uint32_t y)
+{
+	t_meta *const meta = (t_meta *) param;
+	t_cell_type cur_cell;
+
+	if (x < meta->map.width && y < meta->map.height)
+	{
+		cur_cell = meta->map.level[(y * meta->map.width) + x];
+		if (cur_cell == MAP_WALL || cur_cell == MAP_DOOR_CLOSED || cur_cell == MAP_DOOR_OPEN)
+			return (cur_cell);
+		else
+			return (0);
+	}
 	else
 	{
 		UNIMPLEMENTED("Map out of bounds.");
@@ -89,6 +116,33 @@ void player_turn(t_player *p, float radiant)
 	player_raycast(p);
 }
 
+void player_interact(t_player *p)
+{
+	t_ray *r = &p->interact_ray;
+
+	if (((char *) r)[0])
+	{
+		printf("ray set\n");
+		world_interact(p, r->end);
+	}
+}
+
+
+static void player_interactable_raycast(t_player *p)
+{
+	t_ray *r = &p->interact_ray;
+	*r = raycaster_cast(p->position, p->direction, bound_check_interact, p->meta);
+
+	if (world_is_interactable(r->hit_cell) && r->length < 1.5)
+	{
+		// print message to screen
+		printf("Press F to interact with [%s]\n",  CELL_NAMES[r->hit_cell]);
+		// print_ray("interact ray", r);
+	}
+	else
+		ft_bzero(r, sizeof(t_ray));
+}
+
 void player_raycast(t_player *p)
 {
 	uint32_t	w = p->meta->image->width;
@@ -98,6 +152,9 @@ void player_raycast(t_player *p)
 	t_vec2d		ray_start;
 	double		camera_x;
 
+
+	
+	player_interactable_raycast(p);
 
 	row = 0;
 	while (row < h)

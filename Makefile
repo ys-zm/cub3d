@@ -59,6 +59,7 @@ SRCS	= 		parser/check_elements.c \
 				game/floorcaster.c \
 				game/sprite.c \
 				game/sprite_utils.c \
+				game/world.c \
 				parser/lexer.c \
 				parser/lexer_utils.c \
 				parser/map_lexer.c \
@@ -67,7 +68,10 @@ SRCS	= 		parser/check_elements.c \
 
 HEADER_DIR	:=	include
 HEADERS 	:=	meta.h \
-				timer.h
+				timer.h \
+				test_utils.h \
+				vector.h \
+				parser.h
 
 OBJ_DIR		:=	obj
 

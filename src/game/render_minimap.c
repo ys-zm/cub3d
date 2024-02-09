@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:27:53 by yzaim             #+#    #+#             */
-/*   Updated: 2024/01/18 12:43:48 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/02/09 14:58:33 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,11 @@
 #include <strings.h>
 
 const t_rgba CELL_COLORS[] = {
-	[MAP_EMPTY]	= {MINIMAP_COLOR_BACKGROUND},
-	[MAP_WALL]	= {0x323232ff},
-	[MAP_SPACE]	= {0xcdcdcdff},
+	[MAP_EMPTY]			= {MINIMAP_COLOR_BACKGROUND},
+	[MAP_WALL] 			= {0x323232ff},
+	[MAP_SPACE]			= {0xcdcdcdff},
+	[MAP_DOOR_OPEN]		= {0xddddddff},
+	[MAP_DOOR_CLOSED]	= {0x148f91ff},
 };
 
 

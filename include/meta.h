@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/02/09 14:44:08 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/09 16:18:17 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@
 
 #define SPRITE_COUNT 2
 
-typedef bool	(t_ray_hitfunc) (const void *p, uint32_t x, uint32_t y);
 
 typedef struct s_meta t_meta;
 
@@ -95,6 +94,8 @@ MAP_SPACE,
 MAP_DOOR_OPEN,
 MAP_DOOR_CLOSED,
 }	t_cell_type;
+
+typedef t_cell_type	(t_ray_hitfunc) (const void *p, uint32_t x, uint32_t y);
 
 typedef enum e_element_type {
 INVALID,
@@ -147,6 +148,7 @@ typedef struct s_ray {
 	t_vec2i		texture_point;
 	t_vec2i		line_point;
 	t_side		hit_side;
+	t_cell_type hit_cell;
 
 	double		line_height;
 	double		length;
@@ -164,6 +166,7 @@ typedef struct s_player {
 	t_meta		*meta;
 	t_ray		rays[WINDOW_WIDTH];
 	t_vray		vrays[WINDOW_HEIGHT];
+	t_ray 		interact_ray;
 	bool 		should_render;
 	t_vec2d		cam_plane;
 	t_vec2d		position;
@@ -241,6 +244,7 @@ typedef struct s_meta {
 	const char	*scene_name;
 	t_flag		*elements;
 	t_player	player;
+	bool 		key_states[MLX_KEY_MENU - MLX_KEY_SPACE];
 }	t_meta;
 
 
@@ -289,6 +293,7 @@ t_ray		raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *pa
 int32_t		set_color(int32_t r, int32_t g, int32_t b, int32_t a);
 int32_t		find_wall_color(t_attr atrributes, t_ray *ray, t_vec2i line_points, uint32_t h);
 int32_t		find_color(t_rgba rgba);
+mlx_texture_t	*get_texture(t_cell_type cell, t_side side, t_attr attributes);
 
 // free.c
 void		meta_free(t_meta *meta);
@@ -319,6 +324,7 @@ void	print_door_data(t_door doors);
 
 void	sprite_sort(double *sprite_dist, int32_t *sprite_order, uint32_t sprite_count);
 
+
 // lexer.c
 char 	*extract_file(char *map_file);
 int		lex(char *file, t_map *map, t_flag **elements);
@@ -345,5 +351,9 @@ bool	is_valid_extra(char *file);
 int		lexer_input_extra(t_flag **extras, char *file, int *skip);
 
 
+
+// world.c
+void world_interact(t_player *p, t_vec2d map_pos);
+bool world_is_interactable(t_cell_type cell);
 
 #endif

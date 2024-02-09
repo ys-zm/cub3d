@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   test_utils.c                                       :+:    :+:            */
+/*   test_utils.c                                      :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:25:38 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/08 15:08:32 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/09 15:16:27 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,8 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <sys/types.h>
+#include "test_utils.h"
 
-const char *CELL_NAMES[] = {
-	[MAP_EMPTY]	= "MAP_EMPTY",
-	[MAP_WALL]	= "MAP_WALL",
-	[MAP_SPACE]	= "MAP_SPACE",
-};
 
 void print_ray(const char *s, const t_ray *r)
 {
