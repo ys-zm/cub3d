@@ -120,6 +120,4 @@ void player_raycast(t_player *p)
 	}	
 
 	sprite_calculate(p);
-
-
 }

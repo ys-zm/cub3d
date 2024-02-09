@@ -134,7 +134,7 @@ int	input_sprite_texture_path(t_sprite **sprites_array, uint32_t *i ,char *conte
 
 int	input_door_path(t_door *doors, char *content)
 {
-	doors->tex.tex_path = content;
+	doors->tex.tex_path = ft_strdup(content);
 	return (EXIT_SUCCESS);
 }
 

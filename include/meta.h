@@ -314,7 +314,7 @@ void	print_double_array(char *msg, double *arr, uint32_t size, t_sprite *sp, int
 void	print_ints_array(char *msg, int32_t *arr, uint32_t size);
 void	print_sprites_array(t_sprite *arr, uint32_t size);
 void	print_attributes(t_attr *attributes);
-
+void	print_door_data(t_door doors);
 // sprite_utils.c
 
 void	sprite_sort(double *sprite_dist, int32_t *sprite_order, uint32_t sprite_count);

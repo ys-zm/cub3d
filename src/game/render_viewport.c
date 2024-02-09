@@ -111,6 +111,8 @@ void render_viewport(mlx_image_t *image, t_player *p)
 		draw_column(p->meta, &p->rays[col], col, image->height);
 		col++;
 	}
-	// render sprites
+	
+	// render doors
+	
 	
 }

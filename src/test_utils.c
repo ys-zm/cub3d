@@ -136,3 +136,20 @@ void	print_attributes(t_attr *attributes)
 		else
 		printf("C: %d,%d,%d\n", attributes->ceiling_c.r, attributes->ceiling_c.g, attributes->ceiling_c.b);
 }
+
+void	print_door_data(t_door doors)
+{
+	int	i = 0;
+	printf("DOOR COUNT: %u\n", doors.door_count);
+	printf("DOOR TEX: %s\n", doors.tex.tex_path);
+	while (i < doors.door_count)
+	{
+		if (i == 0)
+			printf("DOOR IDX: ");
+		printf("%u", doors.idx[i]);
+		if (i < doors.door_count - 1)
+			printf(" | ");
+		i++;
+	}
+	printf("\n");
+}
