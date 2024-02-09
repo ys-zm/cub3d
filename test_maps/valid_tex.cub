@@ -6,7 +6,7 @@ F texture_examples/floor.png
 C texture_examples/ceiling_square.png
 
 SP texture_examples/pillar.png 4.5 2.5
-SP texture_examples/barrel.png 5.5 3.5
+SP texture_examples/barrel.png 4.5 3.5
 SP texture_examples/barrel.png 8.0 2.9
 DR texture_examples/wood.png
 
@@ -14,9 +14,9 @@ DR texture_examples/wood.png
 1000010001
 1000010001
 1000011D11
-1000000001
-100000000111
-111D00W0D111
-100000000001
-100000D0011
+1111000001
+100100000111
+100D000N0111
+100100000001
+11110000011
 1111111111 

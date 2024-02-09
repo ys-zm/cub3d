@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:27:23 by yzaim             #+#    #+#             */
-/*   Updated: 2024/02/09 17:15:30 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/09 19:12:34 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ static void player_interactable_raycast(t_player *p)
 	if (world_is_interactable(r->hit_cell) && r->length < 1.5)
 	{
 		// print message to screen
-		print_ray("interact ray", r);
+		// print_ray("interact ray", r);
 		// printf("Press F to interact with [%s]\n",  CELL_NAMES[r->hit_cell]);
 	}
 	else
