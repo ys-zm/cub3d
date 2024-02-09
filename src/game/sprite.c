@@ -18,7 +18,6 @@
 #include <stdlib.h>
 #include "parser.h"
 
-
 // Stub
 int init_sprites(uint32_t sprite_count, int32_t **sprite_order, double **sprite_dist)
 {
@@ -53,7 +52,8 @@ void sprite_calculate(t_player *p)
 	while (i < p->meta->attributes.sprite_count)
 	{
 		p->sprite_order[i] = i;
-		p->sprite_dist[i] = (p->position.x - p->meta->attributes.sprites[i].pos.x) * (p->position.x - p->meta->attributes.sprites[i].pos.x) + (p->position.y - p->meta->attributes.sprites[i].pos.y) * (p->position.y - p->meta->attributes.sprites[i].pos.y);
+		t_vec2d sp_pos = p->meta->attributes.sprites[i].pos;
+		p->sprite_dist[i] = ((p->position.x - sp_pos.x) * (p->position.x - sp_pos.x)) + ((p->position.y - sp_pos.y) * (p->position.y - sp_pos.y));
 		i++;
 	}
 
@@ -65,8 +65,8 @@ void sprite_calculate(t_player *p)
 		const t_sprite *sp = p->meta->attributes.sprites;
 		const t_vec2d s_pos	= (t_vec2d){sp[p->sprite_order[i]].pos.x - p->position.x, sp[p->sprite_order[i]].pos.y - p->position.y};
 
+		const double inv_det = 1.0 / (p->cam_plane.x * p->direction.y - p->direction.x * p->cam_plane.y);
 
-		double inv_det = 1.0 / (p->cam_plane.x * p->direction.y) - (p->cam_plane.y * p->direction.x);
 		const t_vec2d transform = {inv_det * (p->direction.y * s_pos.x - p->direction.x * s_pos.y), 
 							inv_det * (-(p->cam_plane.y) * s_pos.x + p->cam_plane.x * s_pos.y)};
 		
@@ -98,7 +98,7 @@ void sprite_calculate(t_player *p)
 		while (stripe < draw_end.x)
 		{
 			int tex_x;
-			tex_x = (int)(256 * (stripe - (-sprite_width / 2 + sprite_screen_x)) * p->meta->attributes.sprites[i].tex.tex->width / sprite_width) / 256;
+			tex_x = (int)(256 * (stripe - (-sprite_width / 2 + sprite_screen_x)) * p->meta->attributes.sprites[p->sprite_order[i]].tex.tex->width / sprite_width) / 256;
 			if (transform.y > 0 && stripe > 0 && stripe < p->meta->image->width && transform.y < p->z_buffer[stripe])
 			{
 				int	y;
@@ -106,8 +106,8 @@ void sprite_calculate(t_player *p)
 				while (y < draw_end.y)
 				{
 					int d = (y) * 256 - p->meta->image->height * 128 + sprite_height * 128; //256 and 128 factors to avoid floats
-					int tex_y = ((d * p->meta->attributes.sprites[i].tex.tex->height) / sprite_height) / 256;
-					uint32_t color = pixel_picker(p->meta->attributes.sprites[i].tex.tex, tex_x, tex_y);
+					int tex_y = ((d * p->meta->attributes.sprites[p->sprite_order[i]].tex.tex->height) / sprite_height) / 256;
+					uint32_t color = pixel_picker(p->meta->attributes.sprites[p->sprite_order[i]].tex.tex, tex_x, tex_y);
 					if (!is_black(color))
 					{
 						mlx_put_pixel(p->meta->image, stripe, y, color);
