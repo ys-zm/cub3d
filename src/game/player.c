@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:27:23 by yzaim             #+#    #+#             */
-/*   Updated: 2024/02/09 19:12:34 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/10 02:14:01 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,8 @@ static void player_interactable_raycast(t_player *p)
 
 	*r = raycaster_cast(p->position, p->direction, bound_check_interact, p->meta);
 
+	// print_hit_side("side", r->hit_side);
+
 	if (world_is_interactable(r->hit_cell) && r->length < 1.5)
 	{
 		// print message to screen
@@ -143,7 +145,11 @@ static void player_interactable_raycast(t_player *p)
 	}
 	else
 		ft_bzero(r, sizeof(t_ray));
+
+
 }
+
+t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *param);
 
 void player_raycast(t_player *p)
 {
@@ -155,6 +161,8 @@ void player_raycast(t_player *p)
 	double		camera_x;
 
 
+	// DEBUGGING
+	ft_bzero(p->meta->test_ids, WINDOW_WIDTH);
 	
 	player_interactable_raycast(p);
 
@@ -172,7 +180,7 @@ void player_raycast(t_player *p)
 	{
 		camera_x = (2 * col / ((double) p->meta->image->width) - 1);
 		ray_start = vec2d_add(p->direction, vec2d_scalar_product(p->cam_plane, camera_x));
-		p->rays[col] = raycaster_cast(p->position, ray_start, bound_check, p->meta);
+		p->rays[col] = raycaster_cast_id(col, p->position, ray_start, bound_check, p->meta);
 		// printf("wall x: %f\n", p->rays[col].wall_x);
 		p->z_buffer[col] = p->rays[col].length;
 		col++;

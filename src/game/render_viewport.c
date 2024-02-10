@@ -6,11 +6,12 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/09 14:55:45 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/10 02:13:33 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
+#include "libft.h"
 #include "meta.h"
 #include "vector.h"
 #include <stdint.h>
@@ -110,8 +111,16 @@ void render_viewport(mlx_image_t *image, t_player *p)
 		draw_column(p->meta, &p->rays[col], col, image->height);
 		col++;
 	}
-	
-	// render doors
-	
-	
+
+	// draw crosshair
+	const int32_t crosshair_size = 8;
+	draw_rect(image, (WINDOW_WIDTH / 2 - (crosshair_size / 2)), (WINDOW_HEIGHT / 2 - (crosshair_size / 2)), crosshair_size, crosshair_size, 0xFFFFFFFF);
+
+	col = 0;
+	while (col < WINDOW_WIDTH)
+	{
+		if (p->meta->test_ids[col])	
+			mlx_put_pixel(image, col, WINDOW_HEIGHT / 2, 0x000000FF);
+		col++;
+	}
 }
