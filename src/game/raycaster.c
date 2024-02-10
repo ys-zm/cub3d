@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:33 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/10 02:18:59 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/10 02:56:17 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "test_utils.h"
 #include "vector.h"
 #include <math.h>
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -93,16 +94,28 @@ inline static t_side	ray_move(t_vec2d *side_dist, t_vec2d *delta_dist, t_vec2i s
 	}
 }
 
-static void ray_check_door(t_meta *m, int32_t id, t_vec2d *side_dist, const t_side hit_side, t_vec2d *delta_dist)
+static void ray_check_door(t_meta *m, t_ray *r, t_vec2d *side_dist, const t_side hit_side, t_vec2d *delta_dist)
 {
 	const double step_size = 0.5;
+
+	t_vec2d true_delta = {
+		sqrt(1 + (pow(r->direction.y, 2) / pow(r->direction.x, 2))),
+		sqrt(1 + (pow(r->direction.x, 2) / pow(r->direction.y, 2)))
+	};
+
+	print_vec2d("true_delta", true_delta);
+
+	if (fabs(r->direction.x) < 0.01)
+		true_delta.x = 100.0;
+	if (fabs(r->direction.y) < 0.01)
+		true_delta.y = 100.0;
 
 	// Here check for hit side and step through accordingly
 	if (side_dist->x < side_dist->y)
 	{
 		side_dist->x += step_size;
-		printf("[%d] hitting texture\n", id);
-		m->test_ids[id] = true;
+		// printf("[%d] hitting texture\n", id);
+		m->test_ids[r->id] = true;
 	}
 	else
 	{
@@ -131,7 +144,7 @@ t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit,
 		r.hit_cell = hit(param, r.map_pos.x, r.map_pos.y);
 
 		if (world_is_interactable(r.hit_cell))
-			ray_check_door((t_meta *) param, r.id, &side_dist, r.hit_side, &delta_dist);
+			ray_check_door((t_meta *) param, &r, &side_dist, r.hit_side, &delta_dist);
 
 
 
