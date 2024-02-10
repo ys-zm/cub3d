@@ -88,21 +88,22 @@
 typedef struct s_meta t_meta;
 
 typedef enum e_cell_type {
-MAP_EMPTY,
-MAP_WALL,
-MAP_SPACE,
-MAP_DOOR_OPEN,
-MAP_DOOR_CLOSED,
+	MAP_EMPTY,
+	MAP_WALL,
+	MAP_SPACE,
+	MAP_DOOR_OPEN,
+	MAP_DOOR_CLOSED,
 }	t_cell_type;
 
 typedef t_cell_type	(t_ray_hitfunc) (const void *p, uint32_t x, uint32_t y);
 
 typedef enum e_element_type {
-INVALID,
-CEIL_FLOOR,
-WALL,
-SPRITE,
-DOOR
+	INVALID,
+	CEIL_FLOOR,
+	WALL,
+	SPRITE,
+	DOOR,
+	NEXT_LVL,
 }	t_element_type;
 
 typedef enum e_font_family {
@@ -244,6 +245,7 @@ typedef struct s_meta {
 	const char	*scene_name;
 	t_flag		*elements;
 	t_player	player;
+	char		*next_level;
 	bool 		key_states[MLX_KEY_MENU - MLX_KEY_SPACE];
 }	t_meta;
 
@@ -259,7 +261,7 @@ void	game_loop(void* param);
 void	player_move(t_player *p, t_vec2d transform);
 void	player_turn(t_player *p, float radiant);
 void	player_raycast(t_player *p);
-void player_interact(t_player *p);
+void 	player_interact(t_player *p);
 
 // keys.c
 void	cursor_hook(double xpos, double ypos, void* param);

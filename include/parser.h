@@ -81,10 +81,11 @@ int 	parser(t_meta *meta);
 bool	is_map_line(char *file);
 
 // parse_elements.c
-int	input_texture_path(t_attr *attributes, char *flag, char *content);
-int	input_colour(t_attr *attributes, char *flag, char *content);
+int		input_texture_path(t_attr *attributes, char *flag, char *content);
+int		input_colour(t_attr *attributes, char *flag, char *content);
 int		save_elements(t_attr *attributes, char *file);
 int		parse_elements(t_meta *meta);
+int		input_path(char **path, char *content);
 
 // check_colors.c
 bool	valid_rgb_value(char *file);

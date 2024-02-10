@@ -24,11 +24,10 @@ int	input_texture_path(t_attr *attributes, char *flag, char *content)
 	{
 		if (*flag && *flag == element[i])
 		{
-			*path[i] = get_tex_val(content);
-			if (!(path[i]))
-				return (pr_err(MALL_ERR), EXIT_FAILURE);
-			if (!ft_strncmp(*path[i], "", 1))
-				return (pr_err(M_PATH), EXIT_FAILURE);
+			if (input_path(path[i], content))
+			{
+				return (EXIT_FAILURE);
+			}
 		}
 		i++;
 	}
@@ -59,6 +58,8 @@ t_element_type	check_element_type(char *flag)
 		return (SPRITE);
 	if (!ft_strncmp(flag, "DR", 2))
 		return (DOOR);
+	if (!ft_strncmp(flag, "LVL", 3))
+		return (NEXT_LVL);
 	return (INVALID);
 }
 
@@ -107,7 +108,7 @@ char	*find_sprite_val(char **content)
 	return (ft_strdup(""));
 }
 
-int	input_sprite_texture_path(t_sprite **sprites_array, uint32_t *i ,char *content)
+int	input_sprite_data(t_sprite **sprites_array, uint32_t *i ,char *content)
 {
 	t_sprite	*arr = *sprites_array;
 	char		*tex_path;
@@ -132,9 +133,13 @@ int	input_sprite_texture_path(t_sprite **sprites_array, uint32_t *i ,char *conte
 	return (EXIT_SUCCESS);
 }
 
-int	input_door_path(t_door *doors, char *content)
+int	input_path(char **path, char *content)
 {
-	doors->tex.tex_path = ft_strdup(content);
+	if (*path)
+		return (EXIT_SUCCESS);
+	*path = ft_strdup(content);
+	if (!*path)
+		return (pr_err(MALL_ERR), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
@@ -147,13 +152,11 @@ int	handle_element(t_meta *meta, t_element_type type, char *flag, char *content)
 	else if (type == WALL)
 		exit_code = input_texture_path(&meta->attributes, flag, content);
 	else if (type == SPRITE)
-	{
-		exit_code = input_sprite_texture_path(&meta->attributes.sprites, &meta->attributes.sprite_arr_index, content);
-	}
+		exit_code = input_sprite_data(&meta->attributes.sprites, &meta->attributes.sprite_arr_index, content);
 	else if (type == DOOR)
-	{
-		exit_code = input_door_path(&meta->attributes.doors, content);
-	}
+		exit_code = input_path(&meta->attributes.doors.tex.tex_path, content);
+	else if (type == NEXT_LVL)
+		exit_code = input_path(&meta->next_level, content);
 	return (exit_code);
 }
 
@@ -189,8 +192,8 @@ int	save_door_index(uint32_t *arr, uint32_t door_count, t_map map)
 	uint32_t	i;
 	uint32_t	j;
 
-	j = 0;
 	i = 0;
+	j = 0;
 	while (i < map.width * map.height)
 	{
 		if (map.level[i] == MAP_DOOR_CLOSED)
@@ -206,11 +209,15 @@ int	save_door_index(uint32_t *arr, uint32_t door_count, t_map map)
 	return (EXIT_SUCCESS);
 }
 
-int	set_doors(t_meta *meta)
+int	set_doors(t_door *doors, t_map map)
 {
-	meta->attributes.doors.idx = malloc(sizeof(uint32_t) * meta->attributes.doors.door_count);
-	if (!meta->attributes.doors.idx)
+	if (!doors->door_count)
+		return (EXIT_SUCCESS);
+	doors->idx = malloc(sizeof(uint32_t) * doors->door_count);
+	if (!doors->idx)
 		return (pr_err(MALL_ERR));
+	if (save_door_index(doors->idx, doors->door_count, map))
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
@@ -221,12 +228,8 @@ int parse_elements(t_meta *meta)
 	meta->attributes.doors.door_count = count_doors(meta->map.level, meta->map.width, meta->map.height);
 	meta->attributes.sprite_arr_index = 0;
 
-	if (meta->attributes.doors.door_count)
-	{
-		if(set_doors(meta) || save_door_index(meta->attributes.doors.idx, meta->attributes.doors.door_count, meta->map))
-			return (EXIT_FAILURE);
-		
-	}
+	if(set_doors(&meta->attributes.doors, meta->map))
+		return (EXIT_FAILURE);
 	if (set_up_sprites(meta))
 		return (EXIT_FAILURE);
 	while (elements != NULL)
