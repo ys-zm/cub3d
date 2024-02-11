@@ -6,12 +6,13 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:33 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/10 02:56:17 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/11 18:58:02 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
 #include "meta.h"
+#include "parser.h"
 #include "test_utils.h"
 #include "vector.h"
 #include <math.h>
@@ -74,6 +75,7 @@ inline static double	calculate_ray_length(t_side hit_side, \
 // moving the ray forward in the direction until there is a hit
 inline static t_side	ray_move(t_vec2d *side_dist, t_vec2d *delta_dist, t_vec2i step_size, t_vec2i *map_pos)
 {
+	// Looking in the x-axis
 	if (side_dist->x < side_dist->y)
 	{
 		side_dist->x += delta_dist->x;
@@ -94,33 +96,57 @@ inline static t_side	ray_move(t_vec2d *side_dist, t_vec2d *delta_dist, t_vec2i s
 	}
 }
 
-static void ray_check_door(t_meta *m, t_ray *r, t_vec2d *side_dist, const t_side hit_side, t_vec2d *delta_dist)
+static void ray_check_door(t_meta *m, t_ray *r, t_vec2d *side_dist, t_vec2d *delta_dist, t_ray_hitfunc hit)
 {
-	const double step_size = 0.5;
 
-	t_vec2d true_delta = {
-		sqrt(1 + (pow(r->direction.y, 2) / pow(r->direction.x, 2))),
-		sqrt(1 + (pow(r->direction.x, 2) / pow(r->direction.y, 2)))
-	};
+	t_vec2d sub_map_pos = vec2i_to_vec2d(r->map_pos);
+	t_vec2d sub_side_dist = {0, 0};
 
-	print_vec2d("true_delta", true_delta);
+	t_vec2d	step_size = vec2d_mul(vec2i_to_vec2d(calculate_step_size(r->direction)), (t_vec2d) {0.1, 0.1});
 
-	if (fabs(r->direction.x) < 0.01)
-		true_delta.x = 100.0;
-	if (fabs(r->direction.y) < 0.01)
-		true_delta.y = 100.0;
 
-	// Here check for hit side and step through accordingly
-	if (side_dist->x < side_dist->y)
+
+	t_cell_type hit_cell = hit(m, (uint32_t) sub_map_pos.x, (uint32_t) sub_map_pos.y);
+	size_t i = 0;
+	// While in door tile.
+	while (world_is_interactable(hit_cell))
 	{
-		side_dist->x += step_size;
-		// printf("[%d] hitting texture\n", id);
-		m->test_ids[r->id] = true;
+		// if looking in x-axis
+		if (side_dist->x < side_dist->y)
+		{
+			side_dist->x += step_size.x;
+			// printf("[%d] hitting texture\n", id);
+			sub_map_pos.x += step_size.x;
+
+			if (step_size.x > 0)
+				r->hit_side = SIDE_N;
+			else
+				r->hit_side = SIDE_S;
+
+			m->test_ids[r->id] = true;
+		}
+		else
+		{
+			side_dist->y += step_size.y;
+			sub_map_pos.y += step_size.y;
+			if (step_size.y > 0)
+				r->hit_side = SIDE_E;
+			else
+				r->hit_side = SIDE_W;
+		}
+
+
+		if (i >= 5)
+			break;
+
+		i++;
+		if (r->id == WINDOW_WIDTH / 2)
+			print_vec2d("side_dist", *side_dist);
+		hit_cell = hit(m, (uint32_t) sub_map_pos.x, (uint32_t) sub_map_pos.y);
 	}
-	else
-	{
-		side_dist->y += step_size;
-	}
+
+	vec2d_add(*side_dist, sub_side_dist);
+
 }
 
 t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *param)
@@ -137,15 +163,16 @@ t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit,
 	delta_dist = calculate_delta_dist(dir);
 	side_dist = calculate_side_dist(dir, pp, r.map_pos, delta_dist);
 	step_size = calculate_step_size(dir);
-	size_t limit = 25;
-	while (limit)
+	while (1)
 	{
 		r.hit_side = ray_move(&side_dist, &delta_dist, step_size, &r.map_pos);
 		r.hit_cell = hit(param, r.map_pos.x, r.map_pos.y);
 
 		if (world_is_interactable(r.hit_cell))
-			ray_check_door((t_meta *) param, &r, &side_dist, r.hit_side, &delta_dist);
+			ray_check_door((t_meta *) param, &r, &side_dist, &delta_dist, hit);
 
+		if (r.id == WINDOW_WIDTH / 2)
+			print_vec2d("side_dist", side_dist);
 
 
 		
@@ -153,10 +180,7 @@ t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit,
 		r.end = vec2i_to_vec2d(r.map_pos);
 		if (hit && r.hit_cell)
 			break;
-		limit--;
 	}
-	if (!limit)
-		WARNING("Raycaster limit reached!");
 	r.length = calculate_ray_length(r.hit_side, side_dist, delta_dist);
 	r.direction = dir;
 	// print_hit_side("side", r.hit_side);

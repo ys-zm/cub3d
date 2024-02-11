@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:27:23 by yzaim             #+#    #+#             */
-/*   Updated: 2024/02/10 02:14:01 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/11 17:21:17 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ static void player_interactable_raycast(t_player *p)
 	{
 		// print message to screen
 		// print_ray("interact ray", r);
+		print_direction(r->hit_side);
 		// printf("Press F to interact with [%s]\n",  CELL_NAMES[r->hit_cell]);
 	}
 	else
