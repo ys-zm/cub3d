@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:33 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/11 19:05:37 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/12 00:24:13 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,41 +98,37 @@ inline static t_side	ray_move(t_vec2d *side_dist, t_vec2d *delta_dist, t_vec2i s
 
 static void ray_check_door(t_meta *m, t_ray *r, t_vec2d *side_dist, t_vec2d *delta_dist, t_ray_hitfunc hit)
 {
-
-	t_vec2d sub_map_pos = vec2i_to_vec2d(r->map_pos);
-	t_vec2d sub_side_dist = {0, 0};
-
-	t_vec2d	step_size = vec2d_mul(vec2i_to_vec2d(calculate_step_size(r->direction)), (t_vec2d) {0.1, 0.1});
+	const double wall_depth = 0.5;
 
 
+	// deltaDistX = sqrt(1 + (rayDirY * rayDirY) / (rayDirX * rayDirX))
+	// deltaDistY = sqrt(1 + (rayDirX * rayDirX) / (rayDirY * rayDirY))
 
-	t_cell_type hit_cell = hit(m, (uint32_t) sub_map_pos.x, (uint32_t) sub_map_pos.y);
-	// While in door tile.
-	while (world_is_interactable(hit_cell))
+	t_vec2d sub_delta_dist =	{
+								sqrt(1 + (pow(r->direction.y, 2) / (pow(r->direction.x, 2)))),
+								sqrt(1 + (pow(r->direction.x, 2) / (pow(r->direction.y, 2)))),
+								};
+
+
+
+
+	t_cell_type cur_cell = r->hit_cell;
+
+	while (world_is_interactable(cur_cell))
 	{
-		// if looking in x-axis
+		// move ray with side_dist
 		if (side_dist->x < side_dist->y)
 		{
-			side_dist->x += step_size.x;
-			// printf("[%d] hitting texture\n", id);
-			sub_map_pos.x += step_size.x;
-
-			m->test_ids[r->id] = true;
+			side_dist->x += sub_delta_dist.y;
 		}
 		else
 		{
-			side_dist->y += step_size.y;
-			sub_map_pos.y += step_size.y;
+			side_dist->y += sub_delta_dist.x;
 		}
 
 
-		if (r->id == WINDOW_WIDTH / 2)
-			print_vec2d("side_dist", *side_dist);
-		hit_cell = hit(m, (uint32_t) sub_map_pos.x, (uint32_t) sub_map_pos.y);
+		break;
 	}
-
-	vec2d_add(*side_dist, sub_side_dist);
-
 }
 
 t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *param)
