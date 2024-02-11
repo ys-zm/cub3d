@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:33 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/11 18:58:02 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/11 19:05:37 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ inline static t_vec2i	calculate_step_size(t_vec2d ray_direction)
 inline static double	calculate_ray_length(t_side hit_side, \
 		t_vec2d side_dist, t_vec2d delta_dist)
 {
-	if (hit_side == SIDE_N || hit_side == SIDE_S)
+	if (hit_side == SIDE_E || hit_side == SIDE_W)
 		return (side_dist.x - delta_dist.x);
 	else
 		return (side_dist.y - delta_dist.y);
@@ -81,18 +81,18 @@ inline static t_side	ray_move(t_vec2d *side_dist, t_vec2d *delta_dist, t_vec2i s
 		side_dist->x += delta_dist->x;
 		map_pos->x += step_size.x;
 		if (step_size.x > 0)
-			return (SIDE_N);
+			return (SIDE_E);
 		else
-			return(SIDE_S);
+			return(SIDE_W);
 	}
 	else
 	{
 		side_dist->y += delta_dist->y;
 		map_pos->y += step_size.y;
 		if (step_size.y > 0)
-			return (SIDE_E);
+			return (SIDE_S);
 		else
-			return (SIDE_W);
+			return (SIDE_N);
 	}
 }
 
@@ -107,7 +107,6 @@ static void ray_check_door(t_meta *m, t_ray *r, t_vec2d *side_dist, t_vec2d *del
 
 
 	t_cell_type hit_cell = hit(m, (uint32_t) sub_map_pos.x, (uint32_t) sub_map_pos.y);
-	size_t i = 0;
 	// While in door tile.
 	while (world_is_interactable(hit_cell))
 	{
@@ -118,28 +117,15 @@ static void ray_check_door(t_meta *m, t_ray *r, t_vec2d *side_dist, t_vec2d *del
 			// printf("[%d] hitting texture\n", id);
 			sub_map_pos.x += step_size.x;
 
-			if (step_size.x > 0)
-				r->hit_side = SIDE_N;
-			else
-				r->hit_side = SIDE_S;
-
 			m->test_ids[r->id] = true;
 		}
 		else
 		{
 			side_dist->y += step_size.y;
 			sub_map_pos.y += step_size.y;
-			if (step_size.y > 0)
-				r->hit_side = SIDE_E;
-			else
-				r->hit_side = SIDE_W;
 		}
 
 
-		if (i >= 5)
-			break;
-
-		i++;
 		if (r->id == WINDOW_WIDTH / 2)
 			print_vec2d("side_dist", *side_dist);
 		hit_cell = hit(m, (uint32_t) sub_map_pos.x, (uint32_t) sub_map_pos.y);
@@ -171,8 +157,6 @@ t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit,
 		if (world_is_interactable(r.hit_cell))
 			ray_check_door((t_meta *) param, &r, &side_dist, &delta_dist, hit);
 
-		if (r.id == WINDOW_WIDTH / 2)
-			print_vec2d("side_dist", side_dist);
 
 
 		
@@ -184,6 +168,10 @@ t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit,
 	r.length = calculate_ray_length(r.hit_side, side_dist, delta_dist);
 	r.direction = dir;
 	// print_hit_side("side", r.hit_side);
+
+
+		if (r.id == WINDOW_WIDTH / 2)
+			print_direction(r.hit_side);
 	
 
 	r.line_height = (int)(WINDOW_HEIGHT / r.length);
@@ -192,7 +180,7 @@ t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit,
 	r.line_point.x = -r.line_height / 2 + ((double)WINDOW_HEIGHT) / 2;
 	r.line_point.y = r.line_height / 2 + ((double)WINDOW_HEIGHT) / 2;
 
-	if (r.hit_side == SIDE_N || r.hit_side == SIDE_S)
+	if (r.hit_side == SIDE_E || r.hit_side == SIDE_W)
 		r.wall_x = pp.y + r.length * r.direction.y;
 	else
 		r.wall_x = pp.x + r.length * r.direction.x;

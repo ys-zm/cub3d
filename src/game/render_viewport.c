@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/10 02:13:33 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/11 19:02:25 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ static void	draw_column(t_meta *meta, t_ray *ray, uint32_t col, uint32_t h)
 	texture = get_texture(ray->hit_cell, ray->hit_side, meta->attributes);
 
 	ray->texture_point.x = (int)(ray->wall_x * texture->width);
-	if ((ray->hit_side == SIDE_N || ray->hit_side == SIDE_S) && ray->direction.x > 0)
+	if ((ray->hit_side == SIDE_E || ray->hit_side == SIDE_W) && ray->direction.x > 0)
 		ray->texture_point.x = texture->width - ray->texture_point.x - 1;
-	if ((ray->hit_side == SIDE_E || ray->hit_side == SIDE_W) && ray->direction.y < 0)
+	if ((ray->hit_side == SIDE_S || ray->hit_side == SIDE_N) && ray->direction.y < 0)
 		ray->texture_point.x = texture->width - ray->texture_point.x - 1;
 
 	
