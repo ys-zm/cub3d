@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:33 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/12 00:24:13 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/12 00:27:52 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ inline static t_side	ray_move(t_vec2d *side_dist, t_vec2d *delta_dist, t_vec2i s
 
 static void ray_check_door(t_meta *m, t_ray *r, t_vec2d *side_dist, t_vec2d *delta_dist, t_ray_hitfunc hit)
 {
-	const double wall_depth = 0.5;
+	const double wall_depth = 0.1;
 
 
 	// deltaDistX = sqrt(1 + (rayDirY * rayDirY) / (rayDirX * rayDirX))
@@ -111,6 +111,8 @@ static void ray_check_door(t_meta *m, t_ray *r, t_vec2d *side_dist, t_vec2d *del
 
 
 
+	t_vec2d sub_map_pos = vec2i_to_vec2d(r->map_pos);
+
 
 	t_cell_type cur_cell = r->hit_cell;
 
@@ -119,15 +121,17 @@ static void ray_check_door(t_meta *m, t_ray *r, t_vec2d *side_dist, t_vec2d *del
 		// move ray with side_dist
 		if (side_dist->x < side_dist->y)
 		{
-			side_dist->x += sub_delta_dist.y;
+			side_dist->x += sub_delta_dist.x;
+			sub_map_pos.x += wall_depth;
 		}
 		else
 		{
-			side_dist->y += sub_delta_dist.x;
+			side_dist->y += sub_delta_dist.y;
+			sub_map_pos.y += wall_depth;
 		}
 
 
-		break;
+		cur_cell = hit(m, (uint32_t) sub_map_pos.x, (uint32_t) sub_map_pos.y);
 	}
 }
 
