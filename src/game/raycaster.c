@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:33 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/12 01:20:13 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/12 01:20:46 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ static bool ray_check_door(t_meta *m, t_ray *r, t_vec2d *side_dist, t_vec2d delt
 			side_dist->x += delta_dist.x;
 			map_pos.x += step_size.x;
 
+			r->hit_side = SIDE_E;
 			m->test_ids[r->id] = true;
 		}
 		else
