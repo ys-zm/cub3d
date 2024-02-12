@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:33 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/12 01:17:50 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/12 01:20:13 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ inline static t_vec2d	calculate_delta_dist_true(t_vec2d ray_direction)
 	return (delta_dist);
 }
 
-static bool ray_check_door(t_meta *m, t_ray *r, t_vec2d side_dist, t_vec2d delta_dist, t_ray_hitfunc hit)
+static bool ray_check_door(t_meta *m, t_ray *r, t_vec2d *side_dist, t_vec2d delta_dist, t_ray_hitfunc hit)
 {
 	t_vec2d map_pos = vec2i_to_vec2d(r->map_pos);
 
@@ -123,16 +123,16 @@ static bool ray_check_door(t_meta *m, t_ray *r, t_vec2d side_dist, t_vec2d delta
 	if (world_is_interactable(hit_cell))
 	{
 		// if looking in x-axis
-		if (side_dist.x < side_dist.y)
+		if (side_dist->x < side_dist->y)
 		{
-			side_dist.x += delta_dist.x;
+			side_dist->x += delta_dist.x;
 			map_pos.x += step_size.x;
 
 			m->test_ids[r->id] = true;
 		}
 		else
 		{
-			side_dist.y += delta_dist.y;
+			side_dist->y += delta_dist.y;
 			map_pos.y += step_size.y;
 		}
 
@@ -177,8 +177,10 @@ t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit,
 		r.hit_cell = hit(param, r.map_pos.x, r.map_pos.y);
 
 		if (world_is_interactable(r.hit_cell))
-			if (ray_check_door((t_meta *) param, &r, side_dist, delta_dist, hit))
+			if (ray_check_door((t_meta *) param, &r, &side_dist, delta_dist, hit))
+			{
 				hit_door = true;
+			}
 
 
 
