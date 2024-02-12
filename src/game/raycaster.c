@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:33 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/12 00:27:52 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/12 01:17:50 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,44 +96,64 @@ inline static t_side	ray_move(t_vec2d *side_dist, t_vec2d *delta_dist, t_vec2i s
 	}
 }
 
-static void ray_check_door(t_meta *m, t_ray *r, t_vec2d *side_dist, t_vec2d *delta_dist, t_ray_hitfunc hit)
+inline static t_vec2d	calculate_delta_dist_true(t_vec2d ray_direction)
 {
-	const double wall_depth = 0.1;
+	t_vec2d			delta_dist;
+	const double	tolerance = 0.005;
 
+	if (fabs(-ray_direction.x) < tolerance)
+		delta_dist.x = INT32_MAX;
+	else
+		delta_dist.x = sqrt(1 + (ray_direction.y * ray_direction.y) / (ray_direction.x * ray_direction.x));
+	if (fabs(-ray_direction.y) < tolerance)
+		delta_dist.y = INT32_MAX;
+	else
+		delta_dist.y = sqrt(1 + (ray_direction.x * ray_direction.x) / (ray_direction.y * ray_direction.y));
+	return (delta_dist);
+}
 
-	// deltaDistX = sqrt(1 + (rayDirY * rayDirY) / (rayDirX * rayDirX))
-	// deltaDistY = sqrt(1 + (rayDirX * rayDirX) / (rayDirY * rayDirY))
+static bool ray_check_door(t_meta *m, t_ray *r, t_vec2d side_dist, t_vec2d delta_dist, t_ray_hitfunc hit)
+{
+	t_vec2d map_pos = vec2i_to_vec2d(r->map_pos);
 
-	t_vec2d sub_delta_dist =	{
-								sqrt(1 + (pow(r->direction.y, 2) / (pow(r->direction.x, 2)))),
-								sqrt(1 + (pow(r->direction.x, 2) / (pow(r->direction.y, 2)))),
-								};
+	t_vec2d	step_size = vec2d_mul(vec2i_to_vec2d(calculate_step_size(r->direction)), (t_vec2d) {0.5, 0.5});
+	t_cell_type hit_cell = hit(m, (uint32_t) map_pos.x, (uint32_t) map_pos.y);
 
-
-
-	t_vec2d sub_map_pos = vec2i_to_vec2d(r->map_pos);
-
-
-	t_cell_type cur_cell = r->hit_cell;
-
-	while (world_is_interactable(cur_cell))
+	// While in door tile.
+	if (world_is_interactable(hit_cell))
 	{
-		// move ray with side_dist
-		if (side_dist->x < side_dist->y)
+		// if looking in x-axis
+		if (side_dist.x < side_dist.y)
 		{
-			side_dist->x += sub_delta_dist.x;
-			sub_map_pos.x += wall_depth;
+			side_dist.x += delta_dist.x;
+			map_pos.x += step_size.x;
+
+			m->test_ids[r->id] = true;
 		}
 		else
 		{
-			side_dist->y += sub_delta_dist.y;
-			sub_map_pos.y += wall_depth;
+			side_dist.y += delta_dist.y;
+			map_pos.y += step_size.y;
 		}
 
 
-		cur_cell = hit(m, (uint32_t) sub_map_pos.x, (uint32_t) sub_map_pos.y);
+
+		hit_cell = hit(m, (uint32_t) map_pos.x, (uint32_t) map_pos.y);
+
+		if (world_is_interactable(hit_cell))
+		{
+			if (r->id == WINDOW_WIDTH / 2)
+				printf("hitting door\n");
+			return true;	
+		}
+		else
+		{
+			return false;	
+		}
 	}
+	return false;	
 }
+
 
 t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *param)
 {
@@ -143,19 +163,22 @@ t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit,
 	t_vec2d	side_dist;
 	t_vec2d delta_dist;
 
+	bool hit_door = false;
+
 	r.id = id;
 	r.map_pos.x = (int)pp.x;
 	r.map_pos.y = (int)pp.y;
 	delta_dist = calculate_delta_dist(dir);
 	side_dist = calculate_side_dist(dir, pp, r.map_pos, delta_dist);
 	step_size = calculate_step_size(dir);
-	while (1)
+	while (1 && !hit_door)
 	{
 		r.hit_side = ray_move(&side_dist, &delta_dist, step_size, &r.map_pos);
 		r.hit_cell = hit(param, r.map_pos.x, r.map_pos.y);
 
 		if (world_is_interactable(r.hit_cell))
-			ray_check_door((t_meta *) param, &r, &side_dist, &delta_dist, hit);
+			if (ray_check_door((t_meta *) param, &r, side_dist, delta_dist, hit))
+				hit_door = true;
 
 
 
