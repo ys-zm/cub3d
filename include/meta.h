@@ -145,6 +145,7 @@ typedef enum e_side {
 typedef struct s_ray {
 	// `id` just for debugging.
 	uint32_t	id;
+	bool		door;
 	t_vec2d		direction;
 	t_vec2d		end;
 	t_vec2i		map_pos;
@@ -168,6 +169,7 @@ typedef struct s_vray {
 typedef struct s_player {
 	t_meta		*meta;
 	t_ray		rays[WINDOW_WIDTH];
+	t_ray		drays[WINDOW_WIDTH];
 	t_vray		vrays[WINDOW_HEIGHT];
 	t_ray 		interact_ray;
 	bool 		should_render;
@@ -265,6 +267,7 @@ void	player_move(t_player *p, t_vec2d transform);
 void	player_turn(t_player *p, float radiant);
 void	player_raycast(t_player *p);
 void 	player_interact(t_player *p);
+t_cell_type bound_check_move(const void *param, uint32_t x, uint32_t y);
 
 // keys.c
 void	cursor_hook(double xpos, double ypos, void* param);
@@ -299,7 +302,7 @@ t_ray		raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *pa
 int32_t		set_color(int32_t r, int32_t g, int32_t b, int32_t a);
 int32_t		find_wall_color(t_attr atrributes, t_ray *ray, t_vec2i line_points, uint32_t h);
 int32_t		find_color(t_rgba rgba);
-mlx_texture_t	*get_texture(t_cell_type cell, t_side side, t_attr attributes);
+mlx_texture_t	*get_texture(bool door, t_cell_type cell, t_side side, t_attr attributes);
 
 // free.c
 void		meta_free(t_meta *meta);

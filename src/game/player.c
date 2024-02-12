@@ -29,6 +29,25 @@ t_cell_type bound_check(const void *param, uint32_t x, uint32_t y)
 	if (x < meta->map.width && y < meta->map.height)
 	{
 		cur_cell = meta->map.level[(y * meta->map.width) + x];
+		if (cur_cell == MAP_WALL)
+			return (cur_cell);
+		else
+			return (0);
+	}
+	else
+	{
+		UNIMPLEMENTED("Map out of bounds.");
+	}
+}
+
+t_cell_type bound_check_move(const void *param, uint32_t x, uint32_t y)
+{
+	t_meta *const meta = (t_meta *) param;
+	t_cell_type cur_cell;
+
+	if (x < meta->map.width && y < meta->map.height)
+	{
+		cur_cell = meta->map.level[(y * meta->map.width) + x];
 		if (cur_cell == MAP_WALL || cur_cell == MAP_DOOR_CLOSED)
 			return (cur_cell);
 		else
@@ -83,7 +102,7 @@ void print_angle(t_player *p)
 
 void player_move(t_player *p, t_vec2d transform)
 {
-	t_ray r = raycaster_cast(p->position, vec2d_normalize(transform), bound_check, p->meta);
+	t_ray r = raycaster_cast(p->position, vec2d_normalize(transform), bound_check_move, p->meta);
 
 	if (r.length > 0.5)
 		p->position = vec2d_add(p->position, transform);
@@ -97,7 +116,7 @@ void player_move(t_player *p, t_vec2d transform)
 		t_vec2d delta_pos;
 		delta_pos.x = transform.x - normal.x * dot_product;
 		delta_pos.y = transform.y - normal.y * dot_product;
-		r = raycaster_cast(p->position, vec2d_normalize(transform), bound_check, p->meta);
+		r = raycaster_cast(p->position, vec2d_normalize(transform), bound_check_move, p->meta);
 
 		if (r.length > 0.3)
 		{
@@ -152,6 +171,8 @@ static void player_interactable_raycast(t_player *p)
 
 t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *param);
 
+t_ray	raycaster_cast_door(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *param);
+
 void player_raycast(t_player *p)
 {
 	uint32_t	w = p->meta->image->width;
@@ -187,5 +208,14 @@ void player_raycast(t_player *p)
 		col++;
 	}	
 
+	// calculate door collisions
+	col	= 0;
+	while (col < p->meta->image->width)
+	{
+		camera_x = (2 * col / ((double) p->meta->image->width) - 1);
+		ray_start = vec2d_add(p->direction, vec2d_scalar_product(p->cam_plane, camera_x));
+		p->drays[col] = raycaster_cast_door(col, p->position, ray_start, bound_check_move, p->meta);
+		col++;
+	}
 	sprite_calculate(p);
 }

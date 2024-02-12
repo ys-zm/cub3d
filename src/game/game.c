@@ -113,5 +113,5 @@ void game_loop(void* param)
 	timer_start(&meta->update_timer);
 	render_minimap(&meta->minimap, &meta->map, &meta->player);
 	render_viewport(meta->image, &meta->player);
-	sprite_calculate(&meta->player);
+	
 }
