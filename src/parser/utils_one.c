@@ -13,8 +13,10 @@
 #include "libft.h"
 
 // skips a line on the file until '\n' char
-void skip_line(char **file)
+void skip_line(char **file, int to_skip)
 {
+	if (!to_skip)
+		return ;
 	while (file && *file && **file && **file != '\n')
 		(*file)++;
 	if (**file == '\n')

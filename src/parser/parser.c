@@ -6,14 +6,14 @@
 /*   By: yzaim <marvin@42.fr>   +#+  +:+   +#+*/
 /*+#+#+#+#+#+   +#+   */
 /*   Created: 2023/11/09 18:08:19 by yzaim #+##+# */
-/*   Updated: 2024/01/18 10:45:18 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/01/29 15:34:19 by yesimzaim     ########   odam.nl         */
 /**/
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "test_utils.h"
 
-	char	*file_to_string(int fd)
+char	*file_to_string(int fd)
 {
 	char *line;
 	char *full_map;
@@ -76,32 +76,55 @@ char *parse_file(char *map_file)
 int	create_rectangle_map_element(t_meta *meta)
 {
 	char	*rect = NULL;
-	rect = make_rect(meta->map_element, meta->map.width, meta->map.height);
+	rect = make_rect(meta->map.map_element, meta->map.width, meta->map.height);
 	// printing map for debugging
 	// print_map(rect, meta->map.width, meta->map.height);
 	if (!rect)
 		return(pr_err(MALL_ERR), EXIT_FAILURE);
-	free(meta->map_element);
-	meta->map_element = rect;
+	free(meta->map.map_element);
+	meta->map.map_element = rect;
 	return (EXIT_SUCCESS);
 }
 
-// should i put a minimun on the width and height
-// TODO: Add parser for floor and ceiling texture path
-int	parser(t_meta *meta, char *map_file)
+bool	out_of_bounds(t_vec2d pos, uint32_t w, uint32_t h)
+{
+	double	width;
+	double	height;
+
+	width = (double)w;
+	height = (double)h;
+	if (pos.x >= width || pos.y >= height || pos.x <= 0 || pos.y <= 0)
+		return (true);
+	return (false);
+
+}
+
+int	sprites_coordinates(uint32_t sprite_count, t_sprite *sprites, uint32_t w, uint32_t h)
+{
+	uint32_t	i;
+
+	i = 0;
+	while (i < sprite_count)
+	{
+		if (out_of_bounds(sprites[i].pos, w, h))
+			return (EXIT_FAILURE);
+		i++;
+	}
+	return (EXIT_SUCCESS);
+}
+
+int	parser(t_meta *meta)
 {
 	char	*file = NULL;
 	
-	meta->scene_name = map_file;
-	file = parse_file(map_file);
-	if (!file)
-		return(EXIT_FAILURE);
-	if (parse_elements(meta, file))
-		return (EXIT_FAILURE);
-	save_map_dimensions(meta->map_element, &meta->map.width, &meta->map.height);
+	save_map_dimensions(meta->map.map_element, &meta->map.width, &meta->map.height);
 	create_rectangle_map_element(meta);
-	if (check_map(meta, meta->map_element))
+	if (check_map(meta, meta->map.map_element))
 		return (EXIT_FAILURE);
-	free(meta->map_element);
+	if (parse_elements(meta))
+		return (EXIT_FAILURE);
+	if (sprites_coordinates(meta->attributes.sprite_count, meta->attributes.sprites, meta->map.width, meta->map.height))
+		return (pr_err(SP_COORD), EXIT_FAILURE);
+	free(meta->map.map_element);
 	return (EXIT_SUCCESS);
 }

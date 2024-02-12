@@ -97,11 +97,28 @@ int find_index(t_meta *meta, uint32_t x, uint32_t y)
 
 bool	is_path(char *str)
 {
-	while (*str != '\n')
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
 	{
-		if (*str == '/')
+		if (str[i] == '/')
 			return (true);
-		str++;
+		i++;
 	}
 	return (false);
+}
+
+uint32_t	count_sprites(t_flag *elements)
+{
+	uint32_t	count;
+
+	count = 0;
+	while (elements != NULL)
+	{
+		if (!ft_strncmp(elements->flag, "SP", 3))
+			count++;
+		elements = elements->next;
+	}
+	return (count);
 }

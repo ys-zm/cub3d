@@ -16,9 +16,9 @@ RUN_CMD		:= ./$(NAME) test_maps/valid_tex.cub
 
 # CFLAGS		+= -Wall -Wextra -Werror
 # CFLAGS		+= -Wall -Wextra
-CFLAGS		+= -g -fsanitize=address
-# CFLAGS		+= -g
-# CFLAGS		+= -Ofast -flto -march=native
+# CFLAGS		+= -g -fsanitize=address
+# # CFLAGS		+= -g
+CFLAGS		+= -Ofast -flto -march=native
 
 LIBFT		:=	libft/build/libft.a
 LIBMLX		:=	MLX42/build/libmlx42.a
@@ -37,6 +37,7 @@ SRCS	= 		parser/check_elements.c \
 				parser/check_colors.c \
 				parser/utils_one.c \
 				parser/utils_two.c \
+				parser/utils_three.c \
 				utils/error.c \
 				utils/free.c \
 				utils/colors.c \
@@ -56,7 +57,14 @@ SRCS	= 		parser/check_elements.c \
 				test_utils.c \
 				timer.c \
 				set_textures.c \
-				game/floorcaster.c
+				game/floorcaster.c \
+				game/sprite.c \
+				game/sprite_utils.c \
+				parser/lexer.c \
+				parser/lexer_utils.c \
+				parser/map_lexer.c \
+				parser/flag_lexer.c \
+				parser/extra_lexer.c 
 
 HEADER_DIR	:=	include
 HEADERS 	:=	meta.h \
@@ -114,6 +122,7 @@ fclean: clean tclean
 	$(MAKE) -C MLX42/build clean
 	$(MAKE) -C libft fclean
 	rm -f $(NAME)
+	rm -rf $(NAME).dSYM
 
 re: fclean all
 

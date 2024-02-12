@@ -2,6 +2,12 @@
     "files.associations": {
 		"cstdlib": "c",
 		"stdio.h": "c",
-		"meta.h": "c"
+		"meta.h": "c",
+		"array": "c",
+		"string_view": "c",
+		"initializer_list": "c",
+		"ranges": "c",
+		"span": "c",
+		"utility": "c"
 	}
 }
