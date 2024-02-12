@@ -120,10 +120,10 @@ int cub3d(int argc, char **argv)
 	init_mlx_images(&meta);
 	// TODO Error check.
 	game_init(&meta);
-	mlx_set_cursor_mode(meta.mlx, MLX_MOUSE_HIDDEN);
+	// mlx_set_cursor_mode(meta.mlx, MLX_MOUSE_HIDDEN);
 	mlx_loop_hook(meta.mlx, game_loop, &meta);
 	mlx_loop_hook(meta.mlx, fps_hook, &meta);
-	mlx_cursor_hook(meta.mlx, cursor_hook, &meta);
+	// mlx_cursor_hook(meta.mlx, cursor_hook, &meta);
 	mlx_loop(meta.mlx);
 	mlx_terminate(meta.mlx);
 	meta_free(&meta);

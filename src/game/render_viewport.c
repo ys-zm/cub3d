@@ -32,7 +32,6 @@ static void	draw_column(t_meta *meta, t_ray *ray, uint32_t col, uint32_t h)
 		ray->texture_point.x = texture->width - ray->texture_point.x - 1;
 	if ((ray->hit_side == SIDE_S || ray->hit_side == SIDE_N) && ray->direction.y < 0)
 		ray->texture_point.x = texture->width - ray->texture_point.x - 1;
-
 	
 	double offset = 0;
 	if (ray->line_height > h)

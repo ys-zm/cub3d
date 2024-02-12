@@ -23,7 +23,6 @@ mlx_texture_t	*get_texture(t_cell_type cell, t_side side, t_attr attributes)
 {
 	if (cell == MAP_DOOR_CLOSED)
 		return attributes.doors.tex.tex;
-
 	if (side == SIDE_N)
 		return (attributes.n.tex);
 	else if (side == SIDE_S)
