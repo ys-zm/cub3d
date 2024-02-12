@@ -24,23 +24,35 @@ static void	draw_column(t_meta *meta, t_ray *ray, uint32_t col, uint32_t h)
 	int32_t			y;
 	int32_t			color;
 	mlx_texture_t	*texture;
+	mlx_texture_t	*door;
 
 	texture = get_texture(ray->hit_cell, ray->hit_side, meta->attributes);
-
 	ray->texture_point.x = (int)(ray->wall_x * texture->width);
 	if ((ray->hit_side == SIDE_E || ray->hit_side == SIDE_W) && ray->direction.x > 0)
 		ray->texture_point.x = texture->width - ray->texture_point.x - 1;
 	if ((ray->hit_side == SIDE_S || ray->hit_side == SIDE_N) && ray->direction.y < 0)
 		ray->texture_point.x = texture->width - ray->texture_point.x - 1;
-
-	
 	double offset = 0;
 	if (ray->line_height > h)
 		offset = (ray->line_height - h) / 2;
-
 	ray->step = texture->height / ray->line_height;
 	ray->texture_position = ((ray->line_point.x + offset) + (ray->line_height - h) / 2) * ray->step;
 
+	if (ray->door)
+	{
+		door = meta->attributes.doors.tex.tex;
+		ray->door_texture_point.x = (int)(ray->wall_x * door->width);
+		if ((ray->hit_side == SIDE_N || ray->hit_side == SIDE_S) && ray->direction.x < 0)
+			ray->door_texture_point.x = door->width - ray->door_texture_point.x - 1;
+		if ((ray->hit_side == SIDE_E || ray->hit_side == SIDE_W) && ray->direction.y > 0)
+			ray->door_texture_point.x = door->width - ray->door_texture_point.x - 1;
+
+		double door_offset = 0;
+		if (ray->door_line_height > h)
+			door_offset = (ray->door_line_height - h) / 2;
+		ray->door_step = door->height / ray->door_line_height;
+		ray->door_texture_position = ((ray->door_line_point.x + door_offset) + (ray->door_line_height - h) / 2) * ray->door_step;
+	}
 	y = 0;
 	while (y < (int32_t) h)
 	{
@@ -50,9 +62,19 @@ static void	draw_column(t_meta *meta, t_ray *ray, uint32_t col, uint32_t h)
 			color = find_color(meta->attributes.floor_c);
 		else
 		{
-			ray->texture_point.y = ((int) ray->texture_position) & (texture->height - 1);
-			ray->texture_position += ray->step;
-			color = pixel_picker(texture, (int)round(ray->texture_point.x), (int)round(ray->texture_point.y));
+			if (ray->door && y >= (ray->door_line_point.x) && y <= (ray->door_line_point.y))
+			{
+				ray->door_texture_point.y = ((int) ray->door_texture_position) & (door->height - 1);
+				ray->door_texture_position += ray->door_step;
+				color = pixel_picker(door, (int)round(ray->door_texture_point.x), (int)round(ray->door_texture_point.y));
+			}
+			else
+			{
+				
+				ray->texture_point.y = ((int) ray->texture_position) & (texture->height - 1);
+				ray->texture_position += ray->step;
+				color = pixel_picker(texture, (int)round(ray->texture_point.x), (int)round(ray->texture_point.y));
+			}
 			mlx_put_pixel(meta->image, col, y, color);
 		}
 		y++;
@@ -112,15 +134,15 @@ void render_viewport(mlx_image_t *image, t_player *p)
 		col++;
 	}
 
-	// draw crosshair
-	const int32_t crosshair_size = 8;
-	draw_rect(image, (WINDOW_WIDTH / 2 - (crosshair_size / 2)), (WINDOW_HEIGHT / 2 - (crosshair_size / 2)), crosshair_size, crosshair_size, 0xFFFFFFFF);
+	// // draw crosshair
+	// const int32_t crosshair_size = 8;
+	// draw_rect(image, (WINDOW_WIDTH / 2 - (crosshair_size / 2)), (WINDOW_HEIGHT / 2 - (crosshair_size / 2)), crosshair_size, crosshair_size, 0xFFFFFFFF);
 
-	col = 0;
-	while (col < WINDOW_WIDTH)
-	{
-		if (p->meta->test_ids[col])	
-			mlx_put_pixel(image, col, WINDOW_HEIGHT / 2, 0x000000FF);
-		col++;
-	}
+	// col = 0;
+	// while (col < WINDOW_WIDTH)
+	// {
+	// 	if (p->meta->test_ids[col])	
+	// 		mlx_put_pixel(image, col, WINDOW_HEIGHT / 2, 0x000000FF);
+	// 	col++;
+	// }
 }

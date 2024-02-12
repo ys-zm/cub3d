@@ -21,9 +21,9 @@ int32_t set_color(int32_t r, int32_t g, int32_t b, int32_t a)
 
 mlx_texture_t	*get_texture(t_cell_type cell, t_side side, t_attr attributes)
 {
-	if (cell == MAP_DOOR_CLOSED)
-		return attributes.doors.tex.tex;
-
+	// if (cell == MAP_DOOR_CLOSED)
+	// 	return attributes.doors.tex.tex;
+	(void)cell;
 	if (side == SIDE_N)
 		return (attributes.n.tex);
 	else if (side == SIDE_S)

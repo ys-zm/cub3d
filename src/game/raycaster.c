@@ -112,50 +112,30 @@ inline static t_vec2d	calculate_delta_dist_true(t_vec2d ray_direction)
 	return (delta_dist);
 }
 
-static bool ray_check_door(t_meta *m, t_ray *r, t_vec2d *side_dist, t_vec2d delta_dist, t_ray_hitfunc hit)
+
+static bool ray_check_door(t_meta *m, t_vec2i *map_pos, t_vec2d *side_dist, t_vec2d delta_dist, t_ray_hitfunc hit)
 {
-	t_vec2d map_pos = vec2i_to_vec2d(r->map_pos);
 
-	t_vec2d	step_size = vec2d_mul(vec2i_to_vec2d(calculate_step_size(r->direction)), (t_vec2d) {0.1, 0.1});
-	t_cell_type hit_cell = hit(m, (uint32_t) map_pos.x, (uint32_t) map_pos.y);
-
+	double	step_size = 0.1;
+	t_cell_type hit_cell = hit(m, (uint32_t) map_pos->x, (uint32_t) map_pos->y);
 	while (world_is_interactable(hit_cell))
 	{
 		// if looking in x-axis
 		if (side_dist->x < side_dist->y)
 		{
 			side_dist->x += delta_dist.x;
-			map_pos.x += step_size.x;
+			map_pos->x += step_size;
 
-			m->test_ids[r->id] = true;
-			if (step_size.x > 0)
-				r->hit_side = (SIDE_E);
-			else
-				r->hit_side = (SIDE_W);
 		}
 		else
 		{
 			side_dist->y += delta_dist.y;
-			map_pos.y += step_size.y;
-			if (step_size.y > 0)
-				r->hit_side = (SIDE_S);
-			else
-				r->hit_side = (SIDE_N);
-		}
-		hit_cell = hit(m, (uint32_t) map_pos.x, (uint32_t) map_pos.y);
+			map_pos->y += step_size;
 
-		if (world_is_interactable(hit_cell))
-		{
-			if (r->id == WINDOW_WIDTH / 2)
-				printf("hitting door\n");
-			return true;	
 		}
-		else
-		{
-			return false;	
-		}
+		hit_cell = hit(m, (uint32_t) map_pos->x, (uint32_t) map_pos->y);
 	}
-	return false;	
+	return (false);
 }
 
 
@@ -167,8 +147,6 @@ t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit,
 	t_vec2d	side_dist;
 	t_vec2d delta_dist;
 
-	bool hit_door = false;
-
 	r.id = id;
 	r.direction = dir;
 	r.map_pos.x = (int)pp.x;
@@ -176,29 +154,43 @@ t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit,
 	delta_dist = calculate_delta_dist(dir);
 	side_dist = calculate_side_dist(dir, pp, r.map_pos, delta_dist);
 	step_size = calculate_step_size(dir);
-	while (1 && !hit_door)
+	while (1)
 	{
 		r.hit_side = ray_move(&side_dist, &delta_dist, step_size, &r.map_pos);
 		r.hit_cell = hit(param, r.map_pos.x, r.map_pos.y);
 
-		if (world_is_interactable(r.hit_cell))
-			if (ray_check_door((t_meta *) param, &r, &side_dist, delta_dist, hit))
-			{
-				hit_door = true;
-			}
-
-
-
-		
 		// Tmporary to get the end
 		r.end = vec2i_to_vec2d(r.map_pos);
 		if (hit && r.hit_cell)
 			break;
 	}
 	r.length = calculate_ray_length(r.hit_side, side_dist, delta_dist);
-
+	
+	t_vec2i mappos;
+	mappos.x = (int)pp.x;
+	mappos.y = (int)pp.y;
+	t_vec2d delta_dist_door = calculate_delta_dist(dir);
+	t_vec2d side_dist_door = calculate_side_dist(dir, pp, mappos, delta_dist_door);
+	r.door = false;
+	while (1)
+	{
+		ray_move(&side_dist_door, &delta_dist_door, step_size, &mappos);
+		r.hit_cell = bound_check_door(param, mappos.x, mappos.y);
+		if (world_is_interactable(r.hit_cell))
+			r.door = true;
+		if (r.hit_cell)
+			break;
+	}
+	if (r.door)
+	{
+		// calculate door line points
+		r.door_len = calculate_ray_length(r.hit_side, side_dist_door, delta_dist_door);
+		r.door_line_height = (int)(WINDOW_HEIGHT / r.door_len);
+		r.door_line_point.x = -r.door_line_height / 2 + ((double)WINDOW_HEIGHT) / 2;
+		r.door_line_point.y = r.door_line_height / 2 + ((double)WINDOW_HEIGHT) / 2;
+	}
+	// calculate line points for the walls
 	r.line_height = (int)(WINDOW_HEIGHT / r.length);
-
 	// draw start and draw end
 	r.line_point.x = -r.line_height / 2 + ((double)WINDOW_HEIGHT) / 2;
 	r.line_point.y = r.line_height / 2 + ((double)WINDOW_HEIGHT) / 2;

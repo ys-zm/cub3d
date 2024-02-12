@@ -144,11 +144,16 @@ typedef enum e_side {
 
 typedef struct s_ray {
 	// `id` just for debugging.
+	bool		door;
+	double		door_len;
+	double		door_line_height;
+	t_vec2i		door_line_point;
 	uint32_t	id;
 	t_vec2d		direction;
 	t_vec2d		end;
 	t_vec2i		map_pos;
 	t_vec2i		texture_point;
+	t_vec2i		door_texture_point;
 	t_vec2i		line_point;
 	t_side		hit_side;
 	t_cell_type hit_cell;
@@ -157,7 +162,9 @@ typedef struct s_ray {
 	double		length;
 	double 		wall_x;
 	double		texture_position;
+	double		door_texture_position;
 	double		step;
+	double		door_step;
 } t_ray;
 
 typedef struct s_vray {
@@ -265,6 +272,7 @@ void	player_move(t_player *p, t_vec2d transform);
 void	player_turn(t_player *p, float radiant);
 void	player_raycast(t_player *p);
 void 	player_interact(t_player *p);
+t_cell_type bound_check_door(const void *param, uint32_t x, uint32_t y);
 
 // keys.c
 void	cursor_hook(double xpos, double ypos, void* param);
