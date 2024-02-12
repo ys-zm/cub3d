@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:33 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/12 01:20:46 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/12 01:27:39 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,11 +116,10 @@ static bool ray_check_door(t_meta *m, t_ray *r, t_vec2d *side_dist, t_vec2d delt
 {
 	t_vec2d map_pos = vec2i_to_vec2d(r->map_pos);
 
-	t_vec2d	step_size = vec2d_mul(vec2i_to_vec2d(calculate_step_size(r->direction)), (t_vec2d) {0.5, 0.5});
+	t_vec2d	step_size = vec2d_mul(vec2i_to_vec2d(calculate_step_size(r->direction)), (t_vec2d) {0.1, 0.1});
 	t_cell_type hit_cell = hit(m, (uint32_t) map_pos.x, (uint32_t) map_pos.y);
 
-	// While in door tile.
-	if (world_is_interactable(hit_cell))
+	while (world_is_interactable(hit_cell))
 	{
 		// if looking in x-axis
 		if (side_dist->x < side_dist->y)
@@ -128,17 +127,21 @@ static bool ray_check_door(t_meta *m, t_ray *r, t_vec2d *side_dist, t_vec2d delt
 			side_dist->x += delta_dist.x;
 			map_pos.x += step_size.x;
 
-			r->hit_side = SIDE_E;
 			m->test_ids[r->id] = true;
+			if (step_size.x > 0)
+				r->hit_side = (SIDE_E);
+			else
+				r->hit_side = (SIDE_W);
 		}
 		else
 		{
 			side_dist->y += delta_dist.y;
 			map_pos.y += step_size.y;
+			if (step_size.y > 0)
+				r->hit_side = (SIDE_S);
+			else
+				r->hit_side = (SIDE_N);
 		}
-
-
-
 		hit_cell = hit(m, (uint32_t) map_pos.x, (uint32_t) map_pos.y);
 
 		if (world_is_interactable(hit_cell))
@@ -167,6 +170,7 @@ t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit,
 	bool hit_door = false;
 
 	r.id = id;
+	r.direction = dir;
 	r.map_pos.x = (int)pp.x;
 	r.map_pos.y = (int)pp.y;
 	delta_dist = calculate_delta_dist(dir);
@@ -192,13 +196,6 @@ t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit,
 			break;
 	}
 	r.length = calculate_ray_length(r.hit_side, side_dist, delta_dist);
-	r.direction = dir;
-	// print_hit_side("side", r.hit_side);
-
-
-		if (r.id == WINDOW_WIDTH / 2)
-			print_direction(r.hit_side);
-	
 
 	r.line_height = (int)(WINDOW_HEIGHT / r.length);
 
