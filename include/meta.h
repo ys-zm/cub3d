@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/02/14 17:00:09 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/14 17:51:24 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -332,6 +332,10 @@ char	*get_val(char *file);
 char	*get_key(char *file);
 bool	is_valid_key(t_flag *elements, t_flag *new_node, int *mandatory);
 char 	*extract_file(char *map_file);
+
+// map_utils.c
+int	create_rectangle_map_element(t_meta *meta);
+void	save_map_dimensions(char *map_file, uint32_t *width, uint32_t *height);
 
 // test_utils.c REMOVE LATER
 void	print_double_array(char *msg, double *arr, uint32_t size, t_sprite *sp, int32_t *order);

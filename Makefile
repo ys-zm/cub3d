@@ -36,9 +36,9 @@ SRCS	= 	parser/check_elements.c \
 			parser/parse_textures.c \
 			parser/parser.c	\
 			parser/check_colors.c \
-			parser/utils_one.c \
-			parser/utils_two.c \
-			parser/utils_three.c \
+			parser/skip_utils.c \
+			parser/double_utils.c \
+			parser/map_access_utils.c \
 			parser/lexer.c \
 			parser/lexer_utils.c \
 			parser/lexer_test_utils.c \

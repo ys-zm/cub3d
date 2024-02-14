@@ -6,7 +6,7 @@
 /*   By: yzaim <yzaim@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:56:45 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/14 13:23:40 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/14 17:49:31 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ char	*get_tex_val(char *file)
 // returns true of the characters match those of a valid texture element
 bool	is_wall(char *file)
 {
-	char	*tx[4] = {"NO", "SO", "WE", "EA"};
-	int		i;
+	const char	*tx[4] = {"NO", "SO", "WE", "EA"};
+	int			i;
 
 	i = 0;
 	while (i < 4)

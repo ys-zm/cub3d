@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/14 16:46:06 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/14 17:13:55 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,13 @@ bool	is_duplicate_flag(t_flag *elements, char *key)
 // if key is not a duplicate and is mandatory
 bool	is_valid_key(t_flag *elements, t_flag *new_node, int *mandatory)
 {
-	if (is_duplicate_flag(elements, new_node->flag) && is_valid_element(new_node->flag))
+	if (is_duplicate_flag(elements, new_node->flag) \
+		&& is_valid_element(new_node->flag))
 	{
 		return (false);
 	}
-	if (!is_duplicate_flag(elements, new_node->flag) && is_valid_element(new_node->flag))
+	if (!is_duplicate_flag(elements, new_node->flag) \
+		&& is_valid_element(new_node->flag))
 	{
 		(*mandatory)++;
 	}

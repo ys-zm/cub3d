@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/14 16:54:52 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/14 17:40:59 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	add_element(char *file, t_flag **elements, int *mandatory)
 	if (!new_node)
 		return (pr_err(MALL_ERR));
 	if (!is_valid_key(*elements, new_node, mandatory))
-		return (free(new_node->flag), free(new_node->content),\
+		return (free(new_node->flag), free(new_node->content), \
 			free(new_node), pr_err(DUP_ELEMENTS));
 	add_to_list(elements, new_node);
 	return (EXIT_SUCCESS);
@@ -87,7 +87,6 @@ int	lex(char *file, t_map *map, t_flag **elements)
 	return (EXIT_SUCCESS);
 }
 
-// read the file into one string and lexes the extras into a linked list
 int	lexer(t_meta *meta, char *map_file)
 {
 	char	*file;

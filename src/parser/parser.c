@@ -25,7 +25,8 @@ bool	out_of_bounds(t_vec2d pos, uint32_t w, uint32_t h)
 	return (false);
 }
 
-int	sprites_coordinates(uint32_t sprite_count, t_sprite *sprites, uint32_t w, uint32_t h)
+int	sprites_coordinates(uint32_t sprite_count, \
+		t_sprite *sprites, uint32_t w, uint32_t h)
 {
 	uint32_t	i;
 
@@ -44,13 +45,15 @@ int	parser(t_meta *meta)
 	char	*file;
 
 	file = NULL;
-	save_map_dimensions(meta->map.map_element, &meta->map.width, &meta->map.height);
+	save_map_dimensions(meta->map.map_element, \
+			&meta->map.width, &meta->map.height);
 	create_rectangle_map_element(meta);
 	if (check_map(meta, meta->map.map_element))
 		return (EXIT_FAILURE);
 	if (parse_elements(meta))
 		return (EXIT_FAILURE);
-	if (sprites_coordinates(meta->attributes.sprite_count, meta->attributes.sprites, meta->map.width, meta->map.height))
+	if (sprites_coordinates(meta->attributes.sprite_count, \
+			meta->attributes.sprites, meta->map.width, meta->map.height))
 		return (pr_err(SP_COORD), EXIT_FAILURE);
 	free(meta->map.map_element);
 	return (EXIT_SUCCESS);

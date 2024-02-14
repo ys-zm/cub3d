@@ -1,37 +1,16 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   utils_three.c                                      :+:    :+:            */
+/*   double_utils.c                                     :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/24 11:21:34 by yzaim         ########   odam.nl         */
+/*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
+/*   Updated: 2024/02/14 17:45:45 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-
-bool	valid_sprite_content(char *content)
-{
-	uint32_t	content_count;
-	uint16_t	i;
-
-	i = 0;
-	content_count = 0;
-	while (content[i])
-	{
-		if (content[i] == ' ')
-			content_count++;
-		i++;
-	}
-	if (content[i] == '\0')
-		content_count++;
-	if (content_count == 3)
-		return (true);
-	return (false);
-}
 
 bool	is_double(char *s)
 {
@@ -49,17 +28,29 @@ bool	is_double(char *s)
 	return (true);
 }
 
+double	calculate_decimal(char *s)
+{
+	double	decimal;
+	int		x;
+
+	x = 1;
+	while (*s && ft_isdigit(*s))
+	{
+		decimal = decimal + (*s - '0') / (10 * x);
+		s++;
+		x++;
+	}
+	return (decimal);
+}
+
 double	ft_atod(char *s)
 {
 	int		sign;
 	double	decimal;
-	int		x;
 	double	num;
 
-	num = 0.0;
-	decimal = 0.0;
 	sign = 1;
-	x = 1;
+	num = 0.0;
 	while (*s == ' ' || (*s >= 9 && *s <= 13))
 		s++;
 	if ((*s == '-' || *s == '+'))
@@ -75,11 +66,6 @@ double	ft_atod(char *s)
 	}
 	if (*s == '.')
 		s++;
-	while (*s && ft_isdigit(*s))
-	{
-		decimal = decimal + (*s - '0') / (10 * x);
-		s++;
-		x++;
-	}
+	decimal = calculate_decimal(s);
 	return ((num + decimal) * sign);
 }

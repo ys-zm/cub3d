@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:33:58 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/14 17:06:48 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/14 17:42:12 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 // checks if the element abbreviations are valid
 bool	is_valid_element(char *file)
 {
-	char	*el[6] = {"NO", "SO", "WE", "EA", "F", "C"};
-	size_t	i;
+	const char	*el[6] = {"NO", "SO", "WE", "EA", "F", "C"};
+	size_t		i;
 
 	i = 0;
 	while (i < 6)

@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/14 13:18:51 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/14 17:50:07 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 // saves path value and checks of value us empty
 int	input_texture_path(t_attr *attributes, char *flag, char *content)
 {
-	char	element[6] = {'N', 'S', 'W', 'E', 'F', 'C'};
-	char	**path[6] = {&attributes->n.tex_path, &attributes->s.tex_path, \
+	const char	element[6] = {'N', 'S', 'W', 'E', 'F', 'C'};
+	char 		**path[6] = {&attributes->n.tex_path, &attributes->s.tex_path, \
 				&attributes->w.tex_path, &attributes->e.tex_path, \
 				&attributes->f.tex_path, &attributes->c.tex_path};
-	int		i;
+	int			i;
 
 	i = 0;
 	while (i < 6)
@@ -40,9 +40,9 @@ int	input_texture_path(t_attr *attributes, char *flag, char *content)
 // add check for RBG code correctness?
 int	input_colour(t_attr *attributes, char *flag, char *content)
 {
-	char	tx[2] = {'F', 'C'};
-	t_rgba	*st[2] = {&attributes->floor_c, &attributes->ceiling_c};
-	int		i;
+	const char	tx[2] = {'F', 'C'};
+	t_rgba		*st[2] = {&attributes->floor_c, &attributes->ceiling_c};
+	int			i;
 
 	i = 0;
 	while (i < 2 && *flag && *flag != tx[i])
@@ -92,7 +92,7 @@ int	handle_element(t_meta *meta, t_element_type type, char *flag, char *content)
 		exit_code = input_texture_path(&meta->attributes, flag, content);
 	else if (type == SPRITE)
 	{
-		exit_code = input_sprite_texture_path(&meta->attributes.sprites,\
+		exit_code = input_sprite_texture_path(&meta->attributes.sprites, \
 		&meta->attributes.sprite_arr_index, content);
 	}
 	return (exit_code);

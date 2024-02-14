@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/14 13:22:57 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/14 17:43:22 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*find_sprite_val(char **content)
 {
 	char	*val;
 	char	*c;
-	int	i;
+	int		i;
 
 	i = 0;
 	c = *content;
@@ -40,7 +40,8 @@ char	*find_sprite_val(char **content)
 	return (ft_strdup(""));
 }
 
-int	input_sprite_texture_path(t_sprite **sprites_array, uint32_t *i, char *content)
+int	input_sprite_texture_path(t_sprite **sprites_array, \
+								uint32_t *i, char *content)
 {
 	t_sprite	*arr;
 	char		*tex_path;
@@ -67,9 +68,44 @@ int	set_up_sprites(t_meta *meta)
 {
 	if (meta->attributes.sprite_count)
 	{
-		meta->attributes.sprites = calloc(meta->attributes.sprite_count, sizeof(t_sprite));
+		meta->attributes.sprites = calloc(meta->attributes.sprite_count, \
+										sizeof(t_sprite));
 		if (!meta->attributes.sprites)
 			return (pr_err(MALL_ERR), EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
+}
+
+uint32_t	count_sprites(t_flag *elements)
+{
+	uint32_t	count;
+
+	count = 0;
+	while (elements != NULL)
+	{
+		if (!ft_strncmp(elements->flag, "SP", 3))
+			count++;
+		elements = elements->next;
+	}
+	return (count);
+}
+
+bool	valid_sprite_content(char *content)
+{
+	uint32_t	content_count;
+	uint16_t	i;
+
+	i = 0;
+	content_count = 0;
+	while (content[i])
+	{
+		if (content[i] == ' ')
+			content_count++;
+		i++;
+	}
+	if (content[i] == '\0')
+		content_count++;
+	if (content_count == 3)
+		return (true);
+	return (false);
 }
