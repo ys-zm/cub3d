@@ -63,6 +63,8 @@ SP_COORD
 // error.c
 int		pr_err(t_err type);
 
+
+
 // sprite_parser.c
 char	*find_sprite_val(char **content);
 int		input_sprite_texture_path(t_sprite **sprites_array, uint32_t *i ,char *content);

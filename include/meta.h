@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/02/14 13:04:33 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/14 17:00:09 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,7 +242,6 @@ typedef struct s_meta {
 	t_player	player;
 }	t_meta;
 
-
 // cub3d.c
 int		cub3d(int argc, char *argv[]);
 
@@ -307,23 +306,15 @@ t_vray 	floorcaster(t_vec2d pp, t_vec2d dir, t_vec2d cam_plane, uint32_t y);
 int		init_sprites(uint32_t sprite_count, int32_t **sprite_order, double **sprite_dist);
 void	sprite_calculate(t_player *p);
 
-// test_utils.c REMOVE LATER
-
-void	print_double_array(char *msg, double *arr, uint32_t size, t_sprite *sp, int32_t *order);
-void	print_ints_array(char *msg, int32_t *arr, uint32_t size);
-void	print_sprites_array(t_sprite *arr, uint32_t size);
-void	print_attributes(t_attr *attributes);
-
 // sprite_utils.c
-
 void	sprite_sort(double *sprite_dist, int32_t *sprite_order, uint32_t sprite_count);
 
 // lexer.c
-char 	*extract_file(char *map_file);
+
 int		lex(char *file, t_map *map, t_flag **elements);
 int		lexer(t_meta *meta, char *map_file);
 
-// lexer_utils.c
+// lexer_test_utils.c
 
 void	print_lexer_map(t_map *map);
 void 	print_lexer_elements(t_flag *elements);
@@ -336,10 +327,17 @@ void	skip_map_element(char **file, int *skip);
 int		input_map_lexer(char *file, t_map *map);
 int		map_lex(char **file, t_map *map, int *skip, int mandatory);
 
-// extra_lexer.c
+// lexer_utils.c
+char	*get_val(char *file);
+char	*get_key(char *file);
+bool	is_valid_key(t_flag *elements, t_flag *new_node, int *mandatory);
+char 	*extract_file(char *map_file);
 
-int		save_extra_title(t_flag **extras, char **file);
-bool	is_valid_extra(char *file);
-int		lexer_input_extra(t_flag **extras, char *file, int *skip);
+// test_utils.c REMOVE LATER
+void	print_double_array(char *msg, double *arr, uint32_t size, t_sprite *sp, int32_t *order);
+void	print_ints_array(char *msg, int32_t *arr, uint32_t size);
+void	print_sprites_array(t_sprite *arr, uint32_t size);
+void	print_attributes(t_attr *attributes);
+
 
 #endif

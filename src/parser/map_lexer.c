@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/14 12:42:07 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/14 17:04:36 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,9 @@ void	skip_map_element(char **file, int *skip)
 // inputs the map into map->element
 int	input_map_lexer(char *file, t_map *map)
 {
-	int	i = 0;
+	int	i;
 
+	i = 0;
 	if (*file)
 	{
 		i = end_of_map(file);

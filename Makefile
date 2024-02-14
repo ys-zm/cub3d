@@ -27,43 +27,44 @@ IFLAGS		:= -Ilibft/include -Iinclude -IMLX42/include
 
 SRC_DIR		:=	src
 	
-SRCS	= 		parser/check_elements.c \
-				parser/map_parser.c \
-				parser/parse_elements.c \
-				parser/map_utils.c \
-				parser/map_checker.c \
-				parser/sprite_parser.c \
-				parser/parse_textures.c \
-				parser/parser.c	\
-				parser/check_colors.c \
-				parser/utils_one.c \
-				parser/utils_two.c \
-				parser/utils_three.c \
-				parser/lexer.c \
-				parser/lexer_test_utils.c \
-				parser/map_lexer.c \
-				utils/error.c \
-				utils/free.c \
-				utils/colors.c \
-				game/game.c \
-				game/draw.c \
-				game/keys.c \
-				game/player.c \
-				game/raycaster.c \
-				game/render_minimap.c \
-				game/render_viewport.c \
-				game/font/font_renderer.c \
-				renderer/pixel_picker.c \
-				vector/vec2i.c \
-				vector/vec2d.c \
-				vector/vec_utils.c \
-				cub3d.c \
-				test_utils.c \
-				timer.c \
-				set_textures.c \
-				game/floorcaster.c \
-				game/sprite.c \
-				game/sprite_utils.c \
+SRCS	= 	parser/check_elements.c \
+			parser/map_parser.c \
+			parser/parse_elements.c \
+			parser/map_utils.c \
+			parser/map_checker.c \
+			parser/sprite_parser.c \
+			parser/parse_textures.c \
+			parser/parser.c	\
+			parser/check_colors.c \
+			parser/utils_one.c \
+			parser/utils_two.c \
+			parser/utils_three.c \
+			parser/lexer.c \
+			parser/lexer_utils.c \
+			parser/lexer_test_utils.c \
+			parser/map_lexer.c \
+			utils/error.c \
+			utils/free.c \
+			utils/colors.c \
+			game/game.c \
+			game/draw.c \
+			game/keys.c \
+			game/player.c \
+			game/raycaster.c \
+			game/render_minimap.c \
+			game/render_viewport.c \
+			game/font/font_renderer.c \
+			renderer/pixel_picker.c \
+			vector/vec2i.c \
+			vector/vec2d.c \
+			vector/vec_utils.c \
+			cub3d.c \
+			test_utils.c \
+			timer.c \
+			set_textures.c \
+			game/floorcaster.c \
+			game/sprite.c \
+			game/sprite_utils.c
 
 HEADER_DIR	:=	include
 HEADERS 	:=	meta.h \

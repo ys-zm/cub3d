@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:33:58 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/14 12:33:39 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/14 17:06:48 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,10 @@ bool	check_missing(int *found)
 bool	is_duplicate(char *file)
 {
 	const char	element[6] = {'N', 'S', 'W', 'E', 'F', 'C'};
-	int			found[6] = {0, 0, 0, 0, 0, 0};
+	int			found[6];
 	int			i;
 
+	ft_bzero(found, sizeof(found));
 	while (*file)
 	{
 		i = 0;
