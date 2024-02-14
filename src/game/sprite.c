@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/25 16:01:20 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/02/08 17:40:45 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/14 12:23:01 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,15 @@ int init_sprites(uint32_t sprite_count, int32_t **sprite_order, double **sprite_
 // extracts individual color channels, checks if color channels are 0 (black)
 bool is_black(uint32_t color)
 {
-    uint8_t r = (color >> 24) & 0xFF;
-    uint8_t g = (color >> 16) & 0xFF;
-    uint8_t b = (color >> 8) & 0xFF;
+	uint8_t r = (color >> 24) & 0xFF;
+	uint8_t g = (color >> 16) & 0xFF;
+	uint8_t b = (color >> 8) & 0xFF;
 
-    if (r == 0 && g == 0 && b == 0) 
+	if (r == 0 && g == 0 && b == 0) 
 	{
-        return true;
-    }
-    return false;
+		return true;
+	}
+	return false;
 }
 
 void sprite_calculate(t_player *p)

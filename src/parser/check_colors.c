@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/24 11:18:50 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/14 13:01:18 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // check if color code values are between 0-255
 bool	valid_rgb_value(char *file)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	skip_spaces(&file);
@@ -39,7 +39,7 @@ bool	valid_rgb_value(char *file)
 
 bool	is_valid_color(char *file)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (*file && (*file == 'F' || *file == 'C'))

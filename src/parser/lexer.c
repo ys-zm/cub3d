@@ -1,31 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   lexer.c                                           :+:    :+:             */
+/*   lexer.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/07 11:16:09 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/14 12:40:06 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
 #include "parser.h"
 
-char *extract_file(char *map_file)
+char	*extract_file(char *map_file)
 {
-	int	fd;
-	char *file = NULL;
-	if (map_extension(map_file)) // check map ext
-		return(pr_err(INV_EXT), NULL);
-	fd = open(map_file, O_RDONLY); // open file
+	int		fd;
+	char	*file;
+
+	file = NULL;
+	if (map_extension(map_file))
+		return (pr_err(INV_EXT), NULL);
+	fd = open(map_file, O_RDONLY);
 	if (fd == -1)
 		return (pr_err(INV_FILE), NULL);
 	file = file_to_string(fd);
 	close(fd);
 	if (!file)
-		return(pr_err(MALL_ERR), NULL);
+		return (pr_err(MALL_ERR), NULL);
 	return (file);
 }
 
@@ -35,7 +37,7 @@ char	*get_key(char *file)
 	char	*key;
 
 	i = 0;
-	while ((file[i] != ' ' && file[i] != '\t')  && file[i] != '\n')
+	while ((file[i] != ' ' && file[i] != '\t') && file[i] != '\n')
 		i++;
 	if (i)
 	{
@@ -55,7 +57,7 @@ char	*get_val(char *file)
 
 	i = 0;
 	j = 0;
-	while ((file[j] != ' ' && file[j] != '\t')  && file[j] != '\n')
+	while ((file[j] != ' ' && file[j] != '\t') && file[j] != '\n')
 		j++;
 	while ((file[j] == ' ' || file[j] == '\t') && file[j] != '\n')
 		j++;
@@ -63,7 +65,8 @@ char	*get_val(char *file)
 	while (file[j] && file[j] != '\n')
 		j++;
 	if (i < j)
-	{	val = ft_substr(file, i, j - i);
+	{
+		val = ft_substr(file, i, j - i);
 		if (!val)
 			return (pr_err(MALL_ERR), NULL);
 		return (val);
@@ -80,20 +83,19 @@ t_flag	*create_new_node(char *file)
 	if (!node->flag)
 		return (NULL);
 	node->content = get_val(file);
-	if (!node->flag)
 	if (!node->content)
 		return (free(node->flag), NULL);
 	node->next = NULL;
 	return (node);
 }
 
-void	add_to_list (t_flag **elements, t_flag *new_node)
+void	add_to_list(t_flag **elements, t_flag *new_node)
 {
-	t_flag *list;
+	t_flag	*list;
 
 	list = *elements;
 	if (*elements == NULL)
-	{	
+	{
 		*elements = new_node;
 	}
 	else
@@ -135,8 +137,9 @@ int	lex(char *file, t_map *map, t_flag **elements)
 	int		exit_code;
 	int		skip;
 	int		mandatory;
+	int		i;
 
-	int i = 0;
+	i = 0;
 	mandatory = 0;
 	while (*file)
 	{
@@ -152,13 +155,13 @@ int	lex(char *file, t_map *map, t_flag **elements)
 			skip = 1;
 		}
 		else
-		{	
+		{
 			new_node = create_new_node(file);
 			if (!new_node)
 				return (pr_err(MALL_ERR));
 			if (!is_valid_key(*elements, new_node, &mandatory))
-				return (free(new_node->flag), free(new_node->content), free(new_node),\
-				 pr_err(DUP_ELEMENTS));
+				return (free(new_node->flag), free(new_node->content),\
+				free(new_node), pr_err(DUP_ELEMENTS));
 			add_to_list(elements, new_node);
 		}
 		if (exit_code)
@@ -171,14 +174,15 @@ int	lex(char *file, t_map *map, t_flag **elements)
 // read the file into one string and lexes the extras into a linked list
 int	lexer(t_meta *meta, char *map_file)
 {
-	char	*file = NULL;
-	
+	char	*file;
+
+	file = NULL;
 	meta->scene_name = map_file;
 	file = extract_file(map_file);
 	if (!file)
-		return(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	if (lex(file, &meta->map, &meta->elements))
-		return (free(file), free_t_flag_list(&meta->elements), EXIT_FAILURE); //also free everything in case of error!
+		return (free(file), free_t_flag_list(&meta->elements), EXIT_FAILURE);
 	free(file);
 	return (EXIT_SUCCESS);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   check_map.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 15:42:38 by yzaim             #+#    #+#             */
-/*   Updated: 2024/01/08 15:43:04 by yzaim            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   map_checker.c                                      :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: yzaim <marvin@42.fr>                         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/08 15:42:38 by yzaim         #+#    #+#                 */
+/*   Updated: 2024/02/14 13:02:36 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,6 @@ bool	save_start_pos(t_meta *meta, char *map)
 			{
 				meta->map.player_start.x = x;
 				meta->map.player_start.y = y;
-				// meta->map.player_start_x = x;
-				// meta->map.player_start_y = y;
 				meta->map.player_start_dir = map[find_index(meta, x, y)];
 				found = true;
 			}
@@ -104,37 +102,6 @@ bool	is_floor_exposed(t_meta *meta, char *map)
 	return (false);
 }
 
-t_cell_type find_enum_value(char c)
-{
-	if (c == ' ')
-	{
-		return (MAP_EMPTY);
-	}
-	else if (c == '1')
-	{
-		return (MAP_WALL);
-	}
-	else
-	{
-		return (MAP_SPACE);
-	}
-}
-
-bool save_map(t_meta *meta, char *rect)
-{
-	uint32_t	i;
-
-	meta->map.level = malloc(sizeof(t_cell_type) * meta->map.width * meta->map.height);
-	if (!meta->map.level)
-		return (false);
-	i = 0;
-	while (rect[i])
-	{
-		meta->map.level[i] = find_enum_value(rect[i]);
-		i++;
-	}
-	return (true);
-}
 int	check_map(t_meta *meta, char *rect)
 {
 	if (!is_map_chars_valid(rect))
@@ -147,6 +114,6 @@ int	check_map(t_meta *meta, char *rect)
 	if (is_floor_exposed(meta, rect)) // maybe change to a warning?
 		return (pr_err(OUT_OF_BOUNDS));
 	if (!save_map(meta, rect))
-		return(pr_err(MALL_ERR));
+		return (pr_err(MALL_ERR));
 	return (EXIT_SUCCESS);
 }

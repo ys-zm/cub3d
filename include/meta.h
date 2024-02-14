@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/02/08 15:08:42 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/14 13:04:33 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -338,11 +338,8 @@ int		map_lex(char **file, t_map *map, int *skip, int mandatory);
 
 // extra_lexer.c
 
-char	*get_title_val(char *file);
 int		save_extra_title(t_flag **extras, char **file);
 bool	is_valid_extra(char *file);
 int		lexer_input_extra(t_flag **extras, char *file, int *skip);
-
-
 
 #endif

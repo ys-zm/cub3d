@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   player.c                                          :+:    :+:             */
-/*                                                    +:+ +:+         +:+     */
-/*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 15:27:23 by yzaim             #+#    #+#             */
-/*   Updated: 2024/02/05 14:03:01 by joppe         ########   odam.nl         */
+/*   player.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: yzaim <marvin@42.fr>                         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/08 15:27:23 by yzaim         #+#    #+#                 */
+/*   Updated: 2024/02/14 12:28:13 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,8 @@ void player_turn(t_player *p, float radiant)
 void player_raycast(t_player *p)
 {
 	uint32_t	w = p->meta->image->width;
-	uint32_t	h = p->meta->image->height;
 	uint32_t	col;
+	uint32_t	h = p->meta->image->height;
 	uint32_t	row;
 	t_vec2d		ray_start;
 	double		camera_x;
@@ -114,10 +114,9 @@ void player_raycast(t_player *p)
 		camera_x = (2 * col / ((double) p->meta->image->width) - 1);
 		ray_start = vec2d_add(p->direction, vec2d_scalar_product(p->cam_plane, camera_x));
 		p->rays[col] = raycaster_cast(p->position, ray_start, bound_check, p->meta);
-		// printf("wall x: %f\n", p->rays[col].wall_x);
 		p->z_buffer[col] = p->rays[col].length;
 		col++;
-	}	
+	}
 
 	sprite_calculate(p);
 

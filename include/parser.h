@@ -22,7 +22,7 @@
 # define WRO_ARGS "Wrong number of arguments\n"
 # define OOB_FLOOR "There are inaccessible floors in this map\n"
 # define ORDER_OF_ELEMENTS "Error in map file, check that the map element is last and there are no extra characters between elements\n"
-# define MISSING_PATH   "Texture path missing\n"
+# define MISSING_PATH "Texture path missing\n"
 # define DUPLICATES "Make sure you have only and at least one value for each element\n"
 # define NO_PLAYER_POS "There is no player position in the map\n"
 # define ELEMENT_MISSING "One or more definition of elements is missing\n"
@@ -37,8 +37,8 @@
 # include "meta.h"
 
 typedef enum e_err {
-INV_CHAR, 
-INV_EXT, 
+INV_CHAR,
+INV_EXT,
 INV_WALLS,
 PLAY_ERR,
 INV_FILE,
@@ -57,11 +57,20 @@ INV_ELE,
 SP_CONTENT,
 SP_DOUBLE_ERR,
 SP_COORD
-}   t_err;
+}	t_err;
 
 
 // error.c
-int pr_err(t_err type);
+int		pr_err(t_err type);
+
+// sprite_parser.c
+char	*find_sprite_val(char **content);
+int		input_sprite_texture_path(t_sprite **sprites_array, uint32_t *i ,char *content);
+int		set_up_sprites(t_meta *meta);
+
+// map_parser.c
+t_cell_type	find_enum_value(char c);
+bool	save_map(t_meta *meta, char *rect);
 
 // check_map.c
 int 	valid_map_char(char c);
@@ -69,7 +78,6 @@ int		player_pos_char(char c);
 bool	is_map_chars_valid(char *map);
 int 	check_map(t_meta *meta, char *rect);
 int		find_index(t_meta *meta, uint32_t x, uint32_t y);
-
 
 // parser.c
 char	*file_to_string(int fd);
@@ -112,11 +120,11 @@ bool	is_wall(char *file);
 bool	is_floor_or_ceiling(char *file);
 
 // utils_one.c
-void		skip_line(char **file, int to_skip);
-void		skip_spaces(char **file);
-void		skip_digits(char **file);
-int			valid_map_char(char c);
-int			player_pos_char(char c);
+void	skip_line(char **file, int to_skip);
+void	skip_spaces(char **file);
+void	skip_digits(char **file);
+int		valid_map_char(char c);
+int		player_pos_char(char c);
 
 // utils_two.c
 uint32_t	find_width(char *map);

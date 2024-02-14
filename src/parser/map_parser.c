@@ -1,33 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   lexer.c                                            :+:    :+:            */
+/*   map_parser.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/24 11:18:50 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/14 13:03:33 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
 #include "parser.h"
 
-
-void	print_lexer_map(t_map *map)
+t_cell_type	find_enum_value(char c)
 {
-	printf("MAP:\n%s\n\n", map->map_element);
+	if (c == ' ')
+	{
+		return (MAP_EMPTY);
+	}
+	else if (c == '1')
+	{
+		return (MAP_WALL);
+	}
+	else
+	{
+		return (MAP_SPACE);
+	}
 }
 
-void print_lexer_elements(t_flag *elements)
+bool	save_map(t_meta *meta, char *rect)
 {
-	uint32_t	counter = 0;
+	uint32_t	i;
+	size_t		size;
 
-	while (elements != NULL)
+	size = meta->map.width * meta->map.height;
+	meta->map.level = malloc(sizeof(t_cell_type) * size);
+	if (!meta->map.level)
+		return (false);
+	i = 0;
+	while (rect[i])
 	{
-		printf("KEY_%d %s\n", counter, elements->flag);
-		printf("VALUE_%d %s\n", counter, elements->content);
-		elements = elements->next;
-		counter++;
+		meta->map.level[i] = find_enum_value(rect[i]);
+		i++;
 	}
+	return (true);
 }
