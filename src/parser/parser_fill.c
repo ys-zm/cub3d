@@ -27,6 +27,8 @@ char	**get_path(t_attr *attributes, char *flag)
 		return (&attributes->f.tex_path);
 	if (*flag == 'C')
 		return (&attributes->c.tex_path);
+	if (!ft_strncmp(flag, "C_ALT", 4))
+		return (&attributes->c_alt.tex_path);
 	return (NULL);
 }
 
@@ -51,8 +53,10 @@ int	input_colour(t_attr *attributes, char *flag, char *content)
 
 	if (*flag == 'F')
 		col_path = &attributes->floor_c;
+	else if (!ft_strncmp(flag, "C_ALT", 4))
+		col_path = &attributes->ceil_alt_c;
 	else
-		col_path = &attributes->ceiling_c;
+		col_path = &attributes->ceil_alt_c;
 	get_colour_value(content, col_path);
 	return (EXIT_SUCCESS);
 }

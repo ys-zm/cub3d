@@ -216,6 +216,7 @@ typedef struct s_attr {
 	t_tex		c_alt;
 	t_rgba		floor_c;
 	t_rgba		ceiling_c;
+	t_rgba		ceil_alt_c;
 	uint32_t	sprite_count;
 	uint32_t	sprite_arr_index;
 	t_sprite	*sprites;

@@ -15,7 +15,8 @@
 
 t_element_type	check_element_type(char *flag)
 {
-	if (!ft_strncmp(flag, "C", 1) || !ft_strncmp(flag, "F", 1))
+	if (!ft_strncmp(flag, "C", 1) || !ft_strncmp(flag, "F", 1) \
+	|| !ft_strncmp(flag, "C_ALT", 4))
 		return (CEIL_FLOOR);
 	if (is_wall(flag))
 		return (WALL);

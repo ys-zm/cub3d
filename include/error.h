@@ -29,7 +29,6 @@
 # define NO_MAP "Map element is missing\n"
 # define INV_COLOR_CODE "Please check color codes for F and C elements\nRGB values should be between 0-255\n"
 # define MLX_ERR "MLX error occured"
-# define INVALID_ELEMENT "There are invalid elements in the input file\n"
 # define SP_CONTENT_ERR "Please format the sprite element content as follows, SP path/to/texture XX.XX XX.XX\n"
 # define DOUBLE_ERR "Please check that your doubles are formatted correctly\n"
 # define SP_COORD_ERR "Sprite coordinates are out of bounds\n"
@@ -53,7 +52,6 @@ MISSING_ELEMENTS,
 MISSING_MAP,
 COLOR_CODE_WRONG,
 MLX_ERROR,
-INV_ELE,
 SP_CONTENT,
 SP_DOUBLE_ERR,
 SP_COORD

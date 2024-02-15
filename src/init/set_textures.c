@@ -28,11 +28,12 @@ int	set_floor_and_ceiling_textures(t_attr *attributes)
 		if (attributes->c.tex == NULL)
 			return (EXIT_FAILURE);
 	}
-
-	attributes->c_alt.tex = mlx_load_png("texture_examples/window_square.png");
-	if (attributes->c_alt.tex == NULL)
-		return (EXIT_FAILURE);
-
+	if (attributes->c_alt.tex_path)
+	{
+		attributes->c_alt.tex = mlx_load_png(attributes->c_alt.tex_path);
+		if (attributes->c_alt.tex == NULL)
+			return (EXIT_FAILURE);
+	}
 	return (EXIT_SUCCESS);
 }
 
@@ -74,4 +75,3 @@ int	set_textures(t_attr *attributes)
 		return (pr_err(MLX_ERROR));
 	return (EXIT_SUCCESS);
 }
-

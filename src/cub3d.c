@@ -16,12 +16,13 @@
 #include "error.h"
 #include <stdint.h>
 
-
 static void	fps_hook(void *param)
 {
-	t_meta	*meta = param;
-	static uint32_t fps = 0;
+	static uint32_t	fps;
+	t_meta			*meta;
 
+	fps = 0;
+	meta = param;
 	if (!(meta->fps_timer.time_func))
 		timer_init(&meta->fps_timer, mlx_get_time);
 	if (timer_delta(&meta->fps_timer) >= 1)
@@ -35,64 +36,33 @@ static void	fps_hook(void *param)
 		fps++;
 }
 
-
-// Exit the program as failure.
-static void ft_error(void)
-{
-	fprintf(stderr, "%s", mlx_strerror(mlx_errno));
-	exit(EXIT_FAILURE);
-}
-
-
-void leaks(void)
-{
-	system("leaks -q app");
-}
-
 // change to create a different image for the minimap vs. main viewport
-int init_mlx_images(t_meta *meta)
+int	init_mlx_images(t_meta *meta)
 {
 	meta->mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, meta->scene_name, true);
 	if (!meta->mlx)
-	{
-		ft_error();
-		return EXIT_FAILURE;
-	}
-
+		return (pr_err(MLX_ERROR));
 	meta->image = mlx_new_image(meta->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
 	if (!meta->image || (mlx_image_to_window(meta->mlx, meta->image, 0, 0) < 0))
-	{
-		ft_error();
-		return (EXIT_FAILURE);
-	}
-	meta->minimap.minimap_image = mlx_new_image(meta->mlx, MINIMAP_WIDTH, MINIMAP_HEIGHT);
-	if (!meta->minimap.minimap_image || (mlx_image_to_window(meta->mlx, meta->minimap.minimap_image, 0, 0) < 0))
-	{
-		ft_error();
-		return (EXIT_FAILURE);
-	}
-
-	meta->minimap.info_image = mlx_new_image(meta->mlx, MINIMAP_WIDTH, MINIMAP_INFO_HEIGHT);
-	if (!meta->minimap.info_image || (mlx_image_to_window(meta->mlx, meta->minimap.info_image, 0, MINIMAP_HEIGHT) < 0))
-	{
-		ft_error();
-		return (EXIT_FAILURE);
-	}
-
+		return (pr_err(MLX_ERROR));
+	meta->minimap.minimap_image = mlx_new_image(meta->mlx, MINIMAP_WIDTH, \
+												MINIMAP_HEIGHT);
+	if (!meta->minimap.minimap_image || (mlx_image_to_window(meta->mlx, \
+									meta->minimap.minimap_image, 0, 0) < 0))
+		return (pr_err(MLX_ERROR));
+	meta->minimap.info_image = mlx_new_image(meta->mlx, MINIMAP_WIDTH, \
+											MINIMAP_INFO_HEIGHT);
+	if (!meta->minimap.info_image || (mlx_image_to_window(meta->mlx, \
+				meta->minimap.info_image, 0, MINIMAP_HEIGHT) < 0))
+		return (pr_err(MLX_ERROR));
 	meta->minimap.ppos_image = mlx_new_image(meta->mlx, 1, 1);
-	if (!meta->minimap.ppos_image || (mlx_image_to_window(meta->mlx, meta->minimap.ppos_image, 3, MINIMAP_HEIGHT) < 0))
-	{
-		ft_error();
-		return (EXIT_FAILURE);
-	}
-
+	if (!meta->minimap.ppos_image || (mlx_image_to_window(meta->mlx, \
+			meta->minimap.ppos_image, 3, MINIMAP_HEIGHT) < 0))
+		return (pr_err(MLX_ERROR));
 	meta->minimap.fps_image = mlx_new_image(meta->mlx, 1, 1);
-	if (!meta->minimap.fps_image || (mlx_image_to_window(meta->mlx, meta->minimap.fps_image, 3, MINIMAP_HEIGHT + 16) < 0))
-	{
-		ft_error();
-		return (EXIT_FAILURE);
-	}
-
+	if (!meta->minimap.fps_image || (mlx_image_to_window(meta->mlx, \
+			meta->minimap.fps_image, 3, MINIMAP_HEIGHT + 16) < 0))
+		return (pr_err(MLX_ERROR));
 	return (EXIT_SUCCESS);
 }
 
@@ -101,13 +71,13 @@ int	init_input(t_meta *meta, char *av)
 	if (lexer(meta, av))
 		return (EXIT_FAILURE);
 	if (parser(meta))
-		return(meta_free(meta), EXIT_FAILURE);
+		return (meta_free(meta), EXIT_FAILURE);
 	if (set_textures(&meta->attributes))
 		return (meta_free(meta), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
-int cub3d(int argc, char **argv)
+int	cub3d(int argc, char **argv)
 {
 	t_meta	meta;
 

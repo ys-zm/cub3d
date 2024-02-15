@@ -10,20 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "meta.h"
 #include <ctype.h>
 #include <stdio.h>
 
-int main(int argc, char *argv[])
+int	main(int argc, char *argv[])
 {
 	return (cub3d(argc, argv));
-	// for (int i = 0; i < 255; i++)
-	// {
-	// 	if (isprint(i))
-	// 		printf("%c", i);
-	//
-	// }
-	// printf("\n");
-
 }

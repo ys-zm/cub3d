@@ -93,7 +93,7 @@ void	draw_ceil(mlx_image_t *image, t_vray *vray, t_attr *attributes, uint32_t co
 	{
 		c_t = (t_vec2i){(int)(c_tex->width  * (vray->floor.x - cell.x)) & (c_tex->width - 1),
 				(int)(c_tex->height * (vray->floor.y - cell.y)) & (c_tex->height - 1)};
-		if (cell.y % 2 && cell.x % 2)
+		if (cell.y % 2 && cell.x % 2 && c_alt_tex)
 			mlx_put_pixel(image, col, WINDOW_HEIGHT - row - 1, pixel_picker(c_alt_tex, c_t.x, c_t.y));
 		else
 			mlx_put_pixel(image, col, WINDOW_HEIGHT - row - 1, pixel_picker(c_tex, c_t.x, c_t.y));
