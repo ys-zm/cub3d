@@ -14,7 +14,7 @@
 #include "meta.h"
 
 // TODO Struct that contains all this info because well. tHe nORm
-void draw_rect(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color)
+void	draw_rect(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color)
 {
 	size_t	x;
 	size_t	y;
@@ -32,7 +32,7 @@ void draw_rect(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t widt
 	}
 }
 
-void draw_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color)
+void	draw_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color)
 {
 	if (x < image->width && y < image->height)
 		mlx_put_pixel(image, x, y, color);

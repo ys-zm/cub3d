@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-bool bound_check(const void *param, uint32_t x, uint32_t y)
+bool	bound_check(const void *param, uint32_t x, uint32_t y)
 {
 	t_meta *const meta = (t_meta *) param;
 	if (x < meta->map.width && y < meta->map.height)
@@ -32,7 +32,7 @@ bool bound_check(const void *param, uint32_t x, uint32_t y)
 	}
 }
 
-void print_angle(t_player *p)
+void	print_angle(t_player *p)
 {
 	// NORTH = 0
 	const float angle = (atan2(p->direction.x, p->direction.y) / PI * 180 + 180);
@@ -54,7 +54,7 @@ void print_angle(t_player *p)
 	}
 }
 
-void player_move(t_player *p, t_vec2d transform)
+void	player_move(t_player *p, t_vec2d transform)
 {
 	t_ray r = raycaster_cast(p->position, vec2d_normalize(transform), bound_check, p->meta);
 
@@ -82,22 +82,21 @@ void player_move(t_player *p, t_vec2d transform)
 }
 
 // negative rotation parameter turns left vs positive rotation parameter turns right
-void player_turn(t_player *p, float radiant)
+void	player_turn(t_player *p, float radiant)
 {
 	p->direction = vec2d_rotate(p->direction, radiant);
 	p->cam_plane = vec2d_rotate(p->cam_plane, radiant);
 	player_raycast(p);
 }
 
-void player_raycast(t_player *p)
+void	player_raycast(t_player *p)
 {
-	uint32_t	w = p->meta->image->width;
-	uint32_t	col;
-	uint32_t	h = p->meta->image->height;
-	uint32_t	row;
-	t_vec2d		ray_start;
-	double		camera_x;
-
+	const uint32_t	w = p->meta->image->width;
+	const uint32_t	h = p->meta->image->height;
+	uint32_t		col;
+	uint32_t		row;
+	t_vec2d			ray_start;
+	double			camera_x;
 
 	row = 0;
 	while (row < h)
@@ -117,8 +116,5 @@ void player_raycast(t_player *p)
 		p->z_buffer[col] = p->rays[col].length;
 		col++;
 	}
-
 	sprite_calculate(p);
-
-
 }
