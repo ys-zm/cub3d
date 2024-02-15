@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "error.h"
 
 bool	is_double(char *s)
 {
@@ -34,6 +34,7 @@ double	calculate_decimal(char *s)
 	int		x;
 
 	x = 1;
+	decimal = 0;
 	while (*s && ft_isdigit(*s))
 	{
 		decimal = decimal + (*s - '0') / (10 * x);

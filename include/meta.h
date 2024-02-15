@@ -309,18 +309,95 @@ void	sprite_calculate(t_player *p);
 // sprite_utils.c
 void	sprite_sort(double *sprite_dist, int32_t *sprite_order, uint32_t sprite_count);
 
-// lexer.c
 
+/* LEXER & PARSER */
+
+// sprite_parser.c
+char	*find_sprite_val(char **content);
+int		input_sprite_texture_path(t_sprite **sprites_array, uint32_t *i ,char *content);
+int		set_up_sprites(t_meta *meta);
+
+// map_parser.c
+t_cell_type	find_enum_value(char c);
+bool		save_map(t_meta *meta, char *rect);
+
+// check_map.c
+int 	valid_map_char(char c);
+int		player_pos_char(char c);
+bool	is_map_chars_valid(char *map);
+int 	check_map(t_meta *meta, char *rect);
+int		find_index(t_meta *meta, uint32_t x, uint32_t y);
+
+// parser.c
+char	*file_to_string(int fd);
+char	*read_file(int fd);
+int		map_extension(char *file);
+int 	parser(t_meta *meta);
+
+// parse_map.c
+bool	is_map_line(char *file);
+
+// parse_elements.c
+int		input_texture_path(t_attr *attributes, char *flag, char *content);
+int		input_colour(t_attr *attributes, char *flag, char *content);
+int		save_elements(t_attr *attributes, char *file);
+int		parse_elements(t_meta *meta);
+
+// check_colors.c
+bool	valid_rgb_value(char *file);
+bool	is_valid_color(char *file);
+bool	colors_valid(char *file);
+
+// check_elements.c
+bool	is_valid_element(char *file);
+bool	only_spaces(char *file);
+bool	is_map_element(char *file);
+bool	check_missing(int *found);
+bool	is_missing(char *file);
+bool	is_duplicate(char *file);
+
+// check_map.c
+bool	is_map_chars_valid(char *map);
+int		flood_fill(t_meta *meta, char *map, int x, int y);
+bool	save_start_pos(t_meta *meta, char *map);
+bool	is_floor_exposed(t_meta *meta, char *map);
+
+// parse_textures.c
+void	get_colour_value(char *file, t_rgba *col);
+char	*get_tex_val(char *file);
+bool	is_wall(char *file);
+bool	is_floor_or_ceiling(char *file);
+
+// utils_one.c
+void	skip_line(char **file, int to_skip);
+void	skip_spaces(char **file);
+void	skip_digits(char **file);
+int		valid_map_char(char c);
+int		player_pos_char(char c);
+
+// utils_two.c
+uint32_t	find_width(char *map);
+uint32_t	find_height(char *map);
+char		*make_rect(char *map, uint32_t w, uint32_t h);
+bool		is_path(char *str);
+uint32_t	count_sprites(t_flag *elements);
+
+// utils_three.c
+
+double	ft_atod(char *s);
+bool	is_double(char *s);
+bool	valid_sprite_content(char *content);
+
+
+// lexer.c
 int		lex(char *file, t_map *map, t_flag **elements);
 int		lexer(t_meta *meta, char *map_file);
 
 // lexer_test_utils.c
-
 void	print_lexer_map(t_map *map);
 void 	print_lexer_elements(t_flag *elements);
 
 // map_lexer.c
-
 bool	nl_only_spaces(char *file);
 int		end_of_map(char *file);
 void	skip_map_element(char **file, int *skip);
@@ -334,8 +411,12 @@ bool	is_valid_key(t_flag *elements, t_flag *new_node, int *mandatory);
 char 	*extract_file(char *map_file);
 
 // map_utils.c
-int	create_rectangle_map_element(t_meta *meta);
+int		create_rectangle_map_element(t_meta *meta);
 void	save_map_dimensions(char *map_file, uint32_t *width, uint32_t *height);
+
+// sprite_utils.c
+void	swap_doubles(double *a, double *b);
+void	swap_ints(int32_t *a, int32_t *b);
 
 // test_utils.c REMOVE LATER
 void	print_double_array(char *msg, double *arr, uint32_t size, t_sprite *sp, int32_t *order);

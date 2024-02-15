@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "meta.h"
-#include "parser.h"
+#include "error.h"
 
 t_cell_type	find_enum_value(char c)
 {

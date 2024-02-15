@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "meta.h"
-#include "parser.h"
+#include "error.h"
 
 void	print_lexer_map(t_map *map)
 {

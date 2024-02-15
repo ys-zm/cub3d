@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "meta.h"
-#include "parser.h"
+#include "error.h"
 
 bool	is_duplicate_flag(t_flag *elements, char *key)
 {

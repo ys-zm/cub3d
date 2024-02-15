@@ -10,46 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
-
-// saves path value and checks of value us empty
-int	input_texture_path(t_attr *attributes, char *flag, char *content)
-{
-	const char	element[6] = {'N', 'S', 'W', 'E', 'F', 'C'};
-	char 		**path[6] = {&attributes->n.tex_path, &attributes->s.tex_path, \
-				&attributes->w.tex_path, &attributes->e.tex_path, \
-				&attributes->f.tex_path, &attributes->c.tex_path};
-	int			i;
-
-	i = 0;
-	while (i < 6)
-	{
-		if (*flag && *flag == element[i])
-		{
-			*path[i] = get_tex_val(content);
-			if (!(path[i]))
-				return (pr_err(MALL_ERR), EXIT_FAILURE);
-			if (!ft_strncmp(*path[i], "", 1))
-				return (pr_err(M_PATH), EXIT_FAILURE);
-		}
-		i++;
-	}
-	return (EXIT_SUCCESS);
-}
-
-// add check for RBG code correctness?
-int	input_colour(t_attr *attributes, char *flag, char *content)
-{
-	const char	tx[2] = {'F', 'C'};
-	t_rgba		*st[2] = {&attributes->floor_c, &attributes->ceiling_c};
-	int			i;
-
-	i = 0;
-	while (i < 2 && *flag && *flag != tx[i])
-		i++;
-	get_colour_value(content, st[i]);
-	return (EXIT_SUCCESS);
-}
+#include "error.h"
+#include "meta.h"
 
 t_element_type	check_element_type(char *flag)
 {

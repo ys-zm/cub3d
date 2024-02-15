@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "error.h"
 
 // checks if the element abbreviations are valid
 bool	is_valid_element(char *file)

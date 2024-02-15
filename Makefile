@@ -40,6 +40,7 @@ SRCS	= 	parser/check_elements.c \
 			parser/double_utils.c \
 			parser/map_access_utils.c \
 			parser/lexer.c \
+			parser/parser_fill.c \
 			parser/lexer_utils.c \
 			parser/lexer_test_utils.c \
 			parser/map_lexer.c \
@@ -64,7 +65,8 @@ SRCS	= 	parser/check_elements.c \
 			set_textures.c \
 			game/floorcaster.c \
 			game/sprite.c \
-			game/sprite_utils.c
+			game/sprite_sort.c \
+			game/sort_utils.c
 
 HEADER_DIR	:=	include
 HEADERS 	:=	meta.h \

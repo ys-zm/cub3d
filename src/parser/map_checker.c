@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "error.h"
 #include <stdio.h>
 
 /* valid chars : 1, 0, N, S, E, W */
@@ -39,9 +39,11 @@ int	flood_fill(t_meta *meta, char *map, int x, int y)
 	int	ret;
 
 	ret = 0;
-	if (x < 0 || y < 0 || y >= (int)meta->map.height|| x >= (int)meta->map.width)
+	if (x < 0 || y < 0 || y >= (int)meta->map.height || \
+		x >= (int)meta->map.width)
 		return (1);
-	if (map[find_index(meta, x, y)] == '1' || map[find_index(meta, x, y)] == '2')
+	if (map[find_index(meta, x, y)] == '1' || \
+		map[find_index(meta, x, y)] == '2')
 		return (0);
 	if (map[find_index(meta, x, y)] == ' ')
 		return (1);

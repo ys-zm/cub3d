@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "meta.h"
-#include "parser.h"
+#include "error.h"
 
 int pr(char *err, int exit_code)
 {

@@ -16,22 +16,6 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-void	swap_doubles(double *a, double *b)
-{
-	double	tmp = *a;
-
-	*a = *b;
-	*b = tmp;
-}
-
-void	swap_ints(int32_t *a, int32_t *b)
-{
-	int32_t	tmp = *a;
-
-	*a = *b;
-	*b = tmp;
-}
-
 uint32_t	partition(double *sprite_dist, int32_t *sprite_order, int32_t low, int32_t high)
 {
 	double		pivot = sprite_dist[low];

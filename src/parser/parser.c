@@ -10,7 +10,7 @@
 /**/
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "error.h"
 #include "test_utils.h"
 
 bool	out_of_bounds(t_vec2d pos, uint32_t w, uint32_t h)
@@ -21,7 +21,10 @@ bool	out_of_bounds(t_vec2d pos, uint32_t w, uint32_t h)
 	width = (double)w;
 	height = (double)h;
 	if (pos.x >= width || pos.y >= height || pos.x <= 0 || pos.y <= 0)
+	{
+		printf("posx: %f | posy: %f\n", pos.x, pos.y);
 		return (true);
+	}
 	return (false);
 }
 

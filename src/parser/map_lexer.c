@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "meta.h"
-#include "parser.h"
+#include "error.h"
 
 // returns true if the next line only has spaces
 bool	nl_only_spaces(char *file)

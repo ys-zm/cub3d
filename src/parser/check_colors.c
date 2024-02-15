@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "error.h"
 
 // check if color code values are between 0-255
 bool	valid_rgb_value(char *file)
@@ -64,7 +64,8 @@ bool	colors_valid(char *file)
 		skip_spaces(&file);
 		if (is_valid_element(file))
 		{
-			if (!is_path(file) && is_floor_or_ceiling(file) && !is_valid_color(file))
+			if (!is_path(file) && is_floor_or_ceiling(file) && \
+				!is_valid_color(file))
 				return (false);
 		}
 		skip_line(&file, 1);

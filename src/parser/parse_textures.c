@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "error.h"
 
 // saves the RGB values of the F and C elements
 void	get_colour_value(char *content, t_rgba *col)

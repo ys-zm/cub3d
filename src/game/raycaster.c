@@ -92,7 +92,6 @@ inline static t_side	ray_move(t_vec2d *side_dist, t_vec2d *delta_dist, \
 	}
 }
 
-
 t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *param)
 {
 	t_ray	r;
@@ -122,7 +121,7 @@ t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *par
 	r.line_height = (int)(WINDOW_HEIGHT / r.length);
 
 	// draw start and draw end
-	r.line_point.x = -r.line_height / 2 + ((double)WINDOW_HEIGHT) / 2;
+	r.line_point.x = (-(r.line_height) / 2) + (((double)WINDOW_HEIGHT) / 2);
 	r.line_point.y = r.line_height / 2 + ((double)WINDOW_HEIGHT) / 2;
 
 	if (r.hit_side == SIDE_N || r.hit_side == SIDE_S)

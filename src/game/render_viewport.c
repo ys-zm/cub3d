@@ -20,14 +20,11 @@
 
 mlx_texture_t	*get_texture(t_side side, t_attr attributes);
 
-static void	draw_column(t_meta *meta, t_ray *ray, uint32_t col, uint32_t h)
+static void	calculate_texture_points(mlx_texture_t *texture,  t_ray *ray, uint32_t col, uint32_t h)
 {
-	int32_t			y;
-	int32_t			color;
-	mlx_texture_t	*texture;
+	double offset;
 
-	texture = get_texture(ray->hit_side, meta->attributes);
-
+	offset = 0;
 	ray->texture_point.x = (int)(ray->wall_x * texture->width);
 	if ((ray->hit_side == SIDE_N || ray->hit_side == SIDE_S) && ray->direction.x > 0)
 		ray->texture_point.x = texture->width - ray->texture_point.x - 1;
@@ -35,24 +32,32 @@ static void	draw_column(t_meta *meta, t_ray *ray, uint32_t col, uint32_t h)
 		ray->texture_point.x = texture->width - ray->texture_point.x - 1;
 
 	
-	double offset = 0;
 	if (ray->line_height > h)
 		offset = (ray->line_height - h) / 2;
 
 	ray->step = texture->height / ray->line_height;
 	ray->texture_position = ((ray->line_point.x + offset) + (ray->line_height - h) / 2) * ray->step;
 
-	y = 0;
-	while (y < (int32_t)WINDOW_HEIGHT)
+}
+
+static void	draw_column(t_meta *meta, t_ray *ray, uint32_t col, uint32_t h)
+{
+	int32_t			y;
+	int32_t			color;
+	mlx_texture_t	*texture;
+
+	texture = get_texture(ray->hit_side, meta->attributes);
+	calculate_texture_points(texture, ray, col, h);
+	y = ray->line_point.x;
+	if (y < 0)
+		y = 0;
+	while (y < ray->line_point.y && y < (int32_t)WINDOW_HEIGHT)
 	{
-		if (y >= ray->line_point.x && y < ray->line_point.y)
-		{
 			ray->texture_point.y = ((int) ray->texture_position) & (texture->height - 1);
 			ray->texture_position += ray->step;
 			color = pixel_picker(texture, (int)round(ray->texture_point.x), (int)round(ray->texture_point.y));
 			mlx_put_pixel(meta->image, col, y, color);
-		}
-		y++;
+			y++;
 	}
 }
 
@@ -99,12 +104,14 @@ void	draw_ceil(mlx_image_t *image, t_vray *vray, t_attr *attributes, uint32_t co
 	}
 }
 
-void render_viewport(mlx_image_t *image, t_player *p)
+// render floor and ceiling
+void render_fc(mlx_image_t *image, t_player *p)
 {
-	uint32_t	col = 0;
-	uint32_t	row = 0;
+	uint32_t	col;
+	uint32_t	row;
 
-	//render floor and ceiling
+	col = 0;
+	row = 0;
 	if (p->should_render)
 	{
 		while (row < image->height)
@@ -116,18 +123,28 @@ void render_viewport(mlx_image_t *image, t_player *p)
 				draw_ceil(p->meta->image, &p->vrays[row], &p->meta->attributes, col, row);
 				p->vrays[row].floor = vec2d_add(p->vrays[row].floor, p->vrays[row].step);
 				col++;
-				
 			}
 			row++;
 		}
 		p->should_render = false;
 	}
+}
 
-	// render walls	
+// render walls
+void render_walls(mlx_image_t *image, t_player *p)
+{
+	uint32_t	col;
+
 	col = 0;
 	while (col < image->width)
 	{
 		draw_column(p->meta, &p->rays[col], col, image->height);
 		col++;
 	}
+}
+
+void render_viewport(mlx_image_t *image, t_player *p)
+{
+	render_fc(image, p);
+	render_walls(image, p);
 }
