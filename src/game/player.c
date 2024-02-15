@@ -23,7 +23,8 @@
 
 bool	bound_check(const void *param, uint32_t x, uint32_t y)
 {
-	t_meta *const meta = (t_meta *) param;
+	t_meta *const	meta = (t_meta *) param;
+
 	if (x < meta->map.width && y < meta->map.height)
 		return (meta->map.level[(y * meta->map.width) + x] == MAP_WALL);
 	else
@@ -32,10 +33,12 @@ bool	bound_check(const void *param, uint32_t x, uint32_t y)
 	}
 }
 
+// NORTH = 0
 void	print_angle(t_player *p)
 {
-	// NORTH = 0
-	const float angle = (atan2(p->direction.x, p->direction.y) / PI * 180 + 180);
+	float	angle;
+
+	angle = (atan2(p->direction.x, p->direction.y) / PI * 180 + 180);
 	if (angle > 45.0 && angle < 135.0)
 	{
 		printf("N\n");
@@ -56,22 +59,22 @@ void	print_angle(t_player *p)
 
 void	player_move(t_player *p, t_vec2d transform)
 {
-	t_ray r = raycaster_cast(p->position, vec2d_normalize(transform), bound_check, p->meta);
+	t_ray	r;
 
+	r = raycaster_cast(p->position, vec2d_normalize(transform), \
+						bound_check, p->meta);
 	if (r.length > 0.5)
 		p->position = vec2d_add(p->position, transform);
 	else
 	{
 		const int		comp = (r.hit_side == SIDE_N || r.hit_side == SIDE_S);
 		const t_vec2d	normal = {comp, !comp}; // 1, 0 // 0, 1
-		const double 	dot_product = vec2d_dot_product(transform, normal);
+		const double	dot_product = vec2d_dot_product(transform, normal);
 
-
-		t_vec2d delta_pos;
+		t_vec2d			delta_pos;
 		delta_pos.x = transform.x - normal.x * dot_product;
 		delta_pos.y = transform.y - normal.y * dot_product;
 		r = raycaster_cast(p->position, vec2d_normalize(transform), bound_check, p->meta);
-
 		if (r.length > 0.3)
 		{
 			p->position.x += delta_pos.x;
@@ -105,7 +108,6 @@ void	player_raycast(t_player *p)
 		row++;
 	}
 	p->should_render = true;
-	
 	// TODO Just create the player.plane here instead of saving it.
 	col = 0;
 	while (col < p->meta->image->width)

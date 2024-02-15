@@ -52,14 +52,14 @@ SRCS	= 	parser/check_elements.c \
 			game/keys.c \
 			game/player.c \
 			game/raycaster.c \
-			game/render_minimap.c \
-			game/render_viewport.c \
 			game/font/font_renderer.c \
 			game/floorcaster.c \
 			game/sprite.c \
 			game/sprite_sort.c \
 			game/sort_utils.c \
 			renderer/pixel_picker.c \
+			renderer/render_minimap.c \
+			renderer/render_viewport.c \
 			vector/vec2i.c \
 			vector/vec2d_sum.c \
 			vector/vec2d_calc.c \
@@ -67,7 +67,7 @@ SRCS	= 	parser/check_elements.c \
 			cub3d.c \
 			test_utils.c \
 			timer.c \
-			init/set_textures.c 
+			init/set_textures.c
 
 HEADER_DIR	:=	include
 HEADERS 	:=	meta.h \
