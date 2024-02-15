@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:24:47 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/09 17:15:21 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/15 18:06:59 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,14 @@ int init_mlx_images(t_meta *meta)
 		ft_error();
 		return (EXIT_FAILURE);
 	}
+
+	meta->debug_img = mlx_new_image(meta->mlx, MINIMAP_WIDTH, MINIMAP_HEIGHT);
+	if (!meta->debug_img || (mlx_image_to_window(meta->mlx, meta->debug_img, 0, 0) < 0))
+	{
+		ft_error();
+		return (EXIT_FAILURE);
+	}
+
 
 	meta->minimap.info_image = mlx_new_image(meta->mlx, MINIMAP_WIDTH, MINIMAP_INFO_HEIGHT);
 	if (!meta->minimap.info_image || (mlx_image_to_window(meta->mlx, meta->minimap.info_image, 0, MINIMAP_HEIGHT) < 0))

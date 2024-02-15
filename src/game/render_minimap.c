@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:27:53 by yzaim             #+#    #+#             */
-/*   Updated: 2024/02/12 15:31:01 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/15 18:24:19 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,9 @@ static void render_border(mlx_image_t *image, uint32_t c)
 static void render_minimap_level(mlx_image_t *image, const t_map *map, const t_player *p)
 {
 	render_clear_bg(image, MINIMAP_COLOR_BACKGROUND);
-	const t_vec2i start = {(image->width / 2), (image->height / 2)};
-	const uint32_t center_x = start.x - (p->position.x * MINIMAP_CELL_SIZE);
-	const uint32_t center_y = start.y - (p->position.y * MINIMAP_CELL_SIZE);
+	const t_vec2i image_center = {(image->width / 2), (image->height / 2)};
+	const uint32_t pp_center_x = image_center.x - (p->position.x * MINIMAP_CELL_SIZE);
+	const uint32_t pp_center_y = image_center.y - (p->position.y * MINIMAP_CELL_SIZE);
 	size_t x;
 
 	x = 0;
@@ -100,8 +100,8 @@ static void render_minimap_level(mlx_image_t *image, const t_map *map, const t_p
 		size_t y = 0;
 		while (y < map->height)
 		{
-			int32_t cell_x = center_x + (x * MINIMAP_CELL_SIZE);
-			int32_t cell_y = center_y + (y * MINIMAP_CELL_SIZE);
+			int32_t cell_x = pp_center_x + (x * MINIMAP_CELL_SIZE);
+			int32_t cell_y = pp_center_y + (y * MINIMAP_CELL_SIZE);
 			if (cell_x + MINIMAP_CELL_SIZE >= 0 && cell_x < (int32_t) image->width && cell_y + MINIMAP_CELL_SIZE >= 0 && cell_y < (int32_t) image->height)
 				draw_cell(image, map->level[(y * map->width) + x], cell_x, cell_y);
 			y++;
@@ -112,10 +112,10 @@ static void render_minimap_level(mlx_image_t *image, const t_map *map, const t_p
 
 	t_ray r = raycaster_cast(p->position, p->direction, minimap_ray_len, map);
 
-	draw_rect(image, start.x - (MINIMAP_PLAYER_SIZE / 2) , start.y - (MINIMAP_PLAYER_SIZE / 2), MINIMAP_PLAYER_SIZE, MINIMAP_PLAYER_SIZE, MINIMAP_COLOR_PLAYER);
+	draw_rect(image, image_center.x - (MINIMAP_PLAYER_SIZE / 2) , image_center.y - (MINIMAP_PLAYER_SIZE / 2), MINIMAP_PLAYER_SIZE, MINIMAP_PLAYER_SIZE, MINIMAP_COLOR_PLAYER);
 
-	t_vec2i end = vec2d_to_vec2i(vec2d_add((t_vec2d) {start.x, start.y}, vec2d_scalar_product(p->direction, (r.length) * MINIMAP_CELL_SIZE)));
-	draw_line(image, start, end, (t_rgba) {0x267dc9FF});
+	t_vec2i end = vec2d_to_vec2i(vec2d_add((t_vec2d) {image_center.x, image_center.y}, vec2d_scalar_product(p->direction, (r.length) * MINIMAP_CELL_SIZE)));
+	draw_line(image, image_center, end, (t_rgba) {0x267DC9FF});
 	
 	render_border(image, MINIMAP_COLOR_BORDER);
 }

@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:27:23 by yzaim             #+#    #+#             */
-/*   Updated: 2024/02/11 17:21:17 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/15 17:41:29 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@
 t_cell_type bound_check(const void *param, uint32_t x, uint32_t y)
 {
 	t_meta *const meta = (t_meta *) param;
-	t_cell_type cur_cell;
+	t_cell_type cell;
 
 	if (x < meta->map.width && y < meta->map.height)
 	{
-		cur_cell = meta->map.level[(y * meta->map.width) + x];
-		if (cur_cell == MAP_WALL || cur_cell == MAP_DOOR_CLOSED)
-			return (cur_cell);
+		cell = meta->map.level[(y * meta->map.width) + x];
+		if (cell == MAP_WALL || cell == MAP_DOOR_CLOSED)
+			return (cell);
 		else
 			return (0);
 	}
