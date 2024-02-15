@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:33 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/14 00:23:58 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/15 17:34:58 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,51 +120,39 @@ static bool ray_check_door(t_meta *m, t_ray *r, t_vec2d *side_dist, t_vec2d delt
 	t_cell_type hit_cell = hit(m, (uint32_t) map_pos.x, (uint32_t) map_pos.y);
 	t_side start_hit_side = r->hit_side;
 
-	t_vec2d true_delta = {
-		sqrt(1 + (r->direction.y * r->direction.y) / (r->direction.x * r->direction.x)),
-		sqrt(1 + (r->direction.x * r->direction.x) / (r->direction.y * r->direction.y)),
-
-
-	};
-
-
-	while (world_is_interactable(hit_cell))
+	// if looking in x-axis
+	if (side_dist->x < side_dist->y)
 	{
-		// if looking in x-axis
-		if (side_dist->x < side_dist->y)
-		{
-			side_dist->x += delta_dist.x;
-			map_pos.x += step_size.x;
+		side_dist->x += delta_dist.x;
+		map_pos.x += step_size.x;
 
-			m->test_ids[r->id] = true;
-			if (step_size.x > 0)
-				r->hit_side = (SIDE_E);
-			else
-				r->hit_side = (SIDE_W);
+		m->test_ids[r->id] = true;
+		if (step_size.x > 0)
+			r->hit_side = (SIDE_E);
+		else
+			r->hit_side = (SIDE_W);
 
-		}
-		else
-		{
-			side_dist->y += delta_dist.y / 2;
-			map_pos.y += step_size.y / 2;
-			if (step_size.y > 0)
-				r->hit_side = (SIDE_S);
-			else
-				r->hit_side = (SIDE_N);
-		}
-		hit_cell = hit(m, (uint32_t) map_pos.x, (uint32_t) map_pos.y);
-		if (r->hit_side != start_hit_side)
-			r->hit_cell = MAP_WALL;
-		if (world_is_interactable(hit_cell))
-		{
-			return true;
-		}
-		else
-		{
-			return false;	
-		}
 	}
-	return false;	
+	else
+	{
+		side_dist->y += delta_dist.y / 2;
+		map_pos.y += step_size.y / 2;
+		if (step_size.y > 0)
+			r->hit_side = (SIDE_S);
+		else
+			r->hit_side = (SIDE_N);
+	}
+	hit_cell = hit(m, (uint32_t) map_pos.x, (uint32_t) map_pos.y);
+	if (r->hit_side != start_hit_side)
+		r->hit_cell = MAP_WALL;
+	if (world_is_interactable(hit_cell))
+	{
+		return true;
+	}
+	else
+	{
+		return false;	
+	}
 }
 
 
@@ -201,7 +189,7 @@ t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit,
 		
 		// Tmporary to get the end
 		r.end = vec2i_to_vec2d(r.map_pos);
-		if (hit && r.hit_cell)
+		if (r.hit_cell)
 			break;
 	}
 	r.length = calculate_ray_length(r.hit_side, side_dist, delta_dist);
