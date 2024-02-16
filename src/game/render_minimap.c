@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:27:53 by yzaim             #+#    #+#             */
-/*   Updated: 2024/02/16 13:37:53 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/16 13:45:21 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,12 +115,12 @@ static void render_minimap_level(mlx_image_t *image, const t_map *map, const t_p
 	{
 		const t_ray *r = &p->rays[i];
 
-		draw_rect(image, image_center.x - (MINIMAP_PLAYER_SIZE / 2) , image_center.y - (MINIMAP_PLAYER_SIZE / 2), MINIMAP_PLAYER_SIZE, MINIMAP_PLAYER_SIZE, MINIMAP_COLOR_PLAYER);
 
 		t_vec2i end = vec2d_to_vec2i(vec2d_add((t_vec2d) {image_center.x, image_center.y}, vec2d_scalar_product(r->direction, (r->length) * MINIMAP_CELL_SIZE)));
-		draw_line(image, image_center, end, (t_rgba) {0xff7DC9FF});
+		draw_line(image, image_center, end, (t_rgba) {0x999999FF});
 	
 	}
+	draw_rect(image, image_center.x - (MINIMAP_PLAYER_SIZE / 2) , image_center.y - (MINIMAP_PLAYER_SIZE / 2), MINIMAP_PLAYER_SIZE, MINIMAP_PLAYER_SIZE, MINIMAP_COLOR_PLAYER);
 	
 	render_border(image, MINIMAP_COLOR_BORDER);
 }
