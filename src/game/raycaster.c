@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:33 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/16 17:24:53 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/16 21:46:52 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,15 +147,13 @@ static void ray_check_door(t_ray *r, t_vec2d *side_dist, const t_vec2d delta_dis
 	}
 }
 
-
-t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *param)
+t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *param)
 {
 	t_ray	r;
 	t_vec2i	step_size;
 	t_vec2d	side_dist;
 	t_vec2d delta_dist;
 
-	r.id = id;
 	r.direction = dir;
 	r.map_pos.x = (int)pp.x;
 	r.map_pos.y = (int)pp.y;
@@ -170,14 +168,13 @@ t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit,
 		if (world_is_interactable(r.hit_cell))
 			ray_check_door(&r, &side_dist, delta_dist, step_size);
 
-		
-		// Tmporary to get the end
-		r.end = vec2i_to_vec2d(r.map_pos);
 		if (r.hit_cell)
 			break;
 	}
 	r.length = calculate_ray_length(r.hit_side, side_dist, delta_dist);
-
+	// Tmporary to get the end
+	r.end = vec2i_to_vec2d(r.map_pos);
+	
 	r.line_height = (int)(WINDOW_HEIGHT / r.length);
 
 	// draw start and draw end
@@ -185,51 +182,6 @@ t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit,
 	r.line_point.y = r.line_height / 2 + ((double)WINDOW_HEIGHT) / 2;
 
 	if (r.hit_side == SIDE_E || r.hit_side == SIDE_W)
-		r.wall_x = pp.y + r.length * r.direction.y;
-	else
-		r.wall_x = pp.x + r.length * r.direction.x;
-	r.wall_x -= floor(r.wall_x);
-	return (r);
-}
-
-t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *param)
-{
-	t_ray	r;
-	t_vec2i	step_size;
-	// Distance from player_pos inside tile to edge of tile.
-	t_vec2d	side_dist;
-	t_vec2d delta_dist;
-
-	r.map_pos.x = (int)pp.x;
-	r.map_pos.y = (int)pp.y;
-	delta_dist = calculate_delta_dist(dir);
-	side_dist = calculate_side_dist(dir, pp, r.map_pos, delta_dist);
-	step_size = calculate_step_size(dir);
-	size_t limit = 25;
-	while (limit)
-	{
-		r.hit_side = ray_move(&side_dist, &delta_dist, step_size, &r.map_pos);
-		r.hit_cell = hit(param, r.map_pos.x, r.map_pos.y);
-
-		// Tmporary to get the end
-		r.end = vec2i_to_vec2d(r.map_pos);
-		if (hit && r.hit_cell)
-			break;
-		limit--;
-	}
-	if (!limit)
-		WARNING("Raycaster limit reached!");
-	r.length = calculate_ray_length(r.hit_side, side_dist, delta_dist);
-	r.direction = dir;
-	
-
-	r.line_height = (int)(WINDOW_HEIGHT / r.length);
-
-	// draw start and draw end
-	r.line_point.x = -r.line_height / 2 + ((double)WINDOW_HEIGHT) / 2;
-	r.line_point.y = r.line_height / 2 + ((double)WINDOW_HEIGHT) / 2;
-
-	if (r.hit_side == SIDE_N || r.hit_side == SIDE_S)
 		r.wall_x = pp.y + r.length * r.direction.y;
 	else
 		r.wall_x = pp.x + r.length * r.direction.x;

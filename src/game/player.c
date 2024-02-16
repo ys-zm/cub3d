@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:27:23 by yzaim             #+#    #+#             */
-/*   Updated: 2024/02/15 17:41:29 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/02/16 21:45:37 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,6 @@ static void player_interactable_raycast(t_player *p)
 	{
 		// print message to screen
 		// print_ray("interact ray", r);
-		print_direction(r->hit_side);
 		// printf("Press F to interact with [%s]\n",  CELL_NAMES[r->hit_cell]);
 	}
 	else
@@ -149,8 +148,6 @@ static void player_interactable_raycast(t_player *p)
 
 
 }
-
-t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *param);
 
 void player_raycast(t_player *p)
 {
@@ -181,7 +178,7 @@ void player_raycast(t_player *p)
 	{
 		camera_x = (2 * col / ((double) p->meta->image->width) - 1);
 		ray_start = vec2d_add(p->direction, vec2d_scalar_product(p->cam_plane, camera_x));
-		p->rays[col] = raycaster_cast_id(col, p->position, ray_start, bound_check, p->meta);
+		p->rays[col] = raycaster_cast(p->position, ray_start, bound_check, p->meta);
 		// printf("wall x: %f\n", p->rays[col].wall_x);
 		p->z_buffer[col] = p->rays[col].length;
 		col++;

@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/02/16 13:02:30 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/16 21:33:12 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,8 +143,6 @@ typedef enum e_side {
 }	t_side;
 
 typedef struct s_ray {
-	// `id` just for debugging.
-	uint32_t	id;
 	t_vec2d		direction;
 	t_vec2d		end;
 	t_vec2i		map_pos;
