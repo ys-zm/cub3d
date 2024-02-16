@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:26:51 by yzaim             #+#    #+#             */
-/*   Updated: 2024/02/09 17:20:51 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/17 00:38:28 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,5 +113,6 @@ void game_loop(void* param)
 	timer_start(&meta->update_timer);
 	render_minimap(&meta->minimap, &meta->map, &meta->player);
 	render_viewport(meta->image, &meta->player);
+	hud_render(&meta->hud);
 	sprite_calculate(&meta->player);
 }

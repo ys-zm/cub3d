@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:27:53 by yzaim             #+#    #+#             */
-/*   Updated: 2024/02/16 21:48:33 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/17 00:34:01 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 #include <string.h>
 #include <strings.h>
 
-const t_rgba CELL_COLORS[] = {
+static const t_rgba CELL_COLORS[] = {
 	[MAP_EMPTY]			= {MINIMAP_COLOR_BACKGROUND},
 	[MAP_WALL] 			= {0x323232ff},
 	[MAP_SPACE]			= {0xcdcdcdff},
@@ -34,7 +34,7 @@ const t_rgba CELL_COLORS[] = {
 };
 
 
-void render_clear_bg(mlx_image_t *image, uint32_t c)
+static void render_clear_bg(mlx_image_t *image, uint32_t c)
 {
 	const uint32_t	size = image->width * image->height;
 	size_t			i;
@@ -85,7 +85,6 @@ static void render_border(mlx_image_t *image, uint32_t c)
 		i++;
 	}
 }
-t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *param);
 
 static void render_minimap_level(mlx_image_t *image, const t_map *map, const t_player *p)
 {
@@ -136,6 +135,11 @@ static void render_info(t_minimap *minimap, const t_player *p)
 	minimap->ppos_image = cube_put_string(minimap->ppos_image, buf, font);
 	snprintf(buf, len, "FPS:   %u", p->meta->fps);
 	minimap->fps_image = cube_put_string(minimap->fps_image, buf, font);
+
+
+	minimap->hud_image = cube_put_string(minimap->hud_image, "Press [F] to interact", font);
+
+
 
 	render_clear_bg(minimap->info_image, MINIMAP_COLOR_BORDER);
 	draw_rect(minimap->info_image, 1, 1, minimap->info_image->width - 2, minimap->info_image->height - 2, MINIMAP_COLOR_BACKGROUND);

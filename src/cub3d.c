@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:24:47 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/15 18:06:59 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/02/17 00:29:33 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,6 @@ int init_mlx_images(t_meta *meta)
 		return (EXIT_FAILURE);
 	}
 
-	meta->debug_img = mlx_new_image(meta->mlx, MINIMAP_WIDTH, MINIMAP_HEIGHT);
-	if (!meta->debug_img || (mlx_image_to_window(meta->mlx, meta->debug_img, 0, 0) < 0))
-	{
-		ft_error();
-		return (EXIT_FAILURE);
-	}
-
-
 	meta->minimap.info_image = mlx_new_image(meta->mlx, MINIMAP_WIDTH, MINIMAP_INFO_HEIGHT);
 	if (!meta->minimap.info_image || (mlx_image_to_window(meta->mlx, meta->minimap.info_image, 0, MINIMAP_HEIGHT) < 0))
 	{
@@ -88,18 +80,26 @@ int init_mlx_images(t_meta *meta)
 	}
 
 	meta->minimap.ppos_image = mlx_new_image(meta->mlx, 1, 1);
-	if (!meta->minimap.ppos_image || (mlx_image_to_window(meta->mlx, meta->minimap.ppos_image, 3, MINIMAP_HEIGHT) < 0))
+	if (!meta->minimap.ppos_image || (mlx_image_to_window(meta->mlx, meta->minimap.ppos_image, 0, MINIMAP_HEIGHT) < 0))
 	{
 		ft_error();
 		return (EXIT_FAILURE);
 	}
 
 	meta->minimap.fps_image = mlx_new_image(meta->mlx, 1, 1);
-	if (!meta->minimap.fps_image || (mlx_image_to_window(meta->mlx, meta->minimap.fps_image, 3, MINIMAP_HEIGHT + 16) < 0))
+	if (!meta->minimap.fps_image || (mlx_image_to_window(meta->mlx, meta->minimap.fps_image, 0, MINIMAP_HEIGHT + 16) < 0))
 	{
 		ft_error();
 		return (EXIT_FAILURE);
 	}
+
+	meta->minimap.hud_image = mlx_new_image(meta->mlx, HUD_WIDTH, HUD_HEIGHT);
+	if (!meta->minimap.hud_image || (mlx_image_to_window(meta->mlx, meta->minimap.hud_image, HUD_POS_X, HUD_POS_Y) < 0))
+	{
+		ft_error();
+		return (EXIT_FAILURE);
+	}
+
 
 	return (EXIT_SUCCESS);
 }
