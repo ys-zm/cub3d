@@ -42,8 +42,7 @@ void	draw_sprite(t_player *p, t_vec2i draw_start, t_vec2i draw_end, \
 					uint32_t i)
 {
 	const t_sprite	*sp = p->meta->attributes.sprites;
-	const t_vec2i	img_dim = (t_vec2i){p->meta->image->width, \
-								p->meta->image->height};
+	const t_vec2i	img_dim = {p->meta->image->width, p->meta->image->height};
 	t_vec2i			index;
 	t_vec2i			tex_pos;
 	int				d;

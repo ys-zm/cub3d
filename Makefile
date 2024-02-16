@@ -56,7 +56,7 @@ SRCS	= 	parser/check_elements.c \
 			game/floorcaster.c \
 			game/sprite.c \
 			game/sprite_calc.c \
-			game/sprite_renderer.c \
+			game/sprite_render.c \
 			game/sprite_sort.c \
 			game/sort_utils.c \
 			renderer/pixel_picker.c \
