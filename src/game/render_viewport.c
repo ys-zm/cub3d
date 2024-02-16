@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/11 19:02:25 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/16 21:48:33 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void render_viewport(mlx_image_t *image, t_player *p)
 	col = 0;
 	while (col < image->width)
 	{
-		draw_column(p->meta, &p->rays[col], col, image->height);
+		draw_column(p->meta, &p->hrays[col], col, image->height);
 		col++;
 	}
 

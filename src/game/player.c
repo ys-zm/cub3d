@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:27:23 by yzaim             #+#    #+#             */
-/*   Updated: 2024/02/16 21:45:37 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/16 21:48:33 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,9 +178,9 @@ void player_raycast(t_player *p)
 	{
 		camera_x = (2 * col / ((double) p->meta->image->width) - 1);
 		ray_start = vec2d_add(p->direction, vec2d_scalar_product(p->cam_plane, camera_x));
-		p->rays[col] = raycaster_cast(p->position, ray_start, bound_check, p->meta);
+		p->hrays[col] = raycaster_cast(p->position, ray_start, bound_check, p->meta);
 		// printf("wall x: %f\n", p->rays[col].wall_x);
-		p->z_buffer[col] = p->rays[col].length;
+		p->z_buffer[col] = p->hrays[col].length;
 		col++;
 	}	
 

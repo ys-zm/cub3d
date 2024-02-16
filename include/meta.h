@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/02/16 21:33:12 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/16 21:48:33 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ typedef struct s_vray {
 
 typedef struct s_player {
 	t_meta		*meta;
-	t_ray		rays[WINDOW_WIDTH];
+	t_ray		hrays[WINDOW_WIDTH];
 	t_vray		vrays[WINDOW_HEIGHT];
 	t_ray 		interact_ray;
 	bool 		should_render;
