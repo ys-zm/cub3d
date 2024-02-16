@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:33 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/16 17:09:07 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/16 17:18:00 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,48 @@ inline static t_vec2d	calculate_delta_dist_true(t_vec2d ray_direction)
 	return (delta_dist);
 }
 
-static bool ray_check_door(t_meta *m, t_ray *r, t_vec2d *side_dist, t_vec2d delta_dist, t_ray_hitfunc hit)
+static bool ray_check_door(t_ray *r, t_vec2d *side_dist, const t_vec2d delta_dist, const t_vec2i step_size)
 {
+	bool hit_door = false;
 
+	if (r->hit_side == SIDE_N || r->hit_side == SIDE_S)
+	{
+		if (side_dist->y - (delta_dist.y / 2) < side_dist->x)
+		{
+			hit_door = true;
+			side_dist->y += delta_dist.y / 2;
+		}
+		else
+		{
+			side_dist->x += delta_dist.x;
+			r->hit_cell = MAP_WALL;
+			r->map_pos.x += step_size.x;
+			if (step_size.x > 0)
+				r->hit_side = (SIDE_E);
+			else
+				r->hit_side = (SIDE_W);
+		}
+	}
+	else
+	{
+		if (side_dist->x - (delta_dist.x / 2) < side_dist->y)
+		{
+			hit_door = true;
+			side_dist->x += delta_dist.x / 2;
+		}
+		else
+		{
+			side_dist->y += delta_dist.y;
+			r->hit_cell = MAP_WALL;
+			r->map_pos.y += step_size.y;
+			if (step_size.y > 0)
+				r->hit_side = (SIDE_S);
+			else
+				r->hit_side = (SIDE_N);
+		}
+
+	}
+	return hit_door;
 }
 
 
@@ -136,7 +175,6 @@ t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit,
 	delta_dist = calculate_delta_dist(dir);
 	side_dist = calculate_side_dist(dir, pp, r.map_pos, delta_dist);
 	step_size = calculate_step_size(dir);
-	t_meta *m = param;
 	while (1 && !hit_door)
 	{
 		r.hit_side = ray_move(&side_dist, &delta_dist, step_size, &r.map_pos);
@@ -144,23 +182,7 @@ t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit,
 
 		if (world_is_interactable(r.hit_cell))
 		{
-			if (side_dist.y - (delta_dist.y / 2) < side_dist.x)
-			{
-				hit_door = true;
-				side_dist.y += delta_dist.y / 2;
-			}
-			else
-			{
-				side_dist.x += delta_dist.x;
-				r.hit_cell = MAP_WALL;
-				r.map_pos.x += step_size.x;
-				if (step_size.x > 0)
-					r.hit_side = (SIDE_E);
-				else
-					r.hit_side = (SIDE_W);
-				m->test_ids[r.id] = true;
-			}
-
+			hit_door = ray_check_door(&r, &side_dist, delta_dist, step_size);
 		}
 
 		
