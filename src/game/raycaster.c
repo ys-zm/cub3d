@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:33 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/16 16:42:16 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/16 17:09:07 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,47 +115,7 @@ inline static t_vec2d	calculate_delta_dist_true(t_vec2d ray_direction)
 
 static bool ray_check_door(t_meta *m, t_ray *r, t_vec2d *side_dist, t_vec2d delta_dist, t_ray_hitfunc hit)
 {
-	t_vec2d map_pos = vec2i_to_vec2d(r->map_pos);
 
-	t_cell_type		hit_cell = hit(m, (uint32_t) map_pos.x, (uint32_t) map_pos.y);
-	t_vec2d			step_size = vec2d_mul(vec2i_to_vec2d(calculate_step_size(r->direction)), (t_vec2d) {1.0, 1.0});
-	t_side 			start_hit_side = r->hit_side;
-
-
-	
-	// if moving in x-axis
-	if (side_dist->x < side_dist->y)
-	{
-		side_dist->x += delta_dist.x;
-		map_pos.x += step_size.x;
-
-		m->test_ids[r->id] = true;
-
-		if (step_size.x > 0)
-			r->hit_side = (SIDE_E);
-		else
-			r->hit_side = (SIDE_W);
-
-		// if hit line / over line;
-		// move back for both x and y-axis
-	}
-	else
-	{
-		side_dist->y += delta_dist.y;
-		map_pos.y += step_size.y;
-		if (step_size.y > 0)
-			r->hit_side = (SIDE_S);
-		else
-			r->hit_side = (SIDE_N);
-	}
-	// if we went through y-axis in line, subtract the amount we went over.
-	// if we went over y-axis and hit the x-axis after that, also subtract the x amount.
-	if ()
-
-
-	hit_cell = hit(m, (uint32_t) map_pos.x, (uint32_t) map_pos.y);
-
-	return (world_is_interactable(hit_cell));
 }
 
 
@@ -176,13 +136,32 @@ t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit,
 	delta_dist = calculate_delta_dist(dir);
 	side_dist = calculate_side_dist(dir, pp, r.map_pos, delta_dist);
 	step_size = calculate_step_size(dir);
+	t_meta *m = param;
 	while (1 && !hit_door)
 	{
 		r.hit_side = ray_move(&side_dist, &delta_dist, step_size, &r.map_pos);
 		r.hit_cell = hit(param, r.map_pos.x, r.map_pos.y);
 
 		if (world_is_interactable(r.hit_cell))
-			hit_door = (ray_check_door((t_meta *) param, &r, &side_dist, delta_dist, hit));
+		{
+			if (side_dist.y - (delta_dist.y / 2) < side_dist.x)
+			{
+				hit_door = true;
+				side_dist.y += delta_dist.y / 2;
+			}
+			else
+			{
+				side_dist.x += delta_dist.x;
+				r.hit_cell = MAP_WALL;
+				r.map_pos.x += step_size.x;
+				if (step_size.x > 0)
+					r.hit_side = (SIDE_E);
+				else
+					r.hit_side = (SIDE_W);
+				m->test_ids[r.id] = true;
+			}
+
+		}
 
 		
 		// Tmporary to get the end
