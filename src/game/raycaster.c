@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:33 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/16 12:59:58 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/16 16:42:16 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,16 +122,15 @@ static bool ray_check_door(t_meta *m, t_ray *r, t_vec2d *side_dist, t_vec2d delt
 	t_side 			start_hit_side = r->hit_side;
 
 
-	t_vec2d map_pos_old = map_pos;
-
 	
-	// if looking in x-axis
+	// if moving in x-axis
 	if (side_dist->x < side_dist->y)
 	{
 		side_dist->x += delta_dist.x;
 		map_pos.x += step_size.x;
 
 		m->test_ids[r->id] = true;
+
 		if (step_size.x > 0)
 			r->hit_side = (SIDE_E);
 		else
@@ -142,29 +141,21 @@ static bool ray_check_door(t_meta *m, t_ray *r, t_vec2d *side_dist, t_vec2d delt
 	}
 	else
 	{
-		side_dist->y += delta_dist.y / 2;
-		map_pos.y += step_size.y / 2;
+		side_dist->y += delta_dist.y;
+		map_pos.y += step_size.y;
 		if (step_size.y > 0)
 			r->hit_side = (SIDE_S);
 		else
 			r->hit_side = (SIDE_N);
 	}
-	hit_cell = hit(m, (uint32_t) map_pos.x, (uint32_t) map_pos.y);
-	// if (r->hit_side != start_hit_side)
-	// 	r->hit_cell = MAP_WALL;
+	// if we went through y-axis in line, subtract the amount we went over.
+	// if we went over y-axis and hit the x-axis after that, also subtract the x amount.
+	if ()
 
-	if (r->id == WINDOW_WIDTH / 2)
-	{
-		print_vec2d("map_pos", map_pos);
-	}
-	if (world_is_interactable(hit_cell))
-	{
-		return true;
-	}
-	else
-	{
-		return false;	
-	}
+
+	hit_cell = hit(m, (uint32_t) map_pos.x, (uint32_t) map_pos.y);
+
+	return (world_is_interactable(hit_cell));
 }
 
 
@@ -191,10 +182,7 @@ t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit,
 		r.hit_cell = hit(param, r.map_pos.x, r.map_pos.y);
 
 		if (world_is_interactable(r.hit_cell))
-			if (ray_check_door((t_meta *) param, &r, &side_dist, delta_dist, hit))
-			{
-				hit_door = true;
-			}
+			hit_door = (ray_check_door((t_meta *) param, &r, &side_dist, delta_dist, hit));
 
 		
 		// Tmporary to get the end
