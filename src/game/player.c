@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:27:23 by yzaim             #+#    #+#             */
-/*   Updated: 2024/02/16 22:11:03 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/16 23:44:37 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,16 @@ void player_move(t_player *p, t_vec2d transform)
 {
 	t_ray r = raycaster_cast(p->position, vec2d_normalize(transform), bound_check, p->meta);
 
+	// shitty fix.
+	if (r.hit_cell == MAP_DOOR_CLOSED && r.length < 1.0)
+		return;
+
+
 	if (r.length > 0.5)
 		p->position = vec2d_add(p->position, transform);
 	else
 	{
-		const int		comp = (r.hit_side == SIDE_N || r.hit_side == SIDE_S);
+		const int		comp = (r.hit_side == SIDE_E || r.hit_side == SIDE_W);
 		const t_vec2d	normal = {comp, !comp}; // 1, 0 // 0, 1
 		const double 	dot_product = vec2d_dot_product(transform, normal);
 
@@ -98,7 +103,10 @@ void player_move(t_player *p, t_vec2d transform)
 		delta_pos.x = transform.x - normal.x * dot_product;
 		delta_pos.y = transform.y - normal.y * dot_product;
 		r = raycaster_cast(p->position, vec2d_normalize(transform), bound_check, p->meta);
-
+		if (r.hit_cell == MAP_DOOR_CLOSED && r.length < 0.5)
+		{
+			return;
+		}
 		if (r.length > 0.3)
 		{
 			p->position.x += delta_pos.x;
