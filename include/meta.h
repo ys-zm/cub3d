@@ -204,6 +204,10 @@ typedef struct s_tex {
 typedef struct s_sprite {
 	t_vec2d			pos;
 	t_tex			tex;
+	int32_t			height;
+	int32_t			width;
+	int32_t			screen_x;
+	t_vec2d			transform;
 } t_sprite;
 
 typedef struct s_attr {
@@ -425,5 +429,13 @@ void	print_ints_array(char *msg, int32_t *arr, uint32_t size);
 void	print_sprites_array(t_sprite *arr, uint32_t size);
 void	print_attributes(t_attr *attributes);
 
+// sprite_render.c
+void	draw_sprite(t_player *p, t_vec2i draw_start, t_vec2i draw_end, \
+					uint32_t i);
+
+// sprite_calc.c
+t_vec2i	calc_draw_start(t_player *p, t_sprite sp);
+t_vec2i	calc_draw_end(t_player *p, t_sprite sp);
+t_vec2d	calc_transform(t_player *p, t_vec2d pos);
 
 #endif

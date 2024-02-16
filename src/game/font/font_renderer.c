@@ -76,7 +76,6 @@ mlx_image_t *cube_put_string(mlx_image_t *image, const char *s, const t_font_atl
 		if (!mlx_resize_image(image, image_len, atlas->font_h))
 			return (NULL);
 	}
-
 	i = 0;
 	while (i < len)
 	{
