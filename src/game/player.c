@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:27:23 by yzaim             #+#    #+#             */
-/*   Updated: 2024/02/16 21:48:33 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/16 22:11:03 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,6 @@ void player_interact(t_player *p)
 
 	if (((char *) r)[0])
 	{
-		// printf("ray set\n");
 		world_interact(p, r->end);
 		player_raycast(p);
 	}
@@ -159,9 +158,6 @@ void player_raycast(t_player *p)
 	double		camera_x;
 
 
-	// DEBUGGING
-	ft_bzero(p->meta->test_ids, WINDOW_WIDTH);
-	
 	player_interactable_raycast(p);
 
 	row = 0;

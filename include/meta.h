@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/02/16 21:48:33 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/16 21:58:15 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,7 +248,6 @@ typedef struct s_meta {
 	t_player	player;
 	char		*next_level;
 	bool 		key_states[MLX_KEY_MENU - MLX_KEY_SPACE];
-	bool 		test_ids[WINDOW_WIDTH];
 }	t_meta;
 
 
