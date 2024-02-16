@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:33 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/15 18:38:30 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/02/16 12:59:58 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,6 @@ t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit,
 	t_vec2d delta_dist;
 
 	bool hit_door = false;
-	t_meta *m = param;
 
 	r.id = id;
 	r.direction = dir;
@@ -189,25 +188,6 @@ t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit,
 	while (1 && !hit_door)
 	{
 		r.hit_side = ray_move(&side_dist, &delta_dist, step_size, &r.map_pos);
-		if (r.id == WINDOW_WIDTH / 2)
-		{
-			const t_vec2i start = {(((t_meta *) param)->debug_img->width / 2), (((t_meta *) param)->debug_img->width / 2)};
-			const uint32_t center_x = start.x - (pp.x * MINIMAP_CELL_SIZE);
-			const uint32_t center_y = start.y - (pp.y * MINIMAP_CELL_SIZE);
-
-			float x = pp.x + dir.x * side_dist.x * MINIMAP_CELL_SIZE;
-			float y = pp.y + dir.y * side_dist.y * MINIMAP_CELL_SIZE;
-			// printf("x [%d] | y [%d]\n", x, y);
-
-			uint32_t draw_x = x + center_x;
-			uint32_t draw_y = y + center_y;
-
-			if (draw_x >= 0 && draw_x < (int32_t) m->debug_img->width && draw_y >= 0 && draw_y < (int32_t) m->debug_img->height)
-				draw_rect(m->debug_img, draw_x, draw_y, 4, 4, 0x00ff00ff);
-
-			// mlx_put_pixel(((t_meta *) param)->debug_img, draw_x, draw_y, 0x00fff0ff);
-
-		}
 		r.hit_cell = hit(param, r.map_pos.x, r.map_pos.y);
 
 		if (world_is_interactable(r.hit_cell))
