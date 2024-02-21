@@ -75,7 +75,10 @@ int	parse_elements(t_meta *meta)
 	{
 		type = check_element_type(elements->flag);
 		if (type != NON_VALID)
-			handle_element(meta, type, elements->flag, elements->content);
+		{
+			if (handle_element(meta, type, elements->flag, elements->content))
+				return (free_t_flag_list(&meta->elements), EXIT_FAILURE);
+		}
 		elements = elements->next;
 	}
 	free_t_flag_list(&meta->elements);
