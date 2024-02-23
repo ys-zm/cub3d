@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/02/17 00:44:45 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/16 21:58:15 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,6 @@
 #define VIEWPORT_COLOR_FLOOR 		0xFFFFFFFF
 #define VIEWPORT_COLOR_WALL_NS		0x4B0082FF
 #define VIEWPORT_COLOR_WALL_EW		0x8A30E2FF
-
-#define HUD_WIDTH 					200
-#define HUD_HEIGHT 					120
-#define HUD_POS_X 					((WINDOW_WIDTH / 2) - (HUD_WIDTH / 2))
-#define HUD_POS_Y 					(WINDOW_HEIGHT / 2)
 
 #define FOV 0.85
 
@@ -235,31 +230,15 @@ typedef struct s_minimap {
 	mlx_image_t	*minimap_image;
 	mlx_image_t	*ppos_image;
 	mlx_image_t	*fps_image;
-	mlx_image_t	*hud_image;
 	mlx_image_t	*info_image;
 }	t_minimap;
-
-typedef struct s_text_field
-{
-	char			*s;
-	mlx_image_t		*img;
-	t_vec2i			pos;
-	t_font_family	font;
-	bool 			redraw;
-}	t_text;
-
-typedef struct s_hud
-{
-	t_text prompt_bearing;
-	t_text prompt_interact;
-} t_hud;
 
 typedef struct s_meta {
 	mlx_t		*mlx;
 	mlx_image_t	*image;
+	mlx_image_t	*debug_img;
 	t_timer 	update_timer;
 	t_minimap 	minimap;
-	t_hud 		hud;
 	t_timer 	fps_timer;
 	uint32_t 	fps;
 	t_map		map;
@@ -376,8 +355,6 @@ bool	is_valid_extra(char *file);
 int		lexer_input_extra(t_flag **extras, char *file, int *skip);
 
 
-// hud.c
-void hud_set_text(t_hud *hud);
 
 // world.c
 void world_interact(t_player *p, t_vec2d map_pos);

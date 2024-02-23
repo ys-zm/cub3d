@@ -60,7 +60,6 @@ SRCS	= 		parser/check_elements.c \
 				game/sprite.c \
 				game/sprite_utils.c \
 				game/world.c \
-				game/hud.c \
 				parser/lexer.c \
 				parser/lexer_utils.c \
 				parser/map_lexer.c \
