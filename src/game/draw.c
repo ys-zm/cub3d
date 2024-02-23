@@ -1,17 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw.c                                             :+:      :+:    :+:   */
+/*   draw.c                                            :+:    :+:             */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:26:25 by yzaim             #+#    #+#             */
-/*   Updated: 2024/01/08 15:26:30 by yzaim            ###   ########.fr       */
+/*   Updated: 2024/02/23 23:21:34 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
 #include "meta.h"
+
+typedef struct s_bresenham
+{
+	t_vec2i 		current;
+	t_vec2i 		end;
+	t_vec2i 		delta;
+	t_vec2i			direction;
+	int32_t			slow_move;
+}	t_bresenham;
 
 // TODO Struct that contains all this info because well. tHe nORm
 void draw_rect(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color)
@@ -37,16 +46,6 @@ void draw_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color)
 	if (x < image->width && y < image->height)
 		mlx_put_pixel(image, x, y, color);
 }
-/////////////////////////////////////////////////
-
-typedef struct s_bresenham
-{
-	t_vec2i 		current;
-	t_vec2i 		end;
-	t_vec2i 		delta;
-	t_vec2i			direction;
-	int32_t			slow_move;
-}	t_bresenham;
 
 static int32_t	direction(int32_t val)
 {
