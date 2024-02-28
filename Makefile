@@ -49,6 +49,7 @@ SRCS	= 		parser/check_elements.c \
 				utils/free.c \
 				utils/colors.c \
 				game/game.c \
+				game/game_init.c \
 				game/draw.c \
 				game/keys.c \
 				game/player.c \

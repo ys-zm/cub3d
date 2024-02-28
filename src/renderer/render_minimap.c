@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:53 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/28 16:39:53 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/28 16:41:58 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,22 +115,17 @@ static void	render_minimap_level(mlx_image_t *image, const t_map *map, const t_p
 		x++;
 	}
 
-
 	for (size_t i = 0; i < WINDOW_WIDTH; i++)
 	{
 		const t_ray *r = &p->hrays[i];
-
-
 		t_vec2i end = vec2d_to_vec2i(vec2d_add((t_vec2d) {image_center.x, image_center.y}, vec2d_scalar_product(r->direction, (r->length) * MINIMAP_CELL_SIZE)));
 		draw_line(image, image_center, end, (t_rgba) {0x999999FF});
-	
 	}
 	draw_rect(image, image_center.x - (MINIMAP_PLAYER_SIZE / 2) , image_center.y - (MINIMAP_PLAYER_SIZE / 2), MINIMAP_PLAYER_SIZE, MINIMAP_PLAYER_SIZE, MINIMAP_COLOR_PLAYER);
-	
 	render_border(image, MINIMAP_COLOR_BORDER);
 }
 
-static void render_info(t_minimap *minimap, const t_player *p)
+static void	render_info(t_minimap *minimap, const t_player *p)
 {
 	t_font_atlas const	*font = cube_get_font_atlas(FONT_COMICSANS_13);
 	const size_t 		len = 32;
@@ -146,7 +141,7 @@ static void render_info(t_minimap *minimap, const t_player *p)
 	draw_rect(minimap->info_image, 1, 1, minimap->info_image->width - 2, minimap->info_image->height - 2, MINIMAP_COLOR_BACKGROUND);
 }
 
-void render_minimap(t_minimap *minimap, const t_map *map, const t_player *p)
+void	render_minimap(t_minimap *minimap, const t_map *map, const t_player *p)
 {
 	render_minimap_level(minimap->minimap_image, map, p);
 	render_info(minimap, p);

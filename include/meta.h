@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/02/28 16:36:26 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/28 17:42:00 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,28 +258,38 @@ typedef struct s_meta {
 // cub3d.c
 int		cub3d(int argc, char *argv[]);
 
+// set_textures.c
+int			set_textures(t_attr *attributes);
+
+/* GAME */
+
 // game.c
-void	game_init(t_meta *meta);
-void	game_loop(void* param);
+void		game_init(t_meta *meta);
+void		game_loop(void* param);
+
+// game_init.c
+static void	set_values(t_player *p, t_vec2d dir, t_vec2d cam);
+void		set_player_start_position(t_player *p, char dir);
+void		game_init(t_meta *meta);
 
 // player.c
-void	player_move(t_player *p, t_vec2d transform);
-void	player_turn(t_player *p, float radiant);
-void	player_raycast(t_player *p);
-void 	player_interact(t_player *p);
+void		player_move(t_player *p, t_vec2d transform);
+void		player_turn(t_player *p, float radiant);
+void		player_raycast(t_player *p);
+void 		player_interact(t_player *p);
 
 // keys.c
-void	cursor_hook(double xpos, double ypos, void* param);
-void	keys_handle(t_meta *meta, double time_delta);
+void		cursor_hook(double xpos, double ypos, void* param);
+void		keys_handle(t_meta *meta, double time_delta);
 
 // render_minimap.c
-void 	render_minimap(t_minimap *minimap, const t_map *map, const t_player *p);
+void 		render_minimap(t_minimap *minimap, const t_map *map, const t_player *p);
 
 // render_viewport.c
-void	render_viewport(mlx_image_t *image, t_player *p);
+void		render_viewport(mlx_image_t *image, t_player *p);
 
 // minimap.c
-void 	minimap_update(mlx_image_t *image, t_player *p);
+void 		minimap_update(mlx_image_t *image, t_player *p);
 
 // draw.c
 void	draw_rect(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color);
@@ -306,8 +316,6 @@ mlx_texture_t	*get_texture(t_cell_type cell, t_side side, t_attr attributes);
 void		meta_free(t_meta *meta);
 void		free_t_flag_list(t_flag **list);
 
-// set_textures.c
-int			set_textures(t_attr *attributes);
 
 //pixel_picker.c
 uint32_t	pixel_picker(mlx_texture_t *texture, int32_t x, int32_t y);
@@ -326,14 +334,6 @@ void	sprite_sort(double *sprite_dist, int32_t *sprite_order, uint32_t sprite_cou
 // sort_utils.c
 void	swap_doubles(double *a, double *b);
 void	swap_ints(int32_t *a, int32_t *b);
-
-// test_utils.c REMOVE LATER
-void	print_double_array(char *msg, double *arr, uint32_t size, t_sprite *sp, int32_t *order);
-void	print_ints_array(char *msg, int32_t *arr, uint32_t size);
-void	print_sprites_array(t_sprite *arr, uint32_t size);
-void	print_attributes(t_attr *attributes);
-void	print_door_data(t_door doors);
-
 
 /* LEXER & PARSER */
 
@@ -407,7 +407,6 @@ char		*make_rect(char *map, uint32_t w, uint32_t h);
 int			find_index(t_meta *meta, uint32_t x, uint32_t y);
 bool		is_path(char *str);
 
-
 // double_utils.c
 bool	is_double(char *s);
 double	calculate_decimal(char *s);
@@ -473,5 +472,6 @@ void	print_double_array(char *msg, double *arr, uint32_t size, t_sprite *sp, int
 void	print_ints_array(char *msg, int32_t *arr, uint32_t size);
 void	print_sprites_array(t_sprite *arr, uint32_t size);
 void	print_attributes(t_attr *attributes);
+void	print_door_data(t_door doors);
 
 #endif

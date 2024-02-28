@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:24:47 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/28 12:02:53 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/02/28 17:22:29 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	fps_hook(void *param)
 	if (timer_delta(&meta->fps_timer) >= 1)
 	{
 		meta->fps = fps;
-		// printf("FPS: [%u]\n", fps);
+		printf("FPS: [%u]\n", fps);
 		timer_start(&meta->fps_timer);
 		fps = 0;
 	}
@@ -81,19 +81,17 @@ int	cub3d(int argc, char **argv)
 {
 	t_meta	meta;
 
-	// atexit(&leaks);
 	if (argc != 2)
 		return (pr_err(ARG_ERR));
 	ft_bzero(&meta, sizeof(t_meta));
 	if (init_input(&meta, argv[1]))
 		return (EXIT_FAILURE);
 	init_mlx_images(&meta);
-	// TODO Error check.
 	game_init(&meta);
-	// mlx_set_cursor_mode(meta.mlx, MLX_MOUSE_HIDDEN);
+	mlx_set_cursor_mode(meta.mlx, MLX_MOUSE_HIDDEN);
 	mlx_loop_hook(meta.mlx, game_loop, &meta);
 	mlx_loop_hook(meta.mlx, fps_hook, &meta);
-	// mlx_cursor_hook(meta.mlx, cursor_hook, &meta);
+	mlx_cursor_hook(meta.mlx, cursor_hook, &meta);
 	mlx_loop(meta.mlx);
 	mlx_terminate(meta.mlx);
 	meta_free(&meta);
