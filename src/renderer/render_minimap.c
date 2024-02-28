@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   render_minimap.c                                  :+:    :+:             */
-/*                                                    +:+ +:+         +:+     */
-/*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 15:27:53 by yzaim             #+#    #+#             */
-/*   Updated: 2024/02/16 21:48:33 by joppe         ########   odam.nl         */
+/*                                                        ::::::::            */
+/*   render_minimap.c                                   :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: yzaim <marvin@42.fr>                         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/08 15:27:53 by yzaim         #+#    #+#                 */
+/*   Updated: 2024/02/28 16:39:53 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ const t_rgba CELL_COLORS[] = {
 };
 
 
-void render_clear_bg(mlx_image_t *image, uint32_t c)
+void	render_clear_bg(mlx_image_t *image, uint32_t c)
 {
 	const uint32_t	size = image->width * image->height;
 	size_t			i;
@@ -47,31 +47,32 @@ void render_clear_bg(mlx_image_t *image, uint32_t c)
 	}
 }
 
-static t_cell_type minimap_ray_len(const void *p, uint32_t x, uint32_t y)
+static t_cell_type	minimap_ray_len(const void *p, uint32_t x, uint32_t y)
 {
-	t_map *const map = (t_map *) p;
-
-	const t_cell_type cur_cell = map->level[(y * map->width) + x];
+	t_map *const		map = (t_map *) p;
+	const t_cell_type	cur_cell = map->level[(y * map->width) + x];
 
 	if (x < map->width && y < map->height)
 	{
 		if (cur_cell == MAP_WALL || cur_cell == MAP_DOOR_CLOSED)
 			return (cur_cell);
 		else
-		 	return (0);
+			return (0);
 	}
 	else
 		UNIMPLEMENTED("Map out of bounds.");
 }
 
-void draw_cell(mlx_image_t *image, t_cell_type cell, const uint32_t x, const uint32_t y)
+void	draw_cell(mlx_image_t *image, t_cell_type cell, const uint32_t x, const uint32_t y)
 {
 	draw_rect(image, x, y, MINIMAP_CELL_SIZE, MINIMAP_CELL_SIZE, CELL_COLORS[cell].value);
 }
 
-static void render_border(mlx_image_t *image, uint32_t c)
+static void	render_border(mlx_image_t *image, uint32_t c)
 {
-	uint32_t i = 0;
+	uint32_t	i;
+
+	i = 0;
 	while (i < image->height)
 	{
 		draw_put_pixel(image, 0, i, c);
@@ -85,20 +86,24 @@ static void render_border(mlx_image_t *image, uint32_t c)
 		i++;
 	}
 }
-t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *param);
 
-static void render_minimap_level(mlx_image_t *image, const t_map *map, const t_player *p)
+// t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *param);
+
+static void	render_minimap_level(mlx_image_t *image, const t_map *map, const t_player *p)
 {
-	render_clear_bg(image, MINIMAP_COLOR_BACKGROUND);
-	const t_vec2i image_center = {(image->width / 2), (image->height / 2)};
-	const uint32_t pp_center_x = image_center.x - (p->position.x * MINIMAP_CELL_SIZE);
-	const uint32_t pp_center_y = image_center.y - (p->position.y * MINIMAP_CELL_SIZE);
-	size_t x;
+	const t_vec2i	image_center = {(image->width / 2), (image->height / 2)};
+	const uint32_t	pp_center_x = image_center.x - \
+					(p->position.x * MINIMAP_CELL_SIZE);
+	const uint32_t	pp_center_y = image_center.y - \
+					(p->position.y * MINIMAP_CELL_SIZE);
+	size_t			x;
+	size_t			y;
 
 	x = 0;
+	render_clear_bg(image, MINIMAP_COLOR_BACKGROUND);
 	while (x < map->width)
 	{
-		size_t y = 0;
+		y = 0;
 		while (y < map->height)
 		{
 			int32_t cell_x = pp_center_x + (x * MINIMAP_CELL_SIZE);

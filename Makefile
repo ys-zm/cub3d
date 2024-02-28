@@ -32,6 +32,19 @@ SRCS	= 		parser/check_elements.c \
 				parser/parse_textures.c \
 				parser/parser.c	\
 				parser/check_colors.c \
+				parser/lexer.c \
+				parser/lexer_utils.c \
+				parser/map_lexer.c \
+				parser/map_utils.c \
+				parser/map_checker.c \
+				parser/map_parser.c \
+				parser/sprite_parser.c \
+				parser/skip_utils.c \
+				parser/double_utils.c \
+				parser/map_access_utils.c \
+				parser/parser_fill.c \
+				parser/lexer_test_utils.c \
+				parser/door_parser.c \
 				utils/error.c \
 				utils/free.c \
 				utils/colors.c \
@@ -40,33 +53,23 @@ SRCS	= 		parser/check_elements.c \
 				game/keys.c \
 				game/player.c \
 				game/raycaster.c \
+				game/font/font_renderer.c \
+				game/floorcaster.c \
+				game/sprite.c \
+				game/world.c \
+				game/sprite_calc.c \
+				game/sprite_render.c \
+				game/sprite_sort.c \
+				game/sort_utils.c \
 				renderer/render_minimap.c \
 				renderer/render_viewport.c \
-				game/font/font_renderer.c \
 				renderer/pixel_picker.c \
+				renderer/draw_func.c \
 				vector/vec2i.c \
 				vector/vec_utils.c \
 				cub3d.c \
 				test_utils.c \
 				timer.c \
-				game/floorcaster.c \
-				game/sprite.c \
-				game/world.c \
-				parser/lexer.c \
-				parser/lexer_utils.c \
-				parser/map_lexer.c \
-				parser/map_utils.c \
-				parser/map_checker.c \
-				parser/sprite_parser.c \
-				parser/skip_utils.c \
-				parser/double_utils.c \
-				parser/map_access_utils.c \
-				parser/parser_fill.c \
-				parser/lexer_test_utils.c \
-				game/sprite_calc.c \
-				game/sprite_render.c \
-				game/sprite_sort.c \
-				game/sort_utils.c \
 				vector/vec2d_sum.c \
 				vector/vec2d_calc.c \
 				init/set_textures.c
@@ -76,7 +79,8 @@ HEADER_DIR	:=	include
 HEADERS 	:=	meta.h \
 				timer.h \
 				test_utils.h \
-				vector.h
+				vector.h \
+				error.h
 
 OBJ_DIR		:=	obj
 

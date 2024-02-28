@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   meta.h                                            :+:    :+:             */
+/*   meta.h                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/02/28 12:46:32 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/02/28 16:36:26 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,7 +290,6 @@ void	draw_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color);
 const t_font_atlas	*cube_get_font_atlas(t_font_family face);
 mlx_image_t			*cube_put_string(mlx_image_t *image, const char *s, const t_font_atlas *atlas);
 
-
 // keys.c
 void		keys_update(mlx_key_data_t keydata, void *param);
 
@@ -321,38 +320,44 @@ t_vray 	floorcaster(t_vec2d pp, t_vec2d dir, t_vec2d cam_plane, uint32_t y);
 int		init_sprites(uint32_t sprite_count, int32_t **sprite_order, double **sprite_dist);
 void	sprite_calculate(t_player *p);
 
-// test_utils.c REMOVE LATER
+// sprite_utils.c
+void	sprite_sort(double *sprite_dist, int32_t *sprite_order, uint32_t sprite_count);
 
+// sort_utils.c
+void	swap_doubles(double *a, double *b);
+void	swap_ints(int32_t *a, int32_t *b);
+
+// test_utils.c REMOVE LATER
 void	print_double_array(char *msg, double *arr, uint32_t size, t_sprite *sp, int32_t *order);
 void	print_ints_array(char *msg, int32_t *arr, uint32_t size);
 void	print_sprites_array(t_sprite *arr, uint32_t size);
 void	print_attributes(t_attr *attributes);
 void	print_door_data(t_door doors);
-// sprite_utils.c
-void	sprite_sort(double *sprite_dist, int32_t *sprite_order, uint32_t sprite_count);
 
 
 /* LEXER & PARSER */
 
 // sprite_parser.c
 char	*find_sprite_val(char **content);
-int		input_sprite_texture_path(t_sprite **sprites_array, uint32_t *i ,char *content);
+int		input_sprite_data(t_sprite **sprites_array, uint32_t *i ,char *content);
+uint32_t	count_sprites(t_flag *elements);
 int		set_up_sprites(t_meta *meta);
+bool	valid_sprite_content(char *content);
 
 // map_parser.c
 t_cell_type	find_enum_value(char c);
 bool		save_map(t_meta *meta, char *rect);
 
-// check_map.c
-int 	valid_map_char(char c);
-int		player_pos_char(char c);
-bool	is_map_chars_valid(char *map);
-int 	check_map(t_meta *meta, char *rect);
-int		find_index(t_meta *meta, uint32_t x, uint32_t y);
+// map_checker.c
 bool	is_map_chars_valid(char *map);
 int		flood_fill(t_meta *meta, char *map, int x, int y);
 bool	save_start_pos(t_meta *meta, char *map);
 bool	is_floor_exposed(t_meta *meta, char *map);
+int 	check_map(t_meta *meta, char *rect);
+
+// map_parser.c
+t_cell_type	find_enum_value(char c);
+bool		save_map(t_meta *meta, char *rect);
 
 // parser.c
 char	*file_to_string(int fd);
@@ -382,33 +387,37 @@ bool	check_missing(int *found);
 bool	is_missing(char *file);
 bool	is_duplicate(char *file);
 
-
 // parse_textures.c
 void	get_colour_value(char *file, t_rgba *col);
 char	*get_tex_val(char *file);
 bool	is_wall(char *file);
 bool	is_floor_or_ceiling(char *file);
 
-// utils_one.c
+// skip_utils.c
 void	skip_line(char **file, int to_skip);
 void	skip_spaces(char **file);
 void	skip_digits(char **file);
 int		valid_map_char(char c);
 int		player_pos_char(char c);
 
-// utils_two.c
+// map_access_utils.c
 uint32_t	find_width(char *map);
 uint32_t	find_height(char *map);
 char		*make_rect(char *map, uint32_t w, uint32_t h);
+int			find_index(t_meta *meta, uint32_t x, uint32_t y);
 bool		is_path(char *str);
-uint32_t	count_sprites(t_flag *elements);
 
-// utils_three.c
 
-double	ft_atod(char *s);
+// double_utils.c
 bool	is_double(char *s);
-bool	valid_sprite_content(char *content);
+double	calculate_decimal(char *s);
+double	ft_atod(char *s);
 
+// door_parser.c
+uint32_t	count_doors(t_cell_type *map, uint32_t w, uint32_t h);
+int			save_door_index(uint32_t *arr, uint32_t door_count, t_map map);
+int			set_doors(t_door *doors, t_map map);
+int			input_path(char **path, char *content);
 
 // lexer.c
 int		lex(char *file, t_map *map, t_flag **elements);
@@ -429,21 +438,21 @@ int		map_lex(char **file, t_map *map, int *skip, int mandatory);
 char	*get_val(char *file);
 char	*get_key(char *file);
 bool	is_valid_key(t_flag *elements, t_flag *new_node, int *mandatory);
-char 	*extract_file(char *map_file);
+char	*extract_file(char *map_file);
 
 // map_utils.c
 int		create_rectangle_map_element(t_meta *meta);
 void	save_map_dimensions(char *map_file, uint32_t *width, uint32_t *height);
 
-// sprite_utils.c
-void	swap_doubles(double *a, double *b);
-void	swap_ints(int32_t *a, int32_t *b);
 
-// test_utils.c REMOVE LATER
-void	print_double_array(char *msg, double *arr, uint32_t size, t_sprite *sp, int32_t *order);
-void	print_ints_array(char *msg, int32_t *arr, uint32_t size);
-void	print_sprites_array(t_sprite *arr, uint32_t size);
-void	print_attributes(t_attr *attributes);
+/* RENDERER*/
+
+// draw_func.c
+
+void	draw_column(t_meta *meta, t_ray *ray, uint32_t col, uint32_t h);
+void	draw_floor(mlx_image_t *image, t_vray *vray, t_attr *attributes, t_vec2i pos);
+void	draw_ceil(mlx_image_t *image, t_vray *vray, t_attr *attributes, t_vec2i pos);
+
 
 // sprite_render.c
 void	draw_sprite(t_player *p, t_vec2i draw_start, t_vec2i draw_end, \
@@ -457,5 +466,12 @@ t_vec2d	calc_transform(t_player *p, t_vec2d pos);
 // world.c
 void world_interact(t_player *p, t_vec2d map_pos);
 bool world_is_interactable(t_cell_type cell);
+
+/* TESTING FUNCTIONS*/
+// test_utils.c REMOVE LATER
+void	print_double_array(char *msg, double *arr, uint32_t size, t_sprite *sp, int32_t *order);
+void	print_ints_array(char *msg, int32_t *arr, uint32_t size);
+void	print_sprites_array(t_sprite *arr, uint32_t size);
+void	print_attributes(t_attr *attributes);
 
 #endif

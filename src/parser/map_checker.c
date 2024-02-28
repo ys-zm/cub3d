@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   map_checker.c                                     :+:    :+:             */
+/*   map_checker.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:42:38 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/28 12:48:05 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/02/28 16:20:10 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,40 +102,6 @@ bool	is_floor_exposed(t_meta *meta, char *map)
 		y++;
 	}
 	return (false);
-}
-
-t_cell_type find_enum_value(char c)
-{
-	if (c == ' ')
-	{
-		return (MAP_EMPTY);
-	}
-	else if (c == '1')
-	{
-		return (MAP_WALL);
-	}
-	else if (c == 'D')
-		return (MAP_DOOR_CLOSED);
-	else
-	{
-		return (MAP_SPACE);
-	}
-}
-
-bool save_map(t_meta *meta, char *rect)
-{
-	uint32_t	i;
-
-	meta->map.level = malloc(sizeof(t_cell_type) * meta->map.width * meta->map.height);
-	if (!meta->map.level)
-		return (false);
-	i = 0;
-	while (rect[i])
-	{
-		meta->map.level[i] = find_enum_value(rect[i]);
-		i++;
-	}
-	return (true);
 }
 
 int	check_map(t_meta *meta, char *rect)
