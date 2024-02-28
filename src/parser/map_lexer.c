@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/28 13:37:40 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/02/28 14:08:22 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int	end_of_map(char *file)
 
 void	skip_map_element(char **file, int *skip)
 {
-	printf("!!!\n");
 	*skip = 0;
 	while (*file)
 	{
@@ -90,10 +89,8 @@ int	map_lex(char **file, t_map *map, int *skip, int mandatory)
 {
 	int	exit_code;
 
-	printf("file: %s\n", *file);
 	if (map->map_element != NULL)
 	{
-		printf("yup\n");
 		exit_code = pr_err(DUP_ELEMENTS);
 	}
 	else if (mandatory == 6)

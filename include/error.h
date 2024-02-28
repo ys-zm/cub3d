@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /**/
 /*   :::::::: */
-/*   error.h                                          :+:    :+:             */
+/*   error.h                                           :+:    :+:             */
 /*+:+ */
 /*   By: jboeve <jboeve@student.codam.nl>+#+  */
 /*  +#+   */
 /*   Created: 2023/11/01 20:07:37 by jboeve#+##+# */
-/*   Updated: 2024/01/25 15:27:28 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/02/28 14:16:51 by jboeve        ########   odam.nl         */
 /**/
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define SP_CONTENT_ERR "Please format the sprite element content as follows, SP path/to/texture XX.XX XX.XX\n"
 # define DOUBLE_ERR "Please check that your doubles are formatted correctly\n"
 # define SP_COORD_ERR "Sprite coordinates are out of bounds\n"
-
+# define DR_PATH_ERR "Door path is missing\n"
 # include "meta.h"
 
 typedef enum e_err {
@@ -54,7 +54,9 @@ COLOR_CODE_WRONG,
 MLX_ERROR,
 SP_CONTENT,
 SP_DOUBLE_ERR,
-SP_COORD
+SP_COORD,
+DOOR_PATH,
+ERR_COUNT
 }	t_err;
 
 // error.c

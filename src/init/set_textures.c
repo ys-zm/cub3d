@@ -6,7 +6,7 @@
 /*   By: yzaim <yzaim@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:56:45 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/28 13:48:38 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/02/28 14:15:53 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,16 @@ int	set_door_texture(t_door *doors)
 	if (doors->door_count)
 	{
 		// TODO Check if there is a door texture set.
-		doors->tex.tex = mlx_load_png(doors->tex.tex_path);
-		if (doors->tex.tex == NULL)
-			return (EXIT_FAILURE);
+		if (doors->tex.tex_path)
+		{
+			doors->tex.tex = mlx_load_png(doors->tex.tex_path);
+			if (doors->tex.tex == NULL)
+				return (EXIT_FAILURE);
+		}
+		else 
+		{
+			return (pr_err(DOOR_PATH));
+		}
 	}
 	return (EXIT_SUCCESS);
 }
