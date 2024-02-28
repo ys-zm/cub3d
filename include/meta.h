@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/02/16 21:58:15 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/28 12:46:32 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,10 @@ typedef struct s_tex {
 typedef struct s_sprite {
 	t_vec2d			pos;
 	t_tex			tex;
+	int32_t			height;
+	int32_t			width;
+	int32_t			screen_x;
+	t_vec2d			transform;
 } t_sprite;
 
 typedef struct s_door {
@@ -220,6 +224,7 @@ typedef struct s_attr {
 	t_tex		c_alt;
 	t_rgba		floor_c;
 	t_rgba		ceiling_c;
+	t_rgba		ceil_alt_c;
 	uint32_t	sprite_count;
 	uint32_t	sprite_arr_index;
 	t_sprite	*sprites; // we need to make the sprite count modular
@@ -249,7 +254,6 @@ typedef struct s_meta {
 	char		*next_level;
 	bool 		key_states[MLX_KEY_MENU - MLX_KEY_SPACE];
 }	t_meta;
-
 
 // cub3d.c
 int		cub3d(int argc, char *argv[]);
@@ -325,36 +329,130 @@ void	print_sprites_array(t_sprite *arr, uint32_t size);
 void	print_attributes(t_attr *attributes);
 void	print_door_data(t_door doors);
 // sprite_utils.c
-
 void	sprite_sort(double *sprite_dist, int32_t *sprite_order, uint32_t sprite_count);
 
 
+/* LEXER & PARSER */
+
+// sprite_parser.c
+char	*find_sprite_val(char **content);
+int		input_sprite_texture_path(t_sprite **sprites_array, uint32_t *i ,char *content);
+int		set_up_sprites(t_meta *meta);
+
+// map_parser.c
+t_cell_type	find_enum_value(char c);
+bool		save_map(t_meta *meta, char *rect);
+
+// check_map.c
+int 	valid_map_char(char c);
+int		player_pos_char(char c);
+bool	is_map_chars_valid(char *map);
+int 	check_map(t_meta *meta, char *rect);
+int		find_index(t_meta *meta, uint32_t x, uint32_t y);
+bool	is_map_chars_valid(char *map);
+int		flood_fill(t_meta *meta, char *map, int x, int y);
+bool	save_start_pos(t_meta *meta, char *map);
+bool	is_floor_exposed(t_meta *meta, char *map);
+
+// parser.c
+char	*file_to_string(int fd);
+char	*read_file(int fd);
+int		map_extension(char *file);
+int 	parser(t_meta *meta);
+
+// parse_map.c
+bool	is_map_line(char *file);
+
+// parse_elements.c
+int		input_texture_path(t_attr *attributes, char *flag, char *content);
+int		input_colour(t_attr *attributes, char *flag, char *content);
+int		save_elements(t_attr *attributes, char *file);
+int		parse_elements(t_meta *meta);
+
+// check_colors.c
+bool	valid_rgb_value(char *file);
+bool	is_valid_color(char *file);
+bool	colors_valid(char *file);
+
+// check_elements.c
+bool	is_valid_element(char *file);
+bool	only_spaces(char *file);
+bool	is_map_element(char *file);
+bool	check_missing(int *found);
+bool	is_missing(char *file);
+bool	is_duplicate(char *file);
+
+
+// parse_textures.c
+void	get_colour_value(char *file, t_rgba *col);
+char	*get_tex_val(char *file);
+bool	is_wall(char *file);
+bool	is_floor_or_ceiling(char *file);
+
+// utils_one.c
+void	skip_line(char **file, int to_skip);
+void	skip_spaces(char **file);
+void	skip_digits(char **file);
+int		valid_map_char(char c);
+int		player_pos_char(char c);
+
+// utils_two.c
+uint32_t	find_width(char *map);
+uint32_t	find_height(char *map);
+char		*make_rect(char *map, uint32_t w, uint32_t h);
+bool		is_path(char *str);
+uint32_t	count_sprites(t_flag *elements);
+
+// utils_three.c
+
+double	ft_atod(char *s);
+bool	is_double(char *s);
+bool	valid_sprite_content(char *content);
+
+
 // lexer.c
-char 	*extract_file(char *map_file);
 int		lex(char *file, t_map *map, t_flag **elements);
 int		lexer(t_meta *meta, char *map_file);
 
-// lexer_utils.c
-
+// lexer_test_utils.c
 void	print_lexer_map(t_map *map);
 void 	print_lexer_elements(t_flag *elements);
 
 // map_lexer.c
-
 bool	nl_only_spaces(char *file);
 int		end_of_map(char *file);
 void	skip_map_element(char **file, int *skip);
 int		input_map_lexer(char *file, t_map *map);
 int		map_lex(char **file, t_map *map, int *skip, int mandatory);
 
-// extra_lexer.c
+// lexer_utils.c
+char	*get_val(char *file);
+char	*get_key(char *file);
+bool	is_valid_key(t_flag *elements, t_flag *new_node, int *mandatory);
+char 	*extract_file(char *map_file);
 
-char	*get_title_val(char *file);
-int		save_extra_title(t_flag **extras, char **file);
-bool	is_valid_extra(char *file);
-int		lexer_input_extra(t_flag **extras, char *file, int *skip);
+// map_utils.c
+int		create_rectangle_map_element(t_meta *meta);
+void	save_map_dimensions(char *map_file, uint32_t *width, uint32_t *height);
 
+// sprite_utils.c
+void	swap_doubles(double *a, double *b);
+void	swap_ints(int32_t *a, int32_t *b);
 
+// test_utils.c REMOVE LATER
+void	print_double_array(char *msg, double *arr, uint32_t size, t_sprite *sp, int32_t *order);
+void	print_ints_array(char *msg, int32_t *arr, uint32_t size);
+void	print_sprites_array(t_sprite *arr, uint32_t size);
+void	print_attributes(t_attr *attributes);
+
+// sprite_render.c
+void	draw_sprite(t_player *p, t_vec2i draw_start, t_vec2i draw_end, \
+					uint32_t i);
+
+// sprite_calc.c
+t_vec2i	calc_draw_start(t_player *p, t_sprite sp);
+t_vec2i	calc_draw_end(t_player *p, t_sprite sp);
+t_vec2d	calc_transform(t_player *p, t_vec2d pos);
 
 // world.c
 void world_interact(t_player *p, t_vec2d map_pos);

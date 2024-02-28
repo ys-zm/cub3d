@@ -10,14 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "meta.h"
 #include <ctype.h>
 #include <math.h>
 #include <stdint.h>
 #include <stdio.h>
 
-int main(int argc, char *argv[])
+int	main(int argc, char *argv[])
 {
 	return (cub3d(argc, argv));
 }

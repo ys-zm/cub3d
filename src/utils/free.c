@@ -12,8 +12,6 @@
 
 #include "meta.h"
 
-// Danger with freeing everything at the end? If allocation of one fails, you should free everything in the same function, dont wait until the end
-
 void	f_tex(t_tex *attr)
 {
 	if (attr->tex_path)
@@ -39,7 +37,7 @@ static void	free_t_tex(t_attr *attributes)
 
 void	free_t_flag_list(t_flag **list)
 {
-	t_flag *l;
+	t_flag	*l;
 
 	while (*list != NULL)
 	{

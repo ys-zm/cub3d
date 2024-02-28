@@ -6,14 +6,14 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:33 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/16 22:10:41 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/28 12:21:53 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
 #include "libft.h"
 #include "meta.h"
-#include "parser.h"
+#include "error.h"
 #include "test_utils.h"
 #include "vector.h"
 #include <math.h>
@@ -176,9 +176,7 @@ t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *par
 	r.end = vec2i_to_vec2d(r.map_pos);
 	
 	r.line_height = (int)(WINDOW_HEIGHT / r.length);
-
-	// draw start and draw end
-	r.line_point.x = -r.line_height / 2 + ((double)WINDOW_HEIGHT) / 2;
+	r.line_point.x = (-(r.line_height) / 2) + (((double)WINDOW_HEIGHT) / 2);
 	r.line_point.y = r.line_height / 2 + ((double)WINDOW_HEIGHT) / 2;
 
 	if (r.hit_side == SIDE_E || r.hit_side == SIDE_W)

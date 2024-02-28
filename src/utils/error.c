@@ -11,41 +11,28 @@
 /* ************************************************************************** */
 
 #include "meta.h"
-#include "parser.h"
+#include "error.h"
 
-int pr(char *err, int exit_code)
+int	pr(char *err, int exit_code)
 {
 	write(2, err, ft_strlen(err));
 	return (exit_code);
 }
 
-int pr_err(t_err type)
+int	pr_err(t_err type)
 {
-	const char *msg[] = {
-		INVALID_CHAR,
-		INVALID_EXT,
-		INVALID_WALLS,
-		TOO_MANY_PLAYERS,
-		INVALID_FILE,
-		MALLOC_FAIL,
-		WRO_ARGS,
-		OOB_FLOOR,
-		ORDER_OF_ELEMENTS,
-		MISSING_PATH,
-		DUPLICATES,
-		NO_PLAYER_POS,
-		ELEMENT_MISSING,
-		NO_MAP,
-		INV_COLOR_CODE,
-		MLX_ERR,
-		INVALID_ELEMENT,
-		SP_CONTENT_ERR,
-		DOUBLE_ERR,
-		SP_COORD_ERR
+	const char	*msg[] = {
+		INVALID_CHAR, INVALID_EXT, INVALID_WALLS,
+		TOO_MANY_PLAYERS, INVALID_FILE,
+		MALLOC_FAIL, WRO_ARGS, OOB_FLOOR,
+		ORDER_OF_ELEMENTS, MISSING_PATH, DUPLICATES,
+		NO_PLAYER_POS, ELEMENT_MISSING, NO_MAP,
+		INV_COLOR_CODE, MLX_ERR, SP_CONTENT_ERR,
+		DOUBLE_ERR, SP_COORD_ERR
 	};
 
 	write(2, "Error\n", 6);
-	if (type >= 0 && type < 20)
+	if (type >= 0 && type < 19)
 		return (write(2, msg[type], ft_strlen(msg[type])), 1);
 	return (0);
 }

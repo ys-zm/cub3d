@@ -1,56 +1,55 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse_elements.c                                   :+:    :+:            */
+/*   parse_elements.c                                  :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/08 12:54:47 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/28 13:31:41 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "meta.h"
+#include "error.h"
 
-// saves path value and checks of value us empty
-int	input_texture_path(t_attr *attributes, char *flag, char *content)
+int	input_path(char **path, char *content)
 {
-	char	element[6] = {'N', 'S', 'W', 'E', 'F', 'C'};
-	char**	path[6] = {&attributes->n.tex_path, &attributes->s.tex_path, &attributes->w.tex_path, &attributes->e.tex_path, &attributes->f.tex_path, &attributes->c.tex_path};
-	int i;
-
-	i = 0;
-	while (i < 6)
-	{
-		if (*flag && *flag == element[i])
-		{
-			if (input_path(path[i], content))
-			{
-				return (EXIT_FAILURE);
-			}
-		}
-		i++;
-	}
+	if (*path)
+		return (EXIT_SUCCESS);
+	*path = ft_strdup(content);
+	if (!*path)
+		return (pr_err(MALL_ERR), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
-// add check for RBG code correctness?
-int	input_colour(t_attr *attributes, char *flag, char *content)
-{
-	char	tx[2] = {'F', 'C'};
-	t_rgba  *st[2] = {&attributes->floor_c, &attributes->ceiling_c};
-	int	i;
 
-	i = 0;
-	while (i < 2 && *flag && *flag != tx[i])
-		i++;
-	get_colour_value(content, st[i]);
-	return (EXIT_SUCCESS); 
-}
+// // saves path value and checks of value us empty
+// int	input_texture_path(t_attr *attributes, char *flag, char *content)
+// {
+// 	char	element[6] = {'N', 'S', 'W', 'E', 'F', 'C'};
+// 	char**	path[6] = {&attributes->n.tex_path, &attributes->s.tex_path, &attributes->w.tex_path, &attributes->e.tex_path, &attributes->f.tex_path, &attributes->c.tex_path};
+// 	int i;
+//
+// 	i = 0;
+// 	while (i < 6)
+// 	{
+// 		if (*flag && *flag == element[i])
+// 		{
+// 			if (input_path(path[i], content))
+// 			{
+// 				return (EXIT_FAILURE);
+// 			}
+// 		}
+// 		i++;
+// 	}
+// 	return (EXIT_SUCCESS);
+// }
 
 t_element_type	check_element_type(char *flag)
 {
-	if (!ft_strncmp(flag, "C", 1) || !ft_strncmp(flag, "F", 1))
+	if (!ft_strncmp(flag, "C", 1) || !ft_strncmp(flag, "F", 1) \
+	|| !ft_strncmp(flag, "C_ALT", 4))
 		return (CEIL_FLOOR);
 	if (is_wall(flag))
 		return (WALL);
@@ -65,8 +64,9 @@ t_element_type	check_element_type(char *flag)
 
 int	handle_ceil_floor(t_attr *attributes, char *flag, char *content)
 {
-	int exit_code = 0;
+	int	exit_code;
 
+	exit_code = 0;
 	if (is_path(content))
 	{
 		exit_code = input_texture_path(attributes, flag, content);
@@ -78,34 +78,6 @@ int	handle_ceil_floor(t_attr *attributes, char *flag, char *content)
 		exit_code = input_colour(attributes, flag, content);
 	}
 	return (exit_code);
-}
-
-char	*find_sprite_val(char **content)
-{
-	char	*val;
-	char	*c;
-	int	i;
-
-	i = 0;	
-	c = *content;
-	while (c[i] != '\0')
-	{
-		if (c[i] == ' ')
-		{
-			break ;
-		}
-		i++;
-	}
-	if (i)
-	{
-		val = ft_substr(c, 0, i);
-		if (!val)
-			return (pr_err(MALL_ERR), NULL);
-		*content += i;
-		skip_spaces(content);
-		return (val);
-	}
-	return (ft_strdup(""));
 }
 
 int	input_sprite_data(t_sprite **sprites_array, uint32_t *i ,char *content)
@@ -133,19 +105,9 @@ int	input_sprite_data(t_sprite **sprites_array, uint32_t *i ,char *content)
 	return (EXIT_SUCCESS);
 }
 
-int	input_path(char **path, char *content)
-{
-	if (*path)
-		return (EXIT_SUCCESS);
-	*path = ft_strdup(content);
-	if (!*path)
-		return (pr_err(MALL_ERR), EXIT_FAILURE);
-	return (EXIT_SUCCESS);
-}
-
 int	handle_element(t_meta *meta, t_element_type type, char *flag, char *content)
 {
-	int exit_code;
+	int	exit_code;
 
 	if (type == CEIL_FLOOR)
 		exit_code = handle_ceil_floor(&meta->attributes, flag, content);
@@ -158,17 +120,6 @@ int	handle_element(t_meta *meta, t_element_type type, char *flag, char *content)
 	else if (type == NEXT_LVL)
 		exit_code = input_path(&meta->next_level, content);
 	return (exit_code);
-}
-
-int	set_up_sprites(t_meta *meta)
-{
-	if (meta->attributes.sprite_count)
-	{
-		meta->attributes.sprites = calloc(meta->attributes.sprite_count, sizeof(t_sprite));
-		if (!meta->attributes.sprites)
-			return (pr_err(MALL_ERR), EXIT_FAILURE);
-	}
-	return (EXIT_SUCCESS);
 }
 
 uint32_t	count_doors(t_cell_type *map, uint32_t w, uint32_t h)
@@ -224,6 +175,8 @@ int	set_doors(t_door *doors, t_map map)
 int parse_elements(t_meta *meta)
 {
 	t_flag *elements = meta->elements;
+	t_cell_type type;
+
 	meta->attributes.sprite_count = count_sprites(meta->elements);
 	meta->attributes.doors.door_count = count_doors(meta->map.level, meta->map.width, meta->map.height);
 	meta->attributes.sprite_arr_index = 0;
@@ -234,9 +187,12 @@ int parse_elements(t_meta *meta)
 		return (EXIT_FAILURE);
 	while (elements != NULL)
 	{
-		t_element_type type = check_element_type(elements->flag);
+		type = check_element_type(elements->flag);
 		if (type != INVALID)
-			handle_element(meta, type, elements->flag, elements->content);
+		{
+			if (handle_element(meta, type, elements->flag, elements->content))
+				return (free_t_flag_list(&meta->elements), EXIT_FAILURE);
+		}
 		elements = elements->next;
 	}
 	free_t_flag_list(&meta->elements);

@@ -57,9 +57,6 @@ void	set_player_start_position(t_player *p, char dir)
 	p->position.y += 0.5;
 }
 
-
-
-
 void swap_tex(mlx_texture_t *tex)
 {
 	assert(tex->width == tex->height);

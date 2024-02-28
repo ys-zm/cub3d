@@ -4,19 +4,21 @@ EA texture_examples/redbrick.png
 SO texture_examples/purplestone2.png
 F texture_examples/floor.png
 C texture_examples/ceiling_square.png
+//F 0,0,0
+//C 0,0,0
 
 SP texture_examples/pillar.png 4.5 2.5
-SP texture_examples/barrel.png 4.5 3.5
-SP texture_examples/barrel.png 8.0 2.9
-DR texture_examples/wood.png
+SP texture_examples/barrel.png 5.5 3.5
+SP texture_examples/hoofd.png 2.5 3.5
+SP texture_examples/sexy.png 2.5 2.5
 
 11111111111111
 1000010001
 1000010001
-100001D1D1
+1000010101
 1111000001
 100100000111
-100D000N0111
+1000000N0111
 100100000001
 11110000011
 1111111111 

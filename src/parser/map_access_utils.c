@@ -1,22 +1,22 @@
 /* ************************************************************************** */
-/**/
-/*:::  ::::::::   */
-/*   utils_two.c   :+::+: */
-/*+:+ +:+ +:+ */
-/*   By: yzaim <marvin@42.fr>   +#+  +:+   +#+*/
-/*+#+#+#+#+#+   +#+   */
-/*   Created: 2023/11/09 18:08:19 by yzaim #+##+# */
-/*   Updated: 2024/01/02 18:58:36 by joppe ########   odam.nl */
-/**/
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   map_access_utils.c                                 :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: yzaim <marvin@42.fr>                         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
+/*   Updated: 2024/02/14 17:52:10 by yzaim         ########   odam.nl         */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
+#include "error.h"
 
-// func to find longest width in map
 uint32_t	find_width(char *map)
 {
-	uint32_t w;
-	uint32_t count;
+	uint32_t	w;
+	uint32_t	count;
 
 	w = 0;
 	while (*map)
@@ -32,11 +32,9 @@ uint32_t	find_width(char *map)
 		if (w < count)
 			w = count;
 	}
-	printf("w: %u\n", w);
 	return (w);
 }
 
-//TODO add a check for a trailing '\n' character?
 uint32_t	find_height(char *map)
 {
 	uint32_t	h;
@@ -51,12 +49,10 @@ uint32_t	find_height(char *map)
 			{
 				h++;
 			}
-			continue;
+			continue ;
 		}
 		map++;
 	}
-	// h += 1;
-	printf("h: %u\n", h);
 	return (h);
 }
 
@@ -74,7 +70,7 @@ char	*make_rect(char *map, uint32_t w, uint32_t h)
 	while (*map)
 	{
 		lc = 0;
-		while(*map && *map != '\n')
+		while (*map && *map != '\n')
 		{
 			r[i++] = *map;
 			lc++;
@@ -90,7 +86,7 @@ char	*make_rect(char *map, uint32_t w, uint32_t h)
 }
 
 // index = (y * w) + x
-int find_index(t_meta *meta, uint32_t x, uint32_t y)
+int	find_index(t_meta *meta, uint32_t x, uint32_t y)
 {
 	return ((y * meta->map.width) + x);
 }
@@ -107,18 +103,4 @@ bool	is_path(char *str)
 		i++;
 	}
 	return (false);
-}
-
-uint32_t	count_sprites(t_flag *elements)
-{
-	uint32_t	count;
-
-	count = 0;
-	while (elements != NULL)
-	{
-		if (!ft_strncmp(elements->flag, "SP", 3))
-			count++;
-		elements = elements->next;
-	}
-	return (count);
 }

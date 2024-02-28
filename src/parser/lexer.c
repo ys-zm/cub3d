@@ -6,70 +6,12 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/07 11:16:09 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/28 13:36:16 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
-#include "parser.h"
-
-char *extract_file(char *map_file)
-{
-	int	fd;
-	char *file = NULL;
-	if (map_extension(map_file)) // check map ext
-		return(pr_err(INV_EXT), NULL);
-	fd = open(map_file, O_RDONLY); // open file
-	if (fd == -1)
-		return (pr_err(INV_FILE), NULL);
-	file = file_to_string(fd);
-	close(fd);
-	if (!file)
-		return(pr_err(MALL_ERR), NULL);
-	return (file);
-}
-
-char	*get_key(char *file)
-{
-	int		i;
-	char	*key;
-
-	i = 0;
-	while ((file[i] != ' ' && file[i] != '\t')  && file[i] != '\n')
-		i++;
-	if (i)
-	{
-		key = ft_substr(file, 0, i);
-		if (!key)
-			return (pr_err(MALL_ERR), NULL);
-		return (key);
-	}
-	return (ft_strdup(""));
-}
-
-char	*get_val(char *file)
-{
-	int		i;
-	int		j;
-	char	*val;
-
-	i = 0;
-	j = 0;
-	while ((file[j] != ' ' && file[j] != '\t')  && file[j] != '\n')
-		j++;
-	while ((file[j] == ' ' || file[j] == '\t') && file[j] != '\n')
-		j++;
-	i = j;
-	while (file[j] && file[j] != '\n')
-		j++;
-	if (i < j)
-	{	val = ft_substr(file, i, j - i);
-		if (!val)
-			return (pr_err(MALL_ERR), NULL);
-		return (val);
-	}
-	return (ft_strdup(""));
-}
+#include "error.h"
 
 t_flag	*create_new_node(char *file)
 {
@@ -80,20 +22,19 @@ t_flag	*create_new_node(char *file)
 	if (!node->flag)
 		return (NULL);
 	node->content = get_val(file);
-	if (!node->flag)
 	if (!node->content)
 		return (free(node->flag), NULL);
 	node->next = NULL;
 	return (node);
 }
 
-void	add_to_list (t_flag **elements, t_flag *new_node)
+void	add_to_list(t_flag **elements, t_flag *new_node)
 {
-	t_flag *list;
+	t_flag	*list;
 
 	list = *elements;
 	if (*elements == NULL)
-	{	
+	{
 		*elements = new_node;
 	}
 	else
@@ -104,29 +45,18 @@ void	add_to_list (t_flag **elements, t_flag *new_node)
 	}
 }
 
-bool	is_duplicate_flag(t_flag *elements, char *key)
+int	add_element(char *file, t_flag **elements, int *mandatory)
 {
-	while (elements != NULL)
-	{
-		if (!ft_strncmp(elements->flag, key, ft_strlen(key) + 1))
-			return (true);
-		elements = elements->next;
-	}
-	return (false);
-}
+	t_flag	*new_node;
 
-// if key is not a duplicate and is mandatory
-bool	is_valid_key(t_flag *elements, t_flag *new_node, int *mandatory)
-{
-	if (is_duplicate_flag(elements, new_node->flag) && is_valid_element(new_node->flag))
-	{
-		return (false);
-	}
-	if (!is_duplicate_flag(elements, new_node->flag) && is_valid_element(new_node->flag))
-	{
-		(*mandatory)++;
-	}
-	return (true);
+	new_node = create_new_node(file);
+	if (!new_node)
+		return (pr_err(MALL_ERR));
+	if (!is_valid_key(*elements, new_node, mandatory))
+		return (free(new_node->flag), free(new_node->content), \
+			free(new_node), pr_err(DUP_ELEMENTS));
+	add_to_list(elements, new_node);
+	return (EXIT_SUCCESS);
 }
 
 int	lex(char *file, t_map *map, t_flag **elements)
@@ -135,8 +65,9 @@ int	lex(char *file, t_map *map, t_flag **elements)
 	int		exit_code;
 	int		skip;
 	int		mandatory;
+	int		i;
 
-	int i = 0;
+	i = 0;
 	mandatory = 0;
 	while (*file)
 	{
@@ -144,23 +75,11 @@ int	lex(char *file, t_map *map, t_flag **elements)
 		skip = 1;
 		skip_spaces(&file);
 		if (is_map_element(file) && !only_spaces(file))
-		{
 			exit_code = map_lex(&file, map, &skip, mandatory);
-		}
 		else if (only_spaces(file))
-		{
 			skip = 1;
-		}
 		else
-		{	
-			new_node = create_new_node(file);
-			if (!new_node)
-				return (pr_err(MALL_ERR));
-			if (!is_valid_key(*elements, new_node, &mandatory))
-				return (free(new_node->flag), free(new_node->content), free(new_node),\
-				 pr_err(DUP_ELEMENTS));
-			add_to_list(elements, new_node);
-		}
+			exit_code = add_element(file, elements, &mandatory);
 		if (exit_code)
 			return (EXIT_FAILURE);
 		skip_line(&file, skip);
@@ -168,17 +87,17 @@ int	lex(char *file, t_map *map, t_flag **elements)
 	return (EXIT_SUCCESS);
 }
 
-// read the file into one string and lexes the extras into a linked list
 int	lexer(t_meta *meta, char *map_file)
 {
-	char	*file = NULL;
-	
+	char	*file;
+
+	file = NULL;
 	meta->scene_name = map_file;
 	file = extract_file(map_file);
 	if (!file)
-		return(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	if (lex(file, &meta->map, &meta->elements))
-		return (free(file), free_t_flag_list(&meta->elements), EXIT_FAILURE); //also free everything in case of error!
+		return (free(file), free_t_flag_list(&meta->elements), EXIT_FAILURE);
 	free(file);
 	return (EXIT_SUCCESS);
 }

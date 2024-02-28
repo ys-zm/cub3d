@@ -6,17 +6,17 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:33:58 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/24 11:02:13 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/14 17:42:12 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "error.h"
 
 // checks if the element abbreviations are valid
 bool	is_valid_element(char *file)
 {
-	char	*el[6] = {"NO", "SO", "WE", "EA", "F", "C"};
-	size_t  i;
+	const char	*el[6] = {"NO", "SO", "WE", "EA", "F", "C"};
+	size_t		i;
 
 	i = 0;
 	while (i < 6)
@@ -47,7 +47,7 @@ bool	is_map_element(char *file)
 		file++;
 	if (*file == '\0' || *file == '\n')
 	{
-			return (true);
+		return (true);
 	}
 	return (false);
 }
@@ -69,10 +69,11 @@ bool	check_missing(int *found)
 // returns true if there are duplicate elements
 bool	is_duplicate(char *file)
 {
-	char	element[6] = {'N', 'S', 'W', 'E', 'F', 'C'};
-	int	found[6] = {0, 0, 0, 0, 0, 0};
-	int	i;
+	const char	element[6] = {'N', 'S', 'W', 'E', 'F', 'C'};
+	int			found[6];
+	int			i;
 
+	ft_bzero(found, sizeof(found));
 	while (*file)
 	{
 		i = 0;

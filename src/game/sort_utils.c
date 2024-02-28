@@ -1,34 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   extra_lexer.c                                      :+:    :+:            */
+/*   sprite_utils.c                                     :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: yzaim <marvin@42.fr>                         +#+                     */
+/*   By: jboeve <jboeve@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/24 11:18:50 by yzaim         ########   odam.nl         */
+/*   Created: 2024/01/25 16:01:20 by jboeve        #+#    #+#                 */
+/*   Updated: 2024/02/08 17:31:59 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
-#include "parser.h"
+#include "vector.h"
+#include <stddef.h>
+#include <stdint.h>
+#include <stdlib.h>
 
-char	*get_title_val(char *file)
+void	swap_doubles(double *a, double *b)
 {
-	int		i;
-	char	*val;
+	double	tmp = *a;
 
-	i = 0;
-	skip_spaces(&file);
-	while (file[i] && file[i] != ' ')
-		i++;
-	if (i)
-	{
-		val = ft_substr(file, 0, i);
-		if (!val)
-			return (NULL);
-		return (val);
-	}
-	return (ft_strdup(""));
+	*a = *b;
+	*b = tmp;
 }
 
+void	swap_ints(int32_t *a, int32_t *b)
+{
+	int32_t	tmp = *a;
+
+	*a = *b;
+	*b = tmp;
+}

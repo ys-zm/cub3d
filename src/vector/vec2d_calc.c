@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   vec2d.c                                           :+:    :+:             */
+/*   vec2d_calc.c                                      :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <yzaim@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
@@ -10,39 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "vector.h"
 #include <math.h>
 
-t_vec2d vec2d_add(t_vec2d v1, t_vec2d v2)
+t_vec2d	vec2d_add(t_vec2d v1, t_vec2d v2)
 {
 	return ((t_vec2d){v1.x + v2.x, v1.y + v2.y});
 }
 
-t_vec2d vec2d_sub(t_vec2d v1, t_vec2d v2)
+t_vec2d	vec2d_sub(t_vec2d v1, t_vec2d v2)
 {
 	return ((t_vec2d){v1.x - v2.x, v1.y - v2.y});
 }
 
-
-t_vec2d	vec2d_scalar_product(t_vec2d vec, double scalar)
-{
-	return ((t_vec2d){vec.x * scalar, vec.y * scalar});
-}
-
-double	vec2d_dot_product(t_vec2d v1, t_vec2d v2)
-{
-	return ((v1.x * v2.x) + (v1.y * v2.y));
-}
-
-
-t_vec2d	vec2d_mul(t_vec2d v1, t_vec2d v2)
-{
-	return ((t_vec2d){v1.x * v2.x, v1.y * v2.y});
-}
-
-t_vec2d vec2d_rotate(t_vec2d old, double radiant)
+t_vec2d	vec2d_rotate(t_vec2d old, double radiant)
 {
 	t_vec2d	new;
 
@@ -53,6 +34,8 @@ t_vec2d vec2d_rotate(t_vec2d old, double radiant)
 
 t_vec2d	vec2d_normalize(t_vec2d vec)
 {
-	float m = sqrt(vec.x * vec.x + vec.y * vec.y);
-	return ((t_vec2d) {vec.x / m, vec.y / m});
+	float	m;
+
+	m = sqrt(vec.x * vec.x + vec.y * vec.y);
+	return ((t_vec2d){vec.x / m, vec.y / m});
 }

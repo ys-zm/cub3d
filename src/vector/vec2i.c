@@ -22,7 +22,7 @@ t_vec2i	vec2i_mul(t_vec2i v1, t_vec2i v2)
 	return ((t_vec2i){v1.x * v2.x, v1.y * v2.y});
 }
 
-t_vec2i vec2i_add(t_vec2i v1, t_vec2i v2)
+t_vec2i	vec2i_add(t_vec2i v1, t_vec2i v2)
 {
 	return ((t_vec2i){v1.x + v2.x, v1.y + v2.y});
 }

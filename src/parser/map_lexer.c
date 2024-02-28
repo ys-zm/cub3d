@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   map_lexer.c                                        :+:    :+:            */
+/*   map_lexer.c                                       :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/01/24 11:18:50 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/28 13:37:40 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
-#include "parser.h"
+#include "error.h"
+#include <stdio.h>
 
 // returns true if the next line only has spaces
 bool	nl_only_spaces(char *file)
@@ -40,7 +41,8 @@ int	end_of_map(char *file)
 	i = 0;
 	while (file[i])
 	{
-		if (nl_only_spaces(&file[i]) || ((!valid_map_char(file[i]) && file[i] != '\n')))
+		if (nl_only_spaces(&file[i]) || \
+		((!valid_map_char(file[i]) && file[i] != '\n')))
 		{
 			break ;
 		}
@@ -52,6 +54,7 @@ int	end_of_map(char *file)
 
 void	skip_map_element(char **file, int *skip)
 {
+	printf("!!!\n");
 	*skip = 0;
 	while (*file)
 	{
@@ -65,8 +68,9 @@ void	skip_map_element(char **file, int *skip)
 // inputs the map into map->element
 int	input_map_lexer(char *file, t_map *map)
 {
-	int	i = 0;
+	int	i;
 
+	i = 0;
 	if (*file)
 	{
 		i = end_of_map(file);
@@ -75,18 +79,21 @@ int	input_map_lexer(char *file, t_map *map)
 			return (pr_err(MALL_ERR));
 		return (EXIT_SUCCESS);
 	}
-
 	return (pr_err(MISSING_MAP));
 }
 
-// map_lex returns an error if 1) the map element exists already (that means there are two maps in the file)
-// 2) if the map element is reached before all mandatory elements are found (N, S, E, W) - wrong order
+/* map_lex returns an error if 
+1) the map element exists already (that means there are two maps in the file)
+2) if the map element is reached before mandatory elements
+ are found (N, S, E, W)*/
 int	map_lex(char **file, t_map *map, int *skip, int mandatory)
 {
 	int	exit_code;
 
+	printf("file: %s\n", *file);
 	if (map->map_element != NULL)
-	{	
+	{
+		printf("yup\n");
 		exit_code = pr_err(DUP_ELEMENTS);
 	}
 	else if (mandatory == 6)

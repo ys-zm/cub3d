@@ -29,14 +29,9 @@ SRC_DIR		:=	src
 	
 SRCS	= 		parser/check_elements.c \
 				parser/parse_elements.c \
-				parser/parse_map.c \
-				parser/check_map.c \
 				parser/parse_textures.c \
 				parser/parser.c	\
 				parser/check_colors.c \
-				parser/utils_one.c \
-				parser/utils_two.c \
-				parser/utils_three.c \
 				utils/error.c \
 				utils/free.c \
 				utils/colors.c \
@@ -45,33 +40,43 @@ SRCS	= 		parser/check_elements.c \
 				game/keys.c \
 				game/player.c \
 				game/raycaster.c \
-				game/render_minimap.c \
-				game/render_viewport.c \
+				renderer/render_minimap.c \
+				renderer/render_viewport.c \
 				game/font/font_renderer.c \
 				renderer/pixel_picker.c \
 				vector/vec2i.c \
-				vector/vec2d.c \
 				vector/vec_utils.c \
 				cub3d.c \
 				test_utils.c \
 				timer.c \
-				set_textures.c \
 				game/floorcaster.c \
 				game/sprite.c \
-				game/sprite_utils.c \
 				game/world.c \
 				parser/lexer.c \
 				parser/lexer_utils.c \
 				parser/map_lexer.c \
-				parser/flag_lexer.c \
-				parser/extra_lexer.c 
+				parser/map_utils.c \
+				parser/map_checker.c \
+				parser/sprite_parser.c \
+				parser/skip_utils.c \
+				parser/double_utils.c \
+				parser/map_access_utils.c \
+				parser/parser_fill.c \
+				parser/lexer_test_utils.c \
+				game/sprite_calc.c \
+				game/sprite_render.c \
+				game/sprite_sort.c \
+				game/sort_utils.c \
+				vector/vec2d_sum.c \
+				vector/vec2d_calc.c \
+				init/set_textures.c
+
 
 HEADER_DIR	:=	include
 HEADERS 	:=	meta.h \
 				timer.h \
 				test_utils.h \
-				vector.h \
-				parser.h
+				vector.h
 
 OBJ_DIR		:=	obj
 
@@ -93,8 +98,10 @@ OBJ_DIRS 	:=	$(dir $(OBJS))
 .PHONY: make_libs
 
 all: 
-	$(MAKE) make_libs -j4
-	$(MAKE) $(NAME) -j4
+	# $(MAKE) make_libs -j4
+	$(MAKE) make_libs 
+	# $(MAKE) $(NAME) -j4
+	$(MAKE) $(NAME) 
 
 $(NAME): $(LIBFT) $(LIBMLX) $(OBJS) $(SRC_DIR)/main.c
 	$(CC) $(SRC_DIR)/main.c $(OBJS) $(LIBFT) $(LIBMLX) $(CFLAGS) $(IFLAGS) $(MLX_CFLAGS) -o $(NAME)

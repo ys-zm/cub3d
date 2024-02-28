@@ -6,14 +6,14 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2024/02/09 14:47:27 by joppe         #+#    #+#                 */
-/*   Updated: 2024/02/09 17:01:58 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/28 12:39:56 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 // return if tile your looking at is a door.
 #include "meta.h"
 #include "vector.h"
-#include "parser.h"
+#include "error.h"
 
 void world_is_door(t_ray r)
 {
