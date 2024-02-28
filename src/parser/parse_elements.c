@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse_elements.c                                  :+:    :+:             */
+/*   parse_elements.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/28 13:31:41 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/02/28 14:26:52 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,29 +23,7 @@ int	input_path(char **path, char *content)
 	return (EXIT_SUCCESS);
 }
 
-
-// // saves path value and checks of value us empty
-// int	input_texture_path(t_attr *attributes, char *flag, char *content)
-// {
-// 	char	element[6] = {'N', 'S', 'W', 'E', 'F', 'C'};
-// 	char**	path[6] = {&attributes->n.tex_path, &attributes->s.tex_path, &attributes->w.tex_path, &attributes->e.tex_path, &attributes->f.tex_path, &attributes->c.tex_path};
-// 	int i;
-//
-// 	i = 0;
-// 	while (i < 6)
-// 	{
-// 		if (*flag && *flag == element[i])
-// 		{
-// 			if (input_path(path[i], content))
-// 			{
-// 				return (EXIT_FAILURE);
-// 			}
-// 		}
-// 		i++;
-// 	}
-// 	return (EXIT_SUCCESS);
-// }
-
+// TODO: Add ft_strlen_largest()
 t_element_type	check_element_type(char *flag)
 {
 	if (!ft_strncmp(flag, "C", 1) || !ft_strncmp(flag, "F", 1) \
@@ -53,11 +31,11 @@ t_element_type	check_element_type(char *flag)
 		return (CEIL_FLOOR);
 	if (is_wall(flag))
 		return (WALL);
-	if (!ft_strncmp(flag, "SP", 2))
+	if (!ft_strncmp(flag, "SP", 3))
 		return (SPRITE);
-	if (!ft_strncmp(flag, "DR", 2))
+	if (!ft_strncmp(flag, "D", 2))
 		return (DOOR);
-	if (!ft_strncmp(flag, "LVL", 3))
+	if (!ft_strncmp(flag, "LVL", 4))
 		return (NEXT_LVL);
 	return (INVALID);
 }
@@ -116,7 +94,10 @@ int	handle_element(t_meta *meta, t_element_type type, char *flag, char *content)
 	else if (type == SPRITE)
 		exit_code = input_sprite_data(&meta->attributes.sprites, &meta->attributes.sprite_arr_index, content);
 	else if (type == DOOR)
+	{
+		printf("saving door path\n");
 		exit_code = input_path(&meta->attributes.doors.tex.tex_path, content);
+	}
 	else if (type == NEXT_LVL)
 		exit_code = input_path(&meta->next_level, content);
 	return (exit_code);

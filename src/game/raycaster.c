@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   raycaster.c                                       :+:    :+:             */
+/*   raycaster.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:33 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/28 14:03:49 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/02/28 15:09:12 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
 #include "libft.h"
 #include "meta.h"
+#include "error.h"
 #include "test_utils.h"
 #include "vector.h"
 #include <math.h>
@@ -151,7 +152,7 @@ t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *par
 	t_ray	r;
 	t_vec2i	step_size;
 	t_vec2d	side_dist;
-	t_vec2d delta_dist;
+	t_vec2d	delta_dist;
 
 	r.direction = dir;
 	r.map_pos.x = (int)pp.x;

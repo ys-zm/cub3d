@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   colors.c                                          :+:    :+:             */
+/*   colors.c                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <yzaim@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 16:09:11 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/09 14:54:37 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/28 15:09:43 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int32_t	set_color(int32_t r, int32_t g, int32_t b, int32_t a)
 mlx_texture_t	*get_texture(t_cell_type cell, t_side side, t_attr attributes)
 {
 	if (cell == MAP_DOOR_CLOSED)
-		return attributes.doors.tex.tex;
+		return (attributes.doors.tex.tex);
 	if (side == SIDE_N)
 		return (attributes.n.tex);
 	else if (side == SIDE_S)
