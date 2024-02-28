@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   player.c                                           :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: yzaim <marvin@42.fr>                         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/01/08 15:27:23 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/28 12:03:46 by jboeve        ########   odam.nl         */
+/*   player.c                                          :+:    :+:             */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/08 15:27:23 by yzaim             #+#    #+#             */
+/*   Updated: 2024/02/28 14:06:56 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,10 @@ t_cell_type bound_check_interact(const void *param, uint32_t x, uint32_t y)
 	}
 }
 
-// NORTH = 0
-void	print_angle(t_player *p)
+void print_angle(t_player *p)
 {
-	float	angle;
-
-	angle = (atan2(p->direction.x, p->direction.y) / PI * 180 + 180);
+	// NORTH = 0
+	const float angle = (atan2(p->direction.x, p->direction.y) / PI * 180 + 180);
 	if (angle > 45.0 && angle < 135.0)
 	{
 		printf("N\n");
@@ -83,9 +81,9 @@ void	print_angle(t_player *p)
 	}
 }
 
-void	player_move(t_player *p, t_vec2d transform)
+void player_move(t_player *p, t_vec2d transform)
 {
-	t_ray	r;
+	t_ray r = raycaster_cast(p->position, vec2d_normalize(transform), bound_check, p->meta);
 
 	// shitty fix.
 	if (r.hit_cell == MAP_DOOR_CLOSED && r.length < 1.0)
@@ -98,9 +96,10 @@ void	player_move(t_player *p, t_vec2d transform)
 	{
 		const int		comp = (r.hit_side == SIDE_E || r.hit_side == SIDE_W);
 		const t_vec2d	normal = {comp, !comp}; // 1, 0 // 0, 1
-		const double	dot_product = vec2d_dot_product(transform, normal);
+		const double 	dot_product = vec2d_dot_product(transform, normal);
 
-		t_vec2d			delta_pos;
+
+		t_vec2d delta_pos;
 		delta_pos.x = transform.x - normal.x * dot_product;
 		delta_pos.y = transform.y - normal.y * dot_product;
 		r = raycaster_cast(p->position, vec2d_normalize(transform), bound_check, p->meta);
@@ -118,7 +117,7 @@ void	player_move(t_player *p, t_vec2d transform)
 }
 
 // negative rotation parameter turns left vs positive rotation parameter turns right
-void	player_turn(t_player *p, float radiant)
+void player_turn(t_player *p, float radiant)
 {
 	p->direction = vec2d_rotate(p->direction, radiant);
 	p->cam_plane = vec2d_rotate(p->cam_plane, radiant);
@@ -159,12 +158,13 @@ static void player_interactable_raycast(t_player *p)
 
 void player_raycast(t_player *p)
 {
-	const uint32_t	w = p->meta->image->width;
-	const uint32_t	h = p->meta->image->height;
-	uint32_t		col;
-	uint32_t		row;
-	t_vec2d			ray_start;
-	double			camera_x;
+	uint32_t	w = p->meta->image->width;
+	uint32_t	h = p->meta->image->height;
+	uint32_t	col;
+	uint32_t	row;
+	t_vec2d		ray_start;
+	double		camera_x;
+
 
 	player_interactable_raycast(p);
 
@@ -175,6 +175,7 @@ void player_raycast(t_player *p)
 		row++;
 	}
 	p->should_render = true;
+	
 	// TODO Just create the player.plane here instead of saving it.
 	col = 0;
 	while (col < p->meta->image->width)
@@ -185,6 +186,7 @@ void player_raycast(t_player *p)
 		// printf("wall x: %f\n", p->rays[col].wall_x);
 		p->z_buffer[col] = p->hrays[col].length;
 		col++;
-	}
+	}	
+
 	sprite_calculate(p);
 }
