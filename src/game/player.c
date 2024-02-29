@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:27:23 by yzaim             #+#    #+#             */
-/*   Updated: 2024/02/29 17:45:52 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/29 21:18:24 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,32 +50,24 @@ t_cell_type	bound_check_interact(const void *param, uint32_t x, uint32_t y)
 	return (MAP_EMPTY);
 }
 
-void player_move(t_player *p, t_vec2d transform)
+void	player_move(t_player *p, t_vec2d transform)
 {
 	t_ray r = raycaster_cast(p->position, vec2d_normalize(transform), bound_check, p->meta);
 
-	// shitty fix.
 	if (r.hit_cell == MAP_DOOR_CLOSED && r.length < 1.0)
 		return;
-
-
 	if (r.length > 0.5)
 		p->position = vec2d_add(p->position, transform);
 	else
 	{
 		const int		comp = (r.hit_side == SIDE_E || r.hit_side == SIDE_W);
-		const t_vec2d	normal = {comp, !comp}; // 1, 0 // 0, 1
+		const t_vec2d	normal = {comp, !comp};
 		const double 	dot_product = vec2d_dot_product(transform, normal);
+		const t_vec2d delta_pos = {transform.x - normal.x * dot_product, transform.y - normal.y * dot_product};
 
-
-		t_vec2d delta_pos;
-		delta_pos.x = transform.x - normal.x * dot_product;
-		delta_pos.y = transform.y - normal.y * dot_product;
 		r = raycaster_cast(p->position, vec2d_normalize(transform), bound_check, p->meta);
 		if (r.hit_cell == MAP_DOOR_CLOSED && r.length < 0.5)
-		{
 			return;
-		}
 		if (r.length > 0.3)
 		{
 			p->position.x += delta_pos.x;
@@ -127,25 +119,20 @@ static void player_interactable_raycast(t_player *p)
 
 void player_raycast(t_player *p)
 {
-	uint32_t	w = p->meta->image->width;
 	uint32_t	h = p->meta->image->height;
 	uint32_t	col;
 	uint32_t	row;
 	t_vec2d		ray_start;
 	double		camera_x;
 
-
-	player_interactable_raycast(p);
-
 	row = 0;
+	player_interactable_raycast(p);
 	while (row < h)
 	{
 		p->vrays[row] = floorcaster(p->position, p->direction, p->cam_plane, row);
 		row++;
 	}
 	p->should_render = true;
-	
-	// TODO Just create the player.plane here instead of saving it.
 	col = 0;
 	while (col < p->meta->image->width)
 	{
