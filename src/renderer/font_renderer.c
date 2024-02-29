@@ -6,20 +6,19 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:26:51 by yzaim             #+#    #+#             */
-/*   Updated: 2024/02/23 23:20:22 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/29 15:54:18 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
  * This file is basically a copy of the `mlx_font.c`
- * but with the ability to specifiy what font to draw.
+ * but with the added ability to specifiy what font_atlas to draw.
  */
 
-#include "font_dejavu_14.h"
-#include "font_comicsans.h"
-#include "font_mlx.h"
+#include "../../../fonts/font_dejavu_14.h"
+#include "../../../fonts/font_comicsans.h"
+#include "../../../fonts/font_mlx.h"
 #include "meta.h"
-#include <stdint.h>
 
 static int32_t	get_texoffset(char c, const t_font_atlas *atlas)
 {

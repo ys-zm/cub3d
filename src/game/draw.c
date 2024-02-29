@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:26:25 by yzaim             #+#    #+#             */
-/*   Updated: 2024/02/23 23:21:34 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/29 15:54:58 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 
 typedef struct s_bresenham
 {
-	t_vec2i 		current;
-	t_vec2i 		end;
-	t_vec2i 		delta;
-	t_vec2i			direction;
-	int32_t			slow_move;
+	t_vec2i 	current;
+	t_vec2i 	end;
+	t_vec2i 	delta;
+	t_vec2i		direction;
+	int32_t		slow_move;
 }	t_bresenham;
 
 // TODO Struct that contains all this info because well. tHe nORm

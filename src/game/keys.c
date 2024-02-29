@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   keys.c                                             :+:    :+:            */
+/*   keys.c                                            :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:07 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/28 12:03:24 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/02/29 15:59:09 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ static bool	key_pressed(t_meta *meta, keys_t k)
 		*old_state = false;
 	return (false);
 }
+
 void keys_handle(t_meta *meta, double delta_time)
 {
 	t_player *const	p = &meta->player;

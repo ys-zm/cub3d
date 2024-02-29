@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   game_init.c                                        :+:    :+:            */
+/*   game_init.c                                       :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:26:51 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/28 17:39:50 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/29 15:28:27 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	game_init(t_meta *meta)
 	if (init_sprites(meta->attributes.sprite_count, &meta->player.sprite_order, \
 		&meta->player.sprite_dist))
 		UNIMPLEMENTED("sprite initialisation failed\n");
-
 	p->meta = meta;
 	set_player_start_position(&meta->player, meta->map.player_start_dir);
 	player_move(p, (t_vec2d){0.0, 0.0});

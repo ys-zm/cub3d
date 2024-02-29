@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   sprite.c                                           :+:    :+:            */
+/*   sprite.c                                          :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: jboeve <jboeve@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/25 16:01:20 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/02/28 17:56:51 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/29 15:42:23 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include <stdlib.h>
 #include "error.h"
 
-// Stub
 int	init_sprites(uint32_t count, int32_t **sprite_order, double **sprite_dist)
 {
 	*sprite_order = malloc(sizeof(int32_t) * count);
@@ -49,11 +48,11 @@ void	fill_up_arr(t_player *p)
 
 void	sprite_calculate(t_player *p)
 {
-	size_t		i;
-	int32_t		ind;
-	t_sprite	*sp;
-	t_vec2i		draw_start;
-	t_vec2i		draw_end;
+	t_sprite *const	sp = p->meta->attributes.sprites;
+	size_t			i;
+	int32_t			ind;
+	t_vec2i			draw_start;
+	t_vec2i			draw_end;
 
 	fill_up_arr(p);
 	sprite_sort(p->sprite_dist, p->sprite_order, \
@@ -61,7 +60,6 @@ void	sprite_calculate(t_player *p)
 	i = 0;
 	while (i < p->meta->attributes.sprite_count)
 	{
-		sp = p->meta->attributes.sprites;
 		ind = p->sprite_order[i];
 		sp[ind].transform = calc_transform(p, sp[ind].pos);
 		sp[ind].screen_x = (int32_t)(p->meta->image->width / 2) * \

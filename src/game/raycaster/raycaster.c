@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   raycaster.c                                        :+:    :+:            */
+/*   raycaster.c                                       :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:33 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/28 15:09:12 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/29 15:56:46 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,22 +95,6 @@ inline static t_side	ray_move(t_vec2d *side_dist, t_vec2d *delta_dist, t_vec2i s
 		else
 			return (SIDE_N);
 	}
-}
-
-inline static t_vec2d	calculate_delta_dist_true(t_vec2d ray_direction)
-{
-	t_vec2d			delta_dist;
-	const double	tolerance = 0.005;
-
-	if (fabs(-ray_direction.x) < tolerance)
-		delta_dist.x = INT32_MAX;
-	else
-		delta_dist.x = sqrt(1 + (ray_direction.y * ray_direction.y) / (ray_direction.x * ray_direction.x));
-	if (fabs(-ray_direction.y) < tolerance)
-		delta_dist.y = INT32_MAX;
-	else
-		delta_dist.y = sqrt(1 + (ray_direction.x * ray_direction.x) / (ray_direction.y * ray_direction.y));
-	return (delta_dist);
 }
 
 static void ray_check_door(t_ray *r, t_vec2d *side_dist, const t_vec2d delta_dist, const t_vec2i step_size)
