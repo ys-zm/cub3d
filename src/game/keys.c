@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:07 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/29 15:59:09 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/29 16:27:49 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,44 +18,39 @@
 #include <stdint.h>
 #include <stdio.h>
 
+bool	is_pressed(t_meta *meta)
+{
+	return (mlx_is_key_down(meta->mlx, MLX_KEY_W) || \
+			mlx_is_key_down(meta->mlx, MLX_KEY_S) || \
+			mlx_is_key_down(meta->mlx, MLX_KEY_A) || \
+			mlx_is_key_down(meta->mlx, MLX_KEY_D));
+}
+
 static void	keys_handle_move(t_meta *meta, double delta_time)
 {
 	t_player *const	p = &meta->player;
 	t_vec2d			trans;
 	float			speed;
-	bool			pressed;
+	const bool		pressed = is_pressed(meta);
 
-	pressed = false;
 	speed = PLAYER_MOVE_SPEED * delta_time;
 	ft_bzero(&trans, sizeof(t_vec2d));
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_LEFT_SHIFT))
 		speed *= PLAYER_RUN_MODIFIER;
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_W))
-	{
-		pressed = true;
 		trans = vec2d_add(trans, \
 				(t_vec2d){p->direction.x * speed, p->direction.y * speed});
-	}
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_S))
-	{
-		pressed = true;
 		trans = vec2d_add(trans, \
 				(t_vec2d){p->direction.x * -speed, p->direction.y * -speed});
-	}
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_A))
-	{
-		pressed = true;
 		trans = vec2d_add(trans, \
 				(t_vec2d){(vec2d_rotate(p->direction, PI / 2).x) * -speed, \
 				(vec2d_rotate(p->direction, PI / 2).y) * -speed});
-	}
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_D))
-	{
-		pressed = true;
 		trans = vec2d_add(trans, \
 				(t_vec2d){(vec2d_rotate(p->direction, PI / 2).x) * speed, \
 				(vec2d_rotate(p->direction, PI / 2).y) * speed});
-	}
 	if (pressed)
 		player_move(p, trans);
 }
@@ -75,7 +70,7 @@ static bool	key_pressed(t_meta *meta, keys_t k)
 	return (false);
 }
 
-void keys_handle(t_meta *meta, double delta_time)
+void	keys_handle(t_meta *meta, double delta_time)
 {
 	t_player *const	p = &meta->player;
 	float			rotate_speed;
@@ -91,14 +86,12 @@ void keys_handle(t_meta *meta, double delta_time)
 		player_turn(p, rotate_speed);
 	if (key_pressed(meta, MLX_KEY_F))
 		player_interact(p);
-
-
 	keys_handle_move(meta, delta_time);
 }
 
 void	cursor_hook(double xpos, double ypos, void *param)
 {
-	t_meta	*meta = param;
+	t_meta *const	meta = param;
 	const int32_t	center = meta->image->width / 2;
 	const float		rot = 0.0004f;
 	float			speed;

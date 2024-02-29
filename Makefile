@@ -55,7 +55,7 @@ SRCS	= 		parser/check_elements.c \
 				game/player.c \
 				game/raycaster/raycaster.c \
 				game/raycaster/floorcaster.c \
-				game/renderer/font_renderer.c \
+				renderer/font_renderer.c \
 				game/sprite.c \
 				game/world.c \
 				game/sprite_calc.c \

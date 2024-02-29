@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:27:23 by yzaim             #+#    #+#             */
-/*   Updated: 2024/02/28 14:06:56 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/02/29 17:45:52 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,64 +21,33 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-t_cell_type bound_check(const void *param, uint32_t x, uint32_t y)
+t_cell_type	bound_check(const void *param, uint32_t x, uint32_t y)
 {
-	t_meta *const meta = (t_meta *) param;
-	t_cell_type cell;
+	t_meta *const	meta = (t_meta *) param;
+	t_cell_type		cell;
 
 	if (x < meta->map.width && y < meta->map.height)
 	{
 		cell = meta->map.level[(y * meta->map.width) + x];
 		if (cell == MAP_WALL || cell == MAP_DOOR_CLOSED)
 			return (cell);
-		else
-			return (0);
 	}
-	else
-	{
-		UNIMPLEMENTED("Map out of bounds.");
-	}
+	return (MAP_EMPTY);
 }
 
-t_cell_type bound_check_interact(const void *param, uint32_t x, uint32_t y)
+t_cell_type	bound_check_interact(const void *param, uint32_t x, uint32_t y)
 {
-	t_meta *const meta = (t_meta *) param;
-	t_cell_type cur_cell;
+	t_meta *const	meta = (t_meta *) param;
+	t_cell_type		cur_cell;
 
 	if (x < meta->map.width && y < meta->map.height)
 	{
 		cur_cell = meta->map.level[(y * meta->map.width) + x];
-		if (cur_cell == MAP_WALL || cur_cell == MAP_DOOR_CLOSED || cur_cell == MAP_DOOR_OPEN)
+		if (cur_cell == MAP_WALL || cur_cell == MAP_DOOR_CLOSED \
+				|| cur_cell == MAP_DOOR_OPEN)
 			return (cur_cell);
-		else
-			return (0);
 	}
-	else
-	{
-		UNIMPLEMENTED("Map out of bounds.");
-	}
-}
-
-void print_angle(t_player *p)
-{
-	// NORTH = 0
-	const float angle = (atan2(p->direction.x, p->direction.y) / PI * 180 + 180);
-	if (angle > 45.0 && angle < 135.0)
-	{
-		printf("N\n");
-	}
-	else if (angle > 135.0 && angle < 225.0)
-	{
-		printf("E\n");
-	}
-	else if (angle > 225.0 && angle < 315.0)
-	{
-		printf("S\n");
-	}
-	else if (angle > 315.0 || angle < 45.0)
-	{
-		printf("W\n");
-	}
+	return (MAP_EMPTY);
 }
 
 void player_move(t_player *p, t_vec2d transform)

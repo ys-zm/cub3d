@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:26:51 by yzaim             #+#    #+#             */
-/*   Updated: 2024/02/29 15:54:18 by joppe         ########   odam.nl         */
+/*   Updated: 2024/02/29 17:26:09 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
  * but with the added ability to specifiy what font_atlas to draw.
  */
 
-#include "../../../fonts/font_dejavu_14.h"
-#include "../../../fonts/font_comicsans.h"
-#include "../../../fonts/font_mlx.h"
+#include "../../fonts/font_dejavu_14.h"
+#include "../../fonts/font_comicsans.h"
+#include "../../fonts/font_mlx.h"
 #include "meta.h"
 
 static int32_t	get_texoffset(char c, const t_font_atlas *atlas)
