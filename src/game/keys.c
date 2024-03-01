@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:07 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/29 16:27:49 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/01 16:43:55 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	cursor_hook(double xpos, double ypos, void *param)
 {
 	t_meta *const	meta = param;
 	const int32_t	center = meta->image->width / 2;
-	const float		rot = 0.0004f;
+	const float		rot = 0.0006f;
 	float			speed;
 
 	(void) ypos;

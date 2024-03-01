@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:26:25 by yzaim             #+#    #+#             */
-/*   Updated: 2024/03/01 16:31:11 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/03/01 16:50:12 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,23 @@ typedef struct s_bresenham
 	int32_t			slow_move;
 }	t_bresenham;
 
-void draw_rect(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color)
+void draw_rect(mlx_image_t* image, t_vec2u pos, t_vec2u size, uint32_t color)
 {
 	size_t	x;
 	size_t	y;
 
 	y = 0;
-	while (y < height)
+	while (y < pos.y)
 	{
 		x = 0;
-		while (x < width)
+		while (x < pos.x)
 		{
-			draw_put_pixel(image, x_pos + x, y_pos + y, color);
+			draw_put_pixel(image, pos.x + x, pos.y + y, color);
 			x++;
 		}
 		y++;
 	}
+
 }
 
 void draw_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color)

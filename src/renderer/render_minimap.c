@@ -1,31 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   render_minimap.c                                   :+:    :+:            */
+/*   render_minimap.c                                  :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:53 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/28 16:41:58 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/01 16:50:00 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "MLX42/MLX42.h"
-#include "libft.h"
 #include "meta.h"
-#include "error.h"
 #include "vector.h"
-#include "test_utils.h"
-#include <ctype.h>
-#include <math.h>
-#include <stddef.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <strings.h>
 
-const t_rgba CELL_COLORS[] = {
+static const t_rgba CELL_COLORS[] = {
 	[MAP_EMPTY]			= {MINIMAP_COLOR_BACKGROUND},
 	[MAP_WALL] 			= {0x323232ff},
 	[MAP_SPACE]			= {0xcdcdcdff},
@@ -63,9 +51,9 @@ static t_cell_type	minimap_ray_len(const void *p, uint32_t x, uint32_t y)
 		UNIMPLEMENTED("Map out of bounds.");
 }
 
-void	draw_cell(mlx_image_t *image, t_cell_type cell, const uint32_t x, const uint32_t y)
+static void	draw_cell(mlx_image_t *image, t_cell_type cell, const uint32_t x, const uint32_t y)
 {
-	draw_rect(image, x, y, MINIMAP_CELL_SIZE, MINIMAP_CELL_SIZE, CELL_COLORS[cell].value);
+	draw_rect(image, (t_vec2u) {x, y}, (t_vec2u) {MINIMAP_CELL_SIZE, MINIMAP_CELL_SIZE}, CELL_COLORS[cell].value);
 }
 
 static void	render_border(mlx_image_t *image, uint32_t c)
@@ -86,8 +74,6 @@ static void	render_border(mlx_image_t *image, uint32_t c)
 		i++;
 	}
 }
-
-// t_ray	raycaster_cast_id(uint32_t id, t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *param);
 
 static void	render_minimap_level(mlx_image_t *image, const t_map *map, const t_player *p)
 {
@@ -121,7 +107,13 @@ static void	render_minimap_level(mlx_image_t *image, const t_map *map, const t_p
 		t_vec2i end = vec2d_to_vec2i(vec2d_add((t_vec2d) {image_center.x, image_center.y}, vec2d_scalar_product(r->direction, (r->length) * MINIMAP_CELL_SIZE)));
 		draw_line(image, image_center, end, (t_rgba) {0x999999FF});
 	}
-	draw_rect(image, image_center.x - (MINIMAP_PLAYER_SIZE / 2) , image_center.y - (MINIMAP_PLAYER_SIZE / 2), MINIMAP_PLAYER_SIZE, MINIMAP_PLAYER_SIZE, MINIMAP_COLOR_PLAYER);
+	t_vec2u pos = 
+	{
+		image_center.x - (MINIMAP_PLAYER_SIZE / 2),
+		image_center.y - (MINIMAP_PLAYER_SIZE / 2)
+	};
+
+	draw_rect(image, pos, (t_vec2u){MINIMAP_PLAYER_SIZE, MINIMAP_PLAYER_SIZE}, MINIMAP_COLOR_PLAYER);
 	render_border(image, MINIMAP_COLOR_BORDER);
 }
 
@@ -138,7 +130,13 @@ static void	render_info(t_minimap *minimap, const t_player *p)
 	minimap->fps_image = cube_put_string(minimap->fps_image, buf, font);
 
 	render_clear_bg(minimap->info_image, MINIMAP_COLOR_BORDER);
-	draw_rect(minimap->info_image, 1, 1, minimap->info_image->width - 2, minimap->info_image->height - 2, MINIMAP_COLOR_BACKGROUND);
+
+	t_vec2u size = 
+	{
+		minimap->info_image->width - 2,
+		minimap->info_image->height - 2
+	};
+	draw_rect(minimap->info_image, (t_vec2u){1, 1}, size, MINIMAP_COLOR_BACKGROUND);
 }
 
 void	render_minimap(t_minimap *minimap, const t_map *map, const t_player *p)

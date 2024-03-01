@@ -1,24 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   render_viewport.c                                  :+:    :+:            */
+/*   render_viewport.c                                 :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/28 16:34:04 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/01 17:13:47 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "MLX42/MLX42.h"
-#include "libft.h"
 #include "meta.h"
-#include "vector.h"
-#include <stdint.h>
-#include <stdio.h>
-#include <math.h>
 
-// render floor and ceiling
 void	render_fc(mlx_image_t *image, t_player *p)
 {
 	uint32_t	col;
@@ -66,7 +59,7 @@ void	render_viewport(mlx_image_t *image, t_player *p)
 
 	render_fc(image, p);
 	render_walls(image, p);
-	draw_rect(image, (WINDOW_WIDTH / 2 - (crosshair_size / 2)), \
-			(WINDOW_HEIGHT / 2 - (crosshair_size / 2)), crosshair_size, \
-			crosshair_size, 0xFFFFFFFF);
+	draw_rect(image, (t_vec2u) {(WINDOW_WIDTH / 2 - (crosshair_size / 2)), \
+			(WINDOW_HEIGHT / 2 - (crosshair_size / 2))}, (t_vec2u) {crosshair_size, \
+			crosshair_size}, 0xFFFFFFFF);
 }
