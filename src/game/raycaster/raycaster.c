@@ -6,77 +6,16 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:33 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/29 15:56:46 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/01 14:41:17 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "MLX42/MLX42.h"
-#include "libft.h"
 #include "meta.h"
-#include "error.h"
-#include "test_utils.h"
-#include "vector.h"
-#include <math.h>
-#include <stdbool.h>
-#include <stddef.h>
-#include <stdint.h>
-#include <stdio.h>
+#include "raycaster.h"
 
-inline static t_vec2d	calculate_delta_dist(t_vec2d ray_direction)
+inline static t_side	ray_move(t_vec2d *side_dist, t_vec2d *delta_dist, \
+		t_vec2i step_size, t_vec2i *map_pos)
 {
-	t_vec2d			delta_dist;
-	const double	tolerance = 0.005;
-
-	if (fabs(-ray_direction.x) < tolerance)
-		delta_dist.x = INT32_MAX;
-	else
-		delta_dist.x = fabs(1 / ray_direction.x);
-	if (fabs(-ray_direction.y) < tolerance)
-		delta_dist.y = INT32_MAX;
-	else
-		delta_dist.y = fabs(1 / ray_direction.y);
-	return (delta_dist);
-}
-
-inline static t_vec2d	calculate_side_dist(t_vec2d ray_direction, \
-			t_vec2d player_pos, t_vec2i map_pos, t_vec2d delta_dist)
-{
-	t_vec2d	side_dist;
-
-	if (ray_direction.x < 0)
-		side_dist.x = (player_pos.x - map_pos.x) * delta_dist.x;
-	else
-		side_dist.x = (map_pos.x + 1.0 - player_pos.x) * delta_dist.x;
-	if (ray_direction.y < 0)
-		side_dist.y = (player_pos.y - map_pos.y) * delta_dist.y;
-	else
-		side_dist.y = (map_pos.y + 1.0 - player_pos.y) * delta_dist.y;
-	return (side_dist);
-}
-
-inline static t_vec2i	calculate_step_size(t_vec2d ray_direction)
-{
-	const bool		comp_x = (ray_direction.x < 0);
-	const bool		comp_y = (ray_direction.y < 0);
-	const int8_t	dir_x = (comp_x * -1) + (!comp_x * 1);
-	const int8_t	dir_y = (comp_y * -1) + (!comp_y * 1);
-
-	return ((t_vec2i){dir_x, dir_y});
-}
-
-inline static double	calculate_ray_length(t_side hit_side, \
-		t_vec2d side_dist, t_vec2d delta_dist)
-{
-	if (hit_side == SIDE_E || hit_side == SIDE_W)
-		return (side_dist.x - delta_dist.x);
-	else
-		return (side_dist.y - delta_dist.y);
-}
-
-// moving the ray forward in the direction until there is a hit
-inline static t_side	ray_move(t_vec2d *side_dist, t_vec2d *delta_dist, t_vec2i step_size, t_vec2i *map_pos)
-{
-	// Looking in the x-axis
 	if (side_dist->x < side_dist->y)
 	{
 		side_dist->x += delta_dist->x;
@@ -84,7 +23,7 @@ inline static t_side	ray_move(t_vec2d *side_dist, t_vec2d *delta_dist, t_vec2i s
 		if (step_size.x > 0)
 			return (SIDE_E);
 		else
-			return(SIDE_W);
+			return (SIDE_W);
 	}
 	else
 	{
@@ -97,23 +36,28 @@ inline static t_side	ray_move(t_vec2d *side_dist, t_vec2d *delta_dist, t_vec2i s
 	}
 }
 
-static void ray_check_door(t_ray *r, t_vec2d *side_dist, const t_vec2d delta_dist, const t_vec2i step_size)
+static void	ray_check_door_x_axis(t_ray *r, t_vec2d *side_dist, \
+		const t_vec2d delta_dist, const t_vec2i step_size)
+{
+	if (side_dist->y - (delta_dist.y / 2) < side_dist->x)
+		side_dist->y += delta_dist.y / 2;
+	else
+	{
+		side_dist->x += delta_dist.x;
+		r->hit_cell = MAP_WALL;
+		r->map_pos.x += step_size.x;
+		if (step_size.x > 0)
+			r->hit_side = (SIDE_E);
+		else
+			r->hit_side = (SIDE_W);
+	}
+}
+
+static void	ray_check_door(t_ray *r, t_vec2d *side_dist, \
+		const t_vec2d delta_dist, const t_vec2i step_size)
 {
 	if (r->hit_side == SIDE_N || r->hit_side == SIDE_S)
-	{
-		if (side_dist->y - (delta_dist.y / 2) < side_dist->x)
-			side_dist->y += delta_dist.y / 2;
-		else
-		{
-			side_dist->x += delta_dist.x;
-			r->hit_cell = MAP_WALL;
-			r->map_pos.x += step_size.x;
-			if (step_size.x > 0)
-				r->hit_side = (SIDE_E);
-			else
-				r->hit_side = (SIDE_W);
-		}
-	}
+		ray_check_door_x_axis(r, side_dist, delta_dist, step_size);
 	else
 	{
 		if (side_dist->x - (delta_dist.x / 2) < side_dist->y)
@@ -131,7 +75,8 @@ static void ray_check_door(t_ray *r, t_vec2d *side_dist, const t_vec2d delta_dis
 	}
 }
 
-t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *param)
+t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, \
+		const void *param)
 {
 	t_ray	r;
 	t_vec2i	step_size;
@@ -148,10 +93,8 @@ t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *par
 	{
 		r.hit_side = ray_move(&side_dist, &delta_dist, step_size, &r.map_pos);
 		r.hit_cell = hit(param, r.map_pos.x, r.map_pos.y);
-
 		if (world_is_interactable(r.hit_cell))
 			ray_check_door(&r, &side_dist, delta_dist, step_size);
-
 		if (r.hit_cell)
 			break;
 	}

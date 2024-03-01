@@ -16,7 +16,7 @@ RUN_CMD		:= ./$(NAME) test_maps/valid_tex.cub
 
 # CFLAGS		+= -Wall -Wextra -Werror
 # CFLAGS		+= -Wall -Wextra
-CFLAGS		+= -g -fsanitize=address
+# CFLAGS		+= -g -fsanitize=address
 # CFLAGS		+= -g
 CFLAGS		+= -Ofast -flto -march=native -fno-fast-math
 
@@ -55,6 +55,7 @@ SRCS	= 		parser/check_elements.c \
 				game/player.c \
 				game/player_movement.c \
 				game/raycaster/raycaster.c \
+				game/raycaster/raycaster_init.c \
 				game/raycaster/floorcaster.c \
 				renderer/font_renderer.c \
 				game/sprite.c \
