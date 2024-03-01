@@ -6,13 +6,14 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/14 17:50:07 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/28 16:07:45 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "error.h"
 #include "meta.h"
+#include "error.h"
 
+// TODO: Add ft_strlen_largest()
 t_element_type	check_element_type(char *flag)
 {
 	if (!ft_strncmp(flag, "C", 1) || !ft_strncmp(flag, "F", 1) \
@@ -20,11 +21,13 @@ t_element_type	check_element_type(char *flag)
 		return (CEIL_FLOOR);
 	if (is_wall(flag))
 		return (WALL);
-	if (!ft_strncmp(flag, "SP", 2))
+	if (!ft_strncmp(flag, "SP", 3))
 		return (SPRITE);
-	if (!ft_strncmp(flag, "DR", 2))
+	if (!ft_strncmp(flag, "D", 2))
 		return (DOOR);
-	return (NON_VALID);
+	if (!ft_strncmp(flag, "LVL", 4))
+		return (NEXT_LVL);
+	return (INVALID);
 }
 
 int	handle_ceil_floor(t_attr *attributes, char *flag, char *content)
@@ -54,27 +57,32 @@ int	handle_element(t_meta *meta, t_element_type type, char *flag, char *content)
 	else if (type == WALL)
 		exit_code = input_texture_path(&meta->attributes, flag, content);
 	else if (type == SPRITE)
-	{
-		exit_code = input_sprite_texture_path(&meta->attributes.sprites, \
-		&meta->attributes.sprite_arr_index, content);
-	}
+		exit_code = input_sprite_data(&meta->attributes.sprites, \
+						&meta->attributes.sprite_arr_index, content);
+	else if (type == DOOR)
+		exit_code = input_path(&meta->attributes.doors.tex.tex_path, content);
+	else if (type == NEXT_LVL)
+		exit_code = input_path(&meta->next_level, content);
 	return (exit_code);
 }
 
 int	parse_elements(t_meta *meta)
 {
-	t_flag			*elements;
+	const t_flag	*elements = meta->elements;
 	t_element_type	type;
 
-	elements = meta->elements;
 	meta->attributes.sprite_count = count_sprites(meta->elements);
+	meta->attributes.doors.door_count = count_doors(meta->map.level, \
+									meta->map.width, meta->map.height);
 	meta->attributes.sprite_arr_index = 0;
+	if (set_doors(&meta->attributes.doors, meta->map))
+		return (EXIT_FAILURE);
 	if (set_up_sprites(meta))
 		return (EXIT_FAILURE);
 	while (elements != NULL)
 	{
 		type = check_element_type(elements->flag);
-		if (type != NON_VALID)
+		if (type != INVALID)
 		{
 			if (handle_element(meta, type, elements->flag, elements->content))
 				return (free_t_flag_list(&meta->elements), EXIT_FAILURE);

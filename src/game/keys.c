@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
+/*                                                        ::::::::            */
 /*   keys.c                                            :+:    :+:             */
-/*                                                    +:+ +:+         +:+     */
-/*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 15:27:07 by yzaim             #+#    #+#             */
-/*   Updated: 2024/01/18 12:50:58 by jboeve        ########   odam.nl         */
+/*                                                     +:+                    */
+/*   By: yzaim <marvin@42.fr>                         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/08 15:27:07 by yzaim         #+#    #+#                 */
+/*   Updated: 2024/03/01 16:43:55 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,49 +18,57 @@
 #include <stdint.h>
 #include <stdio.h>
 
+bool	is_pressed(t_meta *meta)
+{
+	return (mlx_is_key_down(meta->mlx, MLX_KEY_W) || \
+			mlx_is_key_down(meta->mlx, MLX_KEY_S) || \
+			mlx_is_key_down(meta->mlx, MLX_KEY_A) || \
+			mlx_is_key_down(meta->mlx, MLX_KEY_D));
+}
+
 static void	keys_handle_move(t_meta *meta, double delta_time)
 {
 	t_player *const	p = &meta->player;
 	t_vec2d			trans;
 	float			speed;
-	bool			pressed;
+	const bool		pressed = is_pressed(meta);
 
-	pressed = false;
 	speed = PLAYER_MOVE_SPEED * delta_time;
 	ft_bzero(&trans, sizeof(t_vec2d));
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_LEFT_SHIFT))
 		speed *= PLAYER_RUN_MODIFIER;
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_W))
-	{
-		pressed = true;
 		trans = vec2d_add(trans, \
 				(t_vec2d){p->direction.x * speed, p->direction.y * speed});
-	}
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_S))
-	{
-		pressed = true;
 		trans = vec2d_add(trans, \
 				(t_vec2d){p->direction.x * -speed, p->direction.y * -speed});
-	}
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_A))
-	{
-		pressed = true;
 		trans = vec2d_add(trans, \
 				(t_vec2d){(vec2d_rotate(p->direction, PI / 2).x) * -speed, \
 				(vec2d_rotate(p->direction, PI / 2).y) * -speed});
-	}
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_D))
-	{
-		pressed = true;
 		trans = vec2d_add(trans, \
 				(t_vec2d){(vec2d_rotate(p->direction, PI / 2).x) * speed, \
 				(vec2d_rotate(p->direction, PI / 2).y) * speed});
-	}
 	if (pressed)
 		player_move(p, trans);
 }
 
-void	render_test(t_meta *meta);
+static bool	key_pressed(t_meta *meta, keys_t k)
+{
+	bool	*old_state;
+
+	old_state = &meta->key_states[k - MLX_KEY_SPACE];
+	if (mlx_is_key_down(meta->mlx, k) && !*old_state)
+	{
+		*old_state = true;
+		return (true);
+	}
+	else if (!mlx_is_key_down(meta->mlx, k) && *old_state)
+		*old_state = false;
+	return (false);
+}
 
 void	keys_handle(t_meta *meta, double delta_time)
 {
@@ -76,14 +84,16 @@ void	keys_handle(t_meta *meta, double delta_time)
 		player_turn(p, -rotate_speed);
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_E))
 		player_turn(p, rotate_speed);
+	if (key_pressed(meta, MLX_KEY_F))
+		player_interact(p);
 	keys_handle_move(meta, delta_time);
 }
 
 void	cursor_hook(double xpos, double ypos, void *param)
 {
-	t_meta	*meta = param;
+	t_meta *const	meta = param;
 	const int32_t	center = meta->image->width / 2;
-	const float		rot = 0.0004f;
+	const float		rot = 0.0006f;
 	float			speed;
 
 	(void) ypos;

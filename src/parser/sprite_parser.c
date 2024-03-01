@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/14 17:43:22 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/28 16:04:42 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*find_sprite_val(char **content)
 	return (ft_strdup(""));
 }
 
-int	input_sprite_texture_path(t_sprite **sprites_array, \
+int	input_sprite_data(t_sprite **sprites_array, \
 								uint32_t *i, char *content)
 {
 	t_sprite	*arr;

@@ -6,12 +6,11 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:24:47 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/07 12:04:12 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/29 21:15:12 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
-// #include "MLX42/MLX42_Int.h"
 #include "meta.h"
 #include "error.h"
 #include <stdint.h>
@@ -81,14 +80,12 @@ int	cub3d(int argc, char **argv)
 {
 	t_meta	meta;
 
-	// atexit(&leaks);
 	if (argc != 2)
 		return (pr_err(ARG_ERR));
 	ft_bzero(&meta, sizeof(t_meta));
 	if (init_input(&meta, argv[1]))
 		return (EXIT_FAILURE);
 	init_mlx_images(&meta);
-	// TODO Error check.
 	game_init(&meta);
 	mlx_set_cursor_mode(meta.mlx, MLX_MOUSE_HIDDEN);
 	mlx_loop_hook(meta.mlx, game_loop, &meta);

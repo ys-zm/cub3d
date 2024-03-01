@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   map_lexer.c                                        :+:    :+:            */
+/*   map_lexer.c                                       :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/14 17:13:20 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/28 14:08:22 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
 #include "error.h"
+#include <stdio.h>
 
 // returns true if the next line only has spaces
 bool	nl_only_spaces(char *file)

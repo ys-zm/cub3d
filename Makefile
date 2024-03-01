@@ -16,9 +16,9 @@ RUN_CMD		:= ./$(NAME) test_maps/valid_tex.cub
 
 # CFLAGS		+= -Wall -Wextra -Werror
 # CFLAGS		+= -Wall -Wextra
-CFLAGS		+= -g -fsanitize=address
-# # CFLAGS		+= -g
-CFLAGS		+= -Ofast -flto -march=native
+# CFLAGS		+= -g -fsanitize=address
+# CFLAGS		+= -g
+CFLAGS		+= -Ofast -flto -march=native -fno-fast-math
 
 LIBFT		:=	libft/build/libft.a
 LIBMLX		:=	MLX42/build/libmlx42.a
@@ -27,53 +27,65 @@ IFLAGS		:= -Ilibft/include -Iinclude -IMLX42/include
 
 SRC_DIR		:=	src
 	
-SRCS	= 	parser/check_elements.c \
-			parser/map_parser.c \
-			parser/parse_elements.c \
-			parser/map_utils.c \
-			parser/map_checker.c \
-			parser/sprite_parser.c \
-			parser/parse_textures.c \
-			parser/parser.c	\
-			parser/check_colors.c \
-			parser/skip_utils.c \
-			parser/double_utils.c \
-			parser/map_access_utils.c \
-			parser/lexer.c \
-			parser/parser_fill.c \
-			parser/lexer_utils.c \
-			parser/lexer_test_utils.c \
-			parser/map_lexer.c \
-			utils/error.c \
-			utils/free.c \
-			utils/colors.c \
-			game/game.c \
-			game/draw.c \
-			game/keys.c \
-			game/player.c \
-			game/raycaster.c \
-			game/font/font_renderer.c \
-			game/floorcaster.c \
-			game/sprite.c \
-			game/sprite_calc.c \
-			game/sprite_render.c \
-			game/sprite_sort.c \
-			game/sort_utils.c \
-			renderer/pixel_picker.c \
-			renderer/render_minimap.c \
-			renderer/render_viewport.c \
-			vector/vec2i.c \
-			vector/vec2d_sum.c \
-			vector/vec2d_calc.c \
-			vector/vec_utils.c \
-			cub3d.c \
-			test_utils.c \
-			timer.c \
-			init/set_textures.c
+SRCS	= 		parser/check_elements.c \
+				parser/parse_elements.c \
+				parser/parse_textures.c \
+				parser/parser.c	\
+				parser/check_colors.c \
+				parser/lexer.c \
+				parser/lexer_utils.c \
+				parser/map_lexer.c \
+				parser/map_utils.c \
+				parser/map_checker.c \
+				parser/map_parser.c \
+				parser/sprite_parser.c \
+				parser/skip_utils.c \
+				parser/double_utils.c \
+				parser/map_access_utils.c \
+				parser/parser_fill.c \
+				parser/lexer_test_utils.c \
+				parser/door_parser.c \
+				utils/error.c \
+				utils/free.c \
+				utils/colors.c \
+				game/game.c \
+				game/game_init.c \
+				game/draw/draw.c \
+				game/draw/bresenham.c \
+				game/keys.c \
+				game/player.c \
+				game/player_movement.c \
+				game/raycaster/raycaster.c \
+				game/raycaster/raycaster_init.c \
+				game/raycaster/floorcaster.c \
+				renderer/font_renderer.c \
+				game/sprite.c \
+				game/world.c \
+				game/sprite_calc.c \
+				game/sprite_render.c \
+				game/sprite_sort.c \
+				game/sort_utils.c \
+				renderer/render_minimap.c \
+				renderer/render_minimap_utils.c \
+				renderer/render_viewport.c \
+				renderer/pixel_picker.c \
+				renderer/draw_func.c \
+				vector/vec2i.c \
+				vector/vec_utils.c \
+				cub3d.c \
+				test_utils.c \
+				timer.c \
+				vector/vec2d_sum.c \
+				vector/vec2d_calc.c \
+				init/set_textures.c
+
 
 HEADER_DIR	:=	include
 HEADERS 	:=	meta.h \
-				timer.h
+				timer.h \
+				test_utils.h \
+				vector.h \
+				error.h
 
 OBJ_DIR		:=	obj
 
@@ -95,8 +107,10 @@ OBJ_DIRS 	:=	$(dir $(OBJS))
 .PHONY: make_libs
 
 all: 
-	$(MAKE) make_libs -j4
-	$(MAKE) $(NAME) -j4
+	# $(MAKE) make_libs -j4
+	$(MAKE) make_libs 
+	# $(MAKE) $(NAME) -j4
+	$(MAKE) $(NAME) 
 
 $(NAME): $(LIBFT) $(LIBMLX) $(OBJS) $(SRC_DIR)/main.c
 	$(CC) $(SRC_DIR)/main.c $(OBJS) $(LIBFT) $(LIBMLX) $(CFLAGS) $(IFLAGS) $(MLX_CFLAGS) -o $(NAME)

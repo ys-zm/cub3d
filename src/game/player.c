@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   player.c                                           :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: yzaim <marvin@42.fr>                         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/01/08 15:27:23 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/14 12:28:13 by yzaim         ########   odam.nl         */
+/*   player.c                                          :+:    :+:             */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/08 15:27:23 by yzaim             #+#    #+#             */
+/*   Updated: 2024/03/01 12:51:21 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,102 +21,83 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-bool	bound_check(const void *param, uint32_t x, uint32_t y)
+t_cell_type	bound_check(const void *param, uint32_t x, uint32_t y)
 {
 	t_meta *const	meta = (t_meta *) param;
+	t_cell_type		cell;
 
 	if (x < meta->map.width && y < meta->map.height)
-		return (meta->map.level[(y * meta->map.width) + x] == MAP_WALL);
+	{
+		cell = meta->map.level[(y * meta->map.width) + x];
+		if (cell == MAP_WALL || cell == MAP_DOOR_CLOSED)
+			return (cell);
+	}
+	return (MAP_EMPTY);
+}
+
+static t_cell_type	bound_check_interact(const void *p, uint32_t x, uint32_t y)
+{
+	t_meta *const	meta = (t_meta *) p;
+	t_cell_type		cur_cell;
+
+	if (x < meta->map.width && y < meta->map.height)
+	{
+		cur_cell = meta->map.level[(y * meta->map.width) + x];
+		if (cur_cell == MAP_WALL || cur_cell == MAP_DOOR_CLOSED \
+				|| cur_cell == MAP_DOOR_OPEN)
+			return (cur_cell);
+	}
+	return (MAP_EMPTY);
+}
+
+static void	player_interactable_raycast(t_player *p)
+{
+	t_ray *const	r = &p->interact_ray;
+
+	*r = raycaster_cast(p->position, p->direction, bound_check_interact, \
+			p->meta);
+	if (world_is_interactable(r->hit_cell) && r->length < 1.5)
+		;
 	else
-	{
-		UNIMPLEMENTED("Map out of bounds.");
-	}
+		ft_bzero(r, sizeof(t_ray));
 }
 
-// NORTH = 0
-void	print_angle(t_player *p)
+void	player_interact(t_player *p)
 {
-	float	angle;
+	t_ray *const	r = &p->interact_ray;
 
-	angle = (atan2(p->direction.x, p->direction.y) / PI * 180 + 180);
-	if (angle > 45.0 && angle < 135.0)
+	if (((char *) r)[0])
 	{
-		printf("N\n");
+		world_interact(p, r->end);
+		player_raycast(p);
 	}
-	else if (angle > 135.0 && angle < 225.0)
-	{
-		printf("E\n");
-	}
-	else if (angle > 225.0 && angle < 315.0)
-	{
-		printf("S\n");
-	}
-	else if (angle > 315.0 || angle < 45.0)
-	{
-		printf("W\n");
-	}
-}
-
-void	player_move(t_player *p, t_vec2d transform)
-{
-	t_ray	r;
-
-	r = raycaster_cast(p->position, vec2d_normalize(transform), \
-						bound_check, p->meta);
-	if (r.length > 0.5)
-		p->position = vec2d_add(p->position, transform);
-	else
-	{
-		const int		comp = (r.hit_side == SIDE_N || r.hit_side == SIDE_S);
-		const t_vec2d	normal = {comp, !comp}; // 1, 0 // 0, 1
-		const double	dot_product = vec2d_dot_product(transform, normal);
-
-		t_vec2d			delta_pos;
-		delta_pos.x = transform.x - normal.x * dot_product;
-		delta_pos.y = transform.y - normal.y * dot_product;
-		r = raycaster_cast(p->position, vec2d_normalize(transform), bound_check, p->meta);
-		if (r.length > 0.3)
-		{
-			p->position.x += delta_pos.x;
-			p->position.y += delta_pos.y;
-		}
-	}
-	player_raycast(p);
-}
-
-// negative rotation parameter turns left vs positive rotation parameter turns right
-void	player_turn(t_player *p, float radiant)
-{
-	p->direction = vec2d_rotate(p->direction, radiant);
-	p->cam_plane = vec2d_rotate(p->cam_plane, radiant);
-	player_raycast(p);
 }
 
 void	player_raycast(t_player *p)
 {
-	const uint32_t	w = p->meta->image->width;
 	const uint32_t	h = p->meta->image->height;
-	uint32_t		col;
-	uint32_t		row;
+	uint32_t		i;
 	t_vec2d			ray_start;
 	double			camera_x;
 
-	row = 0;
-	while (row < h)
+	i = 0;
+	player_interactable_raycast(p);
+	while (i < h)
 	{
-		p->vrays[row] = floorcaster(p->position, p->direction, p->cam_plane, row);
-		row++;
+		p->vrays[i] = floorcaster(p->position, p->direction, p->cam_plane, i);
+		i++;
 	}
 	p->should_render = true;
-	// TODO Just create the player.plane here instead of saving it.
-	col = 0;
-	while (col < p->meta->image->width)
+	i = 0;
+	while (i < p->meta->image->width)
 	{
-		camera_x = (2 * col / ((double) p->meta->image->width) - 1);
-		ray_start = vec2d_add(p->direction, vec2d_scalar_product(p->cam_plane, camera_x));
-		p->rays[col] = raycaster_cast(p->position, ray_start, bound_check, p->meta);
-		p->z_buffer[col] = p->rays[col].length;
-		col++;
+		camera_x = (2 * i / ((double) p->meta->image->width) - 1);
+		ray_start = vec2d_add(p->direction, \
+				vec2d_scalar_product(p->cam_plane, camera_x));
+		p->hrays[i] = raycaster_cast(p->position, ray_start, bound_check, \
+				p->meta);
+		p->z_buffer[i] = p->hrays[i].length;
+		i++;
 	}
 	sprite_calculate(p);
 }

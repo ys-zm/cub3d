@@ -6,7 +6,7 @@
 /*   By: yzaim <yzaim@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:53:55 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/07 12:04:35 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/09 15:00:13 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static void	free_t_tex(t_attr *attributes)
 	f_tex(&attributes->f);
 	f_tex(&attributes->c);
 	f_tex(&attributes->c_alt);
+	f_tex(&attributes->doors.tex);
+	free(attributes->doors.idx);
 }
 
 void	free_t_flag_list(t_flag **list)

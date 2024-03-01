@@ -6,7 +6,7 @@
 /*   By: yzaim <yzaim@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:56:45 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/07 12:03:56 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/01 16:33:26 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,22 @@ int	set_sprite_textures(uint32_t sprite_count, t_sprite *sprites)
 	return (EXIT_SUCCESS);
 }
 
+int	set_door_texture(t_door *doors)
+{
+	if (doors->door_count)
+	{
+		if (doors->tex.tex_path)
+		{
+			doors->tex.tex = mlx_load_png(doors->tex.tex_path);
+			if (doors->tex.tex == NULL)
+				return (EXIT_FAILURE);
+		}
+		else
+			return (pr_err(DOOR_PATH));
+	}
+	return (EXIT_SUCCESS);
+}
+
 int	set_textures(t_attr *attributes)
 {
 	attributes->n.tex = mlx_load_png(attributes->n.tex_path);
@@ -72,6 +88,8 @@ int	set_textures(t_attr *attributes)
 	if (set_floor_and_ceiling_textures(attributes))
 		return (pr_err(MLX_ERROR));
 	if (set_sprite_textures(attributes->sprite_count, attributes->sprites))
+		return (pr_err(MLX_ERROR));
+	if (set_door_texture(&attributes->doors))
 		return (pr_err(MLX_ERROR));
 	return (EXIT_SUCCESS);
 }

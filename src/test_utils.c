@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   test_utils.c                                       :+:    :+:            */
+/*   test_utils.c                                      :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:25:38 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/08 15:08:32 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/02/10 02:01:13 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,8 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <sys/types.h>
+#include "test_utils.h"
 
-const char *CELL_NAMES[] = {
-	[MAP_EMPTY]	= "MAP_EMPTY",
-	[MAP_WALL]	= "MAP_WALL",
-	[MAP_SPACE]	= "MAP_SPACE",
-};
 
 void print_ray(const char *s, const t_ray *r)
 {
@@ -28,8 +24,25 @@ void print_ray(const char *s, const t_ray *r)
 		side_text = "NS";
 	else
 		side_text = "EW";
-	printf("[%s] | ray_direction [%lf][%lf] | length [%lf] | ray_end [%lf][%lf] | hit_side [%s]\n", s, r->direction.x, r->direction.y, r->length, r->end.x, r->end.y, side_text);
+	printf("[%s] | ray_direction [%lf][%lf] | length [%lf] | ray_end [%lf][%lf] | hit_side [%s] | cell_type [%s]\n", s, r->direction.x, r->direction.y, r->length, r->end.x, r->end.y, CELL_NAMES[r->hit_cell], side_text);
 }
+
+void print_hit_side(const char *s, t_side hit_side)
+{
+	char *side_text;
+	if (hit_side == SIDE_S)
+		side_text = "S";
+	else if (hit_side == SIDE_N)
+		side_text = "N";
+	else if (hit_side == SIDE_W)
+		side_text = "W";
+	else if (hit_side == SIDE_E)
+		side_text = "E";
+	printf("[%s] [%s]\n", s, side_text);
+
+
+}
+
 
 void print_direction(t_side dir)
 {
@@ -135,4 +148,21 @@ void	print_attributes(t_attr *attributes)
 		printf("C: %s\n", attributes->c.tex_path);
 		else
 		printf("C: %d,%d,%d\n", attributes->ceiling_c.r, attributes->ceiling_c.g, attributes->ceiling_c.b);
+}
+
+void	print_door_data(t_door doors)
+{
+	int	i = 0;
+	printf("DOOR COUNT: %u\n", doors.door_count);
+	printf("DOOR TEX: %s\n", doors.tex.tex_path);
+	while (i < doors.door_count)
+	{
+		if (i == 0)
+			printf("DOOR IDX: ");
+		printf("%u", doors.idx[i]);
+		if (i < doors.door_count - 1)
+			printf(" | ");
+		i++;
+	}
+	printf("\n");
 }
