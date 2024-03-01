@@ -6,12 +6,13 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:33 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/01 14:41:17 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/03/01 16:27:37 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
 #include "raycaster.h"
+#include "vector.h"
 
 inline static t_side	ray_move(t_vec2d *side_dist, t_vec2d *delta_dist, \
 		t_vec2i step_size, t_vec2i *map_pos)
@@ -75,6 +76,21 @@ static void	ray_check_door(t_ray *r, t_vec2d *side_dist, \
 	}
 }
 
+static void	calculate_ray_end(t_ray *r, t_vec2d side_dist, \
+		t_vec2d delta_dist, t_vec2d pp)
+{
+	r->length = calculate_ray_length(r->hit_side, side_dist, delta_dist);
+	r->end = vec2i_to_vec2d(r->map_pos);
+	r->line_height = (int)(WINDOW_HEIGHT / r->length);
+	r->line_point.x = -r->line_height / 2 + ((double)WINDOW_HEIGHT) / 2;
+	r->line_point.y = r->line_height / 2 + ((double)WINDOW_HEIGHT) / 2;
+	if (r->hit_side == SIDE_E || r->hit_side == SIDE_W)
+		r->wall_x = pp.y + r->length * r->direction.y;
+	else
+		r->wall_x = pp.x + r->length * r->direction.x;
+	r->wall_x -= floor(r->wall_x);
+}
+
 t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, \
 		const void *param)
 {
@@ -96,22 +112,8 @@ t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, \
 		if (world_is_interactable(r.hit_cell))
 			ray_check_door(&r, &side_dist, delta_dist, step_size);
 		if (r.hit_cell)
-			break;
+			break ;
 	}
-	r.length = calculate_ray_length(r.hit_side, side_dist, delta_dist);
-	// Tmporary to get the end
-	r.end = vec2i_to_vec2d(r.map_pos);
-	
-	r.line_height = (int)(WINDOW_HEIGHT / r.length);
-
-	// draw start and draw end
-	r.line_point.x = -r.line_height / 2 + ((double)WINDOW_HEIGHT) / 2;
-	r.line_point.y = r.line_height / 2 + ((double)WINDOW_HEIGHT) / 2;
-
-	if (r.hit_side == SIDE_E || r.hit_side == SIDE_W)
-		r.wall_x = pp.y + r.length * r.direction.y;
-	else
-		r.wall_x = pp.x + r.length * r.direction.x;
-	r.wall_x -= floor(r.wall_x);
+	calculate_ray_end(&r, side_dist, delta_dist, pp);
 	return (r);
 }

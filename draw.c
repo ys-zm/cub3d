@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:26:25 by yzaim             #+#    #+#             */
-/*   Updated: 2024/02/23 23:21:34 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/01 16:31:11 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ typedef struct s_bresenham
 	int32_t			slow_move;
 }	t_bresenham;
 
-// TODO Struct that contains all this info because well. tHe nORm
 void draw_rect(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color)
 {
 	size_t	x;
@@ -98,10 +97,8 @@ void draw_line(mlx_image_t *image, t_vec2i start, t_vec2i end, t_rgba c)
 
 	line.current = start;
 	line.end = end;
-
 	line.delta.y = abs(line.current.y - line.end.y);
 	line.delta.x = abs(line.current.x - line.end.x);
-
 	line.direction.y = direction(line.end.y - line.current.y > 0);
 	line.direction.x = direction(line.end.x - line.current.x > 0);
 	bresenham(image, &line, c);
