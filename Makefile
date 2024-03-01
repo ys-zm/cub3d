@@ -51,6 +51,7 @@ SRCS	= 		parser/check_elements.c \
 				game/game.c \
 				game/game_init.c \
 				game/draw/draw.c \
+				game/draw/bresenham.c \
 				game/keys.c \
 				game/player.c \
 				game/player_movement.c \
@@ -65,6 +66,7 @@ SRCS	= 		parser/check_elements.c \
 				game/sprite_sort.c \
 				game/sort_utils.c \
 				renderer/render_minimap.c \
+				renderer/render_minimap_utils.c \
 				renderer/render_viewport.c \
 				renderer/pixel_picker.c \
 				renderer/draw_func.c \

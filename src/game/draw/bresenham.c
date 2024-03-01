@@ -1,51 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   draw.c                                            :+:    :+:             */
-/*                                                    +:+ +:+         +:+     */
-/*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 15:26:25 by yzaim             #+#    #+#             */
-/*   Updated: 2024/03/01 16:50:12 by jboeve        ########   odam.nl         */
+/*                                                       ::::::::             */
+/*   bresenham.c                                       :+:    :+:             */
+/*                                                    +:+                     */
+/*   By: joppe <jboeve@student.codam.nl>             +#+                      */
+/*                                                  +#+                       */
+/*   Created: 2024/03/01 19:07:26 by joppe         #+#    #+#                 */
+/*   Updated: 2024/03/01 19:07:44 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "MLX42/MLX42.h"
 #include "meta.h"
-
-typedef struct s_bresenham
-{
-	t_vec2i 		current;
-	t_vec2i 		end;
-	t_vec2i 		delta;
-	t_vec2i			direction;
-	int32_t			slow_move;
-}	t_bresenham;
-
-void draw_rect(mlx_image_t* image, t_vec2u pos, t_vec2u size, uint32_t color)
-{
-	size_t	x;
-	size_t	y;
-
-	y = 0;
-	while (y < pos.y)
-	{
-		x = 0;
-		while (x < pos.x)
-		{
-			draw_put_pixel(image, pos.x + x, pos.y + y, color);
-			x++;
-		}
-		y++;
-	}
-
-}
-
-void draw_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color)
-{
-	if (x < image->width && y < image->height)
-		mlx_put_pixel(image, x, y, color);
-}
+#include "draw.h"
 
 static int32_t	direction(int32_t val)
 {
@@ -92,7 +58,7 @@ static void	bresenham(mlx_image_t *meta, t_bresenham *line, t_rgba c)
 	draw_put_pixel(meta, line->current.x, line->current.y, c.value);
 }
 
-void draw_line(mlx_image_t *image, t_vec2i start, t_vec2i end, t_rgba c)
+void	draw_line(mlx_image_t *image, t_vec2i start, t_vec2i end, t_rgba c)
 {
 	t_bresenham		line;
 
@@ -104,4 +70,3 @@ void draw_line(mlx_image_t *image, t_vec2i start, t_vec2i end, t_rgba c)
 	line.direction.x = direction(line.end.x - line.current.x > 0);
 	bresenham(image, &line, c);
 }
-

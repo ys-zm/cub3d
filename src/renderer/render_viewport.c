@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/01 17:13:47 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/03/01 19:09:32 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ void	render_viewport(mlx_image_t *image, t_player *p)
 
 	render_fc(image, p);
 	render_walls(image, p);
-	draw_rect(image, (t_vec2u) {(WINDOW_WIDTH / 2 - (crosshair_size / 2)), \
-			(WINDOW_HEIGHT / 2 - (crosshair_size / 2))}, (t_vec2u) {crosshair_size, \
+	draw_rect(image, (t_vec2u){(WINDOW_WIDTH / 2 - (crosshair_size / 2)), \
+			(WINDOW_HEIGHT / 2 - (crosshair_size / 2))}, \
+			(t_vec2u){crosshair_size, \
 			crosshair_size}, 0xFFFFFFFF);
 }

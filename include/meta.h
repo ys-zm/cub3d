@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/03/01 16:46:34 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/03/01 18:38:22 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -293,8 +293,7 @@ void		render_viewport(mlx_image_t *image, t_player *p);
 void 		minimap_update(mlx_image_t *image, t_player *p);
 
 // draw.c
-void draw_rect(mlx_image_t* image, t_vec2u pos, t_vec2u size, uint32_t color);
-// void	draw_rect(mlx_image_t* image, uint32_t x_pos, uint32_t y_pos, uint32_t width, uint32_t height, uint32_t color);
+void	draw_rect(mlx_image_t* image, t_vec2u pos, t_vec2u size, uint32_t color);
 void	draw_line(mlx_image_t *image, t_vec2i start, t_vec2i end, t_rgba c);
 void	draw_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color);
 
