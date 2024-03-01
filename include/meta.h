@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   meta.h                                             :+:    :+:            */
+/*   meta.h                                            :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/02/28 17:42:00 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/01 12:42:45 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,6 +273,7 @@ void		set_player_start_position(t_player *p, char dir);
 void		game_init(t_meta *meta);
 
 // player.c
+t_cell_type	bound_check(const void *param, uint32_t x, uint32_t y);
 void		player_move(t_player *p, t_vec2d transform);
 void		player_turn(t_player *p, float radiant);
 void		player_raycast(t_player *p);

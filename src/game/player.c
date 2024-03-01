@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:27:23 by yzaim             #+#    #+#             */
-/*   Updated: 2024/02/29 21:18:24 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/01 12:51:21 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ t_cell_type	bound_check(const void *param, uint32_t x, uint32_t y)
 	return (MAP_EMPTY);
 }
 
-t_cell_type	bound_check_interact(const void *param, uint32_t x, uint32_t y)
+static t_cell_type	bound_check_interact(const void *p, uint32_t x, uint32_t y)
 {
-	t_meta *const	meta = (t_meta *) param;
+	t_meta *const	meta = (t_meta *) p;
 	t_cell_type		cur_cell;
 
 	if (x < meta->map.width && y < meta->map.height)
@@ -50,44 +50,21 @@ t_cell_type	bound_check_interact(const void *param, uint32_t x, uint32_t y)
 	return (MAP_EMPTY);
 }
 
-void	player_move(t_player *p, t_vec2d transform)
+static void	player_interactable_raycast(t_player *p)
 {
-	t_ray r = raycaster_cast(p->position, vec2d_normalize(transform), bound_check, p->meta);
+	t_ray *const	r = &p->interact_ray;
 
-	if (r.hit_cell == MAP_DOOR_CLOSED && r.length < 1.0)
-		return;
-	if (r.length > 0.5)
-		p->position = vec2d_add(p->position, transform);
+	*r = raycaster_cast(p->position, p->direction, bound_check_interact, \
+			p->meta);
+	if (world_is_interactable(r->hit_cell) && r->length < 1.5)
+		;
 	else
-	{
-		const int		comp = (r.hit_side == SIDE_E || r.hit_side == SIDE_W);
-		const t_vec2d	normal = {comp, !comp};
-		const double 	dot_product = vec2d_dot_product(transform, normal);
-		const t_vec2d delta_pos = {transform.x - normal.x * dot_product, transform.y - normal.y * dot_product};
-
-		r = raycaster_cast(p->position, vec2d_normalize(transform), bound_check, p->meta);
-		if (r.hit_cell == MAP_DOOR_CLOSED && r.length < 0.5)
-			return;
-		if (r.length > 0.3)
-		{
-			p->position.x += delta_pos.x;
-			p->position.y += delta_pos.y;
-		}
-	}
-	player_raycast(p);
+		ft_bzero(r, sizeof(t_ray));
 }
 
-// negative rotation parameter turns left vs positive rotation parameter turns right
-void player_turn(t_player *p, float radiant)
+void	player_interact(t_player *p)
 {
-	p->direction = vec2d_rotate(p->direction, radiant);
-	p->cam_plane = vec2d_rotate(p->cam_plane, radiant);
-	player_raycast(p);
-}
-
-void player_interact(t_player *p)
-{
-	t_ray *r = &p->interact_ray;
+	t_ray *const	r = &p->interact_ray;
 
 	if (((char *) r)[0])
 	{
@@ -96,53 +73,31 @@ void player_interact(t_player *p)
 	}
 }
 
-
-static void player_interactable_raycast(t_player *p)
+void	player_raycast(t_player *p)
 {
-	t_ray *r = &p->interact_ray;
+	const uint32_t	h = p->meta->image->height;
+	uint32_t		i;
+	t_vec2d			ray_start;
+	double			camera_x;
 
-	*r = raycaster_cast(p->position, p->direction, bound_check_interact, p->meta);
-
-	// print_hit_side("side", r->hit_side);
-
-	if (world_is_interactable(r->hit_cell) && r->length < 1.5)
-	{
-		// print message to screen
-		// print_ray("interact ray", r);
-		// printf("Press F to interact with [%s]\n",  CELL_NAMES[r->hit_cell]);
-	}
-	else
-		ft_bzero(r, sizeof(t_ray));
-
-
-}
-
-void player_raycast(t_player *p)
-{
-	uint32_t	h = p->meta->image->height;
-	uint32_t	col;
-	uint32_t	row;
-	t_vec2d		ray_start;
-	double		camera_x;
-
-	row = 0;
+	i = 0;
 	player_interactable_raycast(p);
-	while (row < h)
+	while (i < h)
 	{
-		p->vrays[row] = floorcaster(p->position, p->direction, p->cam_plane, row);
-		row++;
+		p->vrays[i] = floorcaster(p->position, p->direction, p->cam_plane, i);
+		i++;
 	}
 	p->should_render = true;
-	col = 0;
-	while (col < p->meta->image->width)
+	i = 0;
+	while (i < p->meta->image->width)
 	{
-		camera_x = (2 * col / ((double) p->meta->image->width) - 1);
-		ray_start = vec2d_add(p->direction, vec2d_scalar_product(p->cam_plane, camera_x));
-		p->hrays[col] = raycaster_cast(p->position, ray_start, bound_check, p->meta);
-		// printf("wall x: %f\n", p->rays[col].wall_x);
-		p->z_buffer[col] = p->hrays[col].length;
-		col++;
-	}	
-
+		camera_x = (2 * i / ((double) p->meta->image->width) - 1);
+		ray_start = vec2d_add(p->direction, \
+				vec2d_scalar_product(p->cam_plane, camera_x));
+		p->hrays[i] = raycaster_cast(p->position, ray_start, bound_check, \
+				p->meta);
+		p->z_buffer[i] = p->hrays[i].length;
+		i++;
+	}
 	sprite_calculate(p);
 }
