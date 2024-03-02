@@ -18,6 +18,8 @@ t_flag	*create_new_node(char *file)
 	t_flag	*node;
 
 	node = malloc(sizeof(t_flag) * 1);
+	if (!node)
+		return (NULL);
 	node->flag = get_key(file);
 	if (!node->flag)
 		return (NULL);
