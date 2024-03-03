@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>   +#+  +:+   +#+*/
 /*+#+#+#+#+#+   +#+   */
 /*   Created: 2023/11/09 18:08:19 by yzaim #+##+# */
-/*   Updated: 2024/02/28 14:17:02 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/03/03 19:18:09 by joppe         ########   odam.nl         */
 /**/
 /* ************************************************************************** */
 
@@ -16,12 +16,16 @@
 
 int	pr(char *err, int exit_code)
 {
-	write(2, err, ft_strlen(err));
+	size_t	i;
+
+	i = write(2, err, ft_strlen(err));
+	(void) i;
 	return (exit_code);
 }
 
 int	pr_err(t_err type)
 {
+	size_t		i;
 	const char	*msg[ERR_COUNT] = {
 		INVALID_CHAR, INVALID_EXT, INVALID_WALLS,
 		TOO_MANY_PLAYERS, INVALID_FILE,
@@ -32,8 +36,12 @@ int	pr_err(t_err type)
 		DOUBLE_ERR, SP_COORD_ERR, DR_PATH_ERR
 	};
 
-	write(2, "Error\n", 6);
+	i = write(2, "Error\n", 6);
+	(void) i;
 	if (type >= 0 && type < ERR_COUNT)
-		return (write(2, msg[type], ft_strlen(msg[type])), 1);
+	{
+		i = write(2, msg[type], ft_strlen(msg[type]));
+		return (1);
+	}
 	return (0);
 }

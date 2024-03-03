@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/28 13:36:16 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/03/03 19:03:09 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,10 @@ int	add_element(char *file, t_flag **elements, int *mandatory)
 
 int	lex(char *file, t_map *map, t_flag **elements)
 {
-	t_flag	*new_node;
 	int		exit_code;
 	int		skip;
 	int		mandatory;
-	int		i;
 
-	i = 0;
 	mandatory = 0;
 	while (*file)
 	{

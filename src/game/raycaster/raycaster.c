@@ -6,10 +6,11 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:33 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/01 16:27:37 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/03/03 19:18:35 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "meta.h"
 #include "raycaster.h"
 #include "vector.h"
@@ -99,6 +100,7 @@ t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, \
 	t_vec2d	side_dist;
 	t_vec2d	delta_dist;
 
+	ft_bzero(&r, sizeof(t_ray));
 	r.direction = dir;
 	r.map_pos.x = (int)pp.x;
 	r.map_pos.y = (int)pp.y;

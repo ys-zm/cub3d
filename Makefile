@@ -14,10 +14,10 @@ NAME		:= app
 RUN_CMD		:= ./$(NAME) test_maps/valid_tex.cub
 # RUN_CMD		:= ./$(NAME) test_maps/small.cub
 
-# CFLAGS		+= -Wall -Wextra -Werror
-# CFLAGS		+= -Wall -Wextra
+CFLAGS		+= -Wall -Wextra
 # CFLAGS		+= -g -fsanitize=address
 # CFLAGS		+= -g
+# CFLAGS		+= -Wall -Wextra -Werror
 CFLAGS		+= -Ofast -flto -march=native -fno-fast-math
 
 LIBFT		:=	libft/build/libft.a
@@ -73,7 +73,6 @@ SRCS	= 		parser/check_elements.c \
 				vector/vec2i.c \
 				vector/vec_utils.c \
 				cub3d.c \
-				test_utils.c \
 				timer.c \
 				vector/vec2d_sum.c \
 				vector/vec2d_calc.c \
@@ -83,7 +82,6 @@ SRCS	= 		parser/check_elements.c \
 HEADER_DIR	:=	include
 HEADERS 	:=	meta.h \
 				timer.h \
-				test_utils.h \
 				vector.h \
 				error.h
 

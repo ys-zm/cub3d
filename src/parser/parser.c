@@ -6,12 +6,11 @@
 /*   By: yzaim <marvin@42.fr>   +#+  +:+   +#+*/
 /*+#+#+#+#+#+   +#+   */
 /*   Created: 2023/11/09 18:08:19 by yzaim #+##+# */
-/*   Updated: 2024/02/09 15:21:36 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/03 19:02:45 by joppe         ########   odam.nl         */
 /**/
 /* ************************************************************************** */
 
 #include "error.h"
-#include "test_utils.h"
 
 bool	out_of_bounds(t_vec2d pos, uint32_t w, uint32_t h)
 {
@@ -45,9 +44,6 @@ int	sprites_coordinates(uint32_t sprite_count, \
 
 int	parser(t_meta *meta)
 {
-	char	*file;
-
-	file = NULL;
 	save_map_dimensions(meta->map.map_element, \
 			&meta->map.width, &meta->map.height);
 	create_rectangle_map_element(meta);

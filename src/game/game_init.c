@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:26:51 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/29 15:28:27 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/03 18:57:07 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 #include <math.h>
 #include <stdint.h>
 #include <unistd.h>
-#include "test_utils.h"
 
 static void	set_values(t_player *p, t_vec2d dir, t_vec2d cam)
 {

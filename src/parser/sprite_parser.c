@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   sprite_parser.c                                    :+:    :+:            */
+/*   sprite_parser.c                                   :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/28 16:04:42 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/03 19:02:09 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	input_sprite_data(t_sprite **sprites_array, \
 								uint32_t *i, char *content)
 {
 	t_sprite	*arr;
-	char		*tex_path;
 	char		*pos_x;
 	char		*pos_y;
 

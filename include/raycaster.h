@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2024/03/01 12:58:39 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/03/01 13:10:03 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/03/03 19:18:19 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,4 @@ t_vec2i	calculate_step_size(t_vec2d ray_direction);
 double	calculate_ray_length(t_side hit_side, \
 		t_vec2d side_dist, t_vec2d delta_dist);
 
-
-
-
 #endif // !RAYCASTER_H
-

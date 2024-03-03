@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   draw_func.c                                        :+:    :+:            */
+/*   draw_func.c                                       :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/28 16:36:59 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/03 19:01:48 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <math.h>
 
 static void	calculate_texture_points(mlx_texture_t *texture, \
-						t_ray *ray, uint32_t col, uint32_t h)
+						t_ray *ray, uint32_t h)
 {
 	double	offset;
 
@@ -45,7 +45,7 @@ void	draw_column(t_meta *meta, t_ray *ray, uint32_t col, uint32_t h)
 	mlx_texture_t	*texture;
 
 	texture = get_texture(ray->hit_cell, ray->hit_side, meta->attributes);
-	calculate_texture_points(texture, ray, col, h);
+	calculate_texture_points(texture, ray, h);
 	y = ray->line_point.x;
 	if (y < 0)
 		y = 0;

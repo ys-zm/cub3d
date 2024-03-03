@@ -6,7 +6,7 @@
 /*   By: yzaim <yzaim@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:56:45 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/01 16:33:26 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/03/03 19:01:22 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	set_floor_and_ceiling_textures(t_attr *attributes)
 
 int	set_sprite_textures(uint32_t sprite_count, t_sprite *sprites)
 {
-	int	i;
+	size_t	i;
 
 	if (sprite_count)
 	{

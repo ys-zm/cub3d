@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/03/01 18:38:22 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/03 19:00:15 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,7 +268,6 @@ void		game_init(t_meta *meta);
 void		game_loop(void* param);
 
 // game_init.c
-static void	set_values(t_player *p, t_vec2d dir, t_vec2d cam);
 void		set_player_start_position(t_player *p, char dir);
 void		game_init(t_meta *meta);
 
