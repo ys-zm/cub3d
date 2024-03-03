@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/03 19:03:09 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/03 20:02:14 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ t_flag	*create_new_node(char *file)
 	t_flag	*node;
 
 	node = malloc(sizeof(t_flag) * 1);
+	if (!node)
+		return (NULL);
 	node->flag = get_key(file);
 	if (!node->flag)
 		return (NULL);
