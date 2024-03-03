@@ -23,7 +23,6 @@ int	init_sprites(uint32_t count, int32_t **sprite_order, double **sprite_dist)
 	if (!*sprite_order)
 		return (pr_err(MALL_ERR), EXIT_FAILURE);
 	*sprite_dist = malloc(sizeof(double) * count);
-	*sprite_dist = NULL;
 	if (!*sprite_dist)
 		return (pr_err(MALL_ERR), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
