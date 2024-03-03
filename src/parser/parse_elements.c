@@ -52,6 +52,7 @@ int	handle_element(t_meta *meta, t_element_type type, char *flag, char *content)
 {
 	int	exit_code;
 
+	exit_code = 0;
 	if (type == CEIL_FLOOR)
 		exit_code = handle_ceil_floor(&meta->attributes, flag, content);
 	else if (type == WALL)
