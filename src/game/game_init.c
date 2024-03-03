@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:26:51 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/03 19:24:16 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/03 20:41:54 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	set_player_start_position(t_player *p, char dir)
 	p->position.y += 0.5;
 }
 
-void	game_init(t_meta *meta)
+int	game_init(t_meta *meta)
 {
 	t_player *const	p = &meta->player;
 
@@ -62,10 +62,10 @@ void	game_init(t_meta *meta)
 	if (init_sprites(meta->attributes.sprite_count, &meta->player.sprite_order, \
 		&meta->player.sprite_dist))
 	{
-		// TODO Error
-		return ;
+		return (false);
 	}
 	p->meta = meta;
 	set_player_start_position(&meta->player, meta->map.player_start_dir);
 	player_move(p, (t_vec2d){0.0, 0.0});
+	return true;
 }

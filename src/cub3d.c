@@ -6,14 +6,16 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:24:47 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/03 19:24:01 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/03 20:41:10 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
 #include "meta.h"
 #include "error.h"
+#include <stdatomic.h>
 #include <stdint.h>
+#include <stdlib.h>
 
 static void	fps_hook(void *param)
 {
@@ -87,7 +89,12 @@ int	cub3d(int argc, char **argv)
 		return (EXIT_FAILURE);
 	init_mlx_images(&meta);
 	// TODO error handling
-	game_init(&meta);
+	if (!game_init(&meta))
+	{
+		mlx_terminate(meta.mlx);
+		meta_free(&meta);
+		return EXIT_FAILURE;
+	}
 	mlx_set_cursor_mode(meta.mlx, MLX_MOUSE_HIDDEN);
 	mlx_loop_hook(meta.mlx, game_loop, &meta);
 	mlx_loop_hook(meta.mlx, fps_hook, &meta);

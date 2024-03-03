@@ -15,7 +15,7 @@ RUN_CMD		:= ./$(NAME) test_maps/valid_tex.cub
 # RUN_CMD		:= ./$(NAME) test_maps/small.cub
 
 CFLAGS		+= -Wall -Wextra
-# CFLAGS		+= -g -fsanitize=address
+CFLAGS		+= -g -fsanitize=address
 # CFLAGS		+= -g
 # CFLAGS		+= -Wall -Wextra -Werror
 CFLAGS		+= -Ofast -flto -march=native -fno-fast-math

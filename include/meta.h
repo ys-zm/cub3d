@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/03/03 19:49:53 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/03 20:38:48 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,12 +243,11 @@ int					set_textures(t_attr *attributes);
 /* GAME */
 
 // game.c
-void				game_init(t_meta *meta);
+int				game_init(t_meta *meta);
 void				game_loop(void *param);
 
 // game_init.c
 void				set_player_start_position(t_player *p, char dir);
-void				game_init(t_meta *meta);
 
 // player.c
 t_cell_type			bound_check(const void *param, uint32_t x, uint32_t y);
