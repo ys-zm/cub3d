@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:24:47 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/03 20:59:12 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/03 21:00:35 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,11 @@ int	cub3d(int argc, char **argv)
 	if (init_input(&meta, argv[1]))
 		return (EXIT_FAILURE);
 	init_mlx_images(&meta);
-	// TODO error handling
 	if (!game_init(&meta))
 	{
 		mlx_terminate(meta.mlx);
 		meta_free(&meta);
-		return EXIT_FAILURE;
+		return (EXIT_FAILURE);
 	}
 	mlx_set_cursor_mode(meta.mlx, MLX_MOUSE_HIDDEN);
 	mlx_loop_hook(meta.mlx, game_loop, &meta);

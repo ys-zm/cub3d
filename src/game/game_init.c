@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:26:51 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/03 20:41:54 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/03 20:59:58 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,5 @@ int	game_init(t_meta *meta)
 	p->meta = meta;
 	set_player_start_position(&meta->player, meta->map.player_start_dir);
 	player_move(p, (t_vec2d){0.0, 0.0});
-	return true;
+	return (true);
 }

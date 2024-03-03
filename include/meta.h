@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/03/03 20:55:13 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/03 21:00:47 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,7 +242,7 @@ int					set_textures(t_attr *attributes);
 /* GAME */
 
 // game.c
-int				game_init(t_meta *meta);
+int					game_init(t_meta *meta);
 void				game_loop(void *param);
 
 // game_init.c
