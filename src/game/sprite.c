@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/25 16:01:20 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/03/03 20:21:55 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/03 20:45:58 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ int	init_sprites(uint32_t count, int32_t **sprite_order, double **sprite_dist)
 	*sprite_order = malloc(sizeof(int32_t) * count);
 	if (!*sprite_order)
 		return (pr_err(MALL_ERR), EXIT_FAILURE);
-	// *sprite_dist = malloc(sizeof(double) * count);
-	*sprite_dist = NULL;
+	*sprite_dist = malloc(sizeof(double) * count);
 	if (!*sprite_dist)
 		return (pr_err(MALL_ERR), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
