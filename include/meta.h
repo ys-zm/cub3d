@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/03/03 20:38:48 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/03 20:55:13 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@
 # define PI 3.1415926535
 
 // Window
-# define WINDOW_WIDTH				1920
-# define WINDOW_HEIGHT				1080 
-// # define WINDOW_WIDTH				1280
-// # define WINDOW_HEIGHT				720 
+// # define WINDOW_WIDTH				1920
+// # define WINDOW_HEIGHT				1080 
+# define WINDOW_WIDTH				1280
+# define WINDOW_HEIGHT				720 
 # define BPP						4
 
 // Game
@@ -218,13 +218,12 @@ typedef struct s_minimap {
 }	t_minimap;
 
 typedef struct s_meta {
+	uint32_t	fps;
 	mlx_t		*mlx;
 	mlx_image_t	*image;
-	mlx_image_t	*debug_img;
 	t_timer		update_timer;
 	t_minimap	minimap;
 	t_timer		fps_timer;
-	uint32_t	fps;
 	t_map		map;
 	t_attr		attributes;
 	const char	*scene_name;
