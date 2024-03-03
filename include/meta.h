@@ -243,12 +243,11 @@ int					set_textures(t_attr *attributes);
 /* GAME */
 
 // game.c
-void				game_init(t_meta *meta);
 void				game_loop(void *param);
 
 // game_init.c
 void				set_player_start_position(t_player *p, char dir);
-void				game_init(t_meta *meta);
+int					game_init(t_meta *meta);
 
 // player.c
 t_cell_type			bound_check(const void *param, uint32_t x, uint32_t y);

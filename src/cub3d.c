@@ -87,7 +87,8 @@ int	cub3d(int argc, char **argv)
 		return (EXIT_FAILURE);
 	init_mlx_images(&meta);
 	// TODO error handling
-	game_init(&meta);
+	if (game_init(&meta))
+		return (meta_free(&meta), EXIT_FAILURE);
 	mlx_set_cursor_mode(meta.mlx, MLX_MOUSE_HIDDEN);
 	mlx_loop_hook(meta.mlx, game_loop, &meta);
 	mlx_loop_hook(meta.mlx, fps_hook, &meta);

@@ -53,7 +53,7 @@ void	set_player_start_position(t_player *p, char dir)
 	p->position.y += 0.5;
 }
 
-void	game_init(t_meta *meta)
+int	game_init(t_meta *meta)
 {
 	t_player *const	p = &meta->player;
 
@@ -63,9 +63,10 @@ void	game_init(t_meta *meta)
 		&meta->player.sprite_dist))
 	{
 		// TODO Error
-		return ;
+		return (EXIT_FAILURE);
 	}
 	p->meta = meta;
 	set_player_start_position(&meta->player, meta->map.player_start_dir);
 	player_move(p, (t_vec2d){0.0, 0.0});
+	return (EXIT_SUCCESS);
 }
