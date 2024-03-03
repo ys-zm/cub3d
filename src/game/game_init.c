@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:26:51 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/03 18:57:07 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/03 19:24:16 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <assert.h>
 #include <math.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 static void	set_values(t_player *p, t_vec2d dir, t_vec2d cam)
@@ -60,7 +61,10 @@ void	game_init(t_meta *meta)
 	timer_start(&meta->update_timer);
 	if (init_sprites(meta->attributes.sprite_count, &meta->player.sprite_order, \
 		&meta->player.sprite_dist))
-		UNIMPLEMENTED("sprite initialisation failed\n");
+	{
+		// TODO Error
+		return ;
+	}
 	p->meta = meta;
 	set_player_start_position(&meta->player, meta->map.player_start_dir);
 	player_move(p, (t_vec2d){0.0, 0.0});
