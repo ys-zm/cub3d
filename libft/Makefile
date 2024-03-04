@@ -56,6 +56,7 @@ DIR_STRING = 	ft_split.c \
 				ft_strdup.c \
 				ft_strlen_2d.c \
 				ft_strisempty.c \
+				ft_strcmp_largest.c \
 				ft_strjoin_free.c
 
 DIR_MEM = 		ft_bzero.c \

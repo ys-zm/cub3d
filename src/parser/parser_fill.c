@@ -6,28 +6,30 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/28 13:31:51 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/03/04 11:44:05 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "error.h"
+#include "libft.h"
 #include "meta.h"
+#include <string.h>
 
 char	**get_path(t_attr *attributes, char *flag)
 {
-	if (*flag == 'N')
+	if (!ft_strcmp_largest(flag, "N"))
 		return (&attributes->n.tex_path);
-	if (*flag == 'S')
+	if (!ft_strcmp_largest(flag, "S"))
 		return (&attributes->s.tex_path);
-	if (*flag == 'W')
+	if (!ft_strcmp_largest(flag, "W"))
 		return (&attributes->w.tex_path);
-	if (*flag == 'E')
+	if (!ft_strcmp_largest(flag, "E"))
 		return (&attributes->e.tex_path);
-	if (*flag == 'F')
+	if (!ft_strcmp_largest(flag, "F"))
 		return (&attributes->f.tex_path);
-	if (*flag == 'C')
+	if (!ft_strcmp_largest(flag, "C"))
 		return (&attributes->c.tex_path);
-	if (!ft_strncmp(flag, "C_ALT", 4))
+	if (!ft_strcmp_largest(flag, "C_ALT"))
 		return (&attributes->c_alt.tex_path);
 	return (NULL);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse_elements.c                                   :+:    :+:            */
+/*   parse_elements.c                                  :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/28 16:07:45 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/04 11:45:55 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 t_element_type	check_element_type(char *flag)
 {
 	if (!ft_strncmp(flag, "C", 1) || !ft_strncmp(flag, "F", 1) \
-	|| !ft_strncmp(flag, "C_ALT", 4))
+	|| !ft_strncmp(flag, "C_ALT", 5))
 		return (CEIL_FLOOR);
 	if (is_wall(flag))
 		return (WALL);

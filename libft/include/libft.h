@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /**/
 /*::::::::*/
-/*   libft.h:+:  :+::+:   */
+/*   libft.h                                           :+:    :+:             */
 /* +:+*/
 /*   By: jboeve <jboeve@student.codam.nl> +#+ */
 /*   +#+  */
 /*   Created: 2022/10/12 10:41:54 by jboeve#+##+# */
-/*   Updated: 2023/11/09 18:53:50 by yzaim###   ########.fr   */
+/*   Updated: 2024/03/04 11:42:13 by jboeve        ########   odam.nl         */
 /**/
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int			ft_strlen_2d(char **arr);
 int			ft_strisempty(char *s);
 uint32_t	ft_atoi_hex(const char *s);
 void		*ft_realloc(void *ptr, size_t size_old, size_t size_new);
+
+int	ft_strcmp_largest(const char *s1, const char *s2);
 
 typedef struct s_list
 {

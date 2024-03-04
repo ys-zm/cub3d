@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/03 19:01:48 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/04 11:35:13 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ void	draw_ceil(mlx_image_t *image, t_vray *vray, \
 	}
 	else
 	{
+		// printf("ceiling_c [%]")
 		mlx_put_pixel(image, pos.y, WINDOW_HEIGHT - pos.x - 1, \
 						find_color(attributes->ceiling_c));
 	}

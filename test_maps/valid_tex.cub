@@ -2,10 +2,10 @@ NO texture_examples/purplestone1.png
 WE texture_examples/redbrick.png
 EA texture_examples/redbrick.png
 SO texture_examples/purplestone2.png
-F texture_examples/floor.png
+//F texture_examples/floor.png
+F 255,0,0
 C texture_examples/ceiling_square.png
-//F 0,0,0
-//C 0,0,0
+C_ALT texture_examples/ceiling_square.png
 
 D texture_examples/wood.png
 
