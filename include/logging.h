@@ -1,17 +1,17 @@
 /* ************************************************************************** */
-/**/
-/*   :::::::: */
-/*   logging.h                                           :+:    :+:             */
-/*+:+ */
-/*   By: jboeve <jboeve@student.codam.nl>+#+  */
-/*  +#+   */
-/*   Created: 2023/11/01 20:07:37 by jboeve#+##+# */
-/*   Updated: 2024/03/03 19:51:42 by joppe         ########   odam.nl         */
-/**/
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   logging.h                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: yzaim <yzaim@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/03/04 17:24:48 by yzaim         #+#    #+#                 */
+/*   Updated: 2024/03/04 17:25:20 by yzaim         ########   odam.nl         */
+/*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ERROR_H
-# define ERROR_H
+#ifndef LOGGING_H
+# define LOGGING_H
 
 # define TOO_MANY_PLAYERS "Map should not have more than one player position\n"
 # define INVALID_CHAR "Map has invalid characters\n"
@@ -39,7 +39,8 @@
 # define DR_PATH_ERR "Door path is missing\n"
 # include "meta.h"
 
-typedef enum e_err {
+typedef enum e_err
+{
 	INV_CHAR,
 	INV_EXT,
 	INV_WALLS,
