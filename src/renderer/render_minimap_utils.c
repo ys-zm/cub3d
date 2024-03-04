@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2024/03/01 19:29:06 by joppe         #+#    #+#                 */
-/*   Updated: 2024/03/01 20:03:17 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/04 10:59:39 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,7 @@ t_cell_type	minimap_ray_len(const void *p, uint32_t x, uint32_t y)
 		else
 			return (0);
 	}
-	else
-		UNIMPLEMENTED("Map out of bounds.");
+	return (0);
 }
 
 void	draw_cell(mlx_image_t *image, t_cell_type cell, \
