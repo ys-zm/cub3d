@@ -6,11 +6,12 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2024/03/01 19:29:06 by joppe         #+#    #+#                 */
-/*   Updated: 2024/03/04 10:59:39 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/03/04 17:22:52 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
+#include <stdint.h>
 
 t_rgba	get_cell_color(t_cell_type cell)
 {
@@ -54,10 +55,10 @@ t_cell_type	minimap_ray_len(const void *p, uint32_t x, uint32_t y)
 }
 
 void	draw_cell(mlx_image_t *image, t_cell_type cell, \
-		const uint32_t x, const uint32_t y)
+		const uint32_t x, const uint32_t y, uint32_t size)
 {
 	draw_rect(image, (t_vec2u){x, y}, \
-			(t_vec2u){MINIMAP_CELL_SIZE, MINIMAP_CELL_SIZE}, \
+			(t_vec2u){size, size}, \
 			get_cell_color(cell).value);
 }
 

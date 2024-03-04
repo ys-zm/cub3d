@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:53 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/03 20:48:02 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/04 17:38:12 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ static void	beep_boop(mlx_image_t *image, const t_vec2i image_center, \
 		const t_player *p, const t_map *map)
 {
 	const uint32_t	pp_center_x = image_center.x - \
-					(p->position.x * MINIMAP_CELL_SIZE);
+					(p->position.x * p->meta->minimap.tile_size);
 	const uint32_t	pp_center_y = image_center.y - \
-					(p->position.y * MINIMAP_CELL_SIZE);
+					(p->position.y * p->meta->minimap.tile_size);
 	size_t			loop[2];
 	int32_t			cell_pos[2];
 
@@ -33,13 +33,13 @@ static void	beep_boop(mlx_image_t *image, const t_vec2i image_center, \
 		loop[1] = 0;
 		while (loop[1] < map->height)
 		{
-			cell_pos[0] = pp_center_x + (loop[0] * MINIMAP_CELL_SIZE);
-			cell_pos[1] = pp_center_y + (loop[1] * MINIMAP_CELL_SIZE);
-			if (cell_pos[0] + MINIMAP_CELL_SIZE >= 0 && cell_pos[0] < (int32_t) \
-					image->width && cell_pos[1] + MINIMAP_CELL_SIZE >= 0 \
+			cell_pos[0] = pp_center_x + (loop[0] * p->meta->minimap.tile_size);
+			cell_pos[1] = pp_center_y + (loop[1] * p->meta->minimap.tile_size);
+			if (cell_pos[0] + p->meta->minimap.tile_size >= 0 && cell_pos[0] < (int32_t) \
+					image->width && cell_pos[1] + p->meta->minimap.tile_size >= 0 \
 					&& cell_pos[1] < (int32_t) image->height)
 				draw_cell(image, map->level[(loop[1] * map->width) + \
-						loop[0]], cell_pos[0], cell_pos[1]);
+						loop[0]], cell_pos[0], cell_pos[1], p->meta->minimap.tile_size);
 			loop[1]++;
 		}
 		loop[0]++;
@@ -66,7 +66,7 @@ static void	render_minimap_level(mlx_image_t *image, const t_map *map, \
 		draw_line(image, image_center, vec2d_to_vec2i(vec2d_add((t_vec2d) \
 						{image_center.x, image_center.y}, \
 						vec2d_scalar_product(r->direction, (r->length) * \
-							MINIMAP_CELL_SIZE))), (t_rgba){0x999999FF});
+							p->meta->minimap.tile_size))), (t_rgba){0x999999FF});
 		i++;
 	}
 	draw_rect(image, pos, (t_vec2u){MINIMAP_PLAYER_SIZE, \

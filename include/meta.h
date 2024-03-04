@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   meta.h                                             :+:    :+:            */
+/*   meta.h                                            :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/03/04 17:23:24 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/04 17:36:42 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@
 # define MINIMAP_COLOR_BORDER		0x666666ff
 # define MINIMAP_COLOR_PLAYER		0xd32a04FF
 # define MINIMAP_PLAYER_SIZE 		7
-# define MINIMAP_CELL_SIZE 			24
-
+# define MINIMAP_DEFAULT_ZOOM 		24
+# define MINIMAP_ZOOM_MOD 			1.2
 # define VIEWPORT_COLOR_CEILING		0x000000FF
 # define VIEWPORT_COLOR_FLOOR		0xFFFFFFFF
 # define VIEWPORT_COLOR_WALL_NS		0x4B0082FF
@@ -228,6 +228,7 @@ typedef struct s_minimap
 	mlx_image_t	*ppos_image;
 	mlx_image_t	*fps_image;
 	mlx_image_t	*info_image;
+	size_t 		tile_size;
 }	t_minimap;
 
 typedef struct s_meta

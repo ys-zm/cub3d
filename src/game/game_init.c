@@ -6,12 +6,13 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:26:51 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/03 20:59:58 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/04 17:24:35 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
 #include "meta.h"
+#include "render_minimap.h"
 #include "timer.h"
 #include "vector.h"
 #include <assert.h>
@@ -56,6 +57,8 @@ void	set_player_start_position(t_player *p, char dir)
 int	game_init(t_meta *meta)
 {
 	t_player *const	p = &meta->player;
+
+	minimap_init(&meta->minimap);
 
 	timer_init(&meta->update_timer, mlx_get_time);
 	timer_start(&meta->update_timer);
