@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/04 15:16:04 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/04 17:21:42 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ int	handle_ceil_floor(t_attr *attributes, char *flag, char *content)
 	}
 	else
 	{
-		if (!is_valid_color(content))
-			return (pr_err(COLOR_CODE_WRONG));
 		exit_code = input_colour(attributes, flag, content);
 	}
 	return (exit_code);

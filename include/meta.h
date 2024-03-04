@@ -66,7 +66,8 @@
 
 # define SPRITE_COUNT 2
 
-typedef enum e_cell_type {
+typedef enum e_cell_type
+{
 	MAP_EMPTY,
 	MAP_WALL,
 	MAP_SPACE,
@@ -78,7 +79,8 @@ typedef struct s_meta	t_meta;
 typedef					t_cell_type	(t_ray_hitfunc) (const void *p, \
 						uint32_t x, uint32_t y);
 
-typedef enum e_element_type {
+typedef enum e_element_type
+{
 	INVALID,
 	CEIL_FLOOR,
 	WALL,
@@ -87,7 +89,8 @@ typedef enum e_element_type {
 	NEXT_LVL,
 }	t_element_type;
 
-typedef enum e_font_family {
+typedef enum e_font_family
+{
 	FONT_DEJAVU_14,
 	FONT_MLX,
 	FONT_COMICSANS_13,
@@ -116,14 +119,16 @@ typedef union s_rgba
 	};
 }	t_rgba;
 
-typedef enum e_side {
+typedef enum e_side
+{
 	SIDE_N = 0,
 	SIDE_S = 1,
 	SIDE_E = 2,
 	SIDE_W = 3,
 }	t_side;
 
-typedef struct s_ray {
+typedef struct s_ray
+{
 	t_vec2d		direction;
 	t_vec2d		end;
 	t_vec2i		map_pos;
@@ -138,12 +143,14 @@ typedef struct s_ray {
 	double		step;
 }	t_ray;
 
-typedef struct s_vray {
+typedef struct s_vray
+{
 	t_vec2d		floor;
 	t_vec2d		step;
 }	t_vray;
 
-typedef struct s_player {
+typedef struct s_player
+{
 	t_meta		*meta;
 	t_ray		hrays[WINDOW_WIDTH];
 	t_vray		vrays[WINDOW_HEIGHT];
@@ -157,7 +164,8 @@ typedef struct s_player {
 	double		z_buffer[WINDOW_WIDTH];
 }	t_player;
 
-typedef struct s_map {
+typedef struct s_map
+{
 	char		*map_element;
 	t_cell_type	*level;
 	uint32_t	width;
@@ -173,12 +181,14 @@ typedef struct s_flag
 	struct s_flag	*next;
 }	t_flag;
 
-typedef struct s_tex {
+typedef struct s_tex
+{
 	char			*tex_path;
 	mlx_texture_t	*tex;
 }	t_tex;
 
-typedef struct s_sprite {
+typedef struct s_sprite
+{
 	t_vec2d			pos;
 	t_tex			tex;
 	int32_t			height;
@@ -187,13 +197,15 @@ typedef struct s_sprite {
 	t_vec2d			transform;
 }	t_sprite;
 
-typedef struct s_door {
+typedef struct s_door
+{
 	uint32_t	door_count;
 	t_tex		tex;
 	uint32_t	*idx;
 }	t_door;
 
-typedef struct s_attr {
+typedef struct s_attr
+{
 	t_tex		n;
 	t_tex		s;
 	t_tex		e;
@@ -210,7 +222,8 @@ typedef struct s_attr {
 	t_door		doors;
 }	t_attr;
 
-typedef struct s_minimap {
+typedef struct s_minimap
+{
 	mlx_image_t	*minimap_image;
 	mlx_image_t	*ppos_image;
 	mlx_image_t	*fps_image;
@@ -218,7 +231,8 @@ typedef struct s_minimap {
 	size_t 		tile_size;
 }	t_minimap;
 
-typedef struct s_meta {
+typedef struct s_meta
+{
 	uint32_t	fps;
 	mlx_t		*mlx;
 	mlx_image_t	*image;
@@ -365,9 +379,7 @@ int					save_elements(t_attr *attributes, char *file);
 int					parse_elements(t_meta *meta);
 
 // check_colors.c
-bool				valid_rgb_value(char *file);
-bool				is_valid_color(char *file);
-bool				colors_valid(char *file);
+bool				get_colour_value(char *content, t_rgba *col);
 
 // check_elements.c
 bool				is_valid_element(char *file);
@@ -378,7 +390,6 @@ bool				is_missing(char *file);
 bool				is_duplicate(char *file);
 
 // parse_textures.c
-bool				get_colour_value(char *content, t_rgba *col);
 char				*get_tex_val(char *file);
 bool				is_wall(char *file);
 bool				is_floor_or_ceiling(char *file);

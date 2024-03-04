@@ -8,7 +8,6 @@ C texture_examples/ceiling_square.png
 C_ALT 0,0,255
 
 
-
 D texture_examples/wood.png
 SP texture_examples/pillar.png 4.5 2.5
 SP texture_examples/barrel.png 5.5 3.5

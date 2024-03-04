@@ -15,17 +15,20 @@
 
 # include <stdint.h>
 
-typedef struct s_vec2d {
+typedef struct s_vec2d
+{
 	double	x;
 	double	y;
 }	t_vec2d;
 
-typedef struct s_vec2i {
+typedef struct s_vec2i
+{
 	int32_t	x;
 	int32_t	y;
 }	t_vec2i;
 
-typedef struct s_vec2u {
+typedef struct s_vec2u
+{
 	uint32_t	x;
 	uint32_t	y;
 }	t_vec2u;
