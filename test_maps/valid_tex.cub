@@ -4,8 +4,8 @@ EA texture_examples/redbrick.png
 SO texture_examples/purplestone2.png
 //F texture_examples/floor.png
 F 255,0,0
-C texture_examples/ceiling_square.png
-C_ALT texture_examples/ceiling_square.png
+//C texture_examples/ceiling_square.png
+C_ALT 0,0,255
 
 D texture_examples/wood.png
 

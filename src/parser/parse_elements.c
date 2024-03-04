@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse_elements.c                                  :+:    :+:             */
+/*   parse_elements.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/04 11:45:55 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/03/04 11:49:12 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,16 @@
 // TODO: Add ft_strlen_largest()
 t_element_type	check_element_type(char *flag)
 {
-	if (!ft_strncmp(flag, "C", 1) || !ft_strncmp(flag, "F", 1) \
-	|| !ft_strncmp(flag, "C_ALT", 5))
+	if (!ft_strcmp_largest(flag, "C") || !ft_strcmp_largest(flag, "F") \
+	|| !ft_strcmp_largest(flag, "C_ALT"))
 		return (CEIL_FLOOR);
 	if (is_wall(flag))
 		return (WALL);
-	if (!ft_strncmp(flag, "SP", 3))
+	if (!ft_strcmp_largest(flag, "SP"))
 		return (SPRITE);
-	if (!ft_strncmp(flag, "D", 2))
+	if (!ft_strcmp_largest(flag, "D"))
 		return (DOOR);
-	if (!ft_strncmp(flag, "LVL", 4))
+	if (!ft_strcmp_largest(flag, "LVL"))
 		return (NEXT_LVL);
 	return (INVALID);
 }

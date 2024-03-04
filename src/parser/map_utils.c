@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse_map_utils.c                                  :+:    :+:            */
+/*   map_utils.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:26:06 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/14 12:59:23 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/04 11:48:39 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	map_extension(char *file)
 	compare_len = ft_strlen(dot);
 	if (compare_len < 4)
 		compare_len = 4;
-	if (ft_strncmp(dot, str, compare_len))
+	if (ft_strcmp_largest(dot, str))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

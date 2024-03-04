@@ -6,7 +6,7 @@
 /*   By: yzaim <yzaim@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:56:45 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/14 17:49:31 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/04 12:17:54 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ bool	is_wall(char *file)
 	i = 0;
 	while (i < 4)
 	{
-		if (!ft_strncmp(file, tx[i], 2))
+		if (!ft_strcmp_largest(file, tx[i]))
 			return (true);
 		i++;
 	}

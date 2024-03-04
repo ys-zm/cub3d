@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   sprite_parser.c                                   :+:    :+:             */
+/*   sprite_parser.c                                    :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/03 19:02:09 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/04 11:49:48 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ uint32_t	count_sprites(t_flag *elements)
 	count = 0;
 	while (elements != NULL)
 	{
-		if (!ft_strncmp(elements->flag, "SP", 3))
+		if (!ft_strcmp_largest(elements->flag, "SP"))
 			count++;
 		elements = elements->next;
 	}

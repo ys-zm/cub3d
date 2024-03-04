@@ -36,6 +36,7 @@ int			ft_tolower(int c);
 char		*ft_strchr(const char *s, int c);
 char		*ft_strrchr(const char *s, int c);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
+int			ft_strcmp_largest(const char *s1, const char *s2);
 void		*ft_memchr(const void *s, int c, size_t n);
 int			ft_memcmp(const void *s1, const void *s2, size_t n);
 char		*ft_strnstr(const char *s1, const char *s2, size_t n);
@@ -59,8 +60,6 @@ int			ft_strlen_2d(char **arr);
 int			ft_strisempty(char *s);
 uint32_t	ft_atoi_hex(const char *s);
 void		*ft_realloc(void *ptr, size_t size_old, size_t size_new);
-
-int	ft_strcmp_largest(const char *s1, const char *s2);
 
 typedef struct s_list
 {

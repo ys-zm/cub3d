@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/14 17:13:55 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/04 11:47:56 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ bool	is_duplicate_flag(t_flag *elements, char *key)
 {
 	while (elements != NULL)
 	{
-		if (!ft_strncmp(elements->flag, key, ft_strlen(key) + 1))
+		if (!ft_strcmp_largest(elements->flag, key))
 			return (true);
 		elements = elements->next;
 	}

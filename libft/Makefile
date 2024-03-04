@@ -48,7 +48,7 @@ DIR_STRING = 	ft_split.c \
 				ft_strlcpy.c \
 				ft_strlen.c \
 				ft_strmapi.c \
-				ft_strncmp.c \
+				ft_strcmp_largest.c \
 				ft_strnstr.c \
 				ft_strrchr.c \
 				ft_strtrim.c \

@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:33:58 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/14 17:42:12 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/04 11:47:29 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ bool	is_valid_element(char *file)
 	i = 0;
 	while (i < 6)
 	{
-		if (!ft_strncmp(file, el[i], ft_strlen(el[i]) + 1))
+		if (!ft_strcmp_largest(file, el[i]))
 		{
 			return (true);
 		}
