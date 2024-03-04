@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/03/04 17:36:42 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/03/04 17:53:14 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@
 # define VIEWPORT_COLOR_WALL_EW		0x8A30E2FF
 
 # define FOV 0.85
-
-# define SPRITE_COUNT 2
 
 typedef enum e_cell_type
 {
@@ -228,7 +226,7 @@ typedef struct s_minimap
 	mlx_image_t	*ppos_image;
 	mlx_image_t	*fps_image;
 	mlx_image_t	*info_image;
-	size_t 		tile_size;
+	size_t		tile_size;
 }	t_minimap;
 
 typedef struct s_meta

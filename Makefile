@@ -66,6 +66,7 @@ SRCS	= 		parser/check_elements.c \
 				game/sprite_sort.c \
 				game/sort_utils.c \
 				renderer/render_minimap.c \
+				renderer/minimap_interact.c \
 				renderer/render_minimap_utils.c \
 				renderer/render_viewport.c \
 				renderer/pixel_picker.c \

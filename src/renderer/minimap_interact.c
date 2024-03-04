@@ -6,13 +6,13 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2024/03/04 17:37:55 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/03/04 17:38:18 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/03/04 17:41:13 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "render_minimap.h"
 
-void minimap_zoom(t_minimap *m, t_minimap_zoom dir)
+void	minimap_zoom(t_minimap *m, t_minimap_zoom dir)
 {
 	size_t	tmp;
 
@@ -30,10 +30,9 @@ void minimap_zoom(t_minimap *m, t_minimap_zoom dir)
 		if (m->tile_size > tmp)
 			m->tile_size = tmp;
 	}
-		
 }
 
-void minimap_init(t_minimap *map)
+void	minimap_init(t_minimap *map)
 {
 	map->tile_size = MINIMAP_DEFAULT_ZOOM;
 }

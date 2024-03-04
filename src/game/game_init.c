@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:26:51 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/04 17:24:35 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/03/04 17:40:58 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ int	game_init(t_meta *meta)
 	t_player *const	p = &meta->player;
 
 	minimap_init(&meta->minimap);
-
 	timer_init(&meta->update_timer, mlx_get_time);
 	timer_start(&meta->update_timer);
 	if (init_sprites(meta->attributes.sprite_count, &meta->player.sprite_order, \
