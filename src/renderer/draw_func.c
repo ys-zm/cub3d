@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/04 12:26:16 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/04 14:11:22 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ void	draw_floor(mlx_image_t *image, t_vray *vray, \
 	}
 }
 
-int32_t	col_ceiling_tex(mlx_texture_t *tex, t_vray *vray, t_vec2i pos, t_vec2i cell)
+int32_t	col_ceiling_tex(mlx_texture_t *tex, t_vray *vray, \
+						t_vec2i pos, t_vec2i cell)
 {
 	t_vec2i			c_t;
 
@@ -103,31 +104,22 @@ void	draw_ceil(mlx_image_t *image, t_vray *vray, \
 
 	c_tex = attributes->c.tex;
 	c_alt_tex = attributes->c_alt.tex;
-	
 	if (cell.y % 2 && cell.x % 2 && (c_alt_tex || attributes->ceil_alt_c.a))
 	{
 		if (c_alt_tex)
 			mlx_put_pixel(image, pos.y, WINDOW_HEIGHT - pos.x - 1, \
 			col_ceiling_tex(c_alt_tex, vray, pos, cell));
 		else if (attributes->ceil_alt_c.a)
-		{
-			int32_t color = find_color(attributes->ceil_alt_c);
-			color = 0xffAABBFF;
 			mlx_put_pixel(image, pos.y, WINDOW_HEIGHT - pos.x - 1, \
-						color);
-		}
+						find_color(attributes->ceil_alt_c));
 	}
 	else
 	{
 		if (c_tex)
-		{
 			mlx_put_pixel(image, pos.y, WINDOW_HEIGHT - pos.x - 1, \
 							col_ceiling_tex(c_tex, vray, pos, cell));
-		}
 		else
-		{
 			mlx_put_pixel(image, pos.y, WINDOW_HEIGHT - pos.x - 1, \
 						find_color(attributes->ceiling_c));
-		}
 	}
 }
