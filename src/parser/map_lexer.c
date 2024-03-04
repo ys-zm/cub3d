@@ -6,12 +6,12 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/04 12:37:38 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/04 17:10:55 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
-#include "error.h"
+#include "logging.h"
 #include <stdio.h>
 
 // returns true if the next line only has spaces
@@ -73,7 +73,7 @@ int	input_map_lexer(char *file, t_map *map)
 	if (*file)
 	{
 		i = end_of_map(file);
-		map->map_element = ft_substr(file, 0, i);
+		map->map_element = ft_substr(file, 0, i + 1);
 		if (!map->map_element)
 			return (pr_err(MALL_ERR));
 		return (EXIT_SUCCESS);

@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   lexer_test_utils.c                                :+:    :+:             */
+/*   lexer_test_utils.c                                 :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/14 17:42:37 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/04 15:16:04 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
-#include "error.h"
+#include "logging.h"
 
 void	print_lexer_map(t_map *map)
 {

@@ -6,12 +6,12 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:42:38 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/04 12:52:09 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/04 15:16:04 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
-#include "error.h"
+#include "logging.h"
 #include <stdio.h>
 
 /* valid chars : 1, 0, N, S, E, W */

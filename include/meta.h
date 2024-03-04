@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   meta.h                                            :+:    :+:             */
+/*   meta.h                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/03/03 21:00:47 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/04 15:23:40 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -377,7 +377,7 @@ bool				is_missing(char *file);
 bool				is_duplicate(char *file);
 
 // parse_textures.c
-void				get_colour_value(char *file, t_rgba *col);
+bool				get_colour_value(char *content, t_rgba *col);
 char				*get_tex_val(char *file);
 bool				is_wall(char *file);
 bool				is_floor_or_ceiling(char *file);

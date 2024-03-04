@@ -6,12 +6,12 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/04 14:10:40 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/04 15:16:04 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
-#include "error.h"
+#include "logging.h"
 
 t_flag	*create_new_node(char *file)
 {
@@ -83,6 +83,8 @@ int	lex(char *file, t_map *map, t_flag **elements)
 			return (EXIT_FAILURE);
 		skip_line(&file, skip);
 	}
+	if (!map->map_element)
+		return (pr_err(MISSING_MAP));
 	return (EXIT_SUCCESS);
 }
 

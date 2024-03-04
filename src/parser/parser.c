@@ -10,7 +10,7 @@
 /**/
 /* ************************************************************************** */
 
-#include "error.h"
+#include "logging.h"
 
 bool	out_of_bounds(t_vec2d pos, uint32_t w, uint32_t h)
 {

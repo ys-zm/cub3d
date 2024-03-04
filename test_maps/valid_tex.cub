@@ -2,24 +2,11 @@ NO texture_examples/purplestone1.png
 WE texture_examples/redbrick.png
 EA texture_examples/redbrick.png
 SO texture_examples/purplestone2.png
-F texture_examples/floor.png
-C texture_examples/ceiling_square.png
-C_ALT 0,0,255
+F 100,       100, 			100
+C_ALT texture_examples/ceiling_square.png
+C 255,255,255
 
 
-D texture_examples/wood.png
-SP texture_examples/pillar.png 4.5 2.5
-SP texture_examples/barrel.png 5.9 3.9
-SP texture_examples/sexy.png 2.5 2.5
-SP texture_examples/hoofd.png 2.5 3.5
-
-11111111111111
-1000010001
-1000010001
-100001D101111111
-1111000010000001
-1001000001101111
-100D00N00D000111
-1001000000011111
-11110000011
-1111111111
+11111
+10N01
+11111

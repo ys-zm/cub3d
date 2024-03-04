@@ -6,12 +6,12 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/04 11:49:12 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/04 15:16:04 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
-#include "error.h"
+#include "logging.h"
 
 // TODO: Add ft_strlen_largest()
 t_element_type	check_element_type(char *flag)

@@ -6,12 +6,12 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/04 12:52:39 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/04 15:16:04 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
-#include "error.h"
+#include "logging.h"
 
 t_cell_type	find_enum_value(char c)
 {

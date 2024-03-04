@@ -6,13 +6,13 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:24:47 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/04 12:49:40 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/04 15:16:04 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
 #include "meta.h"
-#include "error.h"
+#include "logging.h"
 #include <stdatomic.h>
 #include <stdint.h>
 #include <stdlib.h>

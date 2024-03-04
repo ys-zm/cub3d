@@ -6,27 +6,65 @@
 /*   By: yzaim <yzaim@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:56:45 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/04 12:17:54 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/04 17:05:40 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "error.h"
+#include "logging.h"
+
+bool	valid_colour(char *content)
+{
+	size_t	commas;
+
+	commas = 0;
+	while (*content)
+	{
+		if (*content == ',')
+			commas++;
+		if (!ft_isdigit(*content) && *content != ',' && *content != ' ' && *content != '\t')
+			return (false);
+		content++;
+	}
+	return (commas == 2);
+}
+
+void	free_2d_array(char **arr)
+{
+	size_t	i;
+
+	i = 0;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+}
 
 // saves the RGB values of the F and C elements
-void	get_colour_value(char *content, t_rgba *col)
+bool	get_colour_value(char *content, t_rgba *col)
 {
-	col->r = ft_atoi(content);
-	while (*content && *content != ',')
-		content++;
-	if (*content == ',')
-		content++;
-	col->g = ft_atoi(content);
-	while (*content && *content != ',')
-		content++;
-	if (*content == ',')
-		content++;
-	col->b = ft_atoi(content);
-	col->a = 255;
+	uint8_t	*ptr;
+	char	**arr;
+	int32_t	tmp;
+	int		i;
+
+	if (!valid_colour(content))
+		return (false);
+	arr = ft_split(content, ',');
+	i = 0;
+	ptr = (uint8_t *) col;
+	ptr[0] = 255;
+	while (i < 3)
+	{
+		tmp = ft_atoi(arr[i]);
+		if (tmp < 0 || tmp > 255)
+			return (free_2d_array(arr), false);
+		ptr[i + 1] = tmp;
+		i++;
+	}
+	free_2d_array(arr);
+	return (true);
 }
 
 // mallocs the paths to NO, SO, WE, EA elements

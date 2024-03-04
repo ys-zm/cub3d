@@ -45,7 +45,7 @@ SRCS	= 		parser/check_elements.c \
 				parser/parser_fill.c \
 				parser/lexer_test_utils.c \
 				parser/door_parser.c \
-				utils/error.c \
+				utils/logging.c \
 				utils/free.c \
 				utils/colors.c \
 				game/game.c \
@@ -83,7 +83,7 @@ HEADER_DIR	:=	include
 HEADERS 	:=	meta.h \
 				timer.h \
 				vector.h \
-				error.h
+				logging.h
 
 OBJ_DIR		:=	obj
 

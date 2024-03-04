@@ -6,11 +6,11 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:26:06 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/04 11:48:39 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/04 15:16:04 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "error.h"
+#include "logging.h"
 
 bool	is_map_line(char *file)
 {

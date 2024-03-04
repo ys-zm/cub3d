@@ -6,11 +6,11 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/04 12:00:37 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/04 15:26:41 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "error.h"
+#include "logging.h"
 #include "libft.h"
 #include "meta.h"
 #include <string.h>
@@ -59,6 +59,10 @@ int	input_colour(t_attr *attributes, char *flag, char *content)
 		col_path = &attributes->ceil_alt_c;
 	else
 		col_path = &attributes->ceiling_c;
-	get_colour_value(content, col_path);
+	if (!get_colour_value(content, col_path))
+	{
+		printf("invalid color value in \"%s\"\n", content);
+		return (EXIT_FAILURE);
+	}
 	return (EXIT_SUCCESS);
 }

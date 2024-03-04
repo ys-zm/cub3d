@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "meta.h"
-#include "error.h"
+#include "logging.h"
 #include <stdio.h>
 
 int	pr(char *err, int exit_code)

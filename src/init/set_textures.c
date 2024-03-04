@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   set_textures.c                                    :+:    :+:             */
+/*   set_textures.c                                     :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <yzaim@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:56:45 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/03 19:01:22 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/04 15:16:04 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "error.h"
+#include "logging.h"
 #include "meta.h"
 #include <stdio.h>
 
