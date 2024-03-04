@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   free.c                                            :+:    :+:             */
+/*   free.c                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <yzaim@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:53:55 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/09 15:00:13 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/04 12:48:47 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,6 @@ void	meta_free(t_meta *meta)
 	free_t_sprites(&meta->attributes.sprites, meta->attributes.sprite_count);
 	free(meta->player.sprite_dist);
 	free(meta->player.sprite_order);
+	free(meta->map.map_element);
+	free_t_flag_list(&meta->elements);
 }

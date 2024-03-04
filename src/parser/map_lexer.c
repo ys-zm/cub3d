@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   map_lexer.c                                       :+:    :+:             */
+/*   map_lexer.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/28 14:08:22 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/03/04 12:37:38 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	input_map_lexer(char *file, t_map *map)
 	return (pr_err(MISSING_MAP));
 }
 
-/* map_lex returns an error if 
+/* map_lex returns an error if
 1) the map element exists already (that means there are two maps in the file)
 2) if the map element is reached before mandatory elements
  are found (N, S, E, W)*/

@@ -54,6 +54,5 @@ int	parser(t_meta *meta)
 	if (sprites_coordinates(meta->attributes.sprite_count, \
 			meta->attributes.sprites, meta->map.width, meta->map.height))
 		return (pr_err(SP_COORD), EXIT_FAILURE);
-	free(meta->map.map_element);
 	return (EXIT_SUCCESS);
 }
