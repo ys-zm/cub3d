@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   door_checker.c                                     :+:    :+:            */
+/*   door_checker.c                                    :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:42:38 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/05 12:14:24 by yesimzaim     ########   odam.nl         */
+/*   Updated: 2024/03/05 17:16:08 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ bool	check_valid_doors(t_meta *meta, char *map)
 		x = 0;
 		while (x < meta->map.width)
 		{
-			if (map[find_index(meta, x, y)] == '3' || map[find_index(meta, x, y)] == 'D')
+			if (map[find_index(meta, x, y)] == '3' || \
+				map[find_index(meta, x, y)] == 'D')
 			{
 				if (!is_valid_dr(meta, map, x, y))
 					return (false);
