@@ -65,8 +65,7 @@ DIR_MEM = 		ft_bzero.c \
 				ft_memcmp.c \
 				ft_memcpy.c \
 				ft_memmove.c \
-				ft_memset.c \
-				ft_realloc.c
+				ft_memset.c
 
 DIR_PUT = 		ft_putchar_fd.c \
 				ft_putendl_fd.c \

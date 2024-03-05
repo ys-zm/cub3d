@@ -6,17 +6,17 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2024/03/04 11:42:00 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/03/04 11:42:47 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/03/05 17:07:56 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <string.h>
 
-static size_t strlen_largest(const char *s1, const char *s2)
+static size_t	strlen_largest(const char *s1, const char *s2)
 {
-	const size_t l1 = ft_strlen(s1);
-	const size_t l2 = ft_strlen(s2);
+	const size_t	l1 = ft_strlen(s1);
+	const size_t	l2 = ft_strlen(s2);
 
 	if (l1 > l2)
 		return (l1);
@@ -35,4 +35,3 @@ int	ft_strcmp_largest(const char *s1, const char *s2)
 		return (0);
 	return ((unsigned char) s1[i] - (unsigned char) s2[i]);
 }
-
