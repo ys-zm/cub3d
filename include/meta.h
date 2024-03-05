@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   meta.h                                            :+:    :+:             */
+/*   meta.h                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/03/04 17:53:14 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/03/05 11:54:42 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -354,6 +354,9 @@ int					flood_fill(t_meta *meta, char *map, int x, int y);
 bool				save_start_pos(t_meta *meta, char *map);
 bool				is_floor_exposed(t_meta *meta, char *map);
 int					check_map(t_meta *meta, char *rect);
+
+// door_checker.c
+bool				check_valid_doors(t_meta *meta, char *map);
 
 // map_parser.c
 t_cell_type			find_enum_value(char c);

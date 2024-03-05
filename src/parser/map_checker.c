@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:42:38 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/04 15:16:04 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/05 12:00:00 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,8 @@ int	check_map(t_meta *meta, char *rect)
 		return (pr_err(INV_WALLS));
 	if (is_floor_exposed(meta, rect))
 		return (pr_err(OUT_OF_BOUNDS));
+	if (!check_valid_doors(meta, rect))
+		return (pr_err(INV_DOOR));
 	if (!save_map(meta, rect))
 		return (pr_err(MALL_ERR));
 	return (EXIT_SUCCESS);
