@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/04 15:16:04 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/05 12:14:48 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_cell_type	find_enum_value(char c)
 	{
 		return (MAP_WALL);
 	}
-	else if (c == '3')
+	else if (c == '3' || c == 'D')
 		return (MAP_DOOR_CLOSED);
 	else
 	{

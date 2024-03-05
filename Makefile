@@ -45,6 +45,7 @@ SRCS	= 		parser/check_elements.c \
 				parser/parser_fill.c \
 				parser/lexer_test_utils.c \
 				parser/door_parser.c \
+				parser/door_checker.c \
 				utils/logging.c \
 				utils/free.c \
 				utils/colors.c \
