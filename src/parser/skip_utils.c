@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   skip_utils.c                                      :+:    :+:             */
+/*   skip_utils.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/28 13:38:52 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/03/04 14:55:04 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	skip_line(char **file, int to_skip)
 // skips all spaces in a line
 void	skip_spaces(char **file)
 {
-	while (file && *file && **file && (**file == ' ' || **file == 9))
+	while (file && *file && **file && (**file == ' ' || **file == '\t'))
 		(*file)++;
 }
 

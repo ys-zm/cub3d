@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   set_textures.c                                    :+:    :+:             */
+/*   set_textures.c                                     :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <yzaim@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:56:45 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/01 16:33:26 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/03/04 15:16:04 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "error.h"
+#include "logging.h"
 #include "meta.h"
 #include <stdio.h>
 
@@ -39,7 +39,7 @@ int	set_floor_and_ceiling_textures(t_attr *attributes)
 
 int	set_sprite_textures(uint32_t sprite_count, t_sprite *sprites)
 {
-	int	i;
+	size_t	i;
 
 	if (sprite_count)
 	{

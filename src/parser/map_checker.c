@@ -6,12 +6,12 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:42:38 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/28 16:20:10 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/04 15:16:04 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
-#include "error.h"
+#include "logging.h"
 #include <stdio.h>
 
 /* valid chars : 1, 0, N, S, E, W */
@@ -44,12 +44,15 @@ int	flood_fill(t_meta *meta, char *map, int x, int y)
 		x >= (int)meta->map.width)
 		return (1);
 	if (map[find_index(meta, x, y)] == '1' || \
-		map[find_index(meta, x, y)] == '2')
+		map[find_index(meta, x, y)] == '2' || \
+		map[find_index(meta, x, y)] == '3')
 		return (0);
 	if (map[find_index(meta, x, y)] == ' ')
 		return (1);
 	if (map[find_index(meta, x, y)] == '0')
 		map[find_index(meta, x, y)] = '2';
+	if (map[find_index(meta, x, y)] == 'D')
+		map[find_index(meta, x, y)] = '3';
 	ret += flood_fill(meta, map, x + 1, y);
 	ret += flood_fill(meta, map, x - 1, y);
 	ret += flood_fill(meta, map, x, y + 1);

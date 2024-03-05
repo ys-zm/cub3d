@@ -6,13 +6,12 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:27:23 by yzaim             #+#    #+#             */
-/*   Updated: 2024/03/01 12:51:21 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/03/03 18:57:01 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
 #include "libft.h"
-#include "test_utils.h"
 #include "meta.h"
 #include "vector.h"
 #include <math.h>

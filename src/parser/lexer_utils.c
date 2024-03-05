@@ -6,18 +6,18 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/14 17:13:55 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/04 17:09:54 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
-#include "error.h"
+#include "logging.h"
 
 bool	is_duplicate_flag(t_flag *elements, char *key)
 {
 	while (elements != NULL)
 	{
-		if (!ft_strncmp(elements->flag, key, ft_strlen(key) + 1))
+		if (!ft_strcmp_largest(elements->flag, key))
 			return (true);
 		elements = elements->next;
 	}
@@ -64,7 +64,7 @@ char	*get_key(char *file)
 	char	*key;
 
 	i = 0;
-	while ((file[i] != ' ' && file[i] != '\t') && file[i] != '\n')
+	while (file[i] && (file[i] != ' ' && file[i] != '\t') && file[i] != '\n')
 		i++;
 	if (i)
 	{
@@ -84,9 +84,9 @@ char	*get_val(char *file)
 
 	i = 0;
 	j = 0;
-	while ((file[j] != ' ' && file[j] != '\t') && file[j] != '\n')
+	while (file[j] && (file[j] != ' ' && file[j] != '\t') && file[j] != '\n')
 		j++;
-	while ((file[j] == ' ' || file[j] == '\t') && file[j] != '\n')
+	while (file[j] && (file[j] == ' ' || file[j] == '\t') && file[j] != '\n')
 		j++;
 	i = j;
 	while (file[j] && file[j] != '\n')

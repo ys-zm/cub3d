@@ -6,11 +6,12 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/28 16:04:42 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/04 15:16:04 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "error.h"
+#include "logging.h"
+#include "stdbool.h"
 
 char	*find_sprite_val(char **content)
 {
@@ -22,7 +23,7 @@ char	*find_sprite_val(char **content)
 	c = *content;
 	while (c[i] != '\0')
 	{
-		if (c[i] == ' ')
+		if (c[i] == ' ' || c[i] == '\t')
 		{
 			break ;
 		}
@@ -44,7 +45,6 @@ int	input_sprite_data(t_sprite **sprites_array, \
 								uint32_t *i, char *content)
 {
 	t_sprite	*arr;
-	char		*tex_path;
 	char		*pos_x;
 	char		*pos_y;
 
@@ -83,7 +83,7 @@ uint32_t	count_sprites(t_flag *elements)
 	count = 0;
 	while (elements != NULL)
 	{
-		if (!ft_strncmp(elements->flag, "SP", 3))
+		if (!ft_strcmp_largest(elements->flag, "SP"))
 			count++;
 		elements = elements->next;
 	}
@@ -94,16 +94,23 @@ bool	valid_sprite_content(char *content)
 {
 	uint32_t	content_count;
 	uint16_t	i;
+	bool		word;
 
 	i = 0;
 	content_count = 0;
+	word = false;
 	while (content[i])
 	{
-		if (content[i] == ' ')
+		if (content[i] != ' ' && content[i] != '\t' && content[i] != '\0')
+			word = true;
+		if ((content[i] == ' ' || content[i] == '\t') && word)
+		{
 			content_count++;
+			word = false;
+		}
 		i++;
 	}
-	if (content[i] == '\0')
+	if (word && content[i] == '\0')
 		content_count++;
 	if (content_count == 3)
 		return (true);

@@ -6,28 +6,11 @@
 /*   By: yzaim <yzaim@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:56:45 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/14 17:49:31 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/04 17:19:56 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "error.h"
-
-// saves the RGB values of the F and C elements
-void	get_colour_value(char *content, t_rgba *col)
-{
-	col->r = ft_atoi(content);
-	while (*content && *content != ',')
-		content++;
-	if (*content == ',')
-		content++;
-	col->g = ft_atoi(content);
-	while (*content && *content != ',')
-		content++;
-	if (*content == ',')
-		content++;
-	col->b = ft_atoi(content);
-	col->a = 255;
-}
+#include "logging.h"
 
 // mallocs the paths to NO, SO, WE, EA elements
 char	*get_tex_val(char *file)
@@ -58,7 +41,7 @@ bool	is_wall(char *file)
 	i = 0;
 	while (i < 4)
 	{
-		if (!ft_strncmp(file, tx[i], 2))
+		if (!ft_strcmp_largest(file, tx[i]))
 			return (true);
 		i++;
 	}

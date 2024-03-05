@@ -6,13 +6,14 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:07 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/01 16:43:55 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/03/04 17:30:32 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
 #include "libft.h"
 #include "meta.h"
+#include "render_minimap.h"
 #include "vector.h"
 #include <math.h>
 #include <stdint.h>
@@ -80,12 +81,18 @@ void	keys_handle(t_meta *meta, double delta_time)
 		rotate_speed /= PLAYER_ROTATE_MODIFIER;
 	if (mlx_is_key_down(meta->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(meta->mlx);
-	if (mlx_is_key_down(meta->mlx, MLX_KEY_Q))
+	if (mlx_is_key_down(meta->mlx, MLX_KEY_Q) || \
+		mlx_is_key_down(meta->mlx, MLX_KEY_LEFT))
 		player_turn(p, -rotate_speed);
-	if (mlx_is_key_down(meta->mlx, MLX_KEY_E))
+	if (mlx_is_key_down(meta->mlx, MLX_KEY_E) || \
+		mlx_is_key_down(meta->mlx, MLX_KEY_RIGHT))
 		player_turn(p, rotate_speed);
 	if (key_pressed(meta, MLX_KEY_F))
 		player_interact(p);
+	if (key_pressed(meta, MLX_KEY_EQUAL))
+		minimap_zoom(&meta->minimap, ZOOM_IN);
+	if (key_pressed(meta, MLX_KEY_MINUS))
+		minimap_zoom(&meta->minimap, ZOOM_OUT);
 	keys_handle_move(meta, delta_time);
 }
 

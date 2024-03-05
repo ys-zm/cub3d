@@ -6,69 +6,64 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/14 13:01:18 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/04 17:20:39 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "error.h"
+#include "logging.h"
 
-// check if color code values are between 0-255
-bool	valid_rgb_value(char *file)
+static bool	valid_colour(char *content)
 {
-	int	i;
+	size_t	commas;
+
+	commas = 0;
+	while (*content)
+	{
+		if (*content == ',')
+			commas++;
+		if (!ft_isdigit(*content) && *content != ',' && \
+				*content != ' ' && *content != '\t')
+			return (false);
+		content++;
+	}
+	return (commas == 2);
+}
+
+static void	free_2d_array(char **arr)
+{
+	size_t	i;
 
 	i = 0;
-	skip_spaces(&file);
-	while (file[i] && ft_isdigit(file[i]))
+	while (arr[i])
+	{
+		free(arr[i]);
 		i++;
-	if (!i)
-		return (false);
-	if (i > 3)
-		return (false);
-	if (i == 3)
-	{
-		if (file[0] > '2')
-			return (false);
-		if (file[0] == '2' && file[1] > '5')
-			return (false);
-		if (file[0] == '2' && file[1] == '5' && file[2] > '5')
-			return (false);
 	}
-	return (true);
+	free(arr);
 }
 
-bool	is_valid_color(char *file)
+// saves the RGB values of the F and C elements
+bool	get_colour_value(char *content, t_rgba *col)
 {
-	int	i;
+	uint8_t	*ptr;
+	char	**arr;
+	int32_t	tmp;
+	int		i;
 
+	if (!valid_colour(content))
+		return (false);
+	arr = ft_split(content, ',');
 	i = 0;
-	if (*file && (*file == 'F' || *file == 'C'))
+	ptr = (uint8_t *) col;
+	ptr[0] = 255;
+	while (i < 3)
 	{
-		file++;
-		while (i < 3)
-		{
-			skip_spaces(&file);
-			if (!valid_rgb_value(file))
-				return (pr_err(COLOR_CODE_WRONG), false);
-			skip_digits(&file);
-			i++;
-		}
+		tmp = ft_atoi(arr[i]);
+		if (tmp < 0 || tmp > 255)
+			return (free_2d_array(arr), false);
+		ptr[i + 1] = tmp;
+		i++;
 	}
-	return (true);
-}
-
-bool	colors_valid(char *file)
-{
-	while (*file)
-	{
-		skip_spaces(&file);
-		if (is_valid_element(file))
-		{
-			if (!is_path(file) && is_floor_or_ceiling(file) && \
-				!is_valid_color(file))
-				return (false);
-		}
-		skip_line(&file, 1);
-	}
+	free_2d_array(arr);
 	return (true);
 }
