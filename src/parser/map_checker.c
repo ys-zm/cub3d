@@ -104,6 +104,34 @@ bool	is_floor_exposed(t_meta *meta, char *map)
 	return (false);
 }
 
+bool	check_valid_doors(t_meta *meta, char *map)
+{
+	uint32_t	x;
+	uint32_t	y;
+
+	y = 0;
+	printf("!!!!\n");
+	while (y < meta->map.height)
+	{
+		x = 0;
+		while (x < meta->map.width)
+		{
+			if (map[find_index(meta, x, y)] == '3')
+			{
+				printf("found doors\n");
+				if (x == 0 || x == meta->map.width - 1 || y == 0 || y == meta->map.height - 1)
+					return (false);
+				if ((map[find_index(meta, x + 1, y)] != '1' && map[find_index(meta, x - 1, y)] != '1') || \
+					(map[find_index(meta, x, y + 1)] != '1' && map[find_index(meta, x, y + 1)] != '1'))
+					return (false);
+			}
+			x++;
+		}
+		y++;
+	}
+	return (true);
+}
+
 int	check_map(t_meta *meta, char *rect)
 {
 	uint32_t	start_x;
@@ -120,6 +148,12 @@ int	check_map(t_meta *meta, char *rect)
 		return (pr_err(INV_WALLS));
 	if (is_floor_exposed(meta, rect))
 		return (pr_err(OUT_OF_BOUNDS));
+	if (!check_valid_doors(meta, rect))
+	{
+		printf("doors need to be next to walls\n");
+		return (EXIT_FAILURE);
+	}
+
 	if (!save_map(meta, rect))
 		return (pr_err(MALL_ERR));
 	return (EXIT_SUCCESS);
