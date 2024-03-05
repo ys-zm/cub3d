@@ -1,33 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   cub3d.c                                           :+:    :+:             */
+/*   cub3d.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:24:47 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/29 21:15:12 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/04 15:16:04 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
 #include "meta.h"
-#include "error.h"
+#include "logging.h"
+#include <stdatomic.h>
 #include <stdint.h>
+#include <stdlib.h>
 
 static void	fps_hook(void *param)
 {
 	static uint32_t	fps;
 	t_meta			*meta;
 
-	fps = 0;
 	meta = param;
 	if (!(meta->fps_timer.time_func))
+	{
+		fps = 0;
 		timer_init(&meta->fps_timer, mlx_get_time);
+	}
 	if (timer_delta(&meta->fps_timer) >= 1)
 	{
 		meta->fps = fps;
-		printf("FPS: [%u]\n", fps);
+		printf("FPS: [%u]\n", meta->fps);
 		timer_start(&meta->fps_timer);
 		fps = 0;
 	}
@@ -86,7 +90,12 @@ int	cub3d(int argc, char **argv)
 	if (init_input(&meta, argv[1]))
 		return (EXIT_FAILURE);
 	init_mlx_images(&meta);
-	game_init(&meta);
+	if (!game_init(&meta))
+	{
+		mlx_terminate(meta.mlx);
+		meta_free(&meta);
+		return (EXIT_FAILURE);
+	}
 	mlx_set_cursor_mode(meta.mlx, MLX_MOUSE_HIDDEN);
 	mlx_loop_hook(meta.mlx, game_loop, &meta);
 	mlx_loop_hook(meta.mlx, fps_hook, &meta);

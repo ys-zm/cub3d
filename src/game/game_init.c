@@ -6,19 +6,20 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:26:51 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/29 15:28:27 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/04 17:40:58 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "MLX42/MLX42.h"
 #include "meta.h"
+#include "render_minimap.h"
 #include "timer.h"
 #include "vector.h"
 #include <assert.h>
 #include <math.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <unistd.h>
-#include "test_utils.h"
 
 static void	set_values(t_player *p, t_vec2d dir, t_vec2d cam)
 {
@@ -53,16 +54,20 @@ void	set_player_start_position(t_player *p, char dir)
 	p->position.y += 0.5;
 }
 
-void	game_init(t_meta *meta)
+int	game_init(t_meta *meta)
 {
 	t_player *const	p = &meta->player;
 
+	minimap_init(&meta->minimap);
 	timer_init(&meta->update_timer, mlx_get_time);
 	timer_start(&meta->update_timer);
 	if (init_sprites(meta->attributes.sprite_count, &meta->player.sprite_order, \
 		&meta->player.sprite_dist))
-		UNIMPLEMENTED("sprite initialisation failed\n");
+	{
+		return (false);
+	}
 	p->meta = meta;
 	set_player_start_position(&meta->player, meta->map.player_start_dir);
 	player_move(p, (t_vec2d){0.0, 0.0});
+	return (true);
 }

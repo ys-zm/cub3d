@@ -48,7 +48,7 @@ DIR_STRING = 	ft_split.c \
 				ft_strlcpy.c \
 				ft_strlen.c \
 				ft_strmapi.c \
-				ft_strncmp.c \
+				ft_strcmp_largest.c \
 				ft_strnstr.c \
 				ft_strrchr.c \
 				ft_strtrim.c \
@@ -56,6 +56,7 @@ DIR_STRING = 	ft_split.c \
 				ft_strdup.c \
 				ft_strlen_2d.c \
 				ft_strisempty.c \
+				ft_strcmp_largest.c \
 				ft_strjoin_free.c
 
 DIR_MEM = 		ft_bzero.c \
@@ -64,8 +65,7 @@ DIR_MEM = 		ft_bzero.c \
 				ft_memcmp.c \
 				ft_memcpy.c \
 				ft_memmove.c \
-				ft_memset.c \
-				ft_realloc.c
+				ft_memset.c
 
 DIR_PUT = 		ft_putchar_fd.c \
 				ft_putendl_fd.c \

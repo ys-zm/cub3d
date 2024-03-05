@@ -6,26 +6,26 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/28 16:07:45 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/04 17:21:42 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
-#include "error.h"
+#include "logging.h"
 
 // TODO: Add ft_strlen_largest()
 t_element_type	check_element_type(char *flag)
 {
-	if (!ft_strncmp(flag, "C", 1) || !ft_strncmp(flag, "F", 1) \
-	|| !ft_strncmp(flag, "C_ALT", 4))
+	if (!ft_strcmp_largest(flag, "C") || !ft_strcmp_largest(flag, "F") \
+	|| !ft_strcmp_largest(flag, "C_ALT"))
 		return (CEIL_FLOOR);
 	if (is_wall(flag))
 		return (WALL);
-	if (!ft_strncmp(flag, "SP", 3))
+	if (!ft_strcmp_largest(flag, "SP"))
 		return (SPRITE);
-	if (!ft_strncmp(flag, "D", 2))
+	if (!ft_strcmp_largest(flag, "D"))
 		return (DOOR);
-	if (!ft_strncmp(flag, "LVL", 4))
+	if (!ft_strcmp_largest(flag, "LVL"))
 		return (NEXT_LVL);
 	return (INVALID);
 }
@@ -41,8 +41,6 @@ int	handle_ceil_floor(t_attr *attributes, char *flag, char *content)
 	}
 	else
 	{
-		if (!is_valid_color(content))
-			return (pr_err(COLOR_CODE_WRONG));
 		exit_code = input_colour(attributes, flag, content);
 	}
 	return (exit_code);
@@ -52,6 +50,7 @@ int	handle_element(t_meta *meta, t_element_type type, char *flag, char *content)
 {
 	int	exit_code;
 
+	exit_code = 0;
 	if (type == CEIL_FLOOR)
 		exit_code = handle_ceil_floor(&meta->attributes, flag, content);
 	else if (type == WALL)

@@ -14,10 +14,10 @@ NAME		:= app
 RUN_CMD		:= ./$(NAME) test_maps/valid_tex.cub
 # RUN_CMD		:= ./$(NAME) test_maps/small.cub
 
-# CFLAGS		+= -Wall -Wextra -Werror
-# CFLAGS		+= -Wall -Wextra
-# CFLAGS		+= -g -fsanitize=address
+CFLAGS		+= -Wall -Wextra
+CFLAGS		+= -g -fsanitize=address
 # CFLAGS		+= -g
+# CFLAGS		+= -Wall -Wextra -Werror
 CFLAGS		+= -Ofast -flto -march=native -fno-fast-math
 
 LIBFT		:=	libft/build/libft.a
@@ -45,7 +45,8 @@ SRCS	= 		parser/check_elements.c \
 				parser/parser_fill.c \
 				parser/lexer_test_utils.c \
 				parser/door_parser.c \
-				utils/error.c \
+				parser/door_checker.c \
+				utils/logging.c \
 				utils/free.c \
 				utils/colors.c \
 				game/game.c \
@@ -66,6 +67,7 @@ SRCS	= 		parser/check_elements.c \
 				game/sprite_sort.c \
 				game/sort_utils.c \
 				renderer/render_minimap.c \
+				renderer/minimap_interact.c \
 				renderer/render_minimap_utils.c \
 				renderer/render_viewport.c \
 				renderer/pixel_picker.c \
@@ -73,7 +75,6 @@ SRCS	= 		parser/check_elements.c \
 				vector/vec2i.c \
 				vector/vec_utils.c \
 				cub3d.c \
-				test_utils.c \
 				timer.c \
 				vector/vec2d_sum.c \
 				vector/vec2d_calc.c \
@@ -83,9 +84,8 @@ SRCS	= 		parser/check_elements.c \
 HEADER_DIR	:=	include
 HEADERS 	:=	meta.h \
 				timer.h \
-				test_utils.h \
 				vector.h \
-				error.h
+				logging.h
 
 OBJ_DIR		:=	obj
 

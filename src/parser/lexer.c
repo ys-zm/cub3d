@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   lexer.c                                           :+:    :+:             */
+/*   lexer.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/28 13:36:16 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/03/04 15:16:04 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
-#include "error.h"
+#include "logging.h"
 
 t_flag	*create_new_node(char *file)
 {
 	t_flag	*node;
 
 	node = malloc(sizeof(t_flag) * 1);
+	if (!node)
+		return (NULL);
 	node->flag = get_key(file);
 	if (!node->flag)
 		return (NULL);
@@ -61,13 +63,10 @@ int	add_element(char *file, t_flag **elements, int *mandatory)
 
 int	lex(char *file, t_map *map, t_flag **elements)
 {
-	t_flag	*new_node;
 	int		exit_code;
 	int		skip;
 	int		mandatory;
-	int		i;
 
-	i = 0;
 	mandatory = 0;
 	while (*file)
 	{
@@ -84,6 +83,8 @@ int	lex(char *file, t_map *map, t_flag **elements)
 			return (EXIT_FAILURE);
 		skip_line(&file, skip);
 	}
+	if (!map->map_element)
+		return (pr_err(MISSING_MAP));
 	return (EXIT_SUCCESS);
 }
 
@@ -97,7 +98,8 @@ int	lexer(t_meta *meta, char *map_file)
 	if (!file)
 		return (EXIT_FAILURE);
 	if (lex(file, &meta->map, &meta->elements))
-		return (free(file), free_t_flag_list(&meta->elements), EXIT_FAILURE);
+		return (free(file), free_t_flag_list(&meta->elements), \
+		free(meta->map.map_element), EXIT_FAILURE);
 	free(file);
 	return (EXIT_SUCCESS);
 }

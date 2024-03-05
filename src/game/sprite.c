@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   sprite.c                                          :+:    :+:             */
+/*   sprite.c                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jboeve <jboeve@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/25 16:01:20 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/02/29 15:42:23 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/04 15:16:04 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include "error.h"
+#include "logging.h"
 
 int	init_sprites(uint32_t count, int32_t **sprite_order, double **sprite_dist)
 {

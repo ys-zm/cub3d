@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/28 16:36:59 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/04 14:11:22 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <math.h>
 
 static void	calculate_texture_points(mlx_texture_t *texture, \
-						t_ray *ray, uint32_t col, uint32_t h)
+						t_ray *ray, uint32_t h)
 {
 	double	offset;
 
@@ -45,7 +45,7 @@ void	draw_column(t_meta *meta, t_ray *ray, uint32_t col, uint32_t h)
 	mlx_texture_t	*texture;
 
 	texture = get_texture(ray->hit_cell, ray->hit_side, meta->attributes);
-	calculate_texture_points(texture, ray, col, h);
+	calculate_texture_points(texture, ray, h);
 	y = ray->line_point.x;
 	if (y < 0)
 		y = 0;
@@ -83,32 +83,43 @@ void	draw_floor(mlx_image_t *image, t_vray *vray, \
 	}
 }
 
+int32_t	col_ceiling_tex(mlx_texture_t *tex, t_vray *vray, \
+						t_vec2i pos, t_vec2i cell)
+{
+	t_vec2i			c_t;
+
+	c_t.x = (int)(tex->width * (vray->floor.x - cell.x)) \
+				& (tex->width - 1);
+	c_t.y = (int)(tex->height * (vray->floor.y - cell.y)) \
+				& (tex->height - 1);
+	return (pixel_picker(tex, c_t.x, c_t.y));
+}
+
 void	draw_ceil(mlx_image_t *image, t_vray *vray, \
 					t_attr *attributes, t_vec2i pos)
 {
 	const t_vec2i	cell = vec2d_to_vec2i(vray->floor);
 	mlx_texture_t	*c_tex;
 	mlx_texture_t	*c_alt_tex;
-	t_vec2i			c_t;
 
 	c_tex = attributes->c.tex;
 	c_alt_tex = attributes->c_alt.tex;
-	if (c_tex)
+	if (cell.y % 2 && cell.x % 2 && (c_alt_tex || attributes->ceil_alt_c.a))
 	{
-		c_t.x = (int)(c_tex->width * (vray->floor.x - cell.x)) \
-				& (c_tex->width - 1);
-		c_t.y = (int)(c_tex->height * (vray->floor.y - cell.y)) \
-				& (c_tex->height - 1);
-		if (cell.y % 2 && cell.x % 2 && c_alt_tex)
+		if (c_alt_tex)
 			mlx_put_pixel(image, pos.y, WINDOW_HEIGHT - pos.x - 1, \
-			pixel_picker(c_alt_tex, c_t.x, c_t.y));
-		else
+			col_ceiling_tex(c_alt_tex, vray, pos, cell));
+		else if (attributes->ceil_alt_c.a)
 			mlx_put_pixel(image, pos.y, WINDOW_HEIGHT - pos.x - 1, \
-							pixel_picker(c_tex, c_t.x, c_t.y));
+						find_color(attributes->ceil_alt_c));
 	}
 	else
 	{
-		mlx_put_pixel(image, pos.y, WINDOW_HEIGHT - pos.x - 1, \
+		if (c_tex)
+			mlx_put_pixel(image, pos.y, WINDOW_HEIGHT - pos.x - 1, \
+							col_ceiling_tex(c_tex, vray, pos, cell));
+		else
+			mlx_put_pixel(image, pos.y, WINDOW_HEIGHT - pos.x - 1, \
 						find_color(attributes->ceiling_c));
 	}
 }
