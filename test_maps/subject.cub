@@ -1,8 +1,7 @@
-NO ./path_to_the_north_texture
-SO ./path_to_the_south_texture
-WE ./path_to_the_west_texture
-EA ./path_to_the_east_texture
-
+NO texture_examples/redbrick.png
+WE texture_examples/purplestone.png
+EA texture_examples/purplestone.png
+SO texture_examples/redbrick.png
 F 220,100,0
 C 225,30,0
 
