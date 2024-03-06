@@ -10,7 +10,7 @@ else ifeq ($(shell uname -m),x86_64)
 	MLX_CFLAGS = -lglfw3 -framework IOKit -framework Cocoa
 endif
 
-NAME		:= app
+NAME		:= cub3D
 RUN_CMD		:= ./$(NAME) test_maps/map_with_extras.cub
 # RUN_CMD		:= ./$(NAME) test_maps/small.cub
 

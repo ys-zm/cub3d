@@ -2,8 +2,8 @@ NO texture_examples/redbrick.png
 WE texture_examples/purplestone.png
 EA texture_examples/purplestone.png
 SO texture_examples/redbrick.png
-F 255,0,0
-C 255,0,0
+F 0,0,255
+C 239,230,90
 
 1111111111
 1000000001
