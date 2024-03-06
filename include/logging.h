@@ -6,7 +6,7 @@
 /*   By: yzaim <yzaim@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/04 17:24:48 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/05 12:02:52 by yesimzaim     ########   odam.nl         */
+/*   Updated: 2024/03/06 11:06:48 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 # define DOUBLE_ERR "Please check that your doubles are formatted correctly\n"
 # define SP_COORD_ERR "Sprite coordinates are out of bounds\n"
 # define DR_PATH_ERR "Door path is missing\n"
-# define  DR_ERR "Doors cannot be on the edge of the map and have to be surrounded \
+# define DR_ERR "Doors cannot be on the edge of the map and have to be surrounded \
 by walls\n"
 # include "meta.h"
 
