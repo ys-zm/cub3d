@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   meta.h                                             :+:    :+:            */
+/*   meta.h                                            :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/03/06 15:02:35 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/06 15:11:10 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@
 # define MINIMAP_COLOR_PLAYER		0xd32a04FF
 # define MINIMAP_PLAYER_SIZE 		7
 # define MINIMAP_DEFAULT_ZOOM 		24
-# define MINIMAP_ZOOM_MOD 			1.2
+# define MINIMAP_ZOOM_MOD 			2
 # define VIEWPORT_COLOR_CEILING		0x000000FF
 # define VIEWPORT_COLOR_FLOOR		0xFFFFFFFF
 # define VIEWPORT_COLOR_WALL_NS		0x4B0082FF
