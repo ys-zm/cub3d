@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/03/06 14:25:06 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/06 15:02:35 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,10 @@ typedef union s_rgba
 	uint32_t	value;
 	struct
 	{
-		uint8_t	a;
 		uint8_t	r;
 		uint8_t	g;
 		uint8_t	b;
+		uint8_t	a;
 	};
 }	t_rgba;
 

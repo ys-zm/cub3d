@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/06 14:25:01 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/06 15:02:27 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,15 @@ bool	get_colour_value(char *content, t_rgba *col)
 	arr = ft_split(content, ',');
 	i = 0;
 	ptr = (uint8_t *) col;
-	ptr[0] = 255;
 	while (i < 3)
 	{
 		tmp = ft_atoi(arr[i]);
 		if (tmp < 0 || tmp > 255)
 			return (free_2d_array(arr), false);
-		ptr[i + 1] = tmp;
+		ptr[i] = tmp;
 		i++;
 	}
+	ptr[i] = 255;
 	free_2d_array(arr);
 	return (true);
 }
