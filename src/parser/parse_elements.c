@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse_elements.c                                   :+:    :+:            */
+/*   parse_elements.c                                  :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/04 17:21:42 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/06 11:45:58 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "logging.h"
 
 // TODO: Add ft_strlen_largest()
-t_element_type	check_element_type(char *flag)
+static t_element_type	check_element_type(char *flag)
 {
 	if (!ft_strcmp_largest(flag, "C") || !ft_strcmp_largest(flag, "F") \
 	|| !ft_strcmp_largest(flag, "C_ALT"))
@@ -30,7 +30,7 @@ t_element_type	check_element_type(char *flag)
 	return (INVALID);
 }
 
-int	handle_ceil_floor(t_attr *attributes, char *flag, char *content)
+static int	handle_ceil_floor(t_attr *attributes, char *flag, char *content)
 {
 	int	exit_code;
 
@@ -46,7 +46,8 @@ int	handle_ceil_floor(t_attr *attributes, char *flag, char *content)
 	return (exit_code);
 }
 
-int	handle_element(t_meta *meta, t_element_type type, char *flag, char *content)
+static int	handle_element(t_meta *meta, t_element_type type, \
+		char *flag, char *content)
 {
 	int	exit_code;
 

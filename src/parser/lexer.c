@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   lexer.c                                            :+:    :+:            */
+/*   lexer.c                                           :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/04 15:16:04 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/06 11:39:46 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
 #include "logging.h"
 
-t_flag	*create_new_node(char *file)
+static t_flag	*create_new_node(char *file)
 {
 	t_flag	*node;
 
@@ -30,7 +30,7 @@ t_flag	*create_new_node(char *file)
 	return (node);
 }
 
-void	add_to_list(t_flag **elements, t_flag *new_node)
+static void	add_to_list(t_flag **elements, t_flag *new_node)
 {
 	t_flag	*list;
 
@@ -47,7 +47,7 @@ void	add_to_list(t_flag **elements, t_flag *new_node)
 	}
 }
 
-int	add_element(char *file, t_flag **elements, int *mandatory)
+static int	add_element(char *file, t_flag **elements, int *mandatory)
 {
 	t_flag	*new_node;
 
@@ -61,7 +61,7 @@ int	add_element(char *file, t_flag **elements, int *mandatory)
 	return (EXIT_SUCCESS);
 }
 
-int	lex(char *file, t_map *map, t_flag **elements)
+static int	lex(char *file, t_map *map, t_flag **elements)
 {
 	int		exit_code;
 	int		skip;

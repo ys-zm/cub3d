@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   door_parser.c                                      :+:    :+:            */
+/*   door_parser.c                                     :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/04 15:16:04 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/06 11:37:05 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ uint32_t	count_doors(t_cell_type *map, uint32_t w, uint32_t h)
 	return (doors);
 }
 
-int	save_door_index(uint32_t *arr, uint32_t door_count, t_map map)
+static int	save_door_index(uint32_t *arr, uint32_t door_count, t_map map)
 {
 	uint32_t	i;
 	uint32_t	j;

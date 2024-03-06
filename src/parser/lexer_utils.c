@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   lexer_utils.c                                      :+:    :+:            */
+/*   lexer_utils.c                                     :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/04 17:09:54 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/06 11:40:50 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
 #include "logging.h"
 
-bool	is_duplicate_flag(t_flag *elements, char *key)
+static bool	is_duplicate_flag(t_flag *elements, char *key)
 {
 	while (elements != NULL)
 	{

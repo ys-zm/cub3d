@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   sprite_utils.c                                     :+:    :+:            */
+/*   sprite_sort.c                                     :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: jboeve <jboeve@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/25 16:01:20 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/02/08 17:31:59 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/06 11:35:43 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <stdlib.h>
 
 // TODO: find a better way to compare doubles
-uint32_t	partition(double *sprite_dist, int32_t *sprite_order, \
+static uint32_t	partition(double *sprite_dist, int32_t *sprite_order, \
 					int32_t low, int32_t high)
 {
 	const double	pivot = sprite_dist[low];
@@ -43,7 +43,7 @@ uint32_t	partition(double *sprite_dist, int32_t *sprite_order, \
 	return (j);
 }
 
-void	quick_sort(double *sprite_dist, int32_t *sprite_order, \
+static void	quick_sort(double *sprite_dist, int32_t *sprite_order, \
 					int32_t low, int32_t high)
 {
 	int32_t	partition_index;
@@ -56,7 +56,7 @@ void	quick_sort(double *sprite_dist, int32_t *sprite_order, \
 	}
 }
 
-void	reverse(double *arr1, int32_t *arr2, uint32_t size)
+static void	reverse(double *arr1, int32_t *arr2, uint32_t size)
 {
 	uint32_t	i;
 	double		tmp1;

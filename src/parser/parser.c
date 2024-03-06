@@ -6,13 +6,13 @@
 /*   By: yzaim <marvin@42.fr>   +#+  +:+   +#+*/
 /*+#+#+#+#+#+   +#+   */
 /*   Created: 2023/11/09 18:08:19 by yzaim #+##+# */
-/*   Updated: 2024/03/03 19:02:45 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/06 11:43:31 by yzaim         ########   odam.nl         */
 /**/
 /* ************************************************************************** */
 
 #include "logging.h"
 
-bool	out_of_bounds(t_vec2d pos, uint32_t w, uint32_t h)
+static bool	out_of_bounds(t_vec2d pos, uint32_t w, uint32_t h)
 {
 	double	width;
 	double	height;
@@ -27,7 +27,7 @@ bool	out_of_bounds(t_vec2d pos, uint32_t w, uint32_t h)
 	return (false);
 }
 
-int	sprites_coordinates(uint32_t sprite_count, \
+static int	sprites_coordinates(uint32_t sprite_count, \
 		t_sprite *sprites, uint32_t w, uint32_t h)
 {
 	uint32_t	i;

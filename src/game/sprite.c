@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   sprite.c                                           :+:    :+:            */
+/*   sprite.c                                          :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: jboeve <jboeve@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/25 16:01:20 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/03/04 15:16:04 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/06 11:35:14 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	init_sprites(uint32_t count, int32_t **sprite_order, double **sprite_dist)
 	return (EXIT_SUCCESS);
 }
 
-void	fill_up_arr(t_player *p)
+static void	fill_up_arr(t_player *p)
 {
 	size_t	i;
 	t_vec2d	sp_pos;

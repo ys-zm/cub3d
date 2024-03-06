@@ -11,13 +11,13 @@ else ifeq ($(shell uname -m),x86_64)
 endif
 
 NAME		:= app
-RUN_CMD		:= ./$(NAME) test_maps/valid_tex.cub
+RUN_CMD		:= ./$(NAME) test_maps/map_with_extras.cub
 # RUN_CMD		:= ./$(NAME) test_maps/small.cub
 
-CFLAGS		+= -Wall -Wextra
-CFLAGS		+= -g -fsanitize=address
+# CFLAGS		+= -Wall -Wextra
+# CFLAGS		+= -g -fsanitize=address
 # CFLAGS		+= -g
-# CFLAGS		+= -Wall -Wextra -Werror
+CFLAGS		+= -Wall -Wextra -Werror
 CFLAGS		+= -Ofast -flto -march=native -fno-fast-math
 
 LIBFT		:=	libft/build/libft.a
@@ -43,7 +43,6 @@ SRCS	= 		parser/check_elements.c \
 				parser/double_utils.c \
 				parser/map_access_utils.c \
 				parser/parser_fill.c \
-				parser/lexer_test_utils.c \
 				parser/door_parser.c \
 				parser/door_checker.c \
 				utils/logging.c \

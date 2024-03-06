@@ -2,15 +2,13 @@ NO texture_examples/redbrick.png
 WE texture_examples/purplestone.png
 EA texture_examples/purplestone.png
 SO texture_examples/redbrick.png
-
-fweoiuf
-wef   wefwefwefwefwef wefew
-
 F 255,0,0
 C 255,0,0
 
-11111
-10001
-10E01
-10001
-11111
+1111111111
+1000000001
+10E0000111
+1000110111
+1000010111
+1000000011
+1111111111

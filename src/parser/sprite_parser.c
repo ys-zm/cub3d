@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   sprite_parser.c                                    :+:    :+:            */
+/*   sprite_parser.c                                   :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/04 15:16:04 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/06 11:44:58 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "logging.h"
 #include "stdbool.h"
 
-char	*find_sprite_val(char **content)
+static char	*find_sprite_val(char **content)
 {
 	char	*val;
 	char	*c;
@@ -55,7 +55,7 @@ int	input_sprite_data(t_sprite **sprites_array, \
 	pos_x = find_sprite_val(&content);
 	pos_y = find_sprite_val(&content);
 	if (!is_double(pos_x) || !is_double(pos_y))
-		return (EXIT_FAILURE);
+		return (free(pos_x), free(pos_y), EXIT_FAILURE);
 	arr[*i].pos.x = ft_atod(pos_x);
 	arr[*i].pos.y = ft_atod(pos_y);
 	free(pos_x);

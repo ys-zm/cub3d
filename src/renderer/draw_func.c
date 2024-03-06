@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/04 14:11:22 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/06 11:33:33 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,7 @@ void	draw_floor(mlx_image_t *image, t_vray *vray, \
 	}
 }
 
-int32_t	col_ceiling_tex(mlx_texture_t *tex, t_vray *vray, \
-						t_vec2i pos, t_vec2i cell)
+static int32_t	col_ceiling_tex(mlx_texture_t *tex, t_vray *vray, t_vec2i cell)
 {
 	t_vec2i			c_t;
 
@@ -108,7 +107,7 @@ void	draw_ceil(mlx_image_t *image, t_vray *vray, \
 	{
 		if (c_alt_tex)
 			mlx_put_pixel(image, pos.y, WINDOW_HEIGHT - pos.x - 1, \
-			col_ceiling_tex(c_alt_tex, vray, pos, cell));
+			col_ceiling_tex(c_alt_tex, vray, cell));
 		else if (attributes->ceil_alt_c.a)
 			mlx_put_pixel(image, pos.y, WINDOW_HEIGHT - pos.x - 1, \
 						find_color(attributes->ceil_alt_c));
@@ -117,7 +116,7 @@ void	draw_ceil(mlx_image_t *image, t_vray *vray, \
 	{
 		if (c_tex)
 			mlx_put_pixel(image, pos.y, WINDOW_HEIGHT - pos.x - 1, \
-							col_ceiling_tex(c_tex, vray, pos, cell));
+							col_ceiling_tex(c_tex, vray, cell));
 		else
 			mlx_put_pixel(image, pos.y, WINDOW_HEIGHT - pos.x - 1, \
 						find_color(attributes->ceiling_c));

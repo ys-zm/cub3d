@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   meta.h                                             :+:    :+:            */
+/*   meta.h                                            :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/03/05 11:54:42 by yesimzaim     ########   odam.nl         */
+/*   Updated: 2024/03/06 11:45:24 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -337,7 +337,6 @@ void				swap_doubles(double *a, double *b);
 void				swap_ints(int32_t *a, int32_t *b);
 
 // sprite_parser.c
-char				*find_sprite_val(char **content);
 int					input_sprite_data(t_sprite **sprites_array, \
 					uint32_t *i, char *content);
 uint32_t			count_sprites(t_flag *elements);
@@ -411,23 +410,15 @@ bool				is_path(char *str);
 
 // double_utils.c
 bool				is_double(char *s);
-double				calculate_decimal(char *s);
 double				ft_atod(char *s);
 
 // door_parser.c
 uint32_t			count_doors(t_cell_type *map, uint32_t w, uint32_t h);
-int					save_door_index(uint32_t *arr, uint32_t door_count, \
-					t_map map);
 int					set_doors(t_door *doors, t_map map);
 int					input_path(char **path, char *content);
 
 // lexer.c
-int					lex(char *file, t_map *map, t_flag **elements);
 int					lexer(t_meta *meta, char *map_file);
-
-// lexer_test_utils.c
-void				print_lexer_map(t_map *map);
-void				print_lexer_elements(t_flag *elements);
 
 // map_lexer.c
 bool				nl_only_spaces(char *file);

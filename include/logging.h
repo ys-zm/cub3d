@@ -6,7 +6,7 @@
 /*   By: yzaim <yzaim@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/04 17:24:48 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/06 11:06:48 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/06 11:30:18 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # define NO_MAP "Map element is missing\n"
 # define INV_COLOR_CODE "Please check color codes for F and C elements\nRGB \
 	values should be between 0-255\n"
-# define MLX_ERR "MLX error occured"
+# define MLX_ERR "MLX error occured\n"
 # define SP_CONTENT_ERR "Please format the sprite element content as follows, \
 	SP path/to/texture XX.XX XX.XX\n"
 # define DOUBLE_ERR "Please check that your doubles are formatted correctly\n"

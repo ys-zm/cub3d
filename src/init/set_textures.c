@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   set_textures.c                                     :+:    :+:            */
+/*   set_textures.c                                    :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <yzaim@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:56:45 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/04 15:16:04 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/06 11:36:14 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	set_sprite_textures(uint32_t sprite_count, t_sprite *sprites)
 	return (EXIT_SUCCESS);
 }
 
-int	set_door_texture(t_door *doors)
+static int	set_door_texture(t_door *doors)
 {
 	if (doors->door_count)
 	{
