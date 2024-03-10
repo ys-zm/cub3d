@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:53 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/04 17:52:24 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/03/10 16:40:57 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "meta.h"
 #include "vector.h"
 #include "render_minimap.h"
+#include <stdint.h>
 
 #define BUF_LEN 32
 
@@ -36,8 +37,8 @@ static void	beep_boop(mlx_image_t *image, const t_vec2i image_center, \
 		{
 			cell_pos[0] = pp_center_x + (loop[0] * size);
 			cell_pos[1] = pp_center_y + (loop[1] * size);
-			if (cell_pos[0] + p->meta->minimap.tile_size >= 0 && cell_pos[0] \
-					< (int32_t) image->width && cell_pos[1] + size >= 0 \
+			if (cell_pos[0] + (int32_t) p->meta->minimap.tile_size >= 0 && cell_pos[0] \
+					< (int32_t) image->width && cell_pos[1] + (int32_t) size >= 0 \
 					&& cell_pos[1] < (int32_t) image->height)
 				draw_cell(image, map->level[(loop[1] * map->width) + loop[0]], \
 						(t_vec2u){cell_pos[0], cell_pos[1]}, size);
