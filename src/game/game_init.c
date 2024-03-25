@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:26:51 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/04 17:40:58 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/03/25 14:52:42 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,16 @@ void	set_player_start_position(t_player *p, char dir)
 	p->position.y += 0.5;
 }
 
+void print_tex(const t_tex *t)
+{
+	printf("[%s] w[%u] h[%u]\n", t->tex_path, t->tex->width, t->tex->height);
+}
+
 int	game_init(t_meta *meta)
 {
 	t_player *const	p = &meta->player;
+
+	print_tex(&meta->attributes.n);
 
 	minimap_init(&meta->minimap);
 	timer_init(&meta->update_timer, mlx_get_time);

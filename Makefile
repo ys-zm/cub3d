@@ -4,6 +4,7 @@
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
 	MLX_CFLAGS = -ldl -lglfw -pthread -lm
+	CFLAGS += -fno-fast-math
 else ifeq ($(shell uname -m),arm64)
 	MLX_CFLAGS = -L/opt/homebrew/lib -lglfw -framework IOKit -framework Cocoa
 else ifeq ($(shell uname -m),x86_64)
@@ -18,8 +19,7 @@ RUN_CMD		:= ./$(NAME) test_maps/map_with_extras.cub
 # CFLAGS		+= -g -fsanitize=address
 # CFLAGS		+= -g
 CFLAGS		+= -Wall -Wextra -Werror
-CFLAGS		+= -Ofast -flto -march=native 
-# -fno-fast-math
+CFLAGS		+= -Ofast -flto -march=native
 
 LIBFT		:=	libft/build/libft.a
 LIBMLX		:=	MLX42/build/libmlx42.a

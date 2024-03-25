@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   draw_func.c                                        :+:    :+:            */
+/*   draw_func.c                                       :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/06 11:33:33 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/25 14:58:07 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,7 @@ void	draw_column(t_meta *meta, t_ray *ray, uint32_t col, uint32_t h)
 		y = 0;
 	while (y < ray->line_point.y && y < (int32_t)WINDOW_HEIGHT)
 	{
-		ray->texture_point.y = ((int) ray->texture_position) & \
-								(texture->height - 1);
+		ray->texture_point.y = ((int) ray->texture_position) & (texture->height - 1);
 		ray->texture_position += ray->step;
 		color = pixel_picker(texture, (int)round(ray->texture_point.x), \
 							(int)round(ray->texture_point.y));

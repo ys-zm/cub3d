@@ -1,8 +1,8 @@
-NO texture_examples/bw_splash.png
+NO texture_examples/hoofd1.png
 WE texture_examples/bw_splash.png
 EA texture_examples/bw_splash.png
 SO texture_examples/bw_splash.png
-F 0,0,0
+F texture_examples/hoofd2.png
 C 0,0,0
 
 D texture_examples/wood.png
