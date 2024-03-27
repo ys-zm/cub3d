@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/25 14:58:07 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/27 12:24:20 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,14 @@ static void	calculate_texture_points(mlx_texture_t *texture, \
 
 	offset = 0;
 	ray->texture_point.x = (int)(ray->wall_x * texture->width);
-	if ((ray->hit_side == SIDE_E || ray->hit_side == SIDE_W) \
-		&& ray->direction.x > 0)
+	if ((ray->hit_side == SIDE_E || ray->hit_side == SIDE_W) && ray->direction.x > 0)
 		ray->texture_point.x = texture->width - ray->texture_point.x - 1;
-	if ((ray->hit_side == SIDE_S || ray->hit_side == SIDE_N) \
-		&& ray->direction.y < 0)
+	if ((ray->hit_side == SIDE_S || ray->hit_side == SIDE_N) && ray->direction.y < 0)
 		ray->texture_point.x = texture->width - ray->texture_point.x - 1;
 	if (ray->line_height > h)
 		offset = (ray->line_height - h) / 2;
 	ray->step = texture->height / ray->line_height;
-	ray->texture_position = ((ray->line_point.x + offset) + \
-						(ray->line_height - h) / 2) * ray->step;
+	ray->texture_position = ((ray->line_point.x + offset) + (ray->line_height - h) / 2) * ray->step;
 }
 
 void	draw_column(t_meta *meta, t_ray *ray, uint32_t col, uint32_t h)
