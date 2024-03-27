@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   render_minimap.c                                  :+:    :+:             */
+/*   render_minimap.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:53 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/10 16:40:57 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/27 12:54:01 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 #define BUF_LEN 32
 
+/* Moving the map according to player position */
 static void	beep_boop(mlx_image_t *image, const t_vec2i image_center, \
 		const t_player *p, const t_map *map)
 {
@@ -66,6 +67,8 @@ static void	render_minimap_level(mlx_image_t *image, const t_map *map, \
 	while (i < WINDOW_WIDTH)
 	{
 		r = &p->hrays[i];
+		if (i == WINDOW_WIDTH / 2)
+			printf("rlen: %lf\n", r->length);
 		draw_line(image, image_center, vec2d_to_vec2i(vec2d_add((t_vec2d) \
 						{image_center.x, image_center.y}, \
 						vec2d_scalar_product(r->direction, (r->length) * \
