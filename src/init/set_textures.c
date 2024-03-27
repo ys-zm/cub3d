@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   set_textures.c                                    :+:    :+:             */
+/*   set_textures.c                                     :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <yzaim@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:56:45 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/06 11:36:14 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/26 18:41:38 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,7 @@ int	set_textures(t_attr *attributes)
 		return (pr_err(MLX_ERROR));
 	if (set_door_texture(&attributes->doors))
 		return (pr_err(MLX_ERROR));
+	printf("DIMENSIONS:\n");
+	printf("N: W %d H %d BPP %d \n", attributes->n.tex->width, attributes->n.tex->height, attributes->n.tex->bytes_per_pixel);
 	return (EXIT_SUCCESS);
 }

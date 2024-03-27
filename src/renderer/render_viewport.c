@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   render_viewport.c                                 :+:    :+:             */
+/*   render_viewport.c                                  :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/01 19:09:32 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/27 12:16:45 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,12 @@ void	render_walls(mlx_image_t *image, t_player *p)
 	}
 }
 
+static uint32_t	index_at(uint32_t x, uint32_t y, uint32_t width, uint8_t bpp)
+{
+	int index = (x + y * width) * bpp; //Looping over every pixel;
+	return (index);
+}
+
 void	render_viewport(mlx_image_t *image, t_player *p)
 {
 	const int32_t	crosshair_size = 8;
@@ -63,4 +69,5 @@ void	render_viewport(mlx_image_t *image, t_player *p)
 			(WINDOW_HEIGHT / 2 - (crosshair_size / 2))}, \
 			(t_vec2u){crosshair_size, \
 			crosshair_size}, 0xFFFFFFFF);
+
 }

@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:26:51 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/28 14:33:23 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/25 14:38:24 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ uint32_t	pixel_picker(mlx_texture_t *texture, int32_t x, int32_t y)
 	uint8_t		a;
 	uint32_t	index;
 
-	index = y * texture->width * 4 + x * 4;
+	index = (y * texture->width + x) * texture->bytes_per_pixel;
 	r = texture->pixels[index];
 	g = texture->pixels[index + 1];
 	b = texture->pixels[index + 2];

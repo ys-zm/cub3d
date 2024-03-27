@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   render_minimap.c                                  :+:    :+:             */
+/*   render_minimap.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:53 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/10 16:40:57 by joppe         ########   odam.nl         */
+/*   Updated: 2024/03/27 12:16:56 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,14 @@ static void	render_minimap_level(mlx_image_t *image, const t_map *map, \
 		image_center.y - (MINIMAP_PLAYER_SIZE / 2)
 	};
 	const size_t	size = p->meta->minimap.tile_size;
-
 	render_clear_bg(image, MINIMAP_COLOR_BACKGROUND);
 	beep_boop(image, image_center, p, map);
+(void) map;
 	i = 0;
 	while (i < WINDOW_WIDTH)
 	{
 		r = &p->hrays[i];
-		draw_line(image, image_center, vec2d_to_vec2i(vec2d_add((t_vec2d) \
-						{image_center.x, image_center.y}, \
-						vec2d_scalar_product(r->direction, (r->length) * \
-							size))), (t_rgba){0x999999FF});
+		draw_line(image, image_center, vec2d_to_vec2i(vec2d_add((t_vec2d){image_center.x, image_center.y}, vec2d_scalar_product(r->direction, r->length * size))), (t_rgba){0x999999FF});
 		i++;
 	}
 	draw_rect(image, pos, (t_vec2u){MINIMAP_PLAYER_SIZE, \
