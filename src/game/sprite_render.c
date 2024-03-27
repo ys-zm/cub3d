@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   sprite_render.c                                    :+:    :+:            */
+/*   sprite_render.c                                   :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: jboeve <jboeve@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/25 16:01:20 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/02/14 12:23:01 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/03/27 12:44:07 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,8 @@ void	draw_sprite(t_player *p, t_vec2i draw_start, t_vec2i draw_end, \
 	index.x = draw_start.x;
 	while (index.x < draw_end.x)
 	{
-		tex_pos.x = (int)(256 * (index.x - (-(sp[i].width) / 2 + \
-				sp[i].screen_x)) * sp[i].tex.tex->width / sp[i].width) / 256;
-		if (sp[i].transform.y > 0 && index.x > 0 && index.x < img_dim.x && \
-			sp[i].transform.y < p->z_buffer[index.x])
+		tex_pos.x = (int)(256 * (index.x - (-(sp[i].width) / 2 + sp[i].screen_x)) * sp[i].tex.tex->width / sp[i].width) / 256;
+		if (sp[i].transform.y > 0 && index.x > 0 && index.x < img_dim.x && sp[i].transform.y < p->z_buffer[index.x])
 		{
 			index.y = draw_start.y;
 			while (index.y < draw_end.y)
