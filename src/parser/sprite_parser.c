@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/06 11:44:58 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/05/29 12:26:31 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ static char	*find_sprite_val(char **content)
 	return (ft_strdup(""));
 }
 
-int	input_sprite_data(t_sprite **sprites_array, \
-								uint32_t *i, char *content)
+int	input_sprite_data(t_sprite **sprites_array, uint32_t *i, char *content)
 {
 	t_sprite	*arr;
 	char		*pos_x;
@@ -68,8 +67,7 @@ int	set_up_sprites(t_meta *meta)
 {
 	if (meta->attributes.sprite_count)
 	{
-		meta->attributes.sprites = calloc(meta->attributes.sprite_count, \
-										sizeof(t_sprite));
+		meta->attributes.sprites = calloc(meta->attributes.sprite_count, sizeof(t_sprite));
 		if (!meta->attributes.sprites)
 			return (pr_err(MALL_ERR), EXIT_FAILURE);
 	}

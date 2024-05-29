@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   colors.c                                           :+:    :+:            */
+/*   colors.c                                          :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <yzaim@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 16:09:11 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/02/28 15:09:43 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/05/29 12:17:53 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ int32_t	find_wall_color(t_attr atrributes, t_ray *ray, \
 
 	texture = get_texture(ray->hit_cell, ray->hit_side, atrributes);
 	wall_texture_position(texture, ray, line_points, h);
-	color = pixel_picker(texture, (int)round(ray->texture_point.x), \
-							(int)round(ray->texture_point.y));
+	color = pixel_picker(texture, (int)round(ray->texture_point.x), (int)round(ray->texture_point.y));
 	return (color);
 }
 

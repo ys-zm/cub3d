@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/06 11:45:58 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/05/29 12:25:46 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,7 @@ static int	handle_element(t_meta *meta, t_element_type type, \
 	else if (type == WALL)
 		exit_code = input_texture_path(&meta->attributes, flag, content);
 	else if (type == SPRITE)
-		exit_code = input_sprite_data(&meta->attributes.sprites, \
-						&meta->attributes.sprite_arr_index, content);
+		exit_code = input_sprite_data(&meta->attributes.sprites, &meta->attributes.sprite_arr_index, content);
 	else if (type == DOOR)
 		exit_code = input_path(&meta->attributes.doors.tex.tex_path, content);
 	else if (type == NEXT_LVL)
@@ -72,8 +71,7 @@ int	parse_elements(t_meta *meta)
 	t_element_type	type;
 
 	meta->attributes.sprite_count = count_sprites(meta->elements);
-	meta->attributes.doors.door_count = count_doors(meta->map.level, \
-									meta->map.width, meta->map.height);
+	meta->attributes.doors.door_count = count_doors(meta->map.level, meta->map.width, meta->map.height);
 	meta->attributes.sprite_arr_index = 0;
 	if (set_doors(&meta->attributes.doors, meta->map))
 		return (EXIT_FAILURE);

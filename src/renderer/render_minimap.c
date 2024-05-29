@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   render_minimap.c                                   :+:    :+:            */
+/*   render_minimap.c                                  :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:53 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/27 12:16:56 by yesimzaim     ########   odam.nl         */
+/*   Updated: 2024/05/29 12:37:57 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,10 @@
 
 #define BUF_LEN 32
 
-static void	beep_boop(mlx_image_t *image, const t_vec2i image_center, \
-		const t_player *p, const t_map *map)
+static void	beep_boop(mlx_image_t *image, const t_vec2i image_center, const t_player *p, const t_map *map)
 {
-	const uint32_t	pp_center_x = image_center.x - \
-					(p->position.x * p->meta->minimap.tile_size);
-	const uint32_t	pp_center_y = image_center.y - \
-					(p->position.y * p->meta->minimap.tile_size);
+	const uint32_t	pp_center_x = image_center.x - (p->position.x * p->meta->minimap.tile_size);
+	const uint32_t	pp_center_y = image_center.y - (p->position.y * p->meta->minimap.tile_size);
 	size_t			loop[2];
 	int32_t			cell_pos[2];
 	const size_t	size = p->meta->minimap.tile_size;
@@ -37,11 +34,9 @@ static void	beep_boop(mlx_image_t *image, const t_vec2i image_center, \
 		{
 			cell_pos[0] = pp_center_x + (loop[0] * size);
 			cell_pos[1] = pp_center_y + (loop[1] * size);
-			if (cell_pos[0] + (int32_t) p->meta->minimap.tile_size >= 0 && cell_pos[0] \
-					< (int32_t) image->width && cell_pos[1] + (int32_t) size >= 0 \
+			if (cell_pos[0] + (int32_t) p->meta->minimap.tile_size >= 0 && cell_pos[0] < (int32_t) image->width && cell_pos[1] + (int32_t) size >= 0 \
 					&& cell_pos[1] < (int32_t) image->height)
-				draw_cell(image, map->level[(loop[1] * map->width) + loop[0]], \
-						(t_vec2u){cell_pos[0], cell_pos[1]}, size);
+				draw_cell(image, map->level[(loop[1] * map->width) + loop[0]], (t_vec2u){cell_pos[0], cell_pos[1]}, size);
 			loop[1]++;
 		}
 		loop[0]++;
@@ -61,7 +56,6 @@ static void	render_minimap_level(mlx_image_t *image, const t_map *map, \
 	const size_t	size = p->meta->minimap.tile_size;
 	render_clear_bg(image, MINIMAP_COLOR_BACKGROUND);
 	beep_boop(image, image_center, p, map);
-(void) map;
 	i = 0;
 	while (i < WINDOW_WIDTH)
 	{
@@ -69,8 +63,7 @@ static void	render_minimap_level(mlx_image_t *image, const t_map *map, \
 		draw_line(image, image_center, vec2d_to_vec2i(vec2d_add((t_vec2d){image_center.x, image_center.y}, vec2d_scalar_product(r->direction, r->length * size))), (t_rgba){0x999999FF});
 		i++;
 	}
-	draw_rect(image, pos, (t_vec2u){MINIMAP_PLAYER_SIZE, \
-			MINIMAP_PLAYER_SIZE}, MINIMAP_COLOR_PLAYER);
+	draw_rect(image, pos, (t_vec2u){MINIMAP_PLAYER_SIZE, MINIMAP_PLAYER_SIZE}, MINIMAP_COLOR_PLAYER);
 	render_border(image, MINIMAP_COLOR_BORDER);
 }
 
@@ -89,8 +82,7 @@ static void	render_info(t_minimap *minimap, const t_player *p)
 	snprintf(buf, BUF_LEN, "FPS:   %u", p->meta->fps);
 	minimap->fps_image = cube_put_string(minimap->fps_image, buf, font);
 	render_clear_bg(minimap->info_image, MINIMAP_COLOR_BORDER);
-	draw_rect(minimap->info_image, (t_vec2u){1, 1}, \
-			size, MINIMAP_COLOR_BACKGROUND);
+	draw_rect(minimap->info_image, (t_vec2u){1, 1}, size, MINIMAP_COLOR_BACKGROUND);
 }
 
 void	render_minimap(t_minimap *minimap, const t_map *map, const t_player *p)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   cub3d.c                                            :+:    :+:            */
+/*   cub3d.c                                           :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:24:47 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/04 15:16:04 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/05/29 12:17:18 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,23 +48,17 @@ int	init_mlx_images(t_meta *meta)
 	meta->image = mlx_new_image(meta->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
 	if (!meta->image || (mlx_image_to_window(meta->mlx, meta->image, 0, 0) < 0))
 		return (pr_err(MLX_ERROR));
-	meta->minimap.minimap_image = mlx_new_image(meta->mlx, MINIMAP_WIDTH, \
-												MINIMAP_HEIGHT);
-	if (!meta->minimap.minimap_image || (mlx_image_to_window(meta->mlx, \
-									meta->minimap.minimap_image, 0, 0) < 0))
+	meta->minimap.minimap_image = mlx_new_image(meta->mlx, MINIMAP_WIDTH, MINIMAP_HEIGHT);
+	if (!meta->minimap.minimap_image || (mlx_image_to_window(meta->mlx, meta->minimap.minimap_image, 0, 0) < 0))
 		return (pr_err(MLX_ERROR));
-	meta->minimap.info_image = mlx_new_image(meta->mlx, MINIMAP_WIDTH, \
-											MINIMAP_INFO_HEIGHT);
-	if (!meta->minimap.info_image || (mlx_image_to_window(meta->mlx, \
-				meta->minimap.info_image, 0, MINIMAP_HEIGHT) < 0))
+	meta->minimap.info_image = mlx_new_image(meta->mlx, MINIMAP_WIDTH, MINIMAP_INFO_HEIGHT);
+	if (!meta->minimap.info_image || (mlx_image_to_window(meta->mlx, meta->minimap.info_image, 0, MINIMAP_HEIGHT) < 0))
 		return (pr_err(MLX_ERROR));
 	meta->minimap.ppos_image = mlx_new_image(meta->mlx, 1, 1);
-	if (!meta->minimap.ppos_image || (mlx_image_to_window(meta->mlx, \
-			meta->minimap.ppos_image, 3, MINIMAP_HEIGHT) < 0))
+	if (!meta->minimap.ppos_image || (mlx_image_to_window(meta->mlx, meta->minimap.ppos_image, 3, MINIMAP_HEIGHT) < 0))
 		return (pr_err(MLX_ERROR));
 	meta->minimap.fps_image = mlx_new_image(meta->mlx, 1, 1);
-	if (!meta->minimap.fps_image || (mlx_image_to_window(meta->mlx, \
-			meta->minimap.fps_image, 3, MINIMAP_HEIGHT + 16) < 0))
+	if (!meta->minimap.fps_image || (mlx_image_to_window(meta->mlx, meta->minimap.fps_image, 3, MINIMAP_HEIGHT + 16) < 0))
 		return (pr_err(MLX_ERROR));
 	return (EXIT_SUCCESS);
 }

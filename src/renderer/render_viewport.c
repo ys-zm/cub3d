@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   render_viewport.c                                  :+:    :+:            */
+/*   render_viewport.c                                 :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/27 12:16:45 by yesimzaim     ########   odam.nl         */
+/*   Updated: 2024/05/29 12:21:38 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,9 @@ void	render_fc(mlx_image_t *image, t_player *p)
 			col = 0;
 			while (col < image->width)
 			{
-				draw_floor(p->meta->image, &p->vrays[row], \
-							&p->meta->attributes, (t_vec2i){row, col});
-				draw_ceil(p->meta->image, &p->vrays[row], \
-							&p->meta->attributes, (t_vec2i){row, col});
-				p->vrays[row].floor = vec2d_add(p->vrays[row].floor, \
-												p->vrays[row].step);
+				draw_floor(p->meta->image, &p->vrays[row], &p->meta->attributes, (t_vec2i){row, col});
+				draw_ceil(p->meta->image, &p->vrays[row], &p->meta->attributes, (t_vec2i){row, col});
+				p->vrays[row].floor = vec2d_add(p->vrays[row].floor, p->vrays[row].step);
 				col++;
 			}
 			row++;
@@ -65,9 +62,7 @@ void	render_viewport(mlx_image_t *image, t_player *p)
 
 	render_fc(image, p);
 	render_walls(image, p);
-	draw_rect(image, (t_vec2u){(WINDOW_WIDTH / 2 - (crosshair_size / 2)), \
-			(WINDOW_HEIGHT / 2 - (crosshair_size / 2))}, \
-			(t_vec2u){crosshair_size, \
-			crosshair_size}, 0xFFFFFFFF);
+	draw_rect(image, (t_vec2u){(WINDOW_WIDTH / 2 - (crosshair_size / 2)), (WINDOW_HEIGHT / 2 - (crosshair_size / 2))}, \
+			(t_vec2u){crosshair_size, crosshair_size}, 0xFFFFFFFF);
 
 }

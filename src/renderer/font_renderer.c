@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/08 15:26:51 by yzaim             #+#    #+#             */
-/*   Updated: 2024/02/29 17:26:09 by joppe         ########   odam.nl         */
+/*   Updated: 2024/05/29 12:19:03 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ static int32_t	get_texoffset(char c, const t_font_atlas *atlas)
 	return (-1 * !_isprint + (atlas->font_w * (c - 32)) * _isprint);
 }
 
-static void	draw_char(mlx_image_t *image, const t_font_atlas *atlas, \
-						int32_t font_loc, uint32_t imgoffset)
+static void	draw_char(mlx_image_t *image, const t_font_atlas *atlas, int32_t font_loc, uint32_t imgoffset)
 {
 	char		*pixelx;
 	uint8_t		*pixeli;
@@ -58,8 +57,7 @@ const t_font_atlas	*cube_get_font_atlas(t_font_family face)
 }
 
 // TODO If current image is too small resize the it, eg `mlx_resize_image()`
-mlx_image_t	*cube_put_string(mlx_image_t *image, const char *s, \
-								const t_font_atlas *atlas)
+mlx_image_t	*cube_put_string(mlx_image_t *image, const char *s, const t_font_atlas *atlas)
 {
 	int32_t			i;
 	const int32_t	len = ft_strlen(s);

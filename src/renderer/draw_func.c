@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   draw_func.c                                        :+:    :+:            */
+/*   draw_func.c                                       :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/26 18:44:51 by yesimzaim     ########   odam.nl         */
+/*   Updated: 2024/05/29 12:18:44 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,8 @@ void	draw_floor(mlx_image_t *image, t_vray *vray, \
 	f_tex = attributes->f.tex;
 	if (f_tex)
 	{
-		f_t.x = (int)(f_tex->width * (vray->floor.x - cell.x)) \
-				& (f_tex->width - 1);
-		f_t.y = (int)(f_tex->height * (vray->floor.y - cell.y)) \
-				& (f_tex->height - 1);
+		f_t.x = (int)(f_tex->width * (vray->floor.x - cell.x)) & (f_tex->width - 1);
+		f_t.y = (int)(f_tex->height * (vray->floor.y - cell.y)) & (f_tex->height - 1);
 		mlx_put_pixel(image, pos.y, pos.x, pixel_picker(f_tex, f_t.x, f_t.y));
 	}
 	else
@@ -81,10 +79,8 @@ static int32_t	col_ceiling_tex(mlx_texture_t *tex, t_vray *vray, t_vec2i cell)
 {
 	t_vec2i			c_t;
 
-	c_t.x = (int)(tex->width * (vray->floor.x - cell.x)) \
-				& (tex->width - 1);
-	c_t.y = (int)(tex->height * (vray->floor.y - cell.y)) \
-				& (tex->height - 1);
+	c_t.x = (int)(tex->width * (vray->floor.x - cell.x)) & (tex->width - 1);
+	c_t.y = (int)(tex->height * (vray->floor.y - cell.y)) & (tex->height - 1);
 	return (pixel_picker(tex, c_t.x, c_t.y));
 }
 
@@ -100,19 +96,15 @@ void	draw_ceil(mlx_image_t *image, t_vray *vray, \
 	if (cell.y % 2 && cell.x % 2 && (c_alt_tex || attributes->ceil_alt_c.a))
 	{
 		if (c_alt_tex)
-			mlx_put_pixel(image, pos.y, WINDOW_HEIGHT - pos.x - 1, \
-			col_ceiling_tex(c_alt_tex, vray, cell));
+			mlx_put_pixel(image, pos.y, WINDOW_HEIGHT - pos.x - 1, col_ceiling_tex(c_alt_tex, vray, cell));
 		else if (attributes->ceil_alt_c.a)
-			mlx_put_pixel(image, pos.y, WINDOW_HEIGHT - pos.x - 1, \
-						find_color(attributes->ceil_alt_c));
+			mlx_put_pixel(image, pos.y, WINDOW_HEIGHT - pos.x - 1, find_color(attributes->ceil_alt_c));
 	}
 	else
 	{
 		if (c_tex)
-			mlx_put_pixel(image, pos.y, WINDOW_HEIGHT - pos.x - 1, \
-							col_ceiling_tex(c_tex, vray, cell));
+			mlx_put_pixel(image, pos.y, WINDOW_HEIGHT - pos.x - 1, col_ceiling_tex(c_tex, vray, cell));
 		else
-			mlx_put_pixel(image, pos.y, WINDOW_HEIGHT - pos.x - 1, \
-						find_color(attributes->ceiling_c));
+			mlx_put_pixel(image, pos.y, WINDOW_HEIGHT - pos.x - 1, find_color(attributes->ceiling_c));
 	}
 }
