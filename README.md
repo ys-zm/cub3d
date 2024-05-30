@@ -14,7 +14,7 @@ The renderer colors individual pixels to draw the 3D maze based on the wall leng
 
 ## Compiling: 
 
-1. `make` creates the executable named "cub3d" 
+1. `make` creates the executable named "cub3D" 
 
 2. `make clean` removes object files
    
