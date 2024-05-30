@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/05/30 23:22:36 by joppe         ########   odam.nl         */
+/*   Updated: 2024/05/30 23:36:18 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ void	draw_column(t_meta *meta, t_ray *ray, uint32_t col, uint32_t h)
 	texture = get_texture(ray->hit_cell, ray->hit_side, meta->attributes);
 	calculate_texture_points(texture, ray, h);
 	y = ray->line_point.x;
-	if (y < 0)
-		y = 0;
 	while (y < ray->line_point.y && y < (int32_t)WINDOW_HEIGHT)
 	{
 		// ray->texture_point.y = ((int) ray->texture_position) & (texture->height - 1);
@@ -53,7 +51,8 @@ void	draw_column(t_meta *meta, t_ray *ray, uint32_t col, uint32_t h)
 		// printf("texture_point.y [%d]\n", ray->texture_point.y);
 		ray->texture_position += ray->step;
 		color = pixel_picker(texture, (int)round(ray->texture_point.x), (int)round(ray->texture_point.y));
-		mlx_put_pixel(meta->image, col, y, color);
+		if (y >= 0)
+			mlx_put_pixel(meta->image, col, y, color);
 		y++;
 	}
 }
