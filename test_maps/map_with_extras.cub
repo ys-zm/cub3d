@@ -5,6 +5,8 @@ SO texture_examples/bw_wall.png
 F 0,0,0
 C 0,0,0
 
+SP sprites/explosion1.png 2.0 2.0
+
 D texture_examples/ceiling.png
 
 

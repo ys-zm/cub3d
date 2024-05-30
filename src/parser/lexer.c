@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/05/29 12:22:54 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/05/30 16:06:17 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,17 @@ static void	add_to_list(t_flag **elements, t_flag *new_node)
 	t_flag	*list;
 
 	list = *elements;
-	if (*elements == NULL)
+	if (*elements == NULL)  // If the list is empty
 	{
-		*elements = new_node;
+		*elements = new_node; // Set as first node
 	}
 	else
 	{
-		while (list->next != NULL)
+		while (list->next != NULL) // Skip to the last element in the list
+		{
 			list = list->next;
-		list->next = new_node;
+		}
+		list->next = new_node; 
 	}
 }
 
@@ -60,11 +62,12 @@ static int	add_element(char *file, t_flag **elements, int *mandatory)
 	return (EXIT_SUCCESS);
 }
 
+// checks for config file errors such as missing map or duplicate elements
 static int	lex(char *file, t_map *map, t_flag **elements)
 {
-	int		exit_code;
-	int		skip;
-	int		mandatory;
+	int	exit_code;
+	int	skip;
+	int	mandatory;
 
 	mandatory = 0;
 	while (*file)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   draw_func.c                                       :+:    :+:             */
+/*   draw_func.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/05/29 12:18:44 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/05/30 16:33:23 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,7 @@ void	draw_column(t_meta *meta, t_ray *ray, uint32_t col, uint32_t h)
 	}
 }
 
-void	draw_floor(mlx_image_t *image, t_vray *vray, \
-					t_attr *attributes, t_vec2i pos)
+void	draw_floor(mlx_image_t *image, t_vray *vray, t_attr *attributes, t_vec2i pos)
 {
 	const t_vec2i	cell = vec2d_to_vec2i(vray->floor);
 	mlx_texture_t	*f_tex;
@@ -84,8 +83,7 @@ static int32_t	col_ceiling_tex(mlx_texture_t *tex, t_vray *vray, t_vec2i cell)
 	return (pixel_picker(tex, c_t.x, c_t.y));
 }
 
-void	draw_ceil(mlx_image_t *image, t_vray *vray, \
-					t_attr *attributes, t_vec2i pos)
+void	draw_ceil(mlx_image_t *image, t_vray *vray, t_attr *attributes, t_vec2i pos)
 {
 	const t_vec2i	cell = vec2d_to_vec2i(vray->floor);
 	mlx_texture_t	*c_tex;

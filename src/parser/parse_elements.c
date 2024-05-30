@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse_elements.c                                  :+:    :+:             */
+/*   parse_elements.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/05/29 12:25:46 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/05/30 16:32:49 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@
 // TODO: Add ft_strlen_largest()
 static t_element_type	check_element_type(char *flag)
 {
-	if (!ft_strcmp_largest(flag, "C") || !ft_strcmp_largest(flag, "F") \
-	|| !ft_strcmp_largest(flag, "C_ALT"))
+	if (!ft_strcmp_largest(flag, "C") || !ft_strcmp_largest(flag, "F") || !ft_strcmp_largest(flag, "C_ALT"))
 		return (CEIL_FLOOR);
 	if (is_wall(flag))
 		return (WALL);
@@ -46,8 +45,7 @@ static int	handle_ceil_floor(t_attr *attributes, char *flag, char *content)
 	return (exit_code);
 }
 
-static int	handle_element(t_meta *meta, t_element_type type, \
-		char *flag, char *content)
+static int	handle_element(t_meta *meta, t_element_type type, char *flag, char *content)
 {
 	int	exit_code;
 

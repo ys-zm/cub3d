@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   raycaster.c                                       :+:    :+:             */
+/*   raycaster.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:33 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/03 19:18:35 by joppe         ########   odam.nl         */
+/*   Updated: 2024/05/30 16:31:56 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 #include "raycaster.h"
 #include "vector.h"
 
-inline static t_side	ray_move(t_vec2d *side_dist, t_vec2d *delta_dist, \
-		t_vec2i step_size, t_vec2i *map_pos)
+inline static t_side	ray_move(t_vec2d *side_dist, t_vec2d *delta_dist, t_vec2i step_size, t_vec2i *map_pos)
 {
 	if (side_dist->x < side_dist->y)
 	{
@@ -38,8 +37,7 @@ inline static t_side	ray_move(t_vec2d *side_dist, t_vec2d *delta_dist, \
 	}
 }
 
-static void	ray_check_door_x_axis(t_ray *r, t_vec2d *side_dist, \
-		const t_vec2d delta_dist, const t_vec2i step_size)
+static void	ray_check_door_x_axis(t_ray *r, t_vec2d *side_dist, const t_vec2d delta_dist, const t_vec2i step_size)
 {
 	if (side_dist->y - (delta_dist.y / 2) < side_dist->x)
 		side_dist->y += delta_dist.y / 2;
@@ -55,8 +53,7 @@ static void	ray_check_door_x_axis(t_ray *r, t_vec2d *side_dist, \
 	}
 }
 
-static void	ray_check_door(t_ray *r, t_vec2d *side_dist, \
-		const t_vec2d delta_dist, const t_vec2i step_size)
+static void	ray_check_door(t_ray *r, t_vec2d *side_dist, const t_vec2d delta_dist, const t_vec2i step_size)
 {
 	if (r->hit_side == SIDE_N || r->hit_side == SIDE_S)
 		ray_check_door_x_axis(r, side_dist, delta_dist, step_size);
@@ -77,8 +74,7 @@ static void	ray_check_door(t_ray *r, t_vec2d *side_dist, \
 	}
 }
 
-static void	calculate_ray_end(t_ray *r, t_vec2d side_dist, \
-		t_vec2d delta_dist, t_vec2d pp)
+static void	calculate_ray_end(t_ray *r, t_vec2d side_dist, t_vec2d delta_dist, t_vec2d pp)
 {
 	r->length = calculate_ray_length(r->hit_side, side_dist, delta_dist);
 	r->end = vec2i_to_vec2d(r->map_pos);
@@ -92,8 +88,7 @@ static void	calculate_ray_end(t_ray *r, t_vec2d side_dist, \
 	r->wall_x -= floor(r->wall_x);
 }
 
-t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, \
-		const void *param)
+t_ray	raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *param)
 {
 	t_ray	r;
 	t_vec2i	step_size;

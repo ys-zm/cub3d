@@ -6,7 +6,7 @@
 /*   By: yzaim <yzaim@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 16:09:11 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/05/29 12:17:53 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/05/30 16:21:02 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ mlx_texture_t	*get_texture(t_cell_type cell, t_side side, t_attr attributes)
 	return (attributes.w.tex);
 }
 
-int32_t	find_wall_color(t_attr atrributes, t_ray *ray, \
-						t_vec2i line_points, uint32_t h)
+int32_t	find_wall_color(t_attr atrributes, t_ray *ray, t_vec2i line_points, uint32_t h)
 {
 	int32_t			color;
 	mlx_texture_t	*texture;

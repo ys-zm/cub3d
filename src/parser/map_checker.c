@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   map_checker.c                                     :+:    :+:             */
+/*   map_checker.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:42:38 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/05/29 12:23:51 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/05/30 16:32:26 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ int	flood_fill(t_meta *meta, char *map, int x, int y)
 	int	ret;
 
 	ret = 0;
-	if (x < 0 || y < 0 || y >= (int)meta->map.height || \
-		x >= (int)meta->map.width)
+	if (x < 0 || y < 0 || y >= (int)meta->map.height || x >= (int)meta->map.width)
 		return (1);
 	if (map[find_index(meta, x, y)] == '1' || map[find_index(meta, x, y)] == '2' || map[find_index(meta, x, y)] == '3')
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/25 16:01:20 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/02/14 12:23:01 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/05/30 16:30:33 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ t_vec2d	calc_transform(t_player *p, t_vec2d pos)
 
 	s_pos = (t_vec2d){pos.x - pp.x, pos.y - pp.y};
 	inv_det = 1.0 / (p->cam_plane.x * pdir.y - pdir.x * p->cam_plane.y);
-	transform = (t_vec2d){inv_det * (pdir.y * s_pos.x - pdir.x * s_pos.y), \
-				inv_det * (-(p->cam_plane.y) * s_pos.x \
-				+ p->cam_plane.x * s_pos.y)};
+	transform = (t_vec2d){inv_det * (pdir.y * s_pos.x - pdir.x * s_pos.y), inv_det * (-(p->cam_plane.y) * s_pos.x + p->cam_plane.x * s_pos.y)};
 	return (transform);
 }

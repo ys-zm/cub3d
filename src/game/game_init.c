@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   game_init.c                                       :+:    :+:             */
+/*   game_init.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:26:51 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/04 17:40:58 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/05/30 16:30:05 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,7 @@ int	game_init(t_meta *meta)
 	minimap_init(&meta->minimap);
 	timer_init(&meta->update_timer, mlx_get_time);
 	timer_start(&meta->update_timer);
-	if (init_sprites(meta->attributes.sprite_count, &meta->player.sprite_order, \
-		&meta->player.sprite_dist))
+	if (init_sprites(meta->attributes.sprite_count, &meta->player.sprite_order, &meta->player.sprite_dist))
 	{
 		return (false);
 	}

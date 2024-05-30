@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   sprite.c                                          :+:    :+:             */
+/*   sprite.c                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jboeve <jboeve@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/25 16:01:20 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/03/06 11:35:14 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/05/30 16:31:29 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ static void	fill_up_arr(t_player *p)
 	{
 		p->sprite_order[i] = i;
 		sp_pos = p->meta->attributes.sprites[i].pos;
-		p->sprite_dist[i] = ((pp.x - sp_pos.x) * (pp.x - sp_pos.x)) \
-							+ ((pp.y - sp_pos.y) * (pp.y - sp_pos.y));
+		p->sprite_dist[i] = ((pp.x - sp_pos.x) * (pp.x - sp_pos.x)) + ((pp.y - sp_pos.y) * (pp.y - sp_pos.y));
 		i++;
 	}
 }
@@ -55,19 +54,15 @@ void	sprite_calculate(t_player *p)
 	t_vec2i			draw_end;
 
 	fill_up_arr(p);
-	sprite_sort(p->sprite_dist, p->sprite_order, \
-				p->meta->attributes.sprite_count);
+	sprite_sort(p->sprite_dist, p->sprite_order, p->meta->attributes.sprite_count);
 	i = 0;
 	while (i < p->meta->attributes.sprite_count)
 	{
 		ind = p->sprite_order[i];
 		sp[ind].transform = calc_transform(p, sp[ind].pos);
-		sp[ind].screen_x = (int32_t)(p->meta->image->width / 2) * \
-							(1 + sp[ind].transform.x / sp[ind].transform.y);
-		sp[ind].height = abs((int)(p->meta->image->height \
-								/ sp[ind].transform.y));
-		sp[ind].width = abs((int)(p->meta->image->height \
-								/ sp[ind].transform.y));
+		sp[ind].screen_x = (int32_t)(p->meta->image->width / 2) * (1 + sp[ind].transform.x / sp[ind].transform.y);
+		sp[ind].height = abs((int)(p->meta->image->height / sp[ind].transform.y));
+		sp[ind].width = abs((int)(p->meta->image->height / sp[ind].transform.y));
 		draw_start = calc_draw_start(p, sp[ind]);
 		draw_end = calc_draw_end(p, sp[ind]);
 		draw_sprite(p, draw_start, draw_end, ind);

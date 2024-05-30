@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:24:47 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/05/29 12:17:18 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/05/30 16:06:34 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ static void	fps_hook(void *param)
 		fps++;
 }
 
-// change to create a different image for the minimap vs. main viewport
 int	init_mlx_images(t_meta *meta)
 {
 	meta->mlx = mlx_init(WINDOW_WIDTH, WINDOW_HEIGHT, meta->scene_name, true);

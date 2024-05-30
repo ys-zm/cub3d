@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/05/29 12:26:31 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/05/30 15:57:38 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ bool	valid_sprite_content(char *content)
 	}
 	if (word && content[i] == '\0')
 		content_count++;
-	if (content_count == 3)
+	if (content_count == 3) // Sprites need 3 values, PosX Pos Y and Texture
 		return (true);
 	return (false);
 }
