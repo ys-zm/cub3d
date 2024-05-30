@@ -1,16 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   render_viewport.c                                  :+:    :+:            */
+/*   render_viewport.c                                 :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/05/30 16:34:44 by yesimzaim     ########   odam.nl         */
+/*   Updated: 2024/05/30 21:27:44 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "MLX42/MLX42.h"
 #include "meta.h"
+#include <stdio.h>
 
 void	render_fc(mlx_image_t *image, t_player *p)
 {
@@ -57,6 +59,25 @@ static uint32_t	index_at(uint32_t x, uint32_t y, uint32_t width, uint8_t bpp)
 	return (index);
 }
 
+
+void print_tex(mlx_texture_t *texture, mlx_image_t *image)
+{
+	const int center_x = (image->width / 2 + (texture->width / 2));
+	const int center_y = (image->height / 2 + (texture->height / 2));
+
+	for (size_t x = 0; x < texture->width; x++) 
+	{
+		for (size_t y = 0; y < texture->height; y++) 
+		{
+			// mlx_put_pixel(image, x, y, texture->pixels[(x * image->width) + y]);
+			uint32_t c = pixel_picker(texture, x, y);
+			mlx_put_pixel(image, x + center_x, y + center_y, c);
+		}
+	}
+
+}
+
+
 void	render_viewport(mlx_image_t *image, t_player *p)
 {
 	const int32_t	crosshair_size = 8;
@@ -64,5 +85,8 @@ void	render_viewport(mlx_image_t *image, t_player *p)
 	render_fc(image, p);
 	render_walls(image, p);
 	draw_rect(image, (t_vec2u){(WINDOW_WIDTH / 2 - (crosshair_size / 2)), (WINDOW_HEIGHT / 2 - (crosshair_size / 2))}, (t_vec2u){crosshair_size, crosshair_size}, 0xFFFFFFFF);
+	sprite_calculate(p);
 
+	mlx_texture_t	*texture = (p->meta->attributes.n.tex);
+	// print_tex(texture, image);
 }

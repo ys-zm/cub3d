@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   draw_func.c                                        :+:    :+:            */
+/*   draw_func.c                                       :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/05/30 16:33:23 by yesimzaim     ########   odam.nl         */
+/*   Updated: 2024/05/30 21:49:46 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,16 @@ static void	calculate_texture_points(mlx_texture_t *texture, t_ray *ray, uint32_
 	double	offset;
 
 	offset = 0;
+
 	ray->texture_point.x = (int)(ray->wall_x * texture->width);
-	if ((ray->hit_side == SIDE_E || ray->hit_side == SIDE_W) && ray->direction.x > 0)
-		ray->texture_point.x = texture->width - ray->texture_point.x - 1;
-	if ((ray->hit_side == SIDE_S || ray->hit_side == SIDE_N) && ray->direction.y < 0)
-		ray->texture_point.x = texture->width - ray->texture_point.x - 1;
-	if (ray->line_height > h)
-		offset = (ray->line_height - h) / 2;
+
+	// if ((ray->hit_side == SIDE_E || ray->hit_side == SIDE_W) && ray->direction.x > 0)
+	// 	ray->texture_point.x = texture->width - ray->texture_point.x - 1;
+	// if ((ray->hit_side == SIDE_S || ray->hit_side == SIDE_N) && ray->direction.y < 0)
+	// 	ray->texture_point.x = texture->width - ray->texture_point.x - 1;
+
+	// if (ray->line_height > h)
+	// 	offset = (ray->line_height - h) / 2;
 	ray->step = texture->height / ray->line_height;
 	ray->texture_position = ((ray->line_point.x + offset) + (ray->line_height - h) / 2) * ray->step;
 }
@@ -38,18 +41,27 @@ void	draw_column(t_meta *meta, t_ray *ray, uint32_t col, uint32_t h)
 {
 	int32_t			y;
 	int32_t			color;
-	mlx_texture_t	*texture;
+	mlx_texture_t	*texture = get_texture(ray->hit_cell, ray->hit_side, meta->attributes);
 
-	texture = get_texture(ray->hit_cell, ray->hit_side, meta->attributes);
+	uint32_t draw_start = (int)(ray->wall_x * texture->width);
+	uint32_t draw_end;
+
+	double step = texture->height / ray->line_height;
+
+	double tex_x_pos = ((ray->line_point.x) + (ray->line_height - h) / 2) * ray->step;
+
+
+
 	calculate_texture_points(texture, ray, h);
+	// line_point start
 	y = ray->line_point.x;
 	if (y < 0)
 		y = 0;
-	while (y < ray->line_point.y && y < (int32_t)WINDOW_HEIGHT)
+	while (y < ray->line_point.y && y < (int32_t) WINDOW_HEIGHT)
 	{
 		ray->texture_point.y = ((int) ray->texture_position) & (texture->height - 1);
 		ray->texture_position += ray->step;
-		color = pixel_picker(texture, (int)round(ray->texture_point.x), (int)round(ray->texture_point.y));
+		color = pixel_picker(texture, (ray->texture_point.x), (ray->texture_point.y));
 		mlx_put_pixel(meta->image, col, y, color);
 		y++;
 	}

@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:24:47 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/05/30 16:06:34 by yesimzaim     ########   odam.nl         */
+/*   Updated: 2024/05/30 21:05:54 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	init_mlx_images(t_meta *meta)
 	meta->minimap.fps_image = mlx_new_image(meta->mlx, 1, 1);
 	if (!meta->minimap.fps_image || (mlx_image_to_window(meta->mlx, meta->minimap.fps_image, 3, MINIMAP_HEIGHT + 16) < 0))
 		return (pr_err(MLX_ERROR));
+
+	meta->minimap.fps_image = mlx_new_image(meta->mlx, 1, 1);
 	return (EXIT_SUCCESS);
 }
 
@@ -89,10 +91,10 @@ int	cub3d(int argc, char **argv)
 		meta_free(&meta);
 		return (EXIT_FAILURE);
 	}
-	mlx_set_cursor_mode(meta.mlx, MLX_MOUSE_HIDDEN);
+	// mlx_set_cursor_mode(meta.mlx, MLX_MOUSE_HIDDEN);
 	mlx_loop_hook(meta.mlx, game_loop, &meta);
 	mlx_loop_hook(meta.mlx, fps_hook, &meta);
-	mlx_cursor_hook(meta.mlx, cursor_hook, &meta);
+	// mlx_cursor_hook(meta.mlx, cursor_hook, &meta);
 	mlx_loop(meta.mlx);
 	mlx_terminate(meta.mlx);
 	meta_free(&meta);
