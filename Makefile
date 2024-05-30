@@ -17,7 +17,7 @@ RUN_CMD		:= ./$(NAME) test_maps/map_with_extras.cub
 # CFLAGS		+= -Wall -Wextra
 # CFLAGS		+= -g -fsanitize=address
 # CFLAGS		+= -g
-CFLAGS		+= -Wall -Wextra 
+# CFLAGS		+= -Wall -Wextra 
 # CFLAGS		+= -Werror
 CFLAGS		+= -Ofast -flto -march=native -fno-fast-math
 

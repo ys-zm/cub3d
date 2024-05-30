@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   draw_func.c                                        :+:    :+:            */
+/*   draw_func.c                                       :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/05/30 16:33:23 by yesimzaim     ########   odam.nl         */
+/*   Updated: 2024/05/30 23:22:36 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ static void	calculate_texture_points(mlx_texture_t *texture, t_ray *ray, uint32_
 		ray->texture_point.x = texture->width - ray->texture_point.x - 1;
 	if (ray->line_height > h)
 		offset = (ray->line_height - h) / 2;
-	ray->step = texture->height / ray->line_height;
-	ray->texture_position = ((ray->line_point.x + offset) + (ray->line_height - h) / 2) * ray->step;
+	ray->step = ((double) texture->height) / (double) ray->line_height;
+	// ray->texture_position = ((ray->line_point.x + offset) + (ray->line_height - h) / 2) * ray->step;
+	ray->texture_position = (ray->line_point.x - (float)h / 2 + (float)ray->line_height / 2) * ray->step;
 }
 
 void	draw_column(t_meta *meta, t_ray *ray, uint32_t col, uint32_t h)
@@ -47,7 +48,9 @@ void	draw_column(t_meta *meta, t_ray *ray, uint32_t col, uint32_t h)
 		y = 0;
 	while (y < ray->line_point.y && y < (int32_t)WINDOW_HEIGHT)
 	{
-		ray->texture_point.y = ((int) ray->texture_position) & (texture->height - 1);
+		// ray->texture_point.y = ((int) ray->texture_position) & (texture->height - 1);
+		ray->texture_point.y = ((int) ray->texture_position);
+		// printf("texture_point.y [%d]\n", ray->texture_point.y);
 		ray->texture_position += ray->step;
 		color = pixel_picker(texture, (int)round(ray->texture_point.x), (int)round(ray->texture_point.y));
 		mlx_put_pixel(meta->image, col, y, color);

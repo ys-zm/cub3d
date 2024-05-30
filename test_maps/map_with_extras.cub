@@ -1,7 +1,7 @@
-NO texture_examples/bw_wall.png
-WE texture_examples/bw_wall.png
-EA texture_examples/bw_wall.png
-SO texture_examples/bw_wall.png
+NO texture_examples/debug2.png
+WE texture_examples/debug2.png
+EA texture_examples/debug2.png
+SO texture_examples/debug2.png
 F 0,0,0
 C 0,0,0
 
