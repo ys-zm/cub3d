@@ -32,4 +32,4 @@ The renderer colors individual pixels to draw the 3D maze based on the wall leng
 
 ### Parameters:
 
-map_file: a configuration file (with a .cub extension) outlining texture paths, player start position and maze shape. Please see the example .cub file to see how to set one up.
+map_file: a configuration file (with a .cub extension) outlining texture paths, player start position and maze shape. Please see the example .cub files in the 'test_maps' directory to set one up or use one directly.
