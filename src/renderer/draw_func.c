@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/05/30 21:57:21 by joppe         ########   odam.nl         */
+/*   Updated: 2024/05/30 23:08:29 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,31 +39,59 @@ static void	calculate_texture_points(mlx_texture_t *texture, t_ray *ray, uint32_
 
 void	draw_column(t_meta *meta, t_ray *ray, uint32_t col, uint32_t h)
 {
-	int32_t			y;
-	int32_t			color;
+	int32_t	y;
+	int32_t	color;
+	int32_t	offset = 0;
 	mlx_texture_t	*texture = get_texture(ray->hit_cell, ray->hit_side, meta->attributes);
 
 
 	// ray->wall_x // where we are in the wall 0.0->1.0
 	// ray->line_height // length of the wall in Y-axis.
+	// ray->line_point.x; start of line_height.
+	// ray->line_point.y; end of line_height.
 
+	int texture_x = (ray->wall_x * (double)(texture->width));
+	double step = 1.0 * texture->height / ray->line_height;
 
+	double texture_pos = (ray->line_point.x - h / 2 + ray->line_height / 2) * step;
 
+	if (ray->id == meta->image->width / 2)
+	{
+		// printf("ray id: [%d] | line_height [%lf]\n", ray->id, ray->line_height);
+		printf("texture_pos: [%lf] \n", texture_pos);
+	}
 
-	calculate_texture_points(texture, ray, h);
-	// line_point start
+	if (ray->line_height > (int32_t) h)
+		offset = (ray->line_height - (int32_t) h) / 2;
+
 	y = ray->line_point.x;
 	if (y < 0)
 		y = 0;
 	while (y < ray->line_point.y && y < (int32_t) WINDOW_HEIGHT)
 	{
+		int texture_y = (int) texture_pos;
+		texture_pos += step;
+		color = pixel_picker(texture, texture_x, texture_y);
 
-		ray->texture_point.y = ((int) ray->texture_position) & (texture->height - 1);
-		ray->texture_position += ray->step;
-		color = pixel_picker(texture, (ray->texture_point.x), (ray->texture_point.y));
 		mlx_put_pixel(meta->image, col, y, color);
 		y++;
 	}
+
+
+
+	// line_point start
+	// y = ray->line_point.x;
+	// if (y < 0)
+	// 	y = 0;
+	// while (y < ray->line_point.y && y < (int32_t) WINDOW_HEIGHT)
+	// {
+	//
+	// 	ray->texture_point.y = ((int) ray->texture_position) & (texture->height - 1);
+	// 	ray->texture_position += ray->step;
+	// 	color = pixel_picker(texture, (ray->texture_point.x), (ray->texture_point.y));
+	// 	mlx_put_pixel(meta->image, col, y, color);
+	// 	y++;
+	// }
 }
 
 void	draw_floor(mlx_image_t *image, t_vray *vray, t_attr *attributes, t_vec2i pos)

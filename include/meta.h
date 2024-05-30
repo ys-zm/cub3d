@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/05/30 20:57:31 by joppe         ########   odam.nl         */
+/*   Updated: 2024/05/30 23:07:08 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ typedef enum e_side
 
 typedef struct s_ray
 {
+	uint32_t 	id;
 	t_vec2d		direction;
 	t_vec2d		end;
 	t_vec2i		map_pos;
@@ -134,7 +135,7 @@ typedef struct s_ray
 	t_vec2i		line_point;
 	t_side		hit_side;
 	t_cell_type	hit_cell;
-	double		line_height;
+	int32_t	line_height;
 	double		length;
 	double		wall_x;
 	double		texture_position;

@@ -16,11 +16,11 @@ RUN_CMD		:= ./$(NAME) test_maps/map_with_extras.cub
 # RUN_CMD		:= ./$(NAME) test_maps/small.cub
 
 # CFLAGS		+= -Wall -Wextra
-# CFLAGS		+= -g -fsanitize=address
+CFLAGS		+= -g -fsanitize=address
 # CFLAGS		+= -g
 CFLAGS		+= -Wall -Wextra 
 # CFLAGS		+= -Werror
-CFLAGS		+= -Ofast -flto -march=native -fno-fast-math
+# CFLAGS		+= -Ofast -flto -march=native -fno-fast-math
 
 LIBFT		:=	libft/build/libft.a
 LIBMLX		:=	MLX42/build/libmlx42.a

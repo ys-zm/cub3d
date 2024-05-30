@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   player.c                                           :+:    :+:            */
+/*   player.c                                          :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:23 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/05/30 16:29:52 by yesimzaim     ########   odam.nl         */
+/*   Updated: 2024/05/30 22:54:11 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void	player_raycast(t_player *p)
 		camera_x = (2 * i / ((double) p->meta->image->width) - 1);
 		ray_start = vec2d_add(p->direction, vec2d_scalar_product(p->cam_plane, camera_x));
 		p->hrays[i] = raycaster_cast(p->position, ray_start, bound_check, p->meta);
+		p->hrays[i].id = i;
 		p->z_buffer[i] = p->hrays[i].length;
 		i++;
 	}
