@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/05/30 21:49:46 by joppe         ########   odam.nl         */
+/*   Updated: 2024/05/30 21:57:21 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,10 @@ void	draw_column(t_meta *meta, t_ray *ray, uint32_t col, uint32_t h)
 	int32_t			color;
 	mlx_texture_t	*texture = get_texture(ray->hit_cell, ray->hit_side, meta->attributes);
 
-	uint32_t draw_start = (int)(ray->wall_x * texture->width);
-	uint32_t draw_end;
 
-	double step = texture->height / ray->line_height;
+	// ray->wall_x // where we are in the wall 0.0->1.0
+	// ray->line_height // length of the wall in Y-axis.
 
-	double tex_x_pos = ((ray->line_point.x) + (ray->line_height - h) / 2) * ray->step;
 
 
 
@@ -59,6 +57,7 @@ void	draw_column(t_meta *meta, t_ray *ray, uint32_t col, uint32_t h)
 		y = 0;
 	while (y < ray->line_point.y && y < (int32_t) WINDOW_HEIGHT)
 	{
+
 		ray->texture_point.y = ((int) ray->texture_position) & (texture->height - 1);
 		ray->texture_position += ray->step;
 		color = pixel_picker(texture, (ray->texture_point.x), (ray->texture_point.y));
