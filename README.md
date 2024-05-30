@@ -27,7 +27,7 @@ The renderer colors individual pixels to draw the 3D maze based on the wall leng
 ## Usage:
 
 ```
-./cub3d [map_file]
+./cub3D [map_file]
 ```
 
 ### Parameters:
