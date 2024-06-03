@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/05/30 23:36:18 by joppe         ########   odam.nl         */
+/*   Updated: 2024/06/03 18:29:46 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static void	calculate_texture_points(mlx_texture_t *texture, t_ray *ray, uint32_
 	if (ray->line_height > h)
 		offset = (ray->line_height - h) / 2;
 	ray->step = ((double) texture->height) / (double) ray->line_height;
-	// ray->texture_position = ((ray->line_point.x + offset) + (ray->line_height - h) / 2) * ray->step;
 	ray->texture_position = (ray->line_point.x - (float)h / 2 + (float)ray->line_height / 2) * ray->step;
 }
 
@@ -46,9 +45,7 @@ void	draw_column(t_meta *meta, t_ray *ray, uint32_t col, uint32_t h)
 	y = ray->line_point.x;
 	while (y < ray->line_point.y && y < (int32_t)WINDOW_HEIGHT)
 	{
-		// ray->texture_point.y = ((int) ray->texture_position) & (texture->height - 1);
 		ray->texture_point.y = ((int) ray->texture_position);
-		// printf("texture_point.y [%d]\n", ray->texture_point.y);
 		ray->texture_position += ray->step;
 		color = pixel_picker(texture, (int)round(ray->texture_point.x), (int)round(ray->texture_point.y));
 		if (y >= 0)
