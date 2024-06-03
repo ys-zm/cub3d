@@ -6,7 +6,7 @@
 /*   By: jboeve <jboeve@student.codam.nl>            +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2024/03/04 17:37:55 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/03/06 15:10:52 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/05/29 12:19:34 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	minimap_zoom(t_minimap *m, t_minimap_zoom dir)
 			tmp = 2;
 	}
 	m->tile_size = (size_t) tmp;
-	printf("zoom [%ld]\n", m->tile_size);
 }
 
 void	minimap_init(t_minimap *map)

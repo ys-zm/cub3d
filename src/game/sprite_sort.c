@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   sprite_sort.c                                     :+:    :+:             */
+/*   sprite_sort.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jboeve <jboeve@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/25 16:01:20 by jboeve        #+#    #+#                 */
-/*   Updated: 2024/03/06 11:35:43 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/05/30 16:31:05 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@
 #include <stdlib.h>
 
 // TODO: find a better way to compare doubles
-static uint32_t	partition(double *sprite_dist, int32_t *sprite_order, \
-					int32_t low, int32_t high)
+static uint32_t	partition(double *sprite_dist, int32_t *sprite_order, int32_t low, int32_t high)
 {
 	const double	pivot = sprite_dist[low];
 	int32_t			i;
@@ -43,8 +42,7 @@ static uint32_t	partition(double *sprite_dist, int32_t *sprite_order, \
 	return (j);
 }
 
-static void	quick_sort(double *sprite_dist, int32_t *sprite_order, \
-					int32_t low, int32_t high)
+static void	quick_sort(double *sprite_dist, int32_t *sprite_order, int32_t low, int32_t high)
 {
 	int32_t	partition_index;
 
@@ -75,8 +73,7 @@ static void	reverse(double *arr1, int32_t *arr2, uint32_t size)
 	}
 }
 
-void	sprite_sort(double *sprite_dist, int32_t *sprite_order, \
-					uint32_t sprite_count)
+void	sprite_sort(double *sprite_dist, int32_t *sprite_order, uint32_t sprite_count)
 {
 	quick_sort(sprite_dist, sprite_order, 0, sprite_count - 1);
 	reverse(sprite_dist, sprite_order, sprite_count);

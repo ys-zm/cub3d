@@ -6,7 +6,7 @@
 /*   By: W2Wizard <main@w2wizard.dev>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/16 23:11:29 by W2Wizard      #+#    #+#                 */
-/*   Updated: 2024/03/04 14:02:44 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/06/03 18:33:17 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ mlx_texture_t* mlx_load_png(const char* path)
 		free(image);
 		// Explicitly print error on purpose
 		fprintf(stderr, "MLX42: LodePNG: %s\n", lodepng_error_text(error));
+		fprintf(stderr, "Open failed for: %s\n", path);
 		return ((void*)mlx_error(MLX_INVPNG));
 	}
 	return (image);

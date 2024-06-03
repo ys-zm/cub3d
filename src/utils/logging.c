@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /**/
 /*:::  ::::::::   */
-/*   error.c                                           :+:    :+:             */
+/*   logging.c                                         :+:    :+:             */
 /*+:+ +:+ +:+ */
 /*   By: yzaim <marvin@42.fr>   +#+  +:+   +#+*/
 /*+#+#+#+#+#+   +#+   */
 /*   Created: 2023/11/09 18:08:19 by yzaim #+##+# */
-/*   Updated: 2024/03/03 19:18:09 by joppe         ########   odam.nl         */
+/*   Updated: 2024/05/30 16:26:50 by yesimzaim     ########   odam.nl         */
 /**/
 /* ************************************************************************** */
 
@@ -16,16 +16,12 @@
 
 int	pr(char *err, int exit_code)
 {
-	size_t	i;
-
-	i = write(2, err, ft_strlen(err));
-	(void) i;
+	write(2, err, ft_strlen(err));
 	return (exit_code);
 }
 
 int	pr_err(t_err type)
 {
-	size_t		i;
 	const char	*msg[ERR_COUNT] = {
 		INVALID_CHAR, INVALID_EXT, INVALID_WALLS,
 		TOO_MANY_PLAYERS, INVALID_FILE,
@@ -36,12 +32,11 @@ int	pr_err(t_err type)
 		DOUBLE_ERR, SP_COORD_ERR, DR_PATH_ERR, DR_ERR
 	};
 
-	i = write(2, "Error\n", 6);
-	(void) i;
+	write(2, "Error\n", 6);
 	if (type >= 0 && type < ERR_COUNT)
 	{
-		i = write(2, msg[type], ft_strlen(msg[type]));
-		return (1);
+		write(2, msg[type], ft_strlen(msg[type]));
+		return (EXIT_FAILURE);
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }

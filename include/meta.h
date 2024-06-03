@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/03/06 15:11:10 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/05/30 23:18:11 by joppe         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ typedef struct s_ray
 	t_vec2i		line_point;
 	t_side		hit_side;
 	t_cell_type	hit_cell;
-	double		line_height;
+	int32_t		line_height;
 	double		length;
 	double		wall_x;
 	double		texture_position;

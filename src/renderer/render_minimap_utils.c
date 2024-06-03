@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>             +#+                      */
 /*                                                  +#+                       */
 /*   Created: 2024/03/01 19:29:06 by joppe         #+#    #+#                 */
-/*   Updated: 2024/03/04 17:52:35 by jboeve        ########   odam.nl         */
+/*   Updated: 2024/05/29 12:20:49 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,9 @@ t_cell_type	minimap_ray_len(const void *p, uint32_t x, uint32_t y)
 	return (0);
 }
 
-void	draw_cell(mlx_image_t *image, t_cell_type cell, \
-		t_vec2u start, uint32_t size)
+void	draw_cell(mlx_image_t *image, t_cell_type cell, t_vec2u start, uint32_t size)
 {
-	draw_rect(image, start, \
-			(t_vec2u){size, size}, \
-			get_cell_color(cell).value);
+	draw_rect(image, start, (t_vec2u){size, size}, get_cell_color(cell).value);
 }
 
 void	render_border(mlx_image_t *image, uint32_t c)

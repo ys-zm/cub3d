@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   map_lexer.c                                        :+:    :+:            */
+/*   map_lexer.c                                       :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/04 17:10:55 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/05/29 12:24:26 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ int	end_of_map(char *file)
 	i = 0;
 	while (file[i])
 	{
-		if (nl_only_spaces(&file[i]) || \
-		((!valid_map_char(file[i]) && file[i] != '\n')))
+		if (nl_only_spaces(&file[i]) || ((!valid_map_char(file[i]) && file[i] != '\n')))
 		{
 			break ;
 		}

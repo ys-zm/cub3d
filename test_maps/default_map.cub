@@ -1,0 +1,22 @@
+NO texture_examples/bw_splash.png
+WE texture_examples/bw_splash.png
+EA texture_examples/bw_splash.png
+SO texture_examples/bw_splash.png
+F 0,0,0
+C 0,0,0
+
+SP texture_examples/greenlight.png 2.0 2.0
+
+D texture_examples/door.png
+
+
+11111111111111
+10000100011111
+1000010001
+100001D111 
+111100001
+1001000001111111
+100D000N000000D1
+1001000000011111
+11110000011
+1111111111

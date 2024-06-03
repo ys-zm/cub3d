@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/04 14:55:04 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/05/30 16:33:08 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ void	skip_digits(char **file)
 
 int	valid_map_char(char c)
 {
-	return (c == '1' || c == '0' || c == 'N' || c == 'S' \
-	|| c == 'E' || c == 'W' || c == ' ' || c == 'D');
+	return (c == '1' || c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W' || c == ' ' || c == 'D');
 }
 
 int	player_pos_char(char c)

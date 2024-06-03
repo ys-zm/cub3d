@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   check_colors.c                                     :+:    :+:            */
+/*   check_colors.c                                    :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/06 15:02:27 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/05/29 12:21:47 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ static bool	valid_colour(char *content)
 	{
 		if (*content == ',')
 			commas++;
-		if (!ft_isdigit(*content) && *content != ',' && \
-				*content != ' ' && *content != '\t')
+		if (!ft_isdigit(*content) && *content != ',' && *content != ' ' && *content != '\t')
 			return (false);
 		content++;
 	}

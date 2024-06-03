@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:30:18 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/06 11:39:46 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/05/30 16:06:17 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,17 @@ static void	add_to_list(t_flag **elements, t_flag *new_node)
 	t_flag	*list;
 
 	list = *elements;
-	if (*elements == NULL)
+	if (*elements == NULL)  // If the list is empty
 	{
-		*elements = new_node;
+		*elements = new_node; // Set as first node
 	}
 	else
 	{
-		while (list->next != NULL)
+		while (list->next != NULL) // Skip to the last element in the list
+		{
 			list = list->next;
-		list->next = new_node;
+		}
+		list->next = new_node; 
 	}
 }
 
@@ -55,17 +57,17 @@ static int	add_element(char *file, t_flag **elements, int *mandatory)
 	if (!new_node)
 		return (pr_err(MALL_ERR));
 	if (!is_valid_key(*elements, new_node, mandatory))
-		return (free(new_node->flag), free(new_node->content), \
-			free(new_node), pr_err(DUP_ELEMENTS));
+		return (free(new_node->flag), free(new_node->content), free(new_node), pr_err(DUP_ELEMENTS));
 	add_to_list(elements, new_node);
 	return (EXIT_SUCCESS);
 }
 
+// checks for config file errors such as missing map or duplicate elements
 static int	lex(char *file, t_map *map, t_flag **elements)
 {
-	int		exit_code;
-	int		skip;
-	int		mandatory;
+	int	exit_code;
+	int	skip;
+	int	mandatory;
 
 	mandatory = 0;
 	while (*file)
@@ -98,8 +100,7 @@ int	lexer(t_meta *meta, char *map_file)
 	if (!file)
 		return (EXIT_FAILURE);
 	if (lex(file, &meta->map, &meta->elements))
-		return (free(file), free_t_flag_list(&meta->elements), \
-		free(meta->map.map_element), EXIT_FAILURE);
+		return (free(file), free_t_flag_list(&meta->elements), free(meta->map.map_element), EXIT_FAILURE);
 	free(file);
 	return (EXIT_SUCCESS);
 }

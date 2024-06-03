@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>   +#+  +:+   +#+*/
 /*+#+#+#+#+#+   +#+   */
 /*   Created: 2023/11/09 18:08:19 by yzaim #+##+# */
-/*   Updated: 2024/03/06 11:43:31 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/05/29 12:26:04 by jboeve        ########   odam.nl         */
 /**/
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ static bool	out_of_bounds(t_vec2d pos, uint32_t w, uint32_t h)
 	return (false);
 }
 
-static int	sprites_coordinates(uint32_t sprite_count, \
-		t_sprite *sprites, uint32_t w, uint32_t h)
+static int	sprites_coordinates(uint32_t sprite_count, t_sprite *sprites, uint32_t w, uint32_t h)
 {
 	uint32_t	i;
 
@@ -44,15 +43,13 @@ static int	sprites_coordinates(uint32_t sprite_count, \
 
 int	parser(t_meta *meta)
 {
-	save_map_dimensions(meta->map.map_element, \
-			&meta->map.width, &meta->map.height);
+	save_map_dimensions(meta->map.map_element, &meta->map.width, &meta->map.height);
 	create_rectangle_map_element(meta);
 	if (check_map(meta, meta->map.map_element))
 		return (EXIT_FAILURE);
 	if (parse_elements(meta))
 		return (EXIT_FAILURE);
-	if (sprites_coordinates(meta->attributes.sprite_count, \
-			meta->attributes.sprites, meta->map.width, meta->map.height))
+	if (sprites_coordinates(meta->attributes.sprite_count, meta->attributes.sprites, meta->map.width, meta->map.height))
 		return (pr_err(SP_COORD), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

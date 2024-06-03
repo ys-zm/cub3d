@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:42:38 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/05 17:16:08 by joppe         ########   odam.nl         */
+/*   Updated: 2024/05/29 12:22:16 by jboeve        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,11 @@ static bool	is_valid_dr(t_meta *meta, char *map, uint32_t x, uint32_t y)
 	bool		valid;
 
 	valid = false;
-	if (x == 0 || x == meta->map.width - 1 || \
-		y == 0 || y == meta->map.height - 1)
+	if (x == 0 || x == meta->map.width - 1 || y == 0 || y == meta->map.height - 1)
 		return (false);
-	if ((map[find_index(meta, x + 1, y)] == '1' && \
-		map[find_index(meta, x - 1, y)] == '1'))
+	if ((map[find_index(meta, x + 1, y)] == '1' && map[find_index(meta, x - 1, y)] == '1'))
 		valid = true;
-	if ((map[find_index(meta, x, y + 1)] == '1' && \
-		map[find_index(meta, x, y + 1)] == '1'))
+	if ((map[find_index(meta, x, y + 1)] == '1' && map[find_index(meta, x, y + 1)] == '1'))
 		valid = true;
 	return (valid);
 }
@@ -41,8 +38,7 @@ bool	check_valid_doors(t_meta *meta, char *map)
 		x = 0;
 		while (x < meta->map.width)
 		{
-			if (map[find_index(meta, x, y)] == '3' || \
-				map[find_index(meta, x, y)] == 'D')
+			if (map[find_index(meta, x, y)] == '3' || map[find_index(meta, x, y)] == 'D')
 			{
 				if (!is_valid_dr(meta, map, x, y))
 					return (false);

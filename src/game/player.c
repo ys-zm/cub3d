@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   player.c                                          :+:    :+:             */
-/*                                                    +:+ +:+         +:+     */
-/*   By: yzaim <marvin@42.fr>                       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/08 15:27:23 by yzaim             #+#    #+#             */
-/*   Updated: 2024/03/03 18:57:01 by joppe         ########   odam.nl         */
+/*   player.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: yzaim <marvin@42.fr>                         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/01/08 15:27:23 by yzaim         #+#    #+#                 */
+/*   Updated: 2024/05/30 16:29:52 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ static t_cell_type	bound_check_interact(const void *p, uint32_t x, uint32_t y)
 	if (x < meta->map.width && y < meta->map.height)
 	{
 		cur_cell = meta->map.level[(y * meta->map.width) + x];
-		if (cur_cell == MAP_WALL || cur_cell == MAP_DOOR_CLOSED \
-				|| cur_cell == MAP_DOOR_OPEN)
+		if (cur_cell == MAP_WALL || cur_cell == MAP_DOOR_CLOSED || cur_cell == MAP_DOOR_OPEN)
 			return (cur_cell);
 	}
 	return (MAP_EMPTY);
@@ -53,8 +52,7 @@ static void	player_interactable_raycast(t_player *p)
 {
 	t_ray *const	r = &p->interact_ray;
 
-	*r = raycaster_cast(p->position, p->direction, bound_check_interact, \
-			p->meta);
+	*r = raycaster_cast(p->position, p->direction, bound_check_interact, p->meta);
 	if (world_is_interactable(r->hit_cell) && r->length < 1.5)
 		;
 	else
@@ -91,10 +89,8 @@ void	player_raycast(t_player *p)
 	while (i < p->meta->image->width)
 	{
 		camera_x = (2 * i / ((double) p->meta->image->width) - 1);
-		ray_start = vec2d_add(p->direction, \
-				vec2d_scalar_product(p->cam_plane, camera_x));
-		p->hrays[i] = raycaster_cast(p->position, ray_start, bound_check, \
-				p->meta);
+		ray_start = vec2d_add(p->direction, vec2d_scalar_product(p->cam_plane, camera_x));
+		p->hrays[i] = raycaster_cast(p->position, ray_start, bound_check, p->meta);
 		p->z_buffer[i] = p->hrays[i].length;
 		i++;
 	}
