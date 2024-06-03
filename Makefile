@@ -78,7 +78,8 @@ SRCS	= 		parser/check_elements.c \
 				timer.c \
 				vector/vec2d_sum.c \
 				vector/vec2d_calc.c \
-				init/set_textures.c
+				init/set_textures.c \
+				visual_fx/dither.c
 
 
 HEADER_DIR	:=	include

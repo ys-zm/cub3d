@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/06/03 18:29:46 by yesimzaim     ########   odam.nl         */
+/*   Updated: 2024/06/03 19:05:37 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <math.h>
 
+// Wall_x represents the x value where the ray hits the texture. Based on that we calculate the y value on the texture.
 static void	calculate_texture_points(mlx_texture_t *texture, t_ray *ray, uint32_t h)
 {
 	double	offset;
