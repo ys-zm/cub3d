@@ -4,8 +4,10 @@ WE texture_examples/redbrick.png
 EA texture_examples/redbrick.png
 SO texture_examples/purplestone2.png
 F 255,0,0
-C	12, 34,3
+C 12,34,3
 
-11111
-1W011
-11111
+111111
+100001
+100W01
+100001
+111111

@@ -11,7 +11,7 @@ else ifeq ($(shell uname -m),x86_64)
 endif
 
 NAME		:= cub3D
-RUN_CMD		:= ./$(NAME) test_maps/map_with_extras.cub
+RUN_CMD		:= ./$(NAME) test_maps/default_map.cub
 # RUN_CMD		:= ./$(NAME) test_maps/small.cub
 
 # CFLAGS		+= -Wall -Wextra
