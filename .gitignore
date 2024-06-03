@@ -9,3 +9,4 @@ libft/build/libft.a
 Session.vim
 MLX42/build
 tests/bin
+.DS_Store
