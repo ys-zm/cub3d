@@ -2,8 +2,8 @@ NO texture_examples/bw_splash.png
 WE texture_examples/bw_splash.png
 EA texture_examples/bw_splash.png
 SO texture_examples/bw_splash.png
-F 0,0,0
-C 0,0,0
+C 1,0,255
+F 1,0,5
 
 SP texture_examples/greenlight.png 2.0 2.0
 
