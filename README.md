@@ -40,7 +40,8 @@ map_file: a configuration file (with a .cub extension) outlining texture paths, 
 ## Play:
 
 1. WSAD to move around
-2. QE or moving the mouse to look around
+2. QE or move the mouse to look around
+3. F to open/close doors
 
 ## Issues:
 
