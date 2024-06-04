@@ -22,6 +22,8 @@ The renderer colors individual pixels to draw the 3D maze based on the wall leng
    
 4. `make re` calls `fclean` followed by `all`
 
+5. `make run` runs the program 
+
 ---
 
 ## Usage:
@@ -33,3 +35,13 @@ The renderer colors individual pixels to draw the 3D maze based on the wall leng
 ### Parameters:
 
 map_file: a configuration file (with a .cub extension) outlining texture paths, player start position and maze shape. Please see the example .cub files in the 'test_maps' directory to set one up or use one directly.
+
+
+## Play:
+
+1. WSAD to move around
+2. QE or moving the mouse to look around
+
+## Issues:
+
+1. Door collision (sliding through)
