@@ -12,6 +12,7 @@ static uint8_t new_val(uint8_t pix_val, uint8_t threshold)
 	return (0);
 }
 
+// Ordered dithering
 void halftone_img(mlx_image_t *image)
 {
 	// Define the Bayer matrix (4x4)
