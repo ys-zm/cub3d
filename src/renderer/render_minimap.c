@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:53 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/06/03 18:51:26 by yesimzaim     ########   odam.nl         */
+/*   Updated: 2024/06/05 13:15:12 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,13 @@ static void	render_minimap_level(mlx_image_t *image, const t_map *map, const t_p
 	{
 		r = &p->hrays[i];
 		draw_line(image, image_center, vec2d_to_vec2i(vec2d_add((t_vec2d){image_center.x, image_center.y}, vec2d_scalar_product(r->direction, r->length * size))), (t_rgba){0x999999FF});
+		if ( i == WINDOW_WIDTH / 2)
+		{
+			// Debugging output
+        	printf("Ray %zu: Start (%d, %d) Direction (%.3f, %.3f) Length %.3f Size %zu\n",
+               i, image_center.x, image_center.y, r->direction.x, r->direction.y, r->length, size);
+
+		}
 		i++;
 	}
 	draw_rect(image, pos, (t_vec2u){MINIMAP_PLAYER_SIZE, MINIMAP_PLAYER_SIZE}, MINIMAP_COLOR_PLAYER);
