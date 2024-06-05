@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/05/30 23:18:11 by joppe         ########   odam.nl         */
+/*   Updated: 2024/06/05 12:59:03 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -459,5 +459,11 @@ t_vec2d				calc_transform(t_player *p, t_vec2d pos);
 // world.c
 void				world_interact(t_player *p, t_vec2d map_pos);
 bool				world_is_interactable(t_cell_type cell);
+
+// dithering.c
+void dither_img(mlx_image_t *image);
+
+// halftonoing.c
+void halftone_img(mlx_image_t *image);
 
 #endif
