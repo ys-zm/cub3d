@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:53 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/06/05 13:27:35 by yesimzaim     ########   odam.nl         */
+/*   Updated: 2024/06/05 13:29:52 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@
 // Loops over the map and draws a colored tile for each cell 
 static void	draw_tiles(mlx_image_t *image, const t_vec2i image_center, const t_player *p, const t_map *map)
 {
-	const uint32_t	pp_center_x = image_center.x - (p->position.x * p->meta->minimap.tile_size);
-	const uint32_t	pp_center_y = image_center.y - (p->position.y * p->meta->minimap.tile_size);
+	const uint32_t	pp_center_x = image_center.x - (uint32_t)(p->position.x * p->meta->minimap.tile_size);
+	const uint32_t	pp_center_y = image_center.y - (uint32_t)(p->position.y * p->meta->minimap.tile_size);
 
+	printf("PPcenter: (%d, %d)\n", pp_center_x, pp_center_y);
 	printf("ImageCenter: (%d, %d) | Player Pos: (%f, %f)\n", image_center.x, image_center.y, p->position.x, p->position.y);
 	size_t			loop[2];
 	int32_t			cell_pos[2];
