@@ -6,13 +6,12 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/06/05 13:02:11 by yesimzaim     ########   odam.nl         */
+/*   Updated: 2024/06/05 13:40:59 by yzaim         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "meta.h"
 #include <stdint.h>
-#include <sys/_types/_u_int32_t.h>
 
 void	render_fc(mlx_image_t *image, t_player *p)
 {
@@ -58,7 +57,7 @@ void	render_viewport(mlx_image_t *image, t_player *p)
 
 	render_fc(image, p);
 	render_walls(image, p);
-	//dither_img(image);
-	halftone_img(image);
+	dither_img(image);
+	//halftone_img(image);
 	//draw_rect(image, (t_vec2u){(WINDOW_WIDTH / 2 - (crosshair_size / 2)), (WINDOW_HEIGHT / 2 - (crosshair_size / 2))}, (t_vec2u){crosshair_size, crosshair_size}, 0xFFFFFFFF);
 }
