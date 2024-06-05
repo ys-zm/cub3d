@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:53 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/06/05 13:22:42 by yesimzaim     ########   odam.nl         */
+/*   Updated: 2024/06/05 13:24:49 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	draw_tiles(mlx_image_t *image, const t_vec2i image_center, const t_p
 	const uint32_t	pp_center_x = image_center.x - (p->position.x * p->meta->minimap.tile_size);
 	const uint32_t	pp_center_y = image_center.y - (p->position.y * p->meta->minimap.tile_size);
 
-	printf("Player Pos: (%d, %d)\n", pp_center_x, pp_center_y);
+	printf("ImageCenter: (%d, %d) | Player Pos: (%d, %d)\n", image_center.x, image_center.y, p->position.x, p->position.y);
 	size_t			loop[2];
 	int32_t			cell_pos[2];
 	const size_t	size = p->meta->minimap.tile_size;
