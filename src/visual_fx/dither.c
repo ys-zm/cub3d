@@ -20,9 +20,9 @@ void dither_img(mlx_image_t *image)
 			uint8_t b = image->pixels[index + 2];
 
 			int fc = 2;
-			uint8_t new_r = round(fc * r / 265) * 255/fc; 
-			uint8_t new_g = round(fc * g / 265) * 255/fc;
-			uint8_t new_b = round(fc * b / 265) * 255/fc;
+			uint8_t new_r = round(fc * r / 255) * 255/fc; 
+			uint8_t new_g = round(fc * g / 255) * 255/fc;
+			uint8_t new_b = round(fc * b / 255) * 255/fc;
 			// uint8_t new_g = round(((fc * g>>8)) * ((255>>1)));
 			// uint8_t new_b = round(((fc * b>>8)) * ((255>>1)));
 			// uint8_t new_r = round(((fc * r>>8)) * ((255>>1)));

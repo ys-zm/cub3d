@@ -1,18 +1,5 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        ::::::::            */
-/*   render_viewport.c                                 :+:    :+:             */
-/*                                                     +:+                    */
-/*   By: yzaim <marvin@42.fr>                         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/06/05 13:36:41 by yesimzaim     ########   odam.nl         */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "meta.h"
 #include <stdint.h>
-#include <sys/_types/_u_int32_t.h>
 
 void	render_fc(mlx_image_t *image, t_player *p)
 {
