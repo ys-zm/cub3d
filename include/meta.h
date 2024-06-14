@@ -6,7 +6,7 @@
 /*   By: joppe <jboeve@student.codam.nl>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/02/05 14:01:44 by joppe         #+#    #+#                 */
-/*   Updated: 2024/06/05 12:59:03 by yesimzaim     ########   odam.nl         */
+/*   Updated: 2024/06/14 10:29:03 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,6 +210,10 @@ typedef struct s_attr
 	t_tex		w;
 	t_tex		f;
 	t_tex		c;
+	t_rgba		n_c;
+	t_rgba		s_c;
+	t_rgba		e_c;
+	t_rgba		w_c;
 	t_tex		c_alt;
 	t_rgba		floor_c;
 	t_rgba		ceiling_c;
@@ -273,8 +277,7 @@ void				cursor_hook(double xpos, double ypos, void *param);
 void				keys_handle(t_meta *meta, double time_delta);
 
 // render_minimap.c
-void				render_minimap(t_minimap *minimap, const t_map *map, \
-					const t_player *p);
+void				render_minimap(t_minimap *minimap, const t_map *map, const t_player *p);
 
 // render_viewport.c
 void				render_viewport(mlx_image_t *image, t_player *p);
@@ -283,32 +286,27 @@ void				render_viewport(mlx_image_t *image, t_player *p);
 void				minimap_update(mlx_image_t *image, t_player *p);
 
 // draw.c
-void				draw_rect(mlx_image_t *image, t_vec2u pos, t_vec2u size, \
-					uint32_t color);
-void				draw_line(mlx_image_t *image, t_vec2i start, t_vec2i end, \
-					t_rgba c);
-void				draw_put_pixel(mlx_image_t *image, uint32_t x, uint32_t y, \
-					uint32_t color);
+void				draw_rect(mlx_image_t *image, t_vec2u pos, t_vec2u size, uint32_t color);
+void				draw_line(mlx_image_t *image, t_vec2i start, t_vec2i end, t_rgba c);
+void				draw_put_pixel(mlx_image_t *image, uint32_t x, uint32_t y, uint32_t color);
 
 // font_renderer.c
 const t_font_atlas	*cube_get_font_atlas(t_font_family face);
-mlx_image_t			*cube_put_string(mlx_image_t *image, const char *s, \
-					const t_font_atlas *atlas);
+mlx_image_t			*cube_put_string(mlx_image_t *image, const char *s, const t_font_atlas *atlas);
 
 // keys.c
 void				keys_update(mlx_key_data_t keydata, void *param);
 
 // raycaster.c
-t_ray				raycaster_cast(t_vec2d pp, t_vec2d dir, \
-					t_ray_hitfunc hit, const void *param);
+t_ray				raycaster_cast(t_vec2d pp, t_vec2d dir, t_ray_hitfunc hit, const void *param);
 
 // colors.c
 int32_t				set_color(int32_t r, int32_t g, int32_t b, int32_t a);
-int32_t				find_wall_color(t_attr atrributes, t_ray *ray, \
-					t_vec2i line_points, uint32_t h);
+int32_t				find_wall_color(t_attr atrributes, t_ray *ray, t_vec2i line_points, uint32_t h);
 int32_t				find_color(t_rgba rgba);
-mlx_texture_t		*get_texture(t_cell_type cell, t_side side, \
-					t_attr attributes);
+mlx_texture_t		*get_texture(t_cell_type cell, t_side side, t_attr attributes);
+t_rgba				get_color(t_side side, t_attr attributes);
+bool				check_tex(t_side side, t_attr attributes);
 
 // free.c
 void				meta_free(t_meta *meta);
@@ -316,29 +314,24 @@ void				free_t_flag_list(t_flag **list);
 
 //pixel_picker.c
 uint32_t			pixel_picker(mlx_texture_t *texture, int32_t x, int32_t y);
-void				wall_texture_position(mlx_texture_t *texture, t_ray *ray, \
-					t_vec2i line_points, uint32_t h);
+void				wall_texture_position(mlx_texture_t *texture, t_ray *ray, t_vec2i line_points, uint32_t h);
 
 // floorcaster.c
-t_vray				floorcaster(t_vec2d pp, t_vec2d dir, t_vec2d cam_plane, \
-					uint32_t y);
+t_vray				floorcaster(t_vec2d pp, t_vec2d dir, t_vec2d cam_plane, uint32_t y);
 
 // sprite.c
-int					init_sprites(uint32_t sprite_count, \
-					int32_t **sprite_order, double **sprite_dist);
+int					init_sprites(uint32_t sprite_count, int32_t **sprite_order, double **sprite_dist);
 void				sprite_calculate(t_player *p);
 
 // sprite_utils.c
-void				sprite_sort(double *sprite_dist, int32_t *sprite_order, \
-					uint32_t sprite_count);
+void				sprite_sort(double *sprite_dist, int32_t *sprite_order, uint32_t sprite_count);
 
 // sort_utils.c
 void				swap_doubles(double *a, double *b);
 void				swap_ints(int32_t *a, int32_t *b);
 
 // sprite_parser.c
-int					input_sprite_data(t_sprite **sprites_array, \
-					uint32_t *i, char *content);
+int					input_sprite_data(t_sprite **sprites_array, uint32_t *i, char *content);
 uint32_t			count_sprites(t_flag *elements);
 int					set_up_sprites(t_meta *meta);
 bool				valid_sprite_content(char *content);
@@ -371,10 +364,8 @@ int					parser(t_meta *meta);
 bool				is_map_line(char *file);
 
 // parse_elements.c
-int					input_texture_path(t_attr *attributes, char *flag, \
-					char *content);
-int					input_colour(t_attr *attributes, char *flag, \
-					char *content);
+int					input_texture_path(t_attr *attributes, char *flag, char *content);
+int					input_colour(t_attr *attributes, char *flag, char *content);
 int					save_elements(t_attr *attributes, char *file);
 int					parse_elements(t_meta *meta);
 
@@ -430,26 +421,20 @@ int					map_lex(char **file, t_map *map, int *skip, int mandatory);
 // lexer_utils.c
 char				*get_val(char *file);
 char				*get_key(char *file);
-bool				is_valid_key(t_flag *elements, t_flag *new_node, \
-					int *mandatory);
+bool				is_valid_key(t_flag *elements, t_flag *new_node, int *mandatory);
 char				*extract_file(char *map_file);
 
 // map_utils.c
 int					create_rectangle_map_element(t_meta *meta);
-void				save_map_dimensions(char *map_file, uint32_t *width, \
-					uint32_t *height);
+void				save_map_dimensions(char *map_file, uint32_t *width, uint32_t *height);
 
 // draw_func.c
-void				draw_column(t_meta *meta, t_ray *ray, uint32_t col, \
-					uint32_t h);
-void				draw_floor(mlx_image_t *image, t_vray *vray, \
-					t_attr *attributes, t_vec2i pos);
-void				draw_ceil(mlx_image_t *image, t_vray *vray, \
-					t_attr *attributes, t_vec2i pos);
+void				draw_column(t_meta *meta, t_ray *ray, uint32_t col, uint32_t h);
+void				draw_floor(mlx_image_t *image, t_vray *vray, t_attr *attributes, t_vec2i pos);
+void				draw_ceil(mlx_image_t *image, t_vray *vray, t_attr *attributes, t_vec2i pos);
 
 // sprite_render.c
-void				draw_sprite(t_player *p, t_vec2i draw_start, \
-					t_vec2i draw_end, uint32_t i);
+void				draw_sprite(t_player *p, t_vec2i draw_start, t_vec2i draw_end, uint32_t i);
 
 // sprite_calc.c
 t_vec2i				calc_draw_start(t_player *p, t_sprite sp);

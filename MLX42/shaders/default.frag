@@ -44,12 +44,5 @@ void main()
         case 15: outColor = texture(Texture15, TexCoord); break;
         default: outColor = vec4(1.0, 0.0, 0.0, 1.0); break;
     }
-
-	if (outColor.r > 0.8)
-		outColor.r = 0.2;
-	if (outColor.r < 0.8 && outColor.r > 0.5)
-		outColor.r = 0.9;
-	outColor.g = step(0.5, TexCoord.x);
     FragColor = outColor;
-
 }

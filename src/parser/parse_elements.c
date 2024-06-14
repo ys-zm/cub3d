@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse_elements.c                                   :+:    :+:            */
+/*   parse_elements.c                                  :+:    :+:             */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/05/30 16:32:49 by yesimzaim     ########   odam.nl         */
+/*   Updated: 2024/06/14 10:07:19 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static t_element_type	check_element_type(char *flag)
 	return (INVALID);
 }
 
-static int	handle_ceil_floor(t_attr *attributes, char *flag, char *content)
+static int	handle_texture_col(t_attr *attributes, char *flag, char *content)
 {
 	int	exit_code;
 
@@ -51,9 +51,9 @@ static int	handle_element(t_meta *meta, t_element_type type, char *flag, char *c
 
 	exit_code = 0;
 	if (type == CEIL_FLOOR)
-		exit_code = handle_ceil_floor(&meta->attributes, flag, content);
+		exit_code = handle_texture_col(&meta->attributes, flag, content);
 	else if (type == WALL)
-		exit_code = input_texture_path(&meta->attributes, flag, content);
+		exit_code = handle_texture_col(&meta->attributes, flag, content);
 	else if (type == SPRITE)
 		exit_code = input_sprite_data(&meta->attributes.sprites, &meta->attributes.sprite_arr_index, content);
 	else if (type == DOOR)

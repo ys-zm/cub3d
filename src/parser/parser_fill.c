@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:43:19 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/06 11:44:19 by yzaim         ########   odam.nl         */
+/*   Updated: 2024/06/14 10:37:11 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,16 @@ int	input_colour(t_attr *attributes, char *flag, char *content)
 		col_path = &attributes->floor_c;
 	else if (!ft_strcmp_largest(flag, "C_ALT"))
 		col_path = &attributes->ceil_alt_c;
-	else
+	else if (!ft_strcmp_largest(flag, "C"))
 		col_path = &attributes->ceiling_c;
+	else if (!ft_strcmp_largest(flag, "NO"))
+		col_path = &attributes->n_c;
+	else if (!ft_strcmp_largest(flag, "SO"))
+		col_path = &attributes->s_c;
+	else if (!ft_strcmp_largest(flag, "EA"))
+		col_path = &attributes->e_c;
+	else if (!ft_strcmp_largest(flag, "WE"))
+		col_path = &attributes->w_c;
 	if (!get_colour_value(content, col_path))
 		return (pr_err(COLOR_CODE_WRONG), EXIT_FAILURE);
 	return (EXIT_SUCCESS);

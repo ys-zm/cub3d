@@ -6,7 +6,7 @@
 /*   By: yzaim <yzaim@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:56:45 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/03/26 18:41:38 by yesimzaim     ########   odam.nl         */
+/*   Updated: 2024/06/14 10:22:23 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,25 +73,35 @@ static int	set_door_texture(t_door *doors)
 
 int	set_textures(t_attr *attributes)
 {
-	attributes->n.tex = mlx_load_png(attributes->n.tex_path);
-	if (attributes->n.tex == NULL)
-		return (pr_err(MLX_ERROR));
-	attributes->s.tex = mlx_load_png(attributes->s.tex_path);
-	if (attributes->s.tex == NULL)
-		return (pr_err(MLX_ERROR));
-	attributes->e.tex = mlx_load_png(attributes->e.tex_path);
-	if (attributes->e.tex == NULL)
-		return (pr_err(MLX_ERROR));
-	attributes->w.tex = mlx_load_png(attributes->w.tex_path);
-	if (attributes->w.tex == NULL)
-		return (pr_err(MLX_ERROR));
+	if (attributes->n.tex_path)
+	{
+		attributes->n.tex = mlx_load_png(attributes->n.tex_path);
+		if (attributes->n.tex == NULL)
+			return (pr_err(MLX_ERROR));
+	}
+	if (attributes->s.tex_path)
+	{
+		attributes->s.tex = mlx_load_png(attributes->s.tex_path);
+		if (attributes->s.tex == NULL)
+			return (pr_err(MLX_ERROR));
+	}
+	if (attributes->e.tex_path)
+	{
+		attributes->e.tex = mlx_load_png(attributes->e.tex_path);
+		if (attributes->e.tex == NULL)
+			return (pr_err(MLX_ERROR));
+	}
+	if (attributes->w.tex_path)
+	{
+		attributes->w.tex = mlx_load_png(attributes->w.tex_path);
+		if (attributes->w.tex == NULL)
+			return (pr_err(MLX_ERROR));
+	}
 	if (set_floor_and_ceiling_textures(attributes))
 		return (pr_err(MLX_ERROR));
 	if (set_sprite_textures(attributes->sprite_count, attributes->sprites))
 		return (pr_err(MLX_ERROR));
 	if (set_door_texture(&attributes->doors))
 		return (pr_err(MLX_ERROR));
-	printf("DIMENSIONS:\n");
-	printf("N: W %d H %d BPP %d \n", attributes->n.tex->width, attributes->n.tex->height, attributes->n.tex->bytes_per_pixel);
 	return (EXIT_SUCCESS);
 }

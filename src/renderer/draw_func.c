@@ -6,7 +6,7 @@
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:28:08 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/06/03 19:05:37 by yesimzaim     ########   odam.nl         */
+/*   Updated: 2024/06/14 10:33:50 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,16 @@ void	draw_column(t_meta *meta, t_ray *ray, uint32_t col, uint32_t h)
 	int32_t			color;
 	mlx_texture_t	*texture;
 
+	if (!check_tex(ray->hit_side, meta->attributes))
+	{
+		color = find_color(get_color(ray->hit_side, meta->attributes));
+		for (y = ray->line_point.x; y < ray->line_point.y && y < (int32_t)WINDOW_HEIGHT; y++)
+		{
+			if (y >= 0)
+				mlx_put_pixel(meta->image, col, y, color);	
+		}
+		return ;
+	}
 	texture = get_texture(ray->hit_cell, ray->hit_side, meta->attributes);
 	calculate_texture_points(texture, ray, h);
 	y = ray->line_point.x;
