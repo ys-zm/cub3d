@@ -39,13 +39,19 @@ void	render_walls(mlx_image_t *image, t_player *p)
 	}
 }
 
+/*
+	if (outColor.r > 0.8)
+		outColor.r = 0.2;
+	if (outColor.r < 0.8 && outColor.r > 0.5)
+		outColor.r = 0.9;
+*/
 void	render_viewport(mlx_image_t *image, t_player *p)
 {
 	const int32_t	crosshair_size = 8;
 
 	render_fc(image, p);
 	render_walls(image, p);
-	dither_img(image);
-	// halftone_img(image);
+	//dither_img(image);
+	//halftone_img(image);
 	draw_rect(image, (t_vec2u){(WINDOW_WIDTH / 2 - (crosshair_size / 2)), (WINDOW_HEIGHT / 2 - (crosshair_size / 2))}, (t_vec2u){crosshair_size, crosshair_size}, 0xFFFFFFFF);
 }

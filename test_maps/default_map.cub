@@ -1,12 +1,11 @@
-//NO texture_examples/black_white_brick.png
-NO 0, 255,0
-WE texture_examples/black_white_brick.png
-EA texture_examples/bw_splash.png
-SO texture_examples/bw_splash.png
-C 1,0,255
-F 1,0,5
+NO texture_examples/planks.png
+WE texture_examples/planks.png
+EA texture_examples/planks.png
+SO texture_examples/cascade.png
+C 0,0,0
+F texture_examples/bw_tiles_checkered.png
 
-SP texture_examples/greenlight.png 2.0 2.0
+SP texture_examples/aether.1.png 2.0 2.0
 
 D texture_examples/door.png
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   render_minimap.c                                  :+:    :+:             */
+/*   render_minimap.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: yzaim <marvin@42.fr>                         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/01/08 15:27:53 by yzaim         #+#    #+#                 */
-/*   Updated: 2024/06/03 18:51:26 by yesimzaim     ########   odam.nl         */
+/*   Updated: 2024/06/23 20:28:45 by yesimzaim     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 // Loops over the map and draws a colored tile for each cell 
 static void	draw_tiles(mlx_image_t *image, const t_vec2i image_center, const t_player *p, const t_map *map)
 {
-	const uint32_t	pp_center_x = image_center.x - (p->position.x * p->meta->minimap.tile_size);
-	const uint32_t	pp_center_y = image_center.y - (p->position.y * p->meta->minimap.tile_size);
+	const int32_t	pp_center_x = image_center.x - (p->position.x * p->meta->minimap.tile_size);
+	const int32_t	pp_center_y = image_center.y - (p->position.y * p->meta->minimap.tile_size);
 	size_t			loop[2];
 	int32_t			cell_pos[2];
 	const size_t	size = p->meta->minimap.tile_size;
